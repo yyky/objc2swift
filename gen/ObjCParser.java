@@ -1193,6 +1193,7 @@ public class ObjCParser extends Parser {
 				{
 				setState(367);
 				match(COMMA);
+				match(COMMA);
 				setState(368);
 				protocol_name();
 				}
