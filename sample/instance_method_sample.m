@@ -56,4 +56,21 @@
 - (unsigned short)noParamUShortRet {
 }
 
+- (NSNumber)noParamNSNumberRet {
+    [self noParamIntRet];
+    [self oneIntParamIntRet:1];
+}
+
+- (float)noParamFloatRet {
+}
+
+- (double)noParamDoubleRet {
+}
+
+- (float)oneFloatParamFloatRet:(float)p1 {
+}
+
+- (double)oneFloatParamOneDoubleParamDoubleRet:(float) p1 dnum:(double)p2 {
+}
+
 @end

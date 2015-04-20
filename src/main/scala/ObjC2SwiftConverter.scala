@@ -357,11 +357,13 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
    **/
   override def visitType_specifier(ctx: Type_specifierContext): String =
     ctx.getText match {
-      case "void"  => "void"
-      case "short" => "Int8"
-      case "int"   => "Int32"
-      case "long"  => "Int32"
-      case "id"    => "AnyObject"
+      case "void"   => "void"
+      case "id"     => "AnyObject"
+      case "short"  => "Int8"
+      case "int"    => "Int32"
+      case "long"   => "Int32"
+      case "float"  => "Float"
+      case "double" => "Double"
       case s if s != "" => s
       case _ => "AnyObject"
     }
