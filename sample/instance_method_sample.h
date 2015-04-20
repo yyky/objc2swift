@@ -1,4 +1,4 @@
-@interface A : NSObject<Protocol1, Protocol2>
+@interface InstanceMethodSample : NSObject<Protocol1, Protocol2>
 
 - (void)oneIntParamNoRet:(int)p1;
 - (void)twoIntParamsNoRet:(int)n1 opt2:(int)n2;
