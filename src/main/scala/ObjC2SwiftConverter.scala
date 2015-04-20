@@ -196,8 +196,8 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
 
     if (ctx.property_attributes_declaration() != null) {
       ctx.property_attributes_declaration().property_attributes_list().property_attribute().foreach { k =>
-        if (k.getText() == "weak") {
-          property_attributes = k.getText()
+        if (k.getText == "weak") {
+          property_attributes = k.getText
         }
       }
     }
@@ -208,7 +208,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
       sb.append(indent(ctx))
 
       specifier_qualifier_list.type_specifier().foreach { i =>
-        val class_name = i.class_name.getText()
+        val class_name = i.class_name.getText
 
         class_name match {
           case "IBOutlet" => {
@@ -223,7 +223,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
       struct_declarator_list.struct_declarator.foreach { j =>
         val direct_declarator = j.declarator.direct_declarator()
         if (direct_declarator != null) {
-          val identifier = direct_declarator.identifier().getText()
+          val identifier = direct_declarator.identifier().getText
           sb.append("var " + identifier + ":" + type_of_variable + "!")
         }
       }
