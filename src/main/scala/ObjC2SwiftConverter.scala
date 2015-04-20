@@ -240,6 +240,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     if(impl != null) {
       visited.put(impl, true)
       sb.append(visit(impl.method_definition.compound_statement))
+      sb.append("\n")
     }
     sb.append(indent(ctx) + "}\n")
 
@@ -272,6 +273,50 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
   }
 
   override def visitStatement(ctx: StatementContext): String = {
-    indent(ctx) + "// statement" // TODO
+    indent(ctx) + concatChildResults(ctx, " ") // TODO
+  }
+
+  /*
+   * Expressions
+   */
+  override def visitMessage_expression(ctx: Message_expressionContext): String = {
+    val sel = ctx.message_selector()
+
+    val sb = new StringBuilder()
+    sb.append(visit(ctx.receiver))
+    sb.append(".")
+
+    if(sel.keyword_argument.length == 0) { // no argument
+      sb.append(sel.selector.getText + "()")
+    } else {
+      for (i <- 0 until sel.keyword_argument.length) {
+        val arg = sel.keyword_argument(i)
+        if(i > 0)
+          sb.append(", ")
+
+        if(i == 0) {
+          sb.append(arg.selector().getText)
+          sb.append("(")
+          sb.append(visit(arg.expression))
+        } else {
+          sb.append(arg.selector().getText + ": ")
+          sb.append(visit(arg.expression))
+        }
+      }
+      sb.append(")")
+    }
+    sb.toString
+  }
+
+  override def visitPrimary_expression(ctx: Primary_expressionContext): String = {
+    // TODO need to support more
+
+    if(ctx.message_expression != null)
+      return visit(ctx.message_expression)
+
+    if(ctx.STRING_LITERAL != null)
+      return ctx.STRING_LITERAL().getText.substring(1)
+
+    ctx.getText
   }
 }
