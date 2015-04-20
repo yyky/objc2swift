@@ -42,50 +42,6 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     "    " * indentLevel(node)
   }
 
-  //
-  // TODO: Convert to Swift's Type
-  //
-  // Supported type:
-  //   id           => AnyObject
-  //   (signed) int => Int
-  //   unsigned int => UInt
-  //
-  def convertTypeName(ctx: Type_nameContext): String = {
-    val defaultType = "AnyObject"
-    Option(ctx.specifier_qualifier_list().type_specifier()) match {
-      case None => defaultType
-      case Some(contexts) =>
-        val type_specifier_ctxs: collection.mutable.Buffer[Type_specifierContext] = contexts
-        type_specifier_ctxs.foldLeft(defaultType)((s, type_specifier_ctx) => {
-          visit(type_specifier_ctx) match {
-            case "Int8"  if s == "unsigned" => "UInt8"
-            case "Int32" if s == "unsigned" => "UInt32"
-            case "Int32" if s == "unsigned" => "UInt32"
-            case "Int32" if s == "Int32"    => "Int64"
-            case "Int32" if s == "UInt32"   => "UInt64"
-            case t if t != "" => t
-            case _ => s
-          }
-        })
-    }
-  }
-
-  def convertParameter(sb: StringBuilder, ctx: Keyword_declaratorContext): StringBuilder = {
-    // Parameter name.
-    sb.append(ctx.IDENTIFIER() + ": ")
-
-    // Parameter type.
-    sb.append(Option(ctx.method_type()) match {
-      case None => "AnyObject" // Type is not specified.
-      case Some(contexts) =>
-        // TODO: Convert to Swift's Type
-        convertTypeName(contexts.get(0).type_name) match {
-          case s if s != "" => s
-          case _ => "" // Syntax error?
-        }
-    })
-  }
-
   def findCorrespondingClassImplementation(classCtx: Class_interfaceContext): Class_implementationContext = {
     val list = root.external_declaration
     for (extDclCtx <- list) {
@@ -101,20 +57,17 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
 
   def findCorrespondingMethodDefinition(declCtx: Instance_method_declarationContext): Option[Instance_method_definitionContext] = {
     val classCtx = declCtx.parent.parent.asInstanceOf[Class_interfaceContext]
-    val implCtx = findCorrespondingClassImplementation(classCtx)
-    if (implCtx == null) {
-      return None
+    Option(findCorrespondingClassImplementation(classCtx)) match {
+      case None =>
+      case Some(implCtx) =>
+        for (ctx <- implCtx.implementation_definition_list.children if ctx.isInstanceOf[Instance_method_definitionContext]) {
+          val defCtx = ctx.asInstanceOf[Instance_method_definitionContext]
+          if (defCtx.method_definition.method_selector.getText == declCtx.method_declaration.method_selector.getText) {
+            return Some(defCtx)
+          }
+        }
     }
-
-    for (ctx <- implCtx.implementation_definition_list.children if ctx.isInstanceOf[Instance_method_definitionContext]) {
-      val defCtx = ctx.asInstanceOf[Instance_method_definitionContext]
-      if(defCtx.method_definition.method_selector.getText == declCtx.method_declaration.method_selector.getText) {
-        return Some(defCtx)
-      }
-    }
-
     None
-
   }
 
   override def visitTranslation_unit(ctx: Translation_unitContext): String = {
@@ -193,59 +146,55 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
   }
 
   /**
-   * Convert instance method declaration(interface) in Objective-C to Swift code.
+   * Convert instance method declaration(interface).
    *
    * @param ctx the parse tree
-   * @return Strings of Swift code
+   * @return Strings of Swift's instance method code
    **/
   override def visitInstance_method_declaration(ctx: Instance_method_declarationContext): String = {
-
     val sb = new StringBuilder()
 
     sb.append(indent(ctx) + "func")
+    sb.append(visit(ctx.method_declaration()))
 
-    val method_declaration_ctx: Method_declarationContext = ctx.method_declaration()
+    sb.toString()
+  }
 
-    //
-    // Method name.
-    //
-    val method_selector_ctx: Method_selectorContext = method_declaration_ctx.method_selector()
+  /**
+   * Convert method declaration(interface).
+   *
+   * @param ctx the parse tree
+   * @return Strings of Swift's method code
+   **/
+  override def visitMethod_declaration(ctx: Method_declarationContext): String = {
+    val sb = new StringBuilder()
 
-    Option(method_selector_ctx.selector()) match {
-      case Some(c) => sb.append(" " + c.getText + "()") // No parameter.
-      case None    =>
-        Option(method_selector_ctx.keyword_declarator(0).selector()) match {
-          case None => // Syntax error? No method name.
-          case Some(c) =>
-            // Has parameters.
-            sb.append(" " + c.getText + "(")
-            method_selector_ctx.keyword_declarator().zipWithIndex.foreach {
-              case (c: Keyword_declaratorContext, 0) => convertParameter(sb, c)
-              case (c: Keyword_declaratorContext, i) => convertParameter(sb.append(", "), c)
-            }
-            sb.append(")")
-        }
-    }
+    val method_selector_ctx: Method_selectorContext = ctx.method_selector()
+
+    sb.append(" " + visit(method_selector_ctx))
 
     //
     // Method type.
     //
-    // Currently, supported type:
-    //   id => AnyObject
-    //   (signed) int => Int
-    //   unsigned int => UInt
+    // Currently, supported types are:
+    //   void, id(AnyObject), short/int/long, float/double, ...
     //
-    // TODO: Convert to Swift's Type
-    //   char (char *), float, double, NSObject, etc..
+    // TODO: Support more types
     //
-    sb.append(Option(method_declaration_ctx.method_type()) match {
-      case Some(method_type_ctx) => visit(method_type_ctx)
-      case _ => " -> AnyObject" // id type
-    })
+    Option(ctx.method_type()) match {
+      case Some(method_type_ctx) => visit(method_type_ctx) match {
+        case s if s != "" => sb.append(" -> " + s)
+        case _ =>
+      }
+      case _ => sb.append(" -> AnyObject") // id type
+    }
 
     sb.append(" {\n")
 
-    findCorrespondingMethodDefinition(ctx) match {
+    //
+    // TODO: Support class method
+    //
+    findCorrespondingMethodDefinition(ctx.parent.asInstanceOf[Instance_method_declarationContext]) match {
       case None =>
       case Some(impl) =>
         visited.put(impl, true)
@@ -258,16 +207,101 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     sb.toString()
   }
 
+  override def visitMethod_selector(ctx: Method_selectorContext): String = {
+    Option(ctx.selector()) match {
+      case Some(s) => s.getText + "()"
+      case _ =>
+        Option(ctx.keyword_declarator()) match {
+          case None => "" // TODO: Syntax error
+          case Some(ctxs) => ctxs.iterator().foldLeft("")((s, c) => {
+            s match {
+              case "" => s + visit(c).format("(") // method name and first param
+              case _  => s + ", " + visit(c).format(" ") // other params
+            }
+          }) + ")"
+        }
+    }
+  }
+
+  /**
+   * Construtor of method parameter.
+   *
+   * @param ctx the parse tree
+   * @return parameter code
+   **/
+  override def visitKeyword_declarator(ctx: Keyword_declaratorContext): String = {
+    val sb = new StringBuilder()
+
+    // Method name or Parameter's External name
+    Option(ctx.selector()) match {
+      case Some(s) => sb.append(s.getText)
+      case _ =>
+    }
+    sb.append("%s")
+
+    // Parameter's Internal name
+    sb.append(ctx.IDENTIFIER().getText + ":")
+
+    // Parameter's Type
+    sb.append(ctx.method_type().foldLeft("")((s, c) => {
+      visit(c) match {
+        case s2 if s == "" && s2 != "" => s2
+        case _ => s
+      }
+    }))
+
+    sb.toString()
+  }
+
   /**
    * Return method type as Swift rule.
    *
    * @param ctx the parse tree
    * @return Swift method type
    **/
-  override def visitMethod_type(ctx: Method_typeContext): String =
-    convertTypeName(ctx.type_name()) match {
+  override def visitMethod_type(ctx: Method_typeContext): String = {
+    val defaultType = "AnyObject"
+    (Option(ctx.type_name().specifier_qualifier_list().type_specifier()) match {
+      case None => defaultType
+      case Some(contexts) =>
+        val type_specifier_ctxs: collection.mutable.Buffer[Type_specifierContext] = contexts
+        type_specifier_ctxs.foldLeft(defaultType)((s, type_specifier_ctx) => {
+          visit(type_specifier_ctx) match {
+            case "Int8" if s == "unsigned" => "UInt8"
+            case "Int32" if s == "unsigned" => "UInt32"
+            case "Int32" if s == "unsigned" => "UInt32"
+            case "Int32" if s == "Int32" => "Int64"
+            case "Int32" if s == "UInt32" => "UInt64"
+            case t if t != "" => t
+            case _ => s
+          }
+        })
+    }) match {
       case "void" => "" // No return type
-      case s => " -> " + s
+      case s => s
+    }
+  }
+
+  /**
+   * Convert Objective-C type to Swift type.
+   *
+   * @param ctx the parse tree
+   * @return Swift type strings
+   *
+   * TODO: Implement other types
+   *
+   **/
+  override def visitType_specifier(ctx: Type_specifierContext): String =
+    ctx.getText match {
+      case "void"   => "void"
+      case "id"     => "AnyObject"
+      case "short"  => "Int8"
+      case "int"    => "Int32"
+      case "long"   => "Int32"
+      case "float"  => "Float"
+      case "double" => "Double"
+      case s if s != "" => s
+      case _ => "AnyObject"
     }
 
   override def visitClass_implementation(ctx: Class_implementationContext): String = {
@@ -346,25 +380,4 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     ctx.getText
   }
 
-  /**
-   * Convert Objective-C type to Swift type.
-   *
-   * @param ctx the parse tree
-   * @return Swift type strings
-   *
-   * TODO: Implement other types
-   *
-   **/
-  override def visitType_specifier(ctx: Type_specifierContext): String =
-    ctx.getText match {
-      case "void"   => "void"
-      case "id"     => "AnyObject"
-      case "short"  => "Int8"
-      case "int"    => "Int32"
-      case "long"   => "Int32"
-      case "float"  => "Float"
-      case "double" => "Double"
-      case s if s != "" => s
-      case _ => "AnyObject"
-    }
 }

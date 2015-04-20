@@ -56,11 +56,6 @@
 - (unsigned short)noParamUShortRet {
 }
 
-- (NSNumber)noParamNSNumberRet {
-    [self noParamIntRet];
-    [self oneIntParamIntRet:1];
-}
-
 - (float)noParamFloatRet {
 }
 
@@ -70,7 +65,27 @@
 - (float)oneFloatParamFloatRet:(float)p1 {
 }
 
-- (double)oneFloatParamOneDoubleParamDoubleRet:(float) p1 dnum:(double)p2 {
+- (double)oneFloatParamOneDoubleParamDoubleRet:(float)p1 dnum:(double)p2 {
+}
+
+- (NSNumber *)noParamNSNumberRet {
+    [self noParamIntRet];
+    [self oneIntParamIntRet:1];
+}
+
+- (NSString *)noParamNSStringRet {
+}
+
+- (NSString *)oneNSStringParamNSStringRet:(NSString *)p1 {
+}
+
+- (NSString *)overloadSample:(NSString *)p1 {
+}
+
+- (NSString *)overloadSample:(NSString *)p1 p2:(NSString *)p2 {
+}
+
+- (NSString *)overloadSample:(NSString *)p1 q2:(NSNumber *)q2 {
 }
 
 @end
