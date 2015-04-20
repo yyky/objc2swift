@@ -58,8 +58,11 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
         val type_specifier_ctxs: collection.mutable.Buffer[Type_specifierContext] = contexts
         type_specifier_ctxs.foldLeft(defaultType)((s, type_specifier_ctx) => {
           visit(type_specifier_ctx) match {
-            case "Int" if s == "unsigned" => "UInt"
-            case "Int" if s == "UInt" => "UInt"
+            case "Int8"  if s == "unsigned" => "UInt8"
+            case "Int32" if s == "unsigned" => "UInt32"
+            case "Int32" if s == "unsigned" => "UInt32"
+            case "Int32" if s == "Int32"    => "Int64"
+            case "Int32" if s == "UInt32"   => "UInt64"
             case t if t != "" => t
             case _ => s
           }
@@ -309,11 +312,11 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
    **/
   override def visitType_specifier(ctx: Type_specifierContext): String =
     ctx.getText match {
-      case "void" => "void"
-      case "int" => "Int"
-      case "long" => "Int"
-      case "short" => "Int"
-      case "id" => "AnyObject"
+      case "void"  => "void"
+      case "short" => "Int8"
+      case "int"   => "Int32"
+      case "long"  => "Int32"
+      case "id"    => "AnyObject"
       case s if s != "" => s
       case _ => "AnyObject"
     }
