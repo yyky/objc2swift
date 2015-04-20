@@ -13,5 +13,10 @@
 - (void)NoParamNoRetHasBody;
 - (ClassA)SomeParamSomeRet:(ClassB)p1;
 - (long)noParamLongRet;
+- (unsigned long)noParamULongRet;
+- (long long)noParamLongLongRet;
+- (unsigned long long)noParamULongLongRet;
+- (short)noParamShortRet;
+- (unsigned short)noParamUShortRet;
 
 @end

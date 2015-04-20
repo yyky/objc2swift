@@ -59,6 +59,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
         type_specifier_ctxs.foldLeft(defaultType)((s, type_specifier_ctx) => {
           visit(type_specifier_ctx) match {
             case "Int" if s == "unsigned" => "UInt"
+            case "Int" if s == "UInt" => "UInt"
             case t if t != "" => t
             case _ => s
           }
@@ -311,6 +312,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
       case "void" => "void"
       case "int" => "Int"
       case "long" => "Int"
+      case "short" => "Int"
       case "id" => "AnyObject"
       case s if s != "" => s
       case _ => "AnyObject"

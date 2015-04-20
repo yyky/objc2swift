@@ -41,4 +41,13 @@
 - (long)noParamLongRet {
 }
 
+- (unsigned long)noParamULongRet {
+}
+
+- (long long)noParamLongLongRet {
+}
+
+- (unsigned long long)noParamULongLongRet {
+}
+
 @end
