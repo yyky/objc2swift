@@ -13,25 +13,33 @@ import org.antlr.v4.runtime.ParserRuleContext
 import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeProperty}
 import collection.JavaConversions._
 
-class ObjC2SwiftConverter extends ObjCBaseVisitor[String] {
-  val properties = new ParseTreeProperty[String]()
+class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisitor[String] {
+  val root = _root
+  val visited = new ParseTreeProperty[Boolean]()
+
+  def getResult: String = {
+    visit(root)
+  }
 
   def concatChildResults(node: ParseTree, glue: String): String = {
     val children = for(i <- 0 until node.getChildCount) yield node.getChild(i)
-    return concatResults(children.toList, glue)
+    concatResults(children.toList, glue)
   }
 
   def concatResults(nodes: List[ParseTree], glue: String): String = {
-    val sb = new StringBuilder()
-    for(node <- nodes) {
-      if(sb.length > 0)
-        sb.append(glue)
+    nodes.map(visit(_)).filter(_ != null).mkString(glue)
+  }
 
-      val r = visit(node)
-      if(r != null)
-        sb.append(r)
+  def indentLevel(node: ParserRuleContext): Int = {
+    node.depth() match {
+      case n if (n < 4) => 0 // class
+      case n if (n < 8) => 1 // method
+      case _ => 2 // TODO count number of compound_statement's
     }
-    return sb.toString
+  }
+
+  def indent(node: ParserRuleContext): String = {
+    "    " * indentLevel(node)
   }
 
   //
@@ -42,12 +50,12 @@ class ObjC2SwiftConverter extends ObjCBaseVisitor[String] {
   //   (signed) int => Int
   //   unsigned int => UInt
   //
-  def convertTypeName(ctx: ObjCParser.Type_nameContext): String = {
+  def convertTypeName(ctx: Type_nameContext): String = {
     val defaultType = "AnyObject"
     Option(ctx.specifier_qualifier_list().type_specifier()) match {
       case None => defaultType
       case Some(contexts) =>
-        val type_specifier_ctxs: collection.mutable.Buffer[ObjCParser.Type_specifierContext] = contexts
+        val type_specifier_ctxs: collection.mutable.Buffer[Type_specifierContext] = contexts
         type_specifier_ctxs.foldLeft(defaultType)((type_str, context) => {
           context.getText match {
             case "id" => defaultType
@@ -61,7 +69,7 @@ class ObjC2SwiftConverter extends ObjCBaseVisitor[String] {
     }
   }
 
-  def convertParameter(sb: StringBuilder, ctx: ObjCParser.Keyword_declaratorContext): StringBuilder = {
+  def convertParameter(sb: StringBuilder, ctx: Keyword_declaratorContext): StringBuilder = {
     // Parameter name.
     sb.append(ctx.IDENTIFIER() + ": ")
 
@@ -77,27 +85,56 @@ class ObjC2SwiftConverter extends ObjCBaseVisitor[String] {
     })
   }
 
-  override def visitTranslation_unit(ctx: ObjCParser.Translation_unitContext): String = {
-    return concatChildResults(ctx, "\n")
+  def findCorrespondingClassImplementation(classCtx: Class_interfaceContext): Class_implementationContext = {
+    val list = root.external_declaration
+    for (extDclCtx <- list) {
+      for (ctx <- extDclCtx.children if ctx.isInstanceOf[Class_implementationContext]) {
+        val implCtx = ctx.asInstanceOf[Class_implementationContext]
+        if(implCtx.class_name.getText == classCtx.class_name.getText)
+          return implCtx
+      }
+    }
+
+    null
   }
 
-  override def visitExternal_declaration(ctx: ObjCParser.External_declarationContext): String = {
-    return concatChildResults(ctx, "\n")
+  def findCorrespondingMethodDefinition(declCtx: Instance_method_declarationContext): Instance_method_definitionContext = {
+    val classCtx = declCtx.parent.parent.asInstanceOf[Class_interfaceContext]
+    val implCtx = findCorrespondingClassImplementation(classCtx)
+    if(implCtx == null)
+      return null
+
+    for(ctx <- implCtx.implementation_definition_list.children if ctx.isInstanceOf[Instance_method_definitionContext]) {
+      val defCtx = ctx.asInstanceOf[Instance_method_definitionContext]
+      if(defCtx.method_definition.method_selector.getText == declCtx.method_declaration.method_selector.getText) {
+        return defCtx
+      }
+    }
+
+    null
   }
 
-  override def visitClass_interface(ctx: ObjCParser.Class_interfaceContext): String = {
+  override def visitTranslation_unit(ctx: Translation_unitContext): String = {
+    concatChildResults(ctx, "")
+  }
+
+  override def visitExternal_declaration(ctx: External_declarationContext): String = {
+    concatChildResults(ctx, "\n\n")
+  }
+
+  override def visitClass_interface(ctx: Class_interfaceContext): String = {
     val sb = new StringBuilder()
-    sb.append("class " + ctx.class_name.getText())
+    sb.append("class " + ctx.class_name.getText)
 
     if(ctx.superclass_name() != null) {
       sb.append(" : ")
-      sb.append(ctx.superclass_name().getText())
+      sb.append(ctx.superclass_name().getText)
     }
     if(ctx.protocol_reference_list() != null) {
       val protocols = ctx.protocol_reference_list()
         .protocol_list()
         .children
-        .filter(_.isInstanceOf[ObjCParser.Protocol_nameContext])
+        .filter(_.isInstanceOf[Protocol_nameContext])
         .map(_.getText)
       sb.append(", " + protocols.mkString(", "))
     }
@@ -110,20 +147,28 @@ class ObjC2SwiftConverter extends ObjCBaseVisitor[String] {
       }
     }
 
-    sb.append("\n}\n\n")
+    val implCtx = findCorrespondingClassImplementation(ctx)
+    if(implCtx != null) {
+      val result = visit(implCtx.implementation_definition_list)
+      if(result != null) {
+        sb.append(result)
+      }
+    }
 
-    return sb.toString()
+    sb.append("}")
+
+    sb.toString()
   }
 
   override def visitCategory_interface(ctx: Category_interfaceContext): String = {
     val sb = new StringBuilder()
-    sb.append("extension " + ctx.class_name.getText())
+    sb.append("extension " + ctx.class_name.getText)
 
     if(ctx.protocol_reference_list() != null) {
       val protocols = ctx.protocol_reference_list()
         .protocol_list()
         .children
-        .filter(_.isInstanceOf[ObjCParser.Protocol_nameContext])
+        .filter(_.isInstanceOf[Protocol_nameContext])
         .map(_.getText)
       sb.append(" : " + protocols.mkString(", "))
     }
@@ -133,16 +178,15 @@ class ObjC2SwiftConverter extends ObjCBaseVisitor[String] {
       val result = visit(ctx.interface_declaration_list())
       if(result != null) {
         sb.append(result)
-        sb.append("\n")
       }
     }
 
     sb.append("}")
 
-    return sb.toString()
+    sb.toString()
   }
 
-  override def visitInterface_declaration_list(ctx: ObjCParser.Interface_declaration_listContext): String = {
+  override def visitInterface_declaration_list(ctx: Interface_declaration_listContext): String = {
     concatChildResults(ctx, "\n")
   }
 
@@ -184,18 +228,18 @@ class ObjC2SwiftConverter extends ObjCBaseVisitor[String] {
     return sb.toString()
   }
 
-  override def visitInstance_method_declaration(ctx: ObjCParser.Instance_method_declarationContext): String = {
+  override def visitInstance_method_declaration(ctx: Instance_method_declarationContext): String = {
 
     val sb = new StringBuilder()
 
-    sb.append("    func ")
+    sb.append(indent(ctx) + "func ")
 
-    val method_declaration_ctx: ObjCParser.Method_declarationContext = ctx.method_declaration()
+    val method_declaration_ctx: Method_declarationContext = ctx.method_declaration()
 
     //
     // Method name.
     //
-    val method_selector_ctx: ObjCParser.Method_selectorContext = method_declaration_ctx.method_selector()
+    val method_selector_ctx: Method_selectorContext = method_declaration_ctx.method_selector()
 
     Option(method_selector_ctx.selector()) match {
       case Some(c) => sb.append(c.getText + "()") // No parameter.
@@ -206,8 +250,8 @@ class ObjC2SwiftConverter extends ObjCBaseVisitor[String] {
             // Has parameters.
             sb.append(c.getText + "(")
             method_selector_ctx.keyword_declarator().zipWithIndex.foreach {
-              case (c: ObjCParser.Keyword_declaratorContext, 0) => convertParameter(sb, c)
-              case (c: ObjCParser.Keyword_declaratorContext, i) => convertParameter(sb.append(", "), c)
+              case (c: Keyword_declaratorContext, 0) => convertParameter(sb, c)
+              case (c: Keyword_declaratorContext, i) => convertParameter(sb.append(", "), c)
             }
             sb.append(")")
         }
@@ -222,7 +266,7 @@ class ObjC2SwiftConverter extends ObjCBaseVisitor[String] {
     //   (signed) int => Int
     //   unsigned int => UInt
     //
-    val type_name_ctx: ObjCParser.Type_nameContext = method_declaration_ctx.method_type().type_name()
+    val type_name_ctx: Type_nameContext = method_declaration_ctx.method_type().type_name()
 
     convertTypeName(type_name_ctx) match {
       case s if s != "" => sb.append(" -> " + s)
@@ -231,14 +275,42 @@ class ObjC2SwiftConverter extends ObjCBaseVisitor[String] {
 
     sb.append(" {\n")
 
-    //
-    // TODO: Implement method's body
-    //
-
-    sb.append("    }")
+    val impl = findCorrespondingMethodDefinition(ctx)
+    if(impl != null) {
+      visited.put(impl, true)
+      sb.append(visit(impl.method_definition.compound_statement))
+    }
+    sb.append(indent(ctx) + "}\n")
 
     sb.toString()
-
   }
 
+  override def visitClass_implementation(ctx: Class_implementationContext): String = {
+    concatChildResults(ctx, "")
+  }
+
+  override def visitImplementation_definition_list(ctx: Implementation_definition_listContext): String = {
+    concatChildResults(ctx, "")
+  }
+
+  override def visitInstance_method_definition(ctx: Instance_method_definitionContext): String = {
+    if(visited.get(ctx))
+      return null
+
+    // TODO Print Method Definition
+
+    visit(ctx.method_definition.compound_statement)
+  }
+
+  override def visitCompound_statement(ctx: Compound_statementContext): String = {
+    concatChildResults(ctx, "")
+  }
+
+  override def visitStatement_list(ctx: Statement_listContext): String = {
+    concatChildResults(ctx, "\n")
+  }
+
+  override def visitStatement(ctx: StatementContext): String = {
+    indent(ctx) + "// statement" // TODO
+  }
 }
