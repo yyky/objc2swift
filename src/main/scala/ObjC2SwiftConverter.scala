@@ -104,40 +104,9 @@ class ObjC2SwiftConverter extends ObjCBaseVisitor[String] {
 
     sb.append(" {\n")
     if(ctx.interface_declaration_list() != null) {
-      var variable_of_type = ""
-      var property_attributes = ""
-      val property_declaration_buffer: collection.mutable.Buffer[ObjCParser.Property_declarationContext] = ctx.interface_declaration_list().property_declaration()
-
-      property_declaration_buffer.foreach { e =>
-        if (e.property_attributes_declaration() != null) {
-          e.property_attributes_declaration().property_attributes_list().property_attribute().foreach { k =>
-            if (k.getText() == "weak" || k.getText == "strong") {
-              property_attributes = k.getText()
-            }
-          }
-        }
-
-        if (e.struct_declaration() != null) {
-          val specifier_qualifier_list = e.struct_declaration().specifier_qualifier_list()
-          val struct_declarator_list = e.struct_declaration().struct_declarator_list()
-
-          specifier_qualifier_list.type_specifier().foreach { i =>
-            val class_name = i.class_name.getText()
-            if (class_name == "IBOutlet") {
-              sb.append("\t@" + class_name + " " + property_attributes + " ")
-            } else {
-              variable_of_type = class_name
-            }
-          }
-
-          struct_declarator_list.struct_declarator.foreach { j =>
-            val direct_declarator = j.declarator.direct_declarator()
-            if (direct_declarator != null) {
-              val identifier = direct_declarator.identifier().getText()
-              sb.append("var " + identifier + ":" + variable_of_type + "!")
-            }
-          }
-        }
+      val result = visit(ctx.interface_declaration_list())
+      if(result != null) {
+        sb.append(result)
       }
     }
 
@@ -175,6 +144,44 @@ class ObjC2SwiftConverter extends ObjCBaseVisitor[String] {
 
   override def visitInterface_declaration_list(ctx: ObjCParser.Interface_declaration_listContext): String = {
     concatChildResults(ctx, "\n")
+  }
+
+  override def visitProperty_declaration(ctx: ObjCParser.Property_declarationContext): String = {
+    val sb = new StringBuilder()
+    var type_of_variable = ""
+    var property_attributes = ""
+
+    if (ctx.property_attributes_declaration() != null) {
+      ctx.property_attributes_declaration().property_attributes_list().property_attribute().foreach { k =>
+        if (k.getText() == "weak" || k.getText == "strong") {
+          property_attributes = k.getText()
+        }
+      }
+    }
+
+    if (ctx.struct_declaration() != null) {
+      val specifier_qualifier_list = ctx.struct_declaration().specifier_qualifier_list()
+      val struct_declarator_list = ctx.struct_declaration().struct_declarator_list()
+
+      specifier_qualifier_list.type_specifier().foreach { i =>
+        val class_name = i.class_name.getText()
+        if (class_name == "IBOutlet") {
+          sb.append("\t@" + class_name + " " + property_attributes + " ")
+        } else {
+          type_of_variable = class_name
+        }
+      }
+
+      struct_declarator_list.struct_declarator.foreach { j =>
+        val direct_declarator = j.declarator.direct_declarator()
+        if (direct_declarator != null) {
+          val identifier = direct_declarator.identifier().getText()
+          sb.append("var " + identifier + ":" + type_of_variable + "!")
+        }
+      }
+    }
+
+    return sb.toString()
   }
 
   override def visitInstance_method_declaration(ctx: ObjCParser.Instance_method_declarationContext): String = {
