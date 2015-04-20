@@ -56,14 +56,11 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
       case None => defaultType
       case Some(contexts) =>
         val type_specifier_ctxs: collection.mutable.Buffer[Type_specifierContext] = contexts
-        type_specifier_ctxs.foldLeft(defaultType)((type_str, context) => {
-          context.getText match {
-            case "id" => defaultType
-            case "void" => ""
-            case "unsigned" => "unsigned"
-            case "int" if type_str == "unsigned" => "UInt"
-            case "int" => "Int"
-            case _ => type_str
+        type_specifier_ctxs.foldLeft(defaultType)((s, type_specifier_ctx) => {
+          visit(type_specifier_ctx) match {
+            case "Int" if s == "unsigned" => "UInt"
+            case t if t != "" => t
+            case _ => s
           }
         })
     }
@@ -98,20 +95,22 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     null
   }
 
-  def findCorrespondingMethodDefinition(declCtx: Instance_method_declarationContext): Instance_method_definitionContext = {
+  def findCorrespondingMethodDefinition(declCtx: Instance_method_declarationContext): Option[Instance_method_definitionContext] = {
     val classCtx = declCtx.parent.parent.asInstanceOf[Class_interfaceContext]
     val implCtx = findCorrespondingClassImplementation(classCtx)
-    if(implCtx == null)
-      return null
+    if (implCtx == null) {
+      return None
+    }
 
-    for(ctx <- implCtx.implementation_definition_list.children if ctx.isInstanceOf[Instance_method_definitionContext]) {
+    for (ctx <- implCtx.implementation_definition_list.children if ctx.isInstanceOf[Instance_method_definitionContext]) {
       val defCtx = ctx.asInstanceOf[Instance_method_definitionContext]
       if(defCtx.method_definition.method_selector.getText == declCtx.method_declaration.method_selector.getText) {
-        return defCtx
+        return Some(defCtx)
       }
     }
 
-    null
+    None
+
   }
 
   override def visitTranslation_unit(ctx: Translation_unitContext): String = {
@@ -189,11 +188,17 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     concatChildResults(ctx, "\n")
   }
 
+  /**
+   * Convert instance method declaration(interface) in Objective-C to Swift code.
+   *
+   * @param ctx the parse tree
+   * @return Strings of Swift code
+   **/
   override def visitInstance_method_declaration(ctx: Instance_method_declarationContext): String = {
 
     val sb = new StringBuilder()
 
-    sb.append(indent(ctx) + "func ")
+    sb.append(indent(ctx) + "func")
 
     val method_declaration_ctx: Method_declarationContext = ctx.method_declaration()
 
@@ -203,13 +208,13 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     val method_selector_ctx: Method_selectorContext = method_declaration_ctx.method_selector()
 
     Option(method_selector_ctx.selector()) match {
-      case Some(c) => sb.append(c.getText + "()") // No parameter.
+      case Some(c) => sb.append(" " + c.getText + "()") // No parameter.
       case None    =>
         Option(method_selector_ctx.keyword_declarator(0).selector()) match {
           case None => // Syntax error? No method name.
           case Some(c) =>
             // Has parameters.
-            sb.append(c.getText + "(")
+            sb.append(" " + c.getText + "(")
             method_selector_ctx.keyword_declarator().zipWithIndex.foreach {
               case (c: Keyword_declaratorContext, 0) => convertParameter(sb, c)
               case (c: Keyword_declaratorContext, i) => convertParameter(sb.append(", "), c)
@@ -221,30 +226,44 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     //
     // Method type.
     //
-    // TODO: Convert to Swift's Type
-    //
-    // Supported type:
+    // Currently, supported type:
+    //   id => AnyObject
     //   (signed) int => Int
     //   unsigned int => UInt
     //
-    val type_name_ctx: Type_nameContext = method_declaration_ctx.method_type().type_name()
-
-    convertTypeName(type_name_ctx) match {
-      case s if s != "" => sb.append(" -> " + s)
-      case _ => // No return type
-    }
+    // TODO: Convert to Swift's Type
+    //   char (char *), float, double, NSObject, etc..
+    //
+    sb.append(Option(method_declaration_ctx.method_type()) match {
+      case Some(method_type_ctx) => visit(method_type_ctx)
+      case _ => " -> AnyObject" // id type
+    })
 
     sb.append(" {\n")
 
-    val impl = findCorrespondingMethodDefinition(ctx)
-    if(impl != null) {
-      visited.put(impl, true)
-      sb.append(visit(impl.method_definition.compound_statement))
+    findCorrespondingMethodDefinition(ctx) match {
+      case None =>
+      case Some(impl) =>
+        visited.put(impl, true)
+        sb.append(visit(impl.method_definition.compound_statement))
     }
+
     sb.append(indent(ctx) + "}\n")
 
     sb.toString()
   }
+
+  /**
+   * Return method type as Swift rule.
+   *
+   * @param ctx the parse tree
+   * @return Swift method type
+   **/
+  override def visitMethod_type(ctx: Method_typeContext): String =
+    convertTypeName(ctx.type_name()) match {
+      case "void" => "" // No return type
+      case s => " -> " + s
+    }
 
   override def visitClass_implementation(ctx: Class_implementationContext): String = {
     concatChildResults(ctx, "")
@@ -254,14 +273,17 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     concatChildResults(ctx, "")
   }
 
-  override def visitInstance_method_definition(ctx: Instance_method_definitionContext): String = {
-    if(visited.get(ctx))
-      return null
-
-    // TODO Print Method Definition
-
-    visit(ctx.method_definition.compound_statement)
-  }
+  /**
+   * Convert instance method definition(implementation) in Objective-C to Swift code.
+   *
+   * @param ctx the parse tree
+   * @return Strings of Swift code
+   **/
+  override def visitInstance_method_definition(ctx: Instance_method_definitionContext): String =
+    Option(visited.get(ctx)) match {
+      case None => visit(ctx.method_definition().compound_statement()) // TODO Print Method Definition
+      case _ => "" // Already printed
+    }
 
   override def visitCompound_statement(ctx: Compound_statementContext): String = {
     concatChildResults(ctx, "")
@@ -272,6 +294,25 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
   }
 
   override def visitStatement(ctx: StatementContext): String = {
-    indent(ctx) + "// statement" // TODO
+    indent(ctx) + "// statement\n" // TODO
   }
+
+  /**
+   * Convert Objective-C type to Swift type.
+   *
+   * @param ctx the parse tree
+   * @return Swift type strings
+   *
+   * TODO: Implement other types
+   *
+   **/
+  override def visitType_specifier(ctx: Type_specifierContext): String =
+    ctx.getText match {
+      case "void" => "void"
+      case "int" => "Int"
+      case "long" => "Int"
+      case "id" => "AnyObject"
+      case s if s != "" => s
+      case _ => "AnyObject"
+    }
 }
