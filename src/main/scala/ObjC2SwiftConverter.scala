@@ -9,13 +9,14 @@
  */
 
 import ObjCParser._
-import org.antlr.v4.runtime.ParserRuleContext
-import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeProperty}
+import org.antlr.v4.runtime.{CommonToken, ParserRuleContext}
+import org.antlr.v4.runtime.tree.{TerminalNode, ParseTree, ParseTreeProperty}
 import collection.JavaConversions._
 
 class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisitor[String] {
   val root = _root
   val visited = new ParseTreeProperty[Boolean]()
+  val indentString = " " * 4
 
   def getResult: String = {
     visit(root)
@@ -39,7 +40,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
   }
 
   def indent(node: ParserRuleContext): String = {
-    "    " * indentLevel(node)
+    indentString * indentLevel(node)
   }
 
   //
@@ -272,6 +273,39 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
   }
 
   override def visitStatement(ctx: StatementContext): String = {
-    indent(ctx) + "// statement" // TODO
+    indent(ctx) + concatChildResults(ctx, "\n")
+  }
+
+  override def visitExpression(ctx: ExpressionContext): String = {
+    ctx.getText //TODO unimplemented
+  }
+
+  override def visitSelection_statement(ctx: Selection_statementContext): String = {
+    val sb = new StringBuilder()
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol:TerminalNode => {
+          symbol.getSymbol.getText match {
+            case "if" => sb.append("if")
+            case "switch" => sb.append("switch")
+            case "(" => sb.append(" ")
+            case ")" => sb.append(" ")
+            case _ => null
+          }
+        }
+        case expression:ExpressionContext => {
+          sb.append(visitExpression(expression))
+        }
+        case statement:StatementContext => {
+          sb.append("{\n")
+          sb.append(indentString + concatChildResults(statement, "\n") + "\n")
+          sb.append(indent(statement) + "}\n")
+        }
+        case _ => null
+      }
+    }
+
+    sb.toString()
   }
 }
