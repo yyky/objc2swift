@@ -205,13 +205,18 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     if (ctx.struct_declaration() != null) {
       val specifier_qualifier_list = ctx.struct_declaration().specifier_qualifier_list()
       val struct_declarator_list = ctx.struct_declaration().struct_declarator_list()
+      sb.append(indent(ctx))
 
       specifier_qualifier_list.type_specifier().foreach { i =>
         val class_name = i.class_name.getText()
-        if (class_name == "IBOutlet") {
-          sb.append(indent(ctx) + "@" + class_name + " " + property_attributes + " ")
-        } else {
-          type_of_variable = class_name
+
+        class_name match {
+          case "IBOutlet" => {
+            sb.append("@" + class_name + " " + property_attributes + " ")
+          }
+          case _ => {
+            type_of_variable = class_name
+          }
         }
       }
 
