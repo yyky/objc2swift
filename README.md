@@ -37,13 +37,19 @@ class A : NSObject {
 
 ### 1. Project Setup
 
-Import Project from gradle build file:
+Import Project from gradle build file.
 
 ![ss2.png](doc/ss2.png)
+
+Unmark build/ as 'Excluded', mark build/generated-src as 'Sources', re-mark other directories under build/ as 'Excluded'.
+
+![ss4.png](doc/ss4.png)
 
 Create new Run Configuration as below:
 
 ![ss3.png](doc/ss3.png)
+
+Run!
 
 ### 2. Project Structure
 
