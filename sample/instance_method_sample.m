@@ -31,11 +31,11 @@
 }
 
 - (void)NoParamNoRetHasBody {
-    "";
+    ;
 }
 
 - (ClassA)SomeParamSomeRet:(ClassB)p1 {
-    "";
+    ;
 }
 
 - (long)noParamLongRet {
@@ -48,6 +48,12 @@
 }
 
 - (unsigned long long)noParamULongLongRet {
+}
+
+- (short)noParamShortRet {
+}
+
+- (unsigned short)noParamUShortRet {
 }
 
 @end
