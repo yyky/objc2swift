@@ -189,6 +189,44 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     concatChildResults(ctx, "\n")
   }
 
+  override def visitProperty_declaration(ctx: ObjCParser.Property_declarationContext): String = {
+    val sb = new StringBuilder()
+    var type_of_variable = ""
+    var property_attributes = ""
+
+    if (ctx.property_attributes_declaration() != null) {
+      ctx.property_attributes_declaration().property_attributes_list().property_attribute().foreach { k =>
+        if (k.getText() == "weak") {
+          property_attributes = k.getText()
+        }
+      }
+    }
+
+    if (ctx.struct_declaration() != null) {
+      val specifier_qualifier_list = ctx.struct_declaration().specifier_qualifier_list()
+      val struct_declarator_list = ctx.struct_declaration().struct_declarator_list()
+
+      specifier_qualifier_list.type_specifier().foreach { i =>
+        val class_name = i.class_name.getText()
+        if (class_name == "IBOutlet") {
+          sb.append(indent(ctx) + "@" + class_name + " " + property_attributes + " ")
+        } else {
+          type_of_variable = class_name
+        }
+      }
+
+      struct_declarator_list.struct_declarator.foreach { j =>
+        val direct_declarator = j.declarator.direct_declarator()
+        if (direct_declarator != null) {
+          val identifier = direct_declarator.identifier().getText()
+          sb.append("var " + identifier + ":" + type_of_variable + "!")
+        }
+      }
+    }
+
+    sb.toString()
+  }
+
   override def visitInstance_method_declaration(ctx: Instance_method_declarationContext): String = {
 
     val sb = new StringBuilder()
