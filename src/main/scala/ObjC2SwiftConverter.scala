@@ -221,8 +221,12 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
             case "IBOutlet" =>
               sb.append("@" + class_name + " " + property_attributes + " ")
               optional = "!"
-            case "NSInteger" => type_of_variable = "Int"
+            case "NSInteger" | "NSUInteger" => type_of_variable = "Int"
             case "NSString" => type_of_variable = "String"
+            case "NSDictionary" => type_of_variable = "[NSObject : AnyObject]"
+            case "SEL" => type_of_variable = "Selector"
+            case "BOOL" => type_of_variable = "Bool"
+            case "NSArray" => type_of_variable = "[AnyObject]"
             case _ => type_of_variable = class_name
           }
         }else if(i.protocol_reference_list() != null){
@@ -230,6 +234,8 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
             type_of_variable = j.getText
             unowned_unsafe = "unowned(unsafe) "
           }
+        }else if(i.getText == "id"){
+          type_of_variable = "AnyObject"
         }
       }
 
