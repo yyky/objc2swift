@@ -32,8 +32,8 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
 
   def indentLevel(node: ParserRuleContext): Int = {
     node.depth() match {
-      case n if (n < 4) => 0 // class
-      case n if (n < 8) => 1 // method
+      case n if n < 4 => 0 // class
+      case n if n < 8 => 1 // method
       case _ => 2 // TODO count number of compound_statement's
     }
   }
@@ -372,7 +372,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
       }
       sb.append(")")
     }
-    sb.toString
+    sb.toString()
   }
 
   override def visitPrimary_expression(ctx: Primary_expressionContext): String = {
