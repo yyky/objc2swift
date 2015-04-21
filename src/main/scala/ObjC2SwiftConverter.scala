@@ -155,7 +155,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
       }
     }
 
-    sb.append("}")
+    sb.append("\n}")
 
     sb.toString()
   }
@@ -193,11 +193,17 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     val sb = new StringBuilder()
     var type_of_variable = ""
     var property_attributes = ""
+    var read_only = ""
 
+    sb.append(indent(ctx))
     if (ctx.property_attributes_declaration() != null) {
       ctx.property_attributes_declaration().property_attributes_list().property_attribute().foreach { k =>
-        if (k.getText == "weak") {
-          property_attributes = k.getText
+        val property_attribute_name = k.getText
+
+        property_attribute_name match {
+          case "weak" => property_attributes = property_attribute_name
+          case "readonly" => read_only = "{ get }"
+          case _ =>
         }
       }
     }
@@ -205,18 +211,15 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     if (ctx.struct_declaration() != null) {
       val specifier_qualifier_list = ctx.struct_declaration().specifier_qualifier_list()
       val struct_declarator_list = ctx.struct_declaration().struct_declarator_list()
-      sb.append(indent(ctx))
 
       specifier_qualifier_list.type_specifier().foreach { i =>
         val class_name = i.class_name.getText
 
         class_name match {
-          case "IBOutlet" => {
+          case "IBOutlet" =>
             sb.append("@" + class_name + " " + property_attributes + " ")
-          }
-          case _ => {
-            type_of_variable = class_name
-          }
+          case "NSInteger" => type_of_variable = "Int"
+          case _ => type_of_variable = class_name
         }
       }
 
@@ -224,7 +227,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
         val direct_declarator = j.declarator.direct_declarator()
         if (direct_declarator != null) {
           val identifier = direct_declarator.identifier().getText
-          sb.append("var " + identifier + ":" + type_of_variable + "!")
+          sb.append("var " + identifier + ":" + type_of_variable + "!" + read_only)
         }
       }
     }
