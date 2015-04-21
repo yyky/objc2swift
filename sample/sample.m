@@ -1,15 +1,13 @@
 @implementation MyClass
 
-- (void)hoge {
-	[self hello];
-	[self hello:1];
-	[self helloWithInt:1 string:@"str"];
+- (void)doSomething
+{
+    [self somethingWithArg1:nil arg2:0];
 }
 
-- (void)hogeWithInt:(int)n {
-}
-
-- (void)hogeWithInt:(int)n string:(NSString *)str {
+- (NSString *)somethingWithArg1:(id)arg1 arg2:(int)arg2
+{
+    return @"something";
 }
 
 @end

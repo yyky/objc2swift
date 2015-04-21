@@ -2,7 +2,7 @@
 
 *objc2swift* is an experimental project aiming to create an **Objective-C -> Swift** converter (or at least something that would help a human being convert codes by hand). 
 
-The software is based on [ANTLR](http://www.antlr.org) the magnificent parser generator.
+The program is written in Scala, and is based on [ANTLR](http://www.antlr.org) the magnificent parser generator.
 
 ## Quick Start
 
@@ -10,28 +10,57 @@ Build the project, run the jar with an input Obj-C source file.
 
 ```
 $ gradle build
-$ java -jar build/libs/objc2swift-1.0.jar sample/sample.h 
+$ java -jar build/libs/objc2swift-1.0.jar sample/sample.h sample/sample.m
 ```
 
-With the input Obj-C code:
+The input files are Obj-C header and implementation files like:
 
 ```
-@interface A : NSObject
+// sample/sample.h
+
+@interface MyClass : NSObject <SomeProtocol>
+
+- (void)doSomething;
+- (NSString *)somethingWithArg1:(id)arg1 arg2:(int)arg2;
 
 @end
 ```
 
-you'll get the Swift code as below:
+```
+// sample/sample.m
+
+@implementation MyClass
+
+- (void)doSomething
+{
+    [self somethingWithArg1:nil arg2:0];
+}
+
+- (NSString *)somethingWithArg1:(id)arg1 arg2:(int)arg2
+{
+    return @"something";
+}
+
+@end
+```
+
+They will be combined into a single Swift class, and you'll get the output like:
 
 ```
-class A : NSObject {
+class MyClass : NSObject, SomeProtocol {
+    func doSomething() {
+        self.somethingWithArg1(nil, arg2: 0)
+    }
 
+    func somethingWithArg1(arg1:AnyObject, arg2 arg2:Int32) -> NSString {
+        return "something"
+    }
 }
 ```
 
 ## Features
-* converts `@interface Hoge` to `class Hoge {}`
-* ... that's all for now!
+* `@interface Hoge ... @end` -> `class Hoge { ... }`
+* ... more to come!
 
 ## Developer's Guide
 
