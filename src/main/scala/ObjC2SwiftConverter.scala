@@ -336,9 +336,16 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     indent(ctx) + concatChildResults(ctx, " ") // TODO
   }
 
+  override def visitJump_statement(ctx: Jump_statementContext): String = {
+    ctx.getChild(0).getText match {
+      case "return" => "return " + visit(ctx.expression)
+      case _ => "" // TODO
+    }
+  }
+
   /*
-   * Expressions
-   */
+     * Expressions
+     */
   override def visitMessage_expression(ctx: Message_expressionContext): String = {
     val sel = ctx.message_selector()
 
