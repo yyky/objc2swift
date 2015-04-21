@@ -212,6 +212,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
       val specifier_qualifier_list = ctx.struct_declaration().specifier_qualifier_list()
       val struct_declarator_list = ctx.struct_declaration().struct_declarator_list()
       var unowned_unsafe = ""
+      var optional = "?"
 
       specifier_qualifier_list.type_specifier().foreach { i =>
         if(i.class_name != null){
@@ -219,6 +220,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
           class_name match {
             case "IBOutlet" =>
               sb.append("@" + class_name + " " + property_attributes + " ")
+              optional = "!"
             case "NSInteger" => type_of_variable = "Int"
             case "NSString" => type_of_variable = "String"
             case _ => type_of_variable = class_name
@@ -235,7 +237,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
         val direct_declarator = j.declarator.direct_declarator()
         if (direct_declarator != null) {
           val identifier = direct_declarator.identifier().getText
-          sb.append(unowned_unsafe + "var " + identifier + ":" + type_of_variable + "!" + read_only)
+          sb.append(unowned_unsafe + "var " + identifier + ":" + type_of_variable + optional + read_only)
         }
       }
     }
