@@ -6,14 +6,14 @@ The program is written in Scala, and is based on [ANTLR](http://www.antlr.org) t
 
 ## Quick Start
 
-Build the project, run the jar with an input Obj-C source file.
+Build the project, run the jar with Obj-C source files in the sample dir.
 
 ```
 $ gradle build
 $ java -jar build/libs/objc2swift-1.0.jar sample/sample.h sample/sample.m
 ```
 
-The input files are Obj-C header and implementation files like:
+The input files are Obj-C header and implementation files such as:
 
 ```
 // sample/sample.h
@@ -24,8 +24,6 @@ The input files are Obj-C header and implementation files like:
 
 @end
 ```
-
-+
 
 ```
 // sample/sample.m
