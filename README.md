@@ -17,7 +17,6 @@ The input files are Obj-C header and implementation files like:
 
 ```
 // sample/sample.h
-
 @interface MyClass : NSObject <SomeProtocol>
 
 - (void)doSomething;
@@ -26,9 +25,10 @@ The input files are Obj-C header and implementation files like:
 @end
 ```
 
++
+
 ```
 // sample/sample.m
-
 @implementation MyClass
 
 - (void)doSomething
@@ -44,7 +44,7 @@ The input files are Obj-C header and implementation files like:
 @end
 ```
 
-They will be combined into a single Swift class, and you'll get the output like:
+They will be processed as a single input file, and you'll get the converted Swift class as below:
 
 ```
 class MyClass : NSObject, SomeProtocol {
@@ -57,6 +57,8 @@ class MyClass : NSObject, SomeProtocol {
     }
 }
 ```
+
+Cool!
 
 ## Features
 * `@interface Hoge ... @end` -> `class Hoge { ... }`
