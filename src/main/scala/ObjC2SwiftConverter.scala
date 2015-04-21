@@ -211,15 +211,23 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     if (ctx.struct_declaration() != null) {
       val specifier_qualifier_list = ctx.struct_declaration().specifier_qualifier_list()
       val struct_declarator_list = ctx.struct_declaration().struct_declarator_list()
+      var unowned_unsafe = ""
 
       specifier_qualifier_list.type_specifier().foreach { i =>
-        val class_name = i.class_name.getText
-
-        class_name match {
-          case "IBOutlet" =>
-            sb.append("@" + class_name + " " + property_attributes + " ")
-          case "NSInteger" => type_of_variable = "Int"
-          case _ => type_of_variable = class_name
+        if(i.class_name != null){
+          val class_name = i.class_name.getText
+          class_name match {
+            case "IBOutlet" =>
+              sb.append("@" + class_name + " " + property_attributes + " ")
+            case "NSInteger" => type_of_variable = "Int"
+            case "NSString" => type_of_variable = "String"
+            case _ => type_of_variable = class_name
+          }
+        }else if(i.protocol_reference_list() != null){
+          i.protocol_reference_list().protocol_list().protocol_name().foreach { j =>
+            type_of_variable = j.getText
+            unowned_unsafe = "unowned(unsafe) "
+          }
         }
       }
 
@@ -227,7 +235,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
         val direct_declarator = j.declarator.direct_declarator()
         if (direct_declarator != null) {
           val identifier = direct_declarator.identifier().getText
-          sb.append("var " + identifier + ":" + type_of_variable + "!" + read_only)
+          sb.append(unowned_unsafe + "var " + identifier + ":" + type_of_variable + "!" + read_only)
         }
       }
     }
