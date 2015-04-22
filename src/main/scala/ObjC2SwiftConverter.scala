@@ -71,6 +71,19 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     None
   }
 
+  def visitBinaryOperator(ctx: ParserRuleContext): String = {
+    val sb = new StringBuilder()
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode => sb.append(" " + symbol.getSymbol.getText + " ")
+        case _ => sb.append(visit(element))
+      }
+    }
+
+    sb.toString()
+  }
+
   override def visitTranslation_unit(ctx: Translation_unitContext): String = {
     concatChildResults(ctx, "")
   }
@@ -337,6 +350,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     indent(ctx) + concatChildResults(ctx, " ") // TODO
   }
 
+
   override def visitJump_statement(ctx: Jump_statementContext): String = {
     ctx.getChild(0).getText match {
       case "return" => "return " + visit(ctx.expression)
@@ -389,7 +403,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
   }
 
   override def visitExpression(ctx: ExpressionContext): String = {
-    ctx.getText //TODO unimplemented
+    concatChildResults(ctx, "")
   }
 
   override def visitSelection_statement(ctx: Selection_statementContext): String = {
@@ -414,15 +428,16 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
           }
         }
         case expression: ExpressionContext => {
-          sb.append(visitExpression(expression))
+          sb.append(visit(expression))
         }
         case statement: StatementContext => {
           sb.append("{\n")
+
           if (statement_kind == "if") {
             sb.append(indentString)
           }
-          sb.append(concatChildResults(statement, "\n") + "\n")
-          sb.append(indent(statement) + "}\n")
+          sb.append(visitChildren(statement) + "\n")
+          sb.append(indent(statement) +  "}\n")
         }
         case _ => null
       }
@@ -440,13 +455,49 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
           symbol.getSymbol.getText match {
             case "case" => sb.append("case ")
             case "default" => sb.append("default")
-            case ":" => sb.append(":\n" + indent(ctx) + indentString)
+            case ":" => sb.append(":\n" + indentString)
             case _ => null
           }
         }
-        case _ => sb.append(concatChildResults(element, "\n"))
+        case _ => sb.append(visit(element))
       }
     }
     sb.toString()
+  }
+
+  override def visitEquality_expression(ctx: Equality_expressionContext): String = {
+    visitBinaryOperator(ctx)
+
+  }
+
+  override def visitRelational_expression(ctx: Relational_expressionContext): String = {
+    visitBinaryOperator(ctx)
+
+  }
+
+  override def visitLogical_or_expression(ctx: Logical_or_expressionContext): String = {
+    visitBinaryOperator(ctx)
+
+  }
+
+  override def visitLogical_and_expression(ctx: Logical_and_expressionContext): String = {
+    visitBinaryOperator(ctx)
+
+  }
+
+  override def visitAdditive_expression(ctx: Additive_expressionContext): String = {
+    visitBinaryOperator(ctx)
+  }
+
+  override def visitMultiplicative_expression(ctx: Multiplicative_expressionContext): String = {
+    visitBinaryOperator(ctx)
+  }
+
+  override def visitAssignment_expression(ctx: Assignment_expressionContext): String = {
+    concatChildResults(ctx, " ")
+  }
+
+  override def visitAssignment_operator(ctx: Assignment_operatorContext): String = {
+    ctx.getText
   }
 }
