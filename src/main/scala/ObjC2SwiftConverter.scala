@@ -179,7 +179,6 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
               sb.append("@" + class_name + " " + property_attributes + " ")
               optional = "!"
             case "NSInteger" | "NSUInteger" => type_of_variable = "Int"
-            case "NSString" => type_of_variable = "String"
             case "NSDictionary" => type_of_variable = "[NSObject : AnyObject]"
             case "SEL" => type_of_variable = "Selector"
             case "BOOL" => type_of_variable = "Bool"
