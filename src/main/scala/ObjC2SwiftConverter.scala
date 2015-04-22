@@ -155,59 +155,71 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
 
     Option(ctx.property_attributes_declaration()) match {
       case None =>
-      case Some(v) =>
-        ctx.property_attributes_declaration().property_attributes_list().property_attribute().foreach {
+      case Some(property_attributes_declaration) =>
+        property_attributes_declaration.property_attributes_list().property_attribute().foreach (
           visit(_) match {
             case s if s == "weak" => property_attributes = s
             case s if s == "readonly" => read_only = "{ get{} }"
             case _ =>
           }
-        }
+        )
     }
 
-    if (ctx.struct_declaration() != null) {
-      val specifier_qualifier_list = ctx.struct_declaration().specifier_qualifier_list()
-      val struct_declarator_list = ctx.struct_declaration().struct_declarator_list()
-      var unowned_unsafe = ""
-      var optional = "?"
+    Option(ctx.struct_declaration()) match {
+      case None =>
+      case Some(struct_declaration) =>
+        val specifier_qualifier_list = struct_declaration.specifier_qualifier_list()
+        val struct_declarator_list = struct_declaration.struct_declarator_list()
+        var unowned_unsafe = ""
+        var optional = "?"
 
-      specifier_qualifier_list.type_specifier().foreach { i =>
-        if(i.class_name != null){
-          val class_name = i.class_name.getText
-          class_name match {
-            case "IBOutlet" =>
-              sb.append("@" + class_name + " " + property_attributes + " ")
-              optional = "!"
-            case "NSInteger" | "NSUInteger" => type_of_variable = "Int"
-            case "NSDictionary" => type_of_variable = "[NSObject : AnyObject]"
-            case "SEL" => type_of_variable = "Selector"
-            case "BOOL" => type_of_variable = "Bool"
-            case "NSArray" => type_of_variable = "[AnyObject]"
-            case _ => type_of_variable = class_name
+        specifier_qualifier_list.type_specifier().foreach { i =>
+          Option(i.class_name) match {
+            case None =>
+            case Some(class_name) =>
+              visit(class_name) match {
+                case s if s == "IBOutlet" =>
+                  sb.append("@" + s + " " + property_attributes + " ")
+                  optional = "!"
+                case "NSInteger" | "NSUInteger" => type_of_variable = "Int"
+                case "NSDictionary" => type_of_variable = "[NSObject : AnyObject]"
+                case "SEL" => type_of_variable = "Selector"
+                case "BOOL" => type_of_variable = "Bool"
+                case "NSArray" => type_of_variable = "[AnyObject]"
+                case s => type_of_variable = s
+              }
           }
-        }else if(i.protocol_reference_list() != null){
-          i.protocol_reference_list().protocol_list().protocol_name().foreach { j =>
-            type_of_variable = j.getText
-            unowned_unsafe = "unowned(unsafe) "
-          }
-        }else if(i.getText == "id"){
-          type_of_variable = "AnyObject"
-        }
-      }
 
-      struct_declarator_list.struct_declarator.foreach { j =>
-        val direct_declarator = j.declarator.direct_declarator()
-        if (direct_declarator != null) {
-          val identifier = direct_declarator.identifier().getText
-          sb.append(unowned_unsafe + "var " + identifier + ":" + type_of_variable + optional + read_only)
+          Option(i.protocol_reference_list()) match {
+            case None =>
+            case Some(protocol_reference_list) =>
+              protocol_reference_list.protocol_list().protocol_name().foreach { j =>
+                type_of_variable = visit(j)
+                unowned_unsafe = "unowned(unsafe) "
+              }
+          }
+
+          if(i.getText == "id"){
+            type_of_variable = "AnyObject"
+          }
         }
-      }
+
+        struct_declarator_list.struct_declarator.foreach { j =>
+          Option(j.declarator.direct_declarator()) match {
+            case None =>
+            case Some(direct_declarator) =>
+              val identifier = direct_declarator.identifier().getText
+              sb.append(unowned_unsafe + "var " + identifier + ":" + type_of_variable + optional + read_only)
+          }
+        }
     }
 
     sb.toString()
   }
 
   override def visitProperty_attribute(ctx: Property_attributeContext) = ctx.getText
+  override def visitClass_name(ctx: Class_nameContext) = ctx.getText
+  override def visitProtocol_name(ctx: Protocol_nameContext) = ctx.getText
 
   /**
    * Convert instance method declaration(interface).
