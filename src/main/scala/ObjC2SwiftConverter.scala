@@ -230,27 +230,24 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
    * @return parameter code
    **/
   override def visitKeyword_declarator(ctx: Keyword_declaratorContext): String = {
-    val sb = new StringBuilder()
-
     // Method name or Parameter's External name
-    Option(ctx.selector()) match {
-      case Some(s) => sb.append(s.getText)
-      case _ =>
-    }
-    sb.append("%s")
+    val selector = Option(ctx.selector()).map(_.getText).getOrElse("")
 
     // Parameter's Internal name
-    sb.append(ctx.IDENTIFIER().getText + ":")
+    val paramName: String = ctx.IDENTIFIER().getText
 
     // Parameter's Type
-    sb.append(ctx.method_type().foldLeft("")((s, c) => {
-      visit(c) match {
-        case s2 if s == "" && s2 != "" => s2
-        case _ => s
-      }
-    }))
+    val it = ctx.method_type().toIterator
+    val paramType: String = it.map(visit(_)).find(s => s != "").getOrElse("")
 
-    sb.toString()
+    // Separator
+    val sep: String = selector match {
+      case s if s == "" => "" // No external name
+      case s if s == paramName => "" // Same name
+      case _ => selector + "%s"
+    }
+
+    sep + paramName + ": " + paramType
   }
 
   /**
