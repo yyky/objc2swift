@@ -394,13 +394,20 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
 
   override def visitSelection_statement(ctx: Selection_statementContext): String = {
     val sb = new StringBuilder()
+    var statement_kind:String = ""
 
     for (element <- ctx.children) {
       element match {
         case symbol: TerminalNode => {
           symbol.getSymbol.getText match {
-            case "if" => sb.append("if")
-            case "switch" => sb.append("switch")
+            case "if" => {
+              sb.append("if")
+              statement_kind = "if"
+            }
+            case "switch" => {
+              sb.append("switch")
+              statement_kind = "switch"
+            }
             case "(" => sb.append(" ")
             case ")" => sb.append(" ")
             case _ => null
@@ -411,7 +418,10 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
         }
         case statement: StatementContext => {
           sb.append("{\n")
-          sb.append(indentString + concatChildResults(statement, "\n") + "\n")
+          if (statement_kind == "if") {
+            sb.append(indentString)
+          }
+          sb.append(concatChildResults(statement, "\n") + "\n")
           sb.append(indent(statement) + "}\n")
         }
         case _ => null
@@ -421,4 +431,22 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     sb.toString()
   }
 
+  override def visitLabeled_statement(ctx: Labeled_statementContext): String = {
+    val sb = new StringBuilder()
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode => {
+          symbol.getSymbol.getText match {
+            case "case" => sb.append("case ")
+            case "default" => sb.append("default")
+            case ":" => sb.append(":\n" + indent(ctx) + indentString)
+            case _ => null
+          }
+        }
+        case _ => sb.append(concatChildResults(element, "\n"))
+      }
+    }
+    sb.toString()
+  }
 }

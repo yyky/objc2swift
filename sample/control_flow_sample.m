@@ -6,6 +6,17 @@
   if ( a == 0 ) {
     b = 1;
   }
+  switch (a) {
+  case 0:
+    b = 1;
+    break;
+  case 1:
+    b = 0;
+    break;
+  default:
+    b = 2;
+    break;
+  }
 }
 
 @end
