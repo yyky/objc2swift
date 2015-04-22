@@ -159,7 +159,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
         ctx.property_attributes_declaration().property_attributes_list().property_attribute().foreach {
           visit(_) match {
             case s if s == "weak" => property_attributes = s
-            case s if s == "readonly" => read_only = "{ get }"
+            case s if s == "readonly" => read_only = "{ get{} }"
             case _ =>
           }
         }
