@@ -152,16 +152,17 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     var read_only = ""
 
     sb.append(indent(ctx))
-    if (ctx.property_attributes_declaration() != null) {
-      ctx.property_attributes_declaration().property_attributes_list().property_attribute().foreach { k =>
-        val property_attribute_name = k.getText
 
-        property_attribute_name match {
-          case "weak" => property_attributes = property_attribute_name
-          case "readonly" => read_only = "{ get }"
-          case _ =>
+    Option(ctx.property_attributes_declaration()) match {
+      case None =>
+      case Some(v) =>
+        ctx.property_attributes_declaration().property_attributes_list().property_attribute().foreach {
+          visit(_) match {
+            case s if s == "weak" => property_attributes = s
+            case s if s == "readonly" => read_only = "{ get }"
+            case _ =>
+          }
         }
-      }
     }
 
     if (ctx.struct_declaration() != null) {
@@ -206,6 +207,8 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
 
     sb.toString()
   }
+
+  override def visitProperty_attribute(ctx: Property_attributeContext) = ctx.getText
 
   /**
    * Convert instance method declaration(interface).
