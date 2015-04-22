@@ -1,3 +1,8 @@
+@interface InstanceMethodSample () {
+
+}
+@end
+
 @implementation InstanceMethodSample
 
 - (void)NoParamNoRet {
@@ -97,4 +102,11 @@
 - (NSString *)extNameSample3:(NSString *)p1 pp:(NSNumber *)p2 {
 }
 
+- (NSString *)privateMethodSample1:(NSString *)p1 pp:(NSNumber *)p2 {
+}
+
+- (NSString *)privateMethodSample2:(NSString *)p1 pp:(NSNumber *)p2 {
+    [self noParamIntRet];
+    [self oneIntParamIntRet:1];
+}
 @end

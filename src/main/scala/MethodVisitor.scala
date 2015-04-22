@@ -69,7 +69,7 @@ trait MethodVisitor extends Converter {
       case None =>
       case Some(impl) =>
         visited.put(impl, true)
-        sb.append(visit(impl.method_definition.compound_statement))
+        sb.append(visit(impl.method_definition))
         sb.append("\n")
     }
 
@@ -77,5 +77,28 @@ trait MethodVisitor extends Converter {
 
     sb.toString()
   }
+
+  /**
+   * Convert instance method definition(implementation) in Objective-C to Swift code.
+   *
+   * @param ctx the parse tree
+   * @return Strings of Swift code
+   **/
+  override def visitInstance_method_definition(ctx: Instance_method_definitionContext): String =
+    // TODO Print Method Definitionc
+    Option(visited.get(ctx)) match {
+      case Some(c) => "" // Already printed
+      case _ =>
+        visited.put(ctx, true)
+        val sb = new StringBuilder()
+        sb.append("\n" + indent(ctx) + "func")
+        sb.append(" {\n")
+        sb.append(visit(ctx.method_definition()))
+        sb.append("\n")
+        sb.append(indent(ctx) + "}\n")
+        sb.toString()
+    }
+
+  override def visitMethod_definition(ctx: Method_definitionContext): String = visit(ctx.compound_statement())
 
 }

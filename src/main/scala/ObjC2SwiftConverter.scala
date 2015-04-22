@@ -248,17 +248,6 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     concatChildResults(ctx, "")
   }
 
-  /**
-   * Convert instance method definition(implementation) in Objective-C to Swift code.
-   *
-   * @param ctx the parse tree
-   * @return Strings of Swift code
-   **/
-  override def visitInstance_method_definition(ctx: Instance_method_definitionContext): String =
-    Option(visited.get(ctx)) match {
-      case None => visit(ctx.method_definition().compound_statement()) // TODO Print Method Definition
-      case _ => "" // Already printed
-    }
 
   override def visitCompound_statement(ctx: Compound_statementContext): String = {
     concatChildResults(ctx, "")
