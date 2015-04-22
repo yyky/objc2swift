@@ -88,4 +88,13 @@
 - (NSString *)overloadSample:(NSString *)p1 q2:(NSNumber *)q2 {
 }
 
+- (NSString *)extNameSample1:(NSString *)p1 :(NSNumber *)p2 {
+}
+
+- (NSString *)extNameSample2:(NSString *)p1 p2:(NSNumber *)p2 {
+}
+
+- (NSString *)extNameSample3:(NSString *)p1 pp:(NSNumber *)p2 {
+}
+
 @end
