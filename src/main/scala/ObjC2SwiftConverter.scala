@@ -9,37 +9,36 @@
  */
 
 import ObjCParser._
-import org.antlr.v4.runtime.ParserRuleContext
-import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeProperty}
+import org.antlr.v4.runtime.{CommonToken, ParserRuleContext}
+import org.antlr.v4.runtime.tree.{TerminalNode, ParseTree, ParseTreeProperty}
 import collection.JavaConversions._
 
-class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisitor[String] {
+class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisitor[String] with MethodVisitor {
+
   val root = _root
   val visited = new ParseTreeProperty[Boolean]()
+  val indentString = " " * 4
 
-  def getResult: String = {
-    visit(root)
-  }
+  def getResult: String = visit(root)
 
   def concatChildResults(node: ParseTree, glue: String): String = {
     val children = for(i <- 0 until node.getChildCount) yield node.getChild(i)
     concatResults(children.toList, glue)
   }
 
-  def concatResults(nodes: List[ParseTree], glue: String): String = {
-    nodes.map(visit(_)).filter(_ != null).mkString(glue)
-  }
+  def concatResults(nodes: List[ParseTree], glue: String): String =
+    nodes.map(visit).filter(_ != null).mkString(glue)
 
   def indentLevel(node: ParserRuleContext): Int = {
     node.depth() match {
-      case n if (n < 4) => 0 // class
-      case n if (n < 8) => 1 // method
+      case n if n < 4 => 0 // class
+      case n if n < 8 => 1 // method
       case _ => 2 // TODO count number of compound_statement's
     }
   }
 
   def indent(node: ParserRuleContext): String = {
-    "    " * indentLevel(node)
+    indentString * indentLevel(node)
   }
 
   def findCorrespondingClassImplementation(classCtx: Class_interfaceContext): Class_implementationContext = {
@@ -68,6 +67,19 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
         }
     }
     None
+  }
+
+  def visitBinaryOperator(ctx: ParserRuleContext): String = {
+    val sb = new StringBuilder()
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode => sb.append(" " + symbol.getSymbol.getText + " ")
+        case _ => sb.append(visit(element))
+      }
+    }
+
+    sb.toString()
   }
 
   override def visitTranslation_unit(ctx: Translation_unitContext): String = {
@@ -233,143 +245,6 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
   override def visitProtocol_name(ctx: Protocol_nameContext) = ctx.getText
 
   /**
-   * Convert instance method declaration(interface).
-   *
-   * @param ctx the parse tree
-   * @return Strings of Swift's instance method code
-   **/
-  override def visitInstance_method_declaration(ctx: Instance_method_declarationContext): String = {
-    val sb = new StringBuilder()
-
-    sb.append(indent(ctx) + "func")
-    sb.append(visit(ctx.method_declaration()))
-
-    sb.toString()
-  }
-
-  /**
-   * Convert method declaration(interface).
-   *
-   * @param ctx the parse tree
-   * @return Strings of Swift's method code
-   **/
-  override def visitMethod_declaration(ctx: Method_declarationContext): String = {
-    val sb = new StringBuilder()
-
-    val method_selector_ctx: Method_selectorContext = ctx.method_selector()
-
-    sb.append(" " + visit(method_selector_ctx))
-
-    //
-    // Method type.
-    //
-    // Currently, supported types are:
-    //   void, id(AnyObject), short/int/long, float/double, ...
-    //
-    // TODO: Support more types
-    //
-    Option(ctx.method_type()) match {
-      case Some(method_type_ctx) => visit(method_type_ctx) match {
-        case s if s != "" => sb.append(" -> " + s)
-        case _ =>
-      }
-      case _ => sb.append(" -> AnyObject") // id type
-    }
-
-    sb.append(" {\n")
-
-    //
-    // TODO: Support class method
-    //
-    findCorrespondingMethodDefinition(ctx.parent.asInstanceOf[Instance_method_declarationContext]) match {
-      case None =>
-      case Some(impl) =>
-        visited.put(impl, true)
-        sb.append(visit(impl.method_definition.compound_statement))
-        sb.append("\n")
-    }
-
-    sb.append(indent(ctx) + "}\n")
-
-    sb.toString()
-  }
-
-  override def visitMethod_selector(ctx: Method_selectorContext): String = {
-    Option(ctx.selector()) match {
-      case Some(s) => s.getText + "()"
-      case _ =>
-        Option(ctx.keyword_declarator()) match {
-          case None => "" // TODO: Syntax error
-          case Some(ctxs) => ctxs.iterator().foldLeft("")((s, c) => {
-            s match {
-              case "" => s + visit(c).format("(") // method name and first param
-              case _  => s + ", " + visit(c).format(" ") // other params
-            }
-          }) + ")"
-        }
-    }
-  }
-
-  /**
-   * Construtor of method parameter.
-   *
-   * @param ctx the parse tree
-   * @return parameter code
-   **/
-  override def visitKeyword_declarator(ctx: Keyword_declaratorContext): String = {
-    val sb = new StringBuilder()
-
-    // Method name or Parameter's External name
-    Option(ctx.selector()) match {
-      case Some(s) => sb.append(s.getText)
-      case _ =>
-    }
-    sb.append("%s")
-
-    // Parameter's Internal name
-    sb.append(ctx.IDENTIFIER().getText + ":")
-
-    // Parameter's Type
-    sb.append(ctx.method_type().foldLeft("")((s, c) => {
-      visit(c) match {
-        case s2 if s == "" && s2 != "" => s2
-        case _ => s
-      }
-    }))
-
-    sb.toString()
-  }
-
-  /**
-   * Return method type as Swift rule.
-   *
-   * @param ctx the parse tree
-   * @return Swift method type
-   **/
-  override def visitMethod_type(ctx: Method_typeContext): String = {
-    val defaultType = "AnyObject"
-    (Option(ctx.type_name().specifier_qualifier_list().type_specifier()) match {
-      case None => defaultType
-      case Some(contexts) =>
-        val type_specifier_ctxs: collection.mutable.Buffer[Type_specifierContext] = contexts
-        type_specifier_ctxs.foldLeft(defaultType)((s, type_specifier_ctx) => {
-          visit(type_specifier_ctx) match {
-            case "Int8" if s == "unsigned" => "UInt8"
-            case "Int32" if s == "unsigned" => "UInt32"
-            case "Int32" if s == "unsigned" => "UInt32"
-            case "Int32" if s == "Int32" => "Int64"
-            case "Int32" if s == "UInt32" => "UInt64"
-            case t if t != "" => t
-            case _ => s
-          }
-        })
-    }) match {
-      case "void" => "" // No return type
-      case s => s
-    }
-  }
-
-  /**
    * Convert Objective-C type to Swift type.
    *
    * @param ctx the parse tree
@@ -377,7 +252,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
    *
    * TODO: Implement other types
    *
-   **/
+   */
   override def visitType_specifier(ctx: Type_specifierContext): String =
     ctx.getText match {
       case "void"   => "void"
@@ -399,17 +274,6 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     concatChildResults(ctx, "")
   }
 
-  /**
-   * Convert instance method definition(implementation) in Objective-C to Swift code.
-   *
-   * @param ctx the parse tree
-   * @return Strings of Swift code
-   **/
-  override def visitInstance_method_definition(ctx: Instance_method_definitionContext): String =
-    Option(visited.get(ctx)) match {
-      case None => visit(ctx.method_definition().compound_statement()) // TODO Print Method Definition
-      case _ => "" // Already printed
-    }
 
   override def visitCompound_statement(ctx: Compound_statementContext): String = {
     concatChildResults(ctx, "")
@@ -423,9 +287,11 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     indent(ctx) + concatChildResults(ctx, " ") // TODO
   }
 
+
   override def visitJump_statement(ctx: Jump_statementContext): String = {
     ctx.getChild(0).getText match {
       case "return" => "return " + visit(ctx.expression)
+      case "break" => "" // TODO not implemented
       case _ => "" // TODO
     }
   }
@@ -459,7 +325,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
       }
       sb.append(")")
     }
-    sb.toString
+    sb.toString()
   }
 
   override def visitPrimary_expression(ctx: Primary_expressionContext): String = {
@@ -474,4 +340,98 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     ctx.getText
   }
 
+  override def visitExpression(ctx: ExpressionContext): String = {
+    concatChildResults(ctx, "")
+  }
+
+  override def visitSelection_statement(ctx: Selection_statementContext): String = {
+    val sb = new StringBuilder()
+    var statement_kind = ""
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode => {
+          symbol.getSymbol.getText match {
+            case s if s == "if" || s == "switch" => {
+              sb.append(s)
+              statement_kind = s
+            }
+            case "(" | ")" => sb.append(" ")
+            case _ => null
+          }
+        }
+        case expression: ExpressionContext => {
+          sb.append(visit(expression))
+        }
+        case statement: StatementContext => {
+          sb.append("{\n")
+
+          if (statement_kind == "if") {
+            sb.append(indentString)
+          }
+          sb.append(visitChildren(statement) + "\n")
+          sb.append(indent(statement) +  "}\n")
+        }
+        case _ => null
+      }
+    }
+
+    sb.toString()
+  }
+
+  override def visitLabeled_statement(ctx: Labeled_statementContext): String = {
+    val sb = new StringBuilder()
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode => {
+          symbol.getSymbol.getText match {
+            case "case" => sb.append("case ")
+            case "default" => sb.append("default")
+            case ":" => sb.append(":\n" + indentString)
+            case _ => null
+          }
+        }
+        case _ => sb.append(visit(element))
+        //TODO fix indent bug
+      }
+    }
+    sb.toString()
+  }
+
+  override def visitEquality_expression(ctx: Equality_expressionContext): String = {
+    visitBinaryOperator(ctx)
+
+  }
+
+  override def visitRelational_expression(ctx: Relational_expressionContext): String = {
+    visitBinaryOperator(ctx)
+
+  }
+
+  override def visitLogical_or_expression(ctx: Logical_or_expressionContext): String = {
+    visitBinaryOperator(ctx)
+
+  }
+
+  override def visitLogical_and_expression(ctx: Logical_and_expressionContext): String = {
+    visitBinaryOperator(ctx)
+
+  }
+
+  override def visitAdditive_expression(ctx: Additive_expressionContext): String = {
+    visitBinaryOperator(ctx)
+  }
+
+  override def visitMultiplicative_expression(ctx: Multiplicative_expressionContext): String = {
+    visitBinaryOperator(ctx)
+  }
+
+  override def visitAssignment_expression(ctx: Assignment_expressionContext): String = {
+    concatChildResults(ctx, " ")
+  }
+
+  override def visitAssignment_operator(ctx: Assignment_operatorContext): String = {
+    ctx.getText
+  }
 }
