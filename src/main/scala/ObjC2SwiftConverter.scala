@@ -193,10 +193,21 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
           Option(i.protocol_reference_list()) match {
             case None =>
             case Some(protocol_reference_list) =>
-              protocol_reference_list.protocol_list().protocol_name().foreach { j =>
-                type_of_variable = visit(j)
-                unowned_unsafe = "unowned(unsafe) "
+              val protocol_name = protocol_reference_list.protocol_list().protocol_name()
+
+              if(protocol_name.length == 1){
+                protocol_name.foreach { j =>
+                  type_of_variable = visit(j)
+                }
+              }else if(protocol_name.length > 1){
+                var protocol_names = ""
+                protocol_name.foreach { j =>
+                  protocol_names = protocol_names + visit(j) + ","
+                }
+                type_of_variable = "protocol<" + protocol_names.stripSuffix(",") + ">"
+                optional = ""
               }
+              unowned_unsafe = "unowned(unsafe) "
           }
 
           if(i.getText == "id"){

@@ -8,7 +8,8 @@
 @property(nonatomic,readonly,getter=isSample) BOOL sampleGetter;
 @property (readonly) NSObject sampleReadonly;
 
-@property (nonatomic, assign) id <sampleProtocol> sampleDelegate;
+@property (nonatomic, assign) id <sampleProtocol1> sampleDelegate;
+@property (nonatomic, assign) id <sampleProtocol1, sampleProtocol2> sampleDelegate2;
 
 @property(nonatomic) NSString *sampleStr;
 @property(nonatomic) NSArray *sampleArray;
