@@ -30,6 +30,16 @@ trait MethodVisitor extends Converter {
     sb.toString()
   }
 
+  override def visitClass_method_declaration(ctx: Class_method_declarationContext): String = {
+    val sb = new StringBuilder()
+
+    // class method
+    sb.append(indent(ctx) + "class func")
+    sb.append(Option(ctx.method_declaration()).map(visit).getOrElse(""))
+
+    sb.toString()
+  }
+
   /**
    * Convert method declaration(interface).
    *
@@ -39,21 +49,18 @@ trait MethodVisitor extends Converter {
   override def visitMethod_declaration(ctx: Method_declarationContext): String = {
     val sb = new StringBuilder()
 
-    //
-    // TODO: Support class method
-    //
-    val dcl = ctx.parent.asInstanceOf[Instance_method_declarationContext]
-    findCorrespondingMethodDefinition(dcl) match {
-      case Some(impl) =>
+    findCorrespondingMethodDefinition(ctx) match {
+      case Some(impl: Method_definitionContext) =>
         visited.put(impl, true)
-        // Delegate to method definition visitor
-        sb.append(visit(impl.method_definition))
+        // Has definition. Delegate to method definition visitor
+        sb.append(visit(impl))
       case None =>
         // Has no definition
         val method_selector = ctx.method_selector()
         val method_type = Option(ctx.method_type())
         sb.append(createMethodHeader(method_selector, method_type))
-        sb.append(" {\n\n}\n")
+        sb.append(" {\n")
+        sb.append(indent(ctx) + "}\n")
     }
 
     sb.toString()
@@ -66,15 +73,29 @@ trait MethodVisitor extends Converter {
    * @return Strings of Swift code
    */
   override def visitInstance_method_definition(ctx: Instance_method_definitionContext): String =
-    Option(visited.get(ctx)) match {
+    Option(visited.get(ctx.method_definition())) match {
       case Some(c) => "" // Already printed
       case _ =>
         // Private method
-        visited.put(ctx, true)
+        visited.put(ctx.method_definition(), true)
         val sb = new StringBuilder()
         sb.append(indent(ctx) + "private func")
         sb.append(visit(ctx.method_definition()))
         sb.toString()
+    }
+
+  override def visitClass_method_definition(ctx: Class_method_definitionContext): String =
+    Option(visited.get(ctx.method_definition())) match {
+      case Some(c) => "" // Already printed
+      case _ => ""
+        // Private class method??
+        /*
+        visited.put(ctx.method_definition(), true)
+        val sb = new StringBuilder()
+        sb.append(indent(ctx) + "private func")
+        sb.append(visit(ctx.method_definition()))
+        sb.toString()
+        */
     }
 
   override def visitMethod_definition(ctx: Method_definitionContext): String = {

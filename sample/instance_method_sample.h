@@ -1,6 +1,6 @@
 @interface InstanceMethodSample : NSObject<Protocol1, Protocol2>
 
-- (void)NoParamNoRet;
+- (void)noParamNoRet;
 - (void)oneIntParamNoRet:(int)p1;
 - (void)twoIntParamsNoRet:(int)n1 opt2:(int)n2;
 - (void)threeIntParamsNoRet:(int)n1 opt2:(int)n2 opt3:(int)n3;
@@ -9,9 +9,9 @@
 - (unsigned int)noParamUIntRet;
 - (signed int)noParamSIntRet;
 - (unsigned int)oneUIntParamUIntRet:(unsigned int)n1;
-- NoParamIdRet;
-- (void)NoParamNoRetHasBody;
-- (ClassA)SomeParamSomeRetHasBody:(ClassB)p1;
+- noParamIdRet;
+- (void)noParamNoRetHasBody;
+- (ClassA)someParamSomeRetHasBody:(ClassB)p1;
 - (long)noParamLongRet;
 - (unsigned long)noParamULongRet;
 - (long long)noParamLongLongRet;
@@ -22,6 +22,7 @@
 - (double)noParamDoubleRet;
 - (float)oneFloatParamFloatRet:(float)p1;
 - (double)oneFloatParamOneDoubleParamDoubleRet:(float)p1 dnum:(double)p2;
+- (void)noParamNoRetNoDef;
 - (NSNumber *)noParamNSNumberRetHasBody;
 - (NSString *)noParamNSStringRet;
 - (NSString *)oneNSStringParamNSStringRet:(NSString *)p1;
@@ -31,5 +32,6 @@
 - (NSString *)extNameSample1:(NSString *)p1 :(NSNumber *)p2;
 - (NSString *)extNameSample2:(NSString *)p1 p2:(NSNumber *)p2;
 - (NSString *)extNameSample3:(NSString *)p1 pp:(NSNumber *)p2;
+- (void)noParamNoRetNoDef2;
 
 @end
