@@ -26,6 +26,19 @@
     b = 2;
     break;
   }
+  for (a = 0; a < 10; a++) {
+    b += 1;
+  }
+  while (a < 10) {
+    ++a;
+  }
+  do {
+   b++;
+  } while (b < 10);
+
+  for(NSString *str in array){
+    NSLog(str);
+  }
 }
 
 @end

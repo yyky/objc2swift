@@ -69,6 +69,19 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     None
   }
 
+  def visitUnaryOperator(ctx: ParserRuleContext): String = {
+    val sb = new StringBuilder()
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode => sb.append(symbol.getSymbol.getText)
+        case _ => sb.append(visit(element))
+      }
+    }
+
+    sb.toString()
+  }
+
   def visitBinaryOperator(ctx: ParserRuleContext): String = {
     val sb = new StringBuilder()
 
@@ -88,6 +101,49 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
 
   override def visitExternal_declaration(ctx: External_declarationContext): String = {
     concatChildResults(ctx, "\n\n")
+  }
+
+  override def visitDeclaration(ctx: DeclarationContext): String = {
+    //TODO convert Swift grammer (dump objective-c grammer now)
+
+    val sb = new StringBuilder()
+    sb.append(indent(ctx))
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode => {
+          symbol.getSymbol.getText match {
+            case ";" => sb.append("\n")
+            case _ => null
+          }
+        }
+        case _ => sb.append(visit(element) + " ")
+      }
+    }
+
+    sb.toString()
+  }
+
+  override def visitDeclarator(ctx: DeclaratorContext): String = {
+    concatChildResults(ctx, "")
+  }
+
+  override def visitDirect_declarator(ctx: Direct_declaratorContext): String = {
+    val sb = new StringBuilder()
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode => {
+          symbol.getSymbol.getText match {
+            case "(" | ")" => sb.append(symbol.getSymbol.getText)
+            case _ => null
+          }
+        }
+        case _ => sb.append(visit(element))
+      }
+    }
+
+    sb.toString()
   }
 
   override def visitClass_interface(ctx: Class_interfaceContext): String = {
@@ -292,6 +348,116 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     sb.toString()
   }
 
+  override def visitFor_in_statement(ctx: For_in_statementContext): String = {
+    val sb = new StringBuilder()
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode => {
+          symbol.getSymbol.getText match {
+            case "for" => sb.append("for")
+            case "in" => sb.append(" in ")
+            case "(" | ")" => sb.append(" ")
+            case _ => null
+          }
+        }
+        case expression: ExpressionContext => {
+          sb.append(visit(expression))
+        }
+        case statement: StatementContext => {
+          sb.append("{\n")
+          sb.append(indentString + visitChildren(statement) + "\n")
+          sb.append(indent(statement) +  "}\n")
+        }
+        case typeVariable: Type_variable_declaratorContext => {
+          sb.append(visit(typeVariable))
+        }
+        case _ => null
+      }
+    }
+    sb.toString()
+  }
+
+  override def visitFor_statement(ctx: For_statementContext): String = {
+    val sb = new StringBuilder()
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode => {
+          symbol.getSymbol.getText match {
+            case "for" => sb.append("for")
+            case "(" | ")" => sb.append(" ")
+            case ";" => sb.append("; ")
+            case _ => null
+          }
+        }
+        case expression: ExpressionContext => {
+          sb.append(visit(expression))
+        }
+        case statement: StatementContext => {
+          sb.append("{\n")
+          sb.append(indentString + visitChildren(statement) + "\n")
+          sb.append(indent(statement) +  "}\n")
+        }
+        case _ => null
+      }
+    }
+    sb.toString()
+  }
+
+  override def visitWhile_statement(ctx: While_statementContext): String = {
+    val sb = new StringBuilder()
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode => {
+          symbol.getSymbol.getText match {
+            case "while" => sb.append("while")
+            case "(" | ")" => sb.append(" ")
+            case _ => null
+          }
+        }
+        case expression: ExpressionContext => {
+          sb.append(visit(expression))
+        }
+        case statement: StatementContext => {
+          sb.append("{\n")
+          sb.append(indentString + visitChildren(statement) + "\n")
+          sb.append(indent(statement) +  "}\n")
+        }
+        case _ => null
+      }
+    }
+    sb.toString()
+  }
+
+  override def visitDo_statement(ctx: Do_statementContext): String = {
+    val sb = new StringBuilder()
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode => {
+          symbol.getSymbol.getText match {
+            case "do" => sb.append("do ")
+            case "while" => sb.append("while")
+            case "(" | ")" => sb.append(" ")
+            case _ => null
+          }
+        }
+        case expression: ExpressionContext => {
+          sb.append(visit(expression))
+        }
+        case statement: StatementContext => {
+          sb.append("{\n")
+          sb.append(indentString + visitChildren(statement) + "\n")
+          sb.append(indent(statement) +  "} ")
+        }
+        case _ => null
+      }
+    }
+    sb.toString()
+  }
+
   override def visitLabeled_statement(ctx: Labeled_statementContext): String = {
     val sb = new StringBuilder()
 
@@ -312,9 +478,16 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     sb.toString()
   }
 
+  override def visitType_variable_declarator(ctx: Type_variable_declaratorContext): String = {
+    concatChildResults(ctx, " ")
+  }
+
+  override def visitInit_declarator(ctx: Init_declaratorContext): String = {
+    visitBinaryOperator(ctx)
+  }
+
   override def visitEquality_expression(ctx: Equality_expressionContext): String = {
     visitBinaryOperator(ctx)
-
   }
 
   override def visitRelational_expression(ctx: Relational_expressionContext): String = {
@@ -324,7 +497,6 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
 
   override def visitLogical_or_expression(ctx: Logical_or_expressionContext): String = {
     visitBinaryOperator(ctx)
-
   }
 
   override def visitLogical_and_expression(ctx: Logical_and_expressionContext): String = {
@@ -340,6 +512,14 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     visitBinaryOperator(ctx)
   }
 
+  override def visitUnary_expression(ctx: Unary_expressionContext): String = {
+    visitUnaryOperator(ctx)
+  }
+
+  override def visitPostfix_expression(ctx: Postfix_expressionContext): String = {
+    visitUnaryOperator(ctx)
+  }
+
   override def visitAssignment_expression(ctx: Assignment_expressionContext): String = {
     concatChildResults(ctx, " ")
   }
@@ -347,4 +527,22 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
   override def visitAssignment_operator(ctx: Assignment_operatorContext): String = {
     ctx.getText
   }
+
+  override def visitPointer(ctx: PointerContext): String = {
+    val sb = new StringBuilder()
+
+    for (element <- ctx.children) {
+      if (! element.isInstanceOf[TerminalNode]) sb.append(visit(element))
+    }
+    sb.toString()
+  }
+
+  override def visitIdentifier(ctx: IdentifierContext): String = {
+    ctx.getText
+  }
+
+  override def visitConstant(ctx: ConstantContext): String = {
+    ctx.getText
+  }
+  
 }
