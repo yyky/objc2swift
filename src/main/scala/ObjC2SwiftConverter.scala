@@ -159,7 +159,6 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
 
   override def visitProperty_declaration(ctx: ObjCParser.Property_declarationContext): String = {
     val sb = new StringBuilder()
-    var type_of_variable = ""
     var property_attributes = ""
     var read_only = ""
 
@@ -180,6 +179,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     Option(ctx.struct_declaration()) match {
       case None =>
       case Some(struct_declaration) =>
+        var type_of_variable = ""
         val specifier_qualifier_list = struct_declaration.specifier_qualifier_list()
         val struct_declarator_list = struct_declaration.struct_declarator_list()
         var unowned_unsafe = ""
@@ -206,25 +206,21 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
             case None =>
             case Some(protocol_reference_list) =>
               val protocol_name = protocol_reference_list.protocol_list().protocol_name()
+              unowned_unsafe = "unowned(unsafe) "
 
               if(protocol_name.length == 1){
-                protocol_name.foreach { j =>
-                  type_of_variable = visit(j)
-                }
+                type_of_variable = visit(protocol_name.head)
               }else if(protocol_name.length > 1){
                 var protocol_names = ""
-                protocol_name.foreach { j =>
-                  protocol_names = protocol_names + visit(j) + ","
-                }
+                protocol_name.foreach (
+                  protocol_names += visit(_) + ","
+                )
                 type_of_variable = "protocol<" + protocol_names.stripSuffix(",") + ">"
                 optional = ""
               }
-              unowned_unsafe = "unowned(unsafe) "
           }
 
-          if(i.getText == "id"){
-            type_of_variable = "AnyObject"
-          }
+          if(i.getText == "id") type_of_variable = "AnyObject"
         }
 
         struct_declarator_list.struct_declarator.foreach { j =>
