@@ -9,14 +9,15 @@
  */
 
 import ObjCParser._
-import org.antlr.v4.runtime.ParserRuleContext
-import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeProperty}
+import org.antlr.v4.runtime.{CommonToken, ParserRuleContext}
+import org.antlr.v4.runtime.tree.{TerminalNode, ParseTree, ParseTreeProperty}
 import collection.JavaConversions._
 
 class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisitor[String] with MethodVisitor {
 
   val root = _root
   val visited = new ParseTreeProperty[Boolean]()
+  val indentString = " " * 4
 
   def getResult: String = visit(root)
 
@@ -36,7 +37,9 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     }
   }
 
-  def indent(node: ParserRuleContext): String = "    " * indentLevel(node)
+  def indent(node: ParserRuleContext): String = {
+    indentString * indentLevel(node)
+  }
 
   def findCorrespondingClassImplementation(classCtx: Class_interfaceContext): Class_implementationContext = {
     val list = root.external_declaration
@@ -64,6 +67,19 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
         }
     }
     None
+  }
+
+  def visitBinaryOperator(ctx: ParserRuleContext): String = {
+    val sb = new StringBuilder()
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode => sb.append(" " + symbol.getSymbol.getText + " ")
+        case _ => sb.append(visit(element))
+      }
+    }
+
+    sb.toString()
   }
 
   override def visitTranslation_unit(ctx: Translation_unitContext): String = {
@@ -184,9 +200,11 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     indent(ctx) + concatChildResults(ctx, " ") // TODO
   }
 
+
   override def visitJump_statement(ctx: Jump_statementContext): String = {
     ctx.getChild(0).getText match {
       case "return" => "return " + visit(ctx.expression)
+      case "break" => "" // TODO not implemented
       case _ => "" // TODO
     }
   }
@@ -235,4 +253,98 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     ctx.getText
   }
 
+  override def visitExpression(ctx: ExpressionContext): String = {
+    concatChildResults(ctx, "")
+  }
+
+  override def visitSelection_statement(ctx: Selection_statementContext): String = {
+    val sb = new StringBuilder()
+    var statement_kind = ""
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode => {
+          symbol.getSymbol.getText match {
+            case s if s == "if" || s == "switch" => {
+              sb.append(s)
+              statement_kind = s
+            }
+            case "(" | ")" => sb.append(" ")
+            case _ => null
+          }
+        }
+        case expression: ExpressionContext => {
+          sb.append(visit(expression))
+        }
+        case statement: StatementContext => {
+          sb.append("{\n")
+
+          if (statement_kind == "if") {
+            sb.append(indentString)
+          }
+          sb.append(visitChildren(statement) + "\n")
+          sb.append(indent(statement) +  "}\n")
+        }
+        case _ => null
+      }
+    }
+
+    sb.toString()
+  }
+
+  override def visitLabeled_statement(ctx: Labeled_statementContext): String = {
+    val sb = new StringBuilder()
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode => {
+          symbol.getSymbol.getText match {
+            case "case" => sb.append("case ")
+            case "default" => sb.append("default")
+            case ":" => sb.append(":\n" + indentString)
+            case _ => null
+          }
+        }
+        case _ => sb.append(visit(element))
+        //TODO fix indent bug
+      }
+    }
+    sb.toString()
+  }
+
+  override def visitEquality_expression(ctx: Equality_expressionContext): String = {
+    visitBinaryOperator(ctx)
+
+  }
+
+  override def visitRelational_expression(ctx: Relational_expressionContext): String = {
+    visitBinaryOperator(ctx)
+
+  }
+
+  override def visitLogical_or_expression(ctx: Logical_or_expressionContext): String = {
+    visitBinaryOperator(ctx)
+
+  }
+
+  override def visitLogical_and_expression(ctx: Logical_and_expressionContext): String = {
+    visitBinaryOperator(ctx)
+
+  }
+
+  override def visitAdditive_expression(ctx: Additive_expressionContext): String = {
+    visitBinaryOperator(ctx)
+  }
+
+  override def visitMultiplicative_expression(ctx: Multiplicative_expressionContext): String = {
+    visitBinaryOperator(ctx)
+  }
+
+  override def visitAssignment_expression(ctx: Assignment_expressionContext): String = {
+    concatChildResults(ctx, " ")
+  }
+
+  override def visitAssignment_operator(ctx: Assignment_operatorContext): String = {
+    ctx.getText
+  }
 }
