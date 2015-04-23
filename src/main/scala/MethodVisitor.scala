@@ -12,7 +12,6 @@ import ObjCParser._
 import collection.JavaConversions._
 
 trait MethodVisitor extends Converter {
-
   self: ObjC2SwiftConverter =>
 
   /**
@@ -43,15 +42,16 @@ trait MethodVisitor extends Converter {
     //
     // TODO: Support class method
     //
-    findCorrespondingMethodDefinition(ctx.parent.asInstanceOf[Instance_method_declarationContext]) match {
+    val dcl = ctx.parent.asInstanceOf[Instance_method_declarationContext]
+    findCorrespondingMethodDefinition(dcl) match {
       case Some(impl) =>
         visited.put(impl, true)
         // Delegate to method definition visitor
         sb.append(visit(impl.method_definition))
       case None =>
         // Has no definition
-        val method_selector: Method_selectorContext = ctx.method_selector()
-        val method_type: Option[Method_typeContext] = Option(ctx.method_type())
+        val method_selector = ctx.method_selector()
+        val method_type = Option(ctx.method_type())
         sb.append(createMethodHeader(method_selector, method_type))
         sb.append(" {\n\n}\n")
     }
@@ -169,14 +169,14 @@ trait MethodVisitor extends Converter {
    */
   override def visitMethod_type(ctx: Method_typeContext): String = {
     val defaultType = "AnyObject"
-    val specifier_qualifier_list: Specifier_qualifier_listContext =
-      ctx.type_name().specifier_qualifier_list()
+    val specifier_qualifier_list = ctx.type_name().specifier_qualifier_list()
+    val type_specifier = Option(specifier_qualifier_list.type_specifier())
 
-    (Option(specifier_qualifier_list.type_specifier()) match {
+    (type_specifier match {
       case None => defaultType
       case Some(contexts) =>
-        contexts.foldLeft(defaultType)((s, type_specifier_ctx) => {
-          visit(type_specifier_ctx) match {
+        contexts.foldLeft(defaultType){ (s: String, c: Type_specifierContext) =>
+          visit(c) match {
             case "Int8" if s == "unsigned"  => "UInt8"
             case "Int32" if s == "unsigned" => "UInt32"
             case "Int32" if s == "unsigned" => "UInt32"
@@ -185,11 +185,10 @@ trait MethodVisitor extends Converter {
             case t if t != ""               => t
             case _                          => s
           }
-        })
+        }
     }) match {
       case "void" => "" // No return type
       case s      => s
     }
   }
-
 }

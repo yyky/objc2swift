@@ -18,18 +18,15 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
   val root = _root
   val visited = new ParseTreeProperty[Boolean]()
 
-  def getResult: String = {
-    visit(root)
-  }
+  def getResult: String = visit(root)
 
   def concatChildResults(node: ParseTree, glue: String): String = {
     val children = for(i <- 0 until node.getChildCount) yield node.getChild(i)
     concatResults(children.toList, glue)
   }
 
-  def concatResults(nodes: List[ParseTree], glue: String): String = {
-    nodes.map(visit(_)).filter(_ != null).mkString(glue)
-  }
+  def concatResults(nodes: List[ParseTree], glue: String): String =
+    nodes.map(visit).filter(_ != null).mkString(glue)
 
   def indentLevel(node: ParserRuleContext): Int = {
     node.depth() match {
@@ -39,9 +36,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     }
   }
 
-  def indent(node: ParserRuleContext): String = {
-    "    " * indentLevel(node)
-  }
+  def indent(node: ParserRuleContext): String = "    " * indentLevel(node)
 
   def findCorrespondingClassImplementation(classCtx: Class_interfaceContext): Class_implementationContext = {
     val list = root.external_declaration
