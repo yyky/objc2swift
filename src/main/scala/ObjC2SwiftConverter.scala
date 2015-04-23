@@ -351,6 +351,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
   override def visitJump_statement(ctx: Jump_statementContext): String = {
     ctx.getChild(0).getText match {
       case "return" => "return " + visit(ctx.expression)
+      case "break" => "" // TODO not implemented
       case _ => "" // TODO
     }
   }
@@ -405,22 +406,17 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
 
   override def visitSelection_statement(ctx: Selection_statementContext): String = {
     val sb = new StringBuilder()
-    var statement_kind:String = ""
+    var statement_kind = ""
 
     for (element <- ctx.children) {
       element match {
         case symbol: TerminalNode => {
           symbol.getSymbol.getText match {
-            case "if" => {
-              sb.append("if")
-              statement_kind = "if"
+            case s if s == "if" || s == "switch" => {
+              sb.append(s)
+              statement_kind = s
             }
-            case "switch" => {
-              sb.append("switch")
-              statement_kind = "switch"
-            }
-            case "(" => sb.append(" ")
-            case ")" => sb.append(" ")
+            case "(" | ")" => sb.append(" ")
             case _ => null
           }
         }
@@ -457,6 +453,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
           }
         }
         case _ => sb.append(visit(element))
+        //TODO fix indent bug
       }
     }
     sb.toString()
