@@ -20,7 +20,7 @@ trait MethodVisitor extends Converter {
    *
    * @param ctx the parse tree
    * @return Strings of Swift's instance method code
-   **/
+   */
   override def visitInstance_method_declaration(ctx: Instance_method_declarationContext): String = {
     val sb = new StringBuilder()
 
@@ -36,7 +36,7 @@ trait MethodVisitor extends Converter {
    *
    * @param ctx the parse tree
    * @return Strings of Swift's method code
-   **/
+   */
   override def visitMethod_declaration(ctx: Method_declarationContext): String = {
     val sb = new StringBuilder()
 
@@ -64,7 +64,7 @@ trait MethodVisitor extends Converter {
    *
    * @param ctx the parse tree
    * @return Strings of Swift code
-   **/
+   */
   override def visitInstance_method_definition(ctx: Instance_method_definitionContext): String =
     Option(visited.get(ctx)) match {
       case Some(c) => "" // Already printed
@@ -109,7 +109,7 @@ trait MethodVisitor extends Converter {
       case None => sb.append("-> AnyObject") // Default
       case Some(c) => visit(c) match {
         case s if s != "" => sb.append(" -> " + s)
-        case _ => // void
+        case _            => // void
       }
     }
 
@@ -139,7 +139,7 @@ trait MethodVisitor extends Converter {
    *
    * @param ctx the parse tree
    * @return parameter code
-   **/
+   */
   override def visitKeyword_declarator(ctx: Keyword_declaratorContext): String = {
     // Method name or Parameter's External name
     val selector: String = Option(ctx.selector()).map(_.getText).getOrElse("")
@@ -155,7 +155,7 @@ trait MethodVisitor extends Converter {
     val sep: String = selector match {
       case s if s == ""        => "" // No external name
       case s if s == paramName => "" // Same name
-      case _ => selector + "%s"
+      case _                   => selector + "%s"
     }
 
     sep + paramName + ": " + paramType
@@ -166,7 +166,7 @@ trait MethodVisitor extends Converter {
    *
    * @param ctx the parse tree
    * @return Swift method type
-   **/
+   */
   override def visitMethod_type(ctx: Method_typeContext): String = {
     val defaultType = "AnyObject"
     val specifier_qualifier_list: Specifier_qualifier_listContext =
@@ -177,18 +177,18 @@ trait MethodVisitor extends Converter {
       case Some(contexts) =>
         contexts.foldLeft(defaultType)((s, type_specifier_ctx) => {
           visit(type_specifier_ctx) match {
-            case "Int8"  if s == "unsigned" => "UInt8"
+            case "Int8" if s == "unsigned"  => "UInt8"
             case "Int32" if s == "unsigned" => "UInt32"
             case "Int32" if s == "unsigned" => "UInt32"
             case "Int32" if s == "Int32"    => "Int64"
             case "Int32" if s == "UInt32"   => "UInt64"
-            case t if t != "" => t
-            case _ => s
+            case t if t != ""               => t
+            case _                          => s
           }
         })
     }) match {
       case "void" => "" // No return type
-      case s => s
+      case s      => s
     }
   }
 

@@ -154,7 +154,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
    *
    * TODO: Implement other types
    *
-   **/
+   */
   override def visitType_specifier(ctx: Type_specifierContext): String =
     ctx.getText match {
       case "void"   => "void"
