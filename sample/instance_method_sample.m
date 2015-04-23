@@ -1,3 +1,8 @@
+@interface InstanceMethodSample () {
+
+}
+@end
+
 @implementation InstanceMethodSample
 
 - (void)NoParamNoRet {
@@ -34,7 +39,7 @@
     ;
 }
 
-- (ClassA)SomeParamSomeRet:(ClassB)p1 {
+- (ClassA)SomeParamSomeRetHasBody:(ClassB)p1 {
     ;
 }
 
@@ -68,7 +73,7 @@
 - (double)oneFloatParamOneDoubleParamDoubleRet:(float)p1 dnum:(double)p2 {
 }
 
-- (NSNumber *)noParamNSNumberRet {
+- (NSNumber *)noParamNSNumberRetHasBody {
     [self noParamIntRet];
     [self oneIntParamIntRet:1];
 }
@@ -97,4 +102,11 @@
 - (NSString *)extNameSample3:(NSString *)p1 pp:(NSNumber *)p2 {
 }
 
+- (NSString *)privateMethodSample:(NSString *)p1 pp:(NSNumber *)p2 {
+}
+
+- (NSString *)privateMethodSampleHasBody:(NSString *)p1 pp:(NSNumber *)p2 {
+    [self noParamIntRet];
+    [self oneIntParamIntRet:1];
+}
 @end
