@@ -4,5 +4,9 @@
         z = x;
     }
 }
++ (void)privateClassMethodHasDef {
+    if (x > y) {
+        z = y;
+    }
+}
 @end
-
