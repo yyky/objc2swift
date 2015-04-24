@@ -258,7 +258,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     }
 
   override def visitClass_implementation(ctx: Class_implementationContext): String = {
-    // TODO: Considier what to print
+    // TODO: Considier what to do
     //concatChildResults(ctx, "")
     ""
   }
