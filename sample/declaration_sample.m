@@ -1,0 +1,2 @@
+@implementation Declaration
+@end
