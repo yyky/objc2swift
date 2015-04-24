@@ -87,15 +87,13 @@ trait MethodVisitor extends Converter {
   override def visitClass_method_definition(ctx: Class_method_definitionContext): String =
     Option(visited.get(ctx.method_definition())) match {
       case Some(c) => "" // Already printed
-      case _ => ""
-        // Private class method??
-        /*
+      case _ =>
+        // Private class method
         visited.put(ctx.method_definition(), true)
         val sb = new StringBuilder()
-        sb.append(indent(ctx) + "private func")
+        sb.append(indent(ctx) + "private class func")
         sb.append(visit(ctx.method_definition()))
         sb.toString()
-        */
     }
 
   override def visitMethod_definition(ctx: Method_definitionContext): String = {

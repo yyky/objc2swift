@@ -9,4 +9,7 @@
         z = y;
     }
 }
++ (double)oneFloatParamOneDoubleParamDoubleRet:(float)p1 dnum:(double)p2 {
+    return p2;
+}
 @end
