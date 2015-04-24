@@ -186,20 +186,12 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
         var optional = "?"
 
         specifier_qualifier_list.type_specifier().foreach { i =>
-          Option(i.class_name) match {
-            case None =>
-            case Some(class_name) =>
-              visit(class_name) match {
-                case s if s == "IBOutlet" =>
-                  sb.append("@" + s + " " + property_attributes + " ")
-                  optional = "!"
-                case "NSInteger" | "NSUInteger" => type_of_variable = "Int"
-                case "NSDictionary" => type_of_variable = "[NSObject : AnyObject]"
-                case "SEL" => type_of_variable = "Selector"
-                case "BOOL" => type_of_variable = "Bool"
-                case "NSArray" => type_of_variable = "[AnyObject]"
-                case s => type_of_variable = s
-              }
+          visit(i) match {
+            case s if s == "IBOutlet" =>
+              sb.append("@" + s + " " + property_attributes + " ")
+              optional = "!"
+            case s =>
+              type_of_variable = s
           }
 
           Option(i.protocol_reference_list()) match {
@@ -219,8 +211,6 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
                 optional = ""
               }
           }
-
-          if(i.getText == "id") type_of_variable = "AnyObject"
         }
 
         struct_declarator_list.struct_declarator.foreach { j =>
@@ -258,6 +248,11 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
       case "long"   => "Int32"
       case "float"  => "Float"
       case "double" => "Double"
+      case "NSInteger" | "NSUInteger" => "Int"
+      case "NSArray" => "[AnyObject]"
+      case "NSDictionary" => "[NSObject : AnyObject]"
+      case "SEL" => "Selector"
+      case "BOOL" => "Bool"
       case s if s != "" => s
       case _ => "AnyObject"
     }
