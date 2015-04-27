@@ -175,7 +175,7 @@ trait MethodVisitor extends Converter {
     (type_specifier match {
       case None => defaultType
       case Some(contexts) =>
-        contexts.foldLeft(defaultType){ (s: String, c: Type_specifierContext) =>
+        contexts.foldLeft(defaultType)((s, c) =>
           visit(c) match {
             case "Int8" if s == "unsigned"  => "UInt8"
             case "Int32" if s == "unsigned" => "UInt32"
@@ -185,7 +185,7 @@ trait MethodVisitor extends Converter {
             case t if t != ""               => t
             case _                          => s
           }
-        }
+        )
     }) match {
       case "void" => "" // No return type
       case s      => s
