@@ -21,7 +21,8 @@ class ObjC2SwiftConverter(_root: Translation_unitContext)
   with DeclarationVisitor
   with StatementVisitor
   with ExpressionVisitor
-  with OperatorVisitor {
+  with OperatorVisitor
+  with TypeVisitor {
 
   val root = _root
 }
