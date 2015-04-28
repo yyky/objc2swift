@@ -12,7 +12,7 @@ import ObjCParser._
 import collection.JavaConversions._
 
 trait MethodVisitor extends Converter {
-  self: ObjC2SwiftConverter =>
+  self: ObjCBaseVisitor[String] =>
 
   /**
    * Convert instance method declaration(interface).
