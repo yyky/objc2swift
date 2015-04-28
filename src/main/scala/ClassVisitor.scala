@@ -22,8 +22,13 @@ trait ClassVisitor extends Converter {
       case None =>
     }
 
+    // TODO merge class-ext (aka unnamed-category)
+
     // implementation of class
     sb.append(" {\n")
+
+    // TODO collect instance-vars from @intf, @impl and class-ext
+    // TODO only insert \n\n in between method blocks.
 
     Option(ctx.interface_declaration_list) match {
       case Some(c) => sb.append(visit(c) + "\n\n")
