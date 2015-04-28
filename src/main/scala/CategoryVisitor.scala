@@ -17,6 +17,11 @@ trait CategoryVisitor extends Converter {
   override def visitCategory_name(ctx: Category_nameContext) = ctx.getText
 
   override def visitCategory_interface(ctx: Category_interfaceContext): String = {
+    // ignore class-extension (unnamed-category).
+    if(ctx.category_name == null) {
+      return ""
+    }
+
     val sb = new StringBuilder()
 
     // extension [CLASS-NAME]
@@ -33,7 +38,7 @@ trait CategoryVisitor extends Converter {
     }
 
     findCorrespondingCategoryImplementation(ctx) match {
-      case Some(c) => sb.append(visit(c) + "\n")
+      case Some(c) => sb.append(visit(c.implementation_definition_list) + "\n")
       case None =>
     }
 
@@ -42,7 +47,6 @@ trait CategoryVisitor extends Converter {
     sb.toString()
   }
 
-  override def visitCategory_implementation(ctx: Category_implementationContext): String = {
-    visit(ctx.implementation_definition_list)
-  }
+  // ignore category implementation with no corresponding interface.
+  override def visitCategory_implementation(ctx: Category_implementationContext): String = ""
 }

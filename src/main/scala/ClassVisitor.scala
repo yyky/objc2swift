@@ -31,7 +31,7 @@ trait ClassVisitor extends Converter {
     }
 
     findCorrespondingClassImplementation(ctx) match {
-      case Some(c) => sb.append(visit(c) + "\n")
+      case Some(c) => sb.append(visit(c.implementation_definition_list) + "\n")
       case None =>
     }
 
@@ -44,11 +44,10 @@ trait ClassVisitor extends Converter {
     concatChildResults(ctx, "\n\n")
   }
 
-  override def visitClass_implementation(ctx: Class_implementationContext) = {
-    visit(ctx.implementation_definition_list())
-  }
-
   override def visitImplementation_definition_list(ctx: Implementation_definition_listContext) = {
     concatChildResults(ctx, "\n\n")
   }
+
+  // ignore implementation with no corresponding interface.
+  override def visitClass_implementation(ctx: Class_implementationContext) = ""
 }

@@ -71,9 +71,6 @@ trait Converter extends ObjCBaseVisitor[String] {
     val className = catCtx.class_name.getText
     val categoryName = catCtx.category_name.getText
 
-    if(categoryName == null)
-      return None
-
     for(extDclCtx <- root.external_declaration) {
       Option(extDclCtx.category_implementation) match {
         case Some(implCtx) =>
