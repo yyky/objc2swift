@@ -1,11 +1,9 @@
 @interface InstanceMethodSample () {
-
 }
 @end
 
 @implementation InstanceMethodSample
-
-- (void)NoParamNoRet {
+- (void)noParamNoRet {
 }
 
 - (void)oneIntParamNoRet:(int)p1 {
@@ -32,14 +30,14 @@
 - (unsigned int)oneUIntParamUIntRet:(unsigned int)n1 {
 }
 
-- NoParamIdRet {
+- noParamIdRet {
 }
 
-- (void)NoParamNoRetHasBody {
+- (void)noParamNoRetHasBody {
     ;
 }
 
-- (ClassA)SomeParamSomeRetHasBody:(ClassB)p1 {
+- (ClassA)someParamSomeRetHasBody:(ClassB)p1 {
     ;
 }
 

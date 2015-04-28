@@ -54,16 +54,27 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     null
   }
 
-  def findCorrespondingMethodDefinition(declCtx: Instance_method_declarationContext): Option[Instance_method_definitionContext] = {
-    val classCtx = declCtx.parent.parent.asInstanceOf[Class_interfaceContext]
+  def findCorrespondingMethodDefinition(declCtx: Method_declarationContext): Option[Method_definitionContext] = {
+    val classCtx = declCtx.parent.parent.parent.asInstanceOf[Class_interfaceContext]
+
     Option(findCorrespondingClassImplementation(classCtx)) match {
       case None =>
       case Some(implCtx) =>
-        for (ctx <- implCtx.implementation_definition_list.children if ctx.isInstanceOf[Instance_method_definitionContext]) {
-          val defCtx = ctx.asInstanceOf[Instance_method_definitionContext]
-          if (defCtx.method_definition.method_selector.getText == declCtx.method_declaration.method_selector.getText) {
-            return Some(defCtx)
-          }
+        declCtx.parent match {
+          case p: Instance_method_declarationContext =>
+            for (ctx <- implCtx.implementation_definition_list.children if ctx.isInstanceOf[Instance_method_definitionContext]) {
+              val defCtx = ctx.asInstanceOf[Instance_method_definitionContext]
+              if (defCtx.method_definition.method_selector.getText == declCtx.method_selector.getText)
+                return Some(defCtx.method_definition())
+            }
+          case p: Class_method_declarationContext =>
+            for (ctx <- implCtx.implementation_definition_list.children if ctx.isInstanceOf[Class_method_definitionContext]) {
+              val defCtx = ctx.asInstanceOf[Class_method_definitionContext]
+              if (defCtx.method_definition.method_selector.getText == declCtx.method_selector.getText)
+                return Some(defCtx.method_definition())
+            }
+          //case p: Class_method_declarationContext => None
+          case _ =>
         }
     }
     None
