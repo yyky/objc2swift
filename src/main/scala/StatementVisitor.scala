@@ -89,4 +89,97 @@ trait StatementVisitor extends Converter {
     }
     sb.toString()
   }
+
+  override def visitFor_in_statement(ctx: For_in_statementContext): String = {
+    val sb = new StringBuilder()
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode =>
+          symbol.getSymbol.getText match {
+            case "for" => sb.append("for")
+            case "in" => sb.append(" in ")
+            case "(" | ")" => sb.append(" ")
+            case _ => null
+          }
+        case expression: ExpressionContext => sb.append(visit(expression))
+        case statement: StatementContext =>
+          sb.append("{\n")
+          sb.append(indentString + visitChildren(statement) + "\n")
+          sb.append(indent(statement) +  "}\n")
+        case typeVariable: Type_variable_declaratorContext => sb.append(visit(typeVariable))
+        case _ => null
+      }
+    }
+    sb.toString()
+  }
+
+  override def visitFor_statement(ctx: For_statementContext): String = {
+    val sb = new StringBuilder()
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode =>
+          symbol.getSymbol.getText match {
+            case "for" => sb.append("for")
+            case "(" | ")" => sb.append(" ")
+            case ";" => sb.append("; ")
+            case _ => null
+          }
+        case expression: ExpressionContext => sb.append(visit(expression))
+        case statement: StatementContext =>
+          sb.append("{\n")
+          sb.append(indentString + visitChildren(statement) + "\n")
+          sb.append(indent(statement) +  "}\n")
+        case _ => null
+      }
+    }
+    sb.toString()
+  }
+
+  override def visitWhile_statement(ctx: While_statementContext): String = {
+    val sb = new StringBuilder()
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode =>
+          symbol.getSymbol.getText match {
+            case "while" => sb.append("while")
+            case "(" | ")" => sb.append(" ")
+            case _ => null
+          }
+        case expression: ExpressionContext => sb.append(visit(expression))
+        case statement: StatementContext =>
+          sb.append("{\n")
+          sb.append(indentString + visitChildren(statement) + "\n")
+          sb.append(indent(statement) +  "}\n")
+        case _ => null
+      }
+    }
+    sb.toString()
+  }
+
+  override def visitDo_statement(ctx: Do_statementContext): String = {
+    val sb = new StringBuilder()
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode =>
+          symbol.getSymbol.getText match {
+            case "do" => sb.append("do ")
+            case "while" => sb.append("while")
+            case "(" | ")" => sb.append(" ")
+            case _ => null
+          }
+        case expression: ExpressionContext => sb.append(visit(expression))
+        case statement: StatementContext =>
+          sb.append("{\n")
+          sb.append(indentString + visitChildren(statement) + "\n")
+          sb.append(indent(statement) +  "} ")
+        case _ => null
+      }
+    }
+    sb.toString()
+  }
+
 }

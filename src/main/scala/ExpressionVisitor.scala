@@ -29,6 +29,20 @@ trait ExpressionVisitor extends Converter {
 
     sb.toString()
   }
+
+  def visitUnaryOperator(ctx: ParserRuleContext): String = {
+    val sb = new StringBuilder()
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode => sb.append(symbol.getSymbol.getText)
+        case _ => sb.append(visit(element))
+      }
+    }
+
+    sb.toString()
+  }
+
   override def visitMessage_expression(ctx: Message_expressionContext): String = {
     val sel = ctx.message_selector()
 
@@ -70,9 +84,7 @@ trait ExpressionVisitor extends Converter {
     ctx.getText
   }
 
-  override def visitExpression(ctx: ExpressionContext): String = {
-    concatChildResults(ctx, "")
-  }
+  override def visitExpression(ctx: ExpressionContext): String = concatChildResults(ctx, "")
 
   override def visitEquality_expression(ctx: Equality_expressionContext)       = visitBinaryOperator(ctx)
   override def visitRelational_expression(ctx: Relational_expressionContext)   = visitBinaryOperator(ctx)
@@ -80,5 +92,9 @@ trait ExpressionVisitor extends Converter {
   override def visitLogical_and_expression(ctx: Logical_and_expressionContext) = visitBinaryOperator(ctx)
   override def visitAdditive_expression(ctx: Additive_expressionContext)       = visitBinaryOperator(ctx)
   override def visitMultiplicative_expression(ctx: Multiplicative_expressionContext) = visitBinaryOperator(ctx)
-  override def visitAssignment_expression(ctx: Assignment_expressionContext)   = visitBinaryOperator(ctx)
+
+  override def visitAssignment_expression(ctx: Assignment_expressionContext): String = concatChildResults(ctx, " ")
+
+  override def visitUnary_expression(ctx: Unary_expressionContext)             = visitUnaryOperator(ctx)
+  override def visitPostfix_expression(ctx: Postfix_expressionContext)         = visitUnaryOperator(ctx)
 }
