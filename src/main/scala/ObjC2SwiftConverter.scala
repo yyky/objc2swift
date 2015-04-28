@@ -191,10 +191,10 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
 
     Option(ctx.struct_declaration()) match {
       case None =>
-      case Some(struct_declaration) =>
+      case Some(s) =>
         var type_of_variable = ""
-        val specifier_qualifier_list = struct_declaration.specifier_qualifier_list()
-        val struct_declarator_list = struct_declaration.struct_declarator_list()
+        val specifier_qualifier_list = s.specifier_qualifier_list()
+        val struct_declarator_list = s.struct_declarator_list()
         var weak = ""
         var optional = "?"
 
@@ -243,6 +243,10 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     ctx.property_attribute().map(visit).mkString(", ")
   }
   override def visitProperty_attribute(ctx: Property_attributeContext) = ctx.getText
+
+  override def visitSpecifier_qualifier_list(ctx: Specifier_qualifier_listContext) = {
+    ctx.type_specifier().map(visit).mkString(", ")
+  }
 
   override def visitClass_name(ctx: Class_nameContext) = ctx.getText
   override def visitProtocol_name(ctx: Protocol_nameContext) = ctx.getText
