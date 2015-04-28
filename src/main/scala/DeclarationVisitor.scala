@@ -13,7 +13,7 @@ import collection.JavaConversions._
 
 trait DeclarationVisitor extends Converter {
 
-  self: ObjC2SwiftConverter =>
+  self: ObjCBaseVisitor[String] =>
 
   override def visitDeclaration(ctx: DeclarationContext): String = {
     val sb = new StringBuilder()

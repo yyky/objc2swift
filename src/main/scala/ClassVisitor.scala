@@ -1,1 +1,3 @@
-trait ClassVisitor extends Converter
+trait ClassVisitor extends Converter {
+  self: ObjCBaseVisitor[String] =>
+}
