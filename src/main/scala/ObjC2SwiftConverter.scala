@@ -114,49 +114,6 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     concatChildResults(ctx, "\n\n")
   }
 
-  override def visitDeclaration(ctx: DeclarationContext): String = {
-    //TODO convert Swift grammer (dump objective-c grammer now)
-
-    val sb = new StringBuilder()
-    sb.append(indent(ctx))
-
-    for (element <- ctx.children) {
-      element match {
-        case symbol: TerminalNode => {
-          symbol.getSymbol.getText match {
-            case ";" => sb.append("\n")
-            case _ => null
-          }
-        }
-        case _ => sb.append(visit(element) + " ")
-      }
-    }
-
-    sb.toString()
-  }
-
-  override def visitDeclarator(ctx: DeclaratorContext): String = {
-    concatChildResults(ctx, "")
-  }
-
-  override def visitDirect_declarator(ctx: Direct_declaratorContext): String = {
-    val sb = new StringBuilder()
-
-    for (element <- ctx.children) {
-      element match {
-        case symbol: TerminalNode => {
-          symbol.getSymbol.getText match {
-            case "(" | ")" => sb.append(symbol.getSymbol.getText)
-            case _ => null
-          }
-        }
-        case _ => sb.append(visit(element))
-      }
-    }
-
-    sb.toString()
-  }
-
   override def visitClass_interface(ctx: Class_interfaceContext): String = {
     val sb = new StringBuilder()
     sb.append("class " + ctx.class_name.getText)
@@ -571,14 +528,6 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
       }
     }
     sb.toString()
-  }
-
-  override def visitType_variable_declarator(ctx: Type_variable_declaratorContext): String = {
-    concatChildResults(ctx, " ")
-  }
-
-  override def visitInit_declarator(ctx: Init_declaratorContext): String = {
-    visitBinaryOperator(ctx)
   }
 
   override def visitEquality_expression(ctx: Equality_expressionContext): String = {
