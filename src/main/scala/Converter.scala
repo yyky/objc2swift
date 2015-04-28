@@ -33,8 +33,12 @@ trait Converter extends ObjCBaseVisitor[String] {
   }
 
   override def visit(tree: ParseTree): String = {
-    setVisited(tree)
-    super.visit(tree)
+    isVisited(tree) match {
+      case true => ""
+      case false =>
+        setVisited(tree)
+        super.visit(tree)
+    }
   }
 
   def isVisited(node: ParseTree) = {
@@ -63,36 +67,51 @@ trait Converter extends ObjCBaseVisitor[String] {
     None
   }
 
+  def findCorrespondingCategoryImplementation(catCtx: Category_interfaceContext): Option[Category_implementationContext] = {
+    val className = catCtx.class_name.getText
+    val categoryName = catCtx.category_name.getText
+
+    if(categoryName == null)
+      return None
+
+    for(extDclCtx <- root.external_declaration) {
+      Option(extDclCtx.category_implementation) match {
+        case Some(implCtx) =>
+          (implCtx.class_name.getText, implCtx.category_name.getText) match {
+            case (`className`, `categoryName`) => return Some(implCtx)
+            case _ =>
+          }
+        case None =>
+      }
+    }
+    None
+  }
+
   def findCorrespondingMethodDefinition(declCtx: Method_declarationContext): Option[Method_definitionContext] = {
-    // FIXME support category
-    declCtx.parent.parent.parent match {
+    val selector = declCtx.method_selector.getText
+
+    val implDefList = declCtx.parent.parent.parent match {
       case classCtx: Class_interfaceContext =>
+        findCorrespondingClassImplementation(classCtx) match {
+          case Some(implCtx) => implCtx.implementation_definition_list
+          case None => return None
+        }
+      case catCtx: Category_interfaceContext =>
+        findCorrespondingCategoryImplementation(catCtx) match {
+          case Some(implCtx) => implCtx.implementation_definition_list
+          case None => return None
+        }
       case _ => return None
     }
 
-    val classCtx = declCtx.parent.parent.parent.asInstanceOf[Class_interfaceContext]
-
-    findCorrespondingClassImplementation(classCtx) match {
-      case None =>
-      case Some(implCtx) =>
-        declCtx.parent match {
-          case p: Instance_method_declarationContext =>
-            for (ctx <- implCtx.implementation_definition_list.children if ctx.isInstanceOf[Instance_method_definitionContext]) {
-              val defCtx = ctx.asInstanceOf[Instance_method_definitionContext]
-              if (defCtx.method_definition.method_selector.getText == declCtx.method_selector.getText)
-                return Some(defCtx.method_definition())
-            }
-          case p: Class_method_declarationContext =>
-            for (ctx <- implCtx.implementation_definition_list.children if ctx.isInstanceOf[Class_method_definitionContext]) {
-              val defCtx = ctx.asInstanceOf[Class_method_definitionContext]
-              if (defCtx.method_definition.method_selector.getText == declCtx.method_selector.getText)
-                return Some(defCtx.method_definition())
-            }
-          //case p: Class_method_declarationContext => None
-          case _ =>
-        }
+    declCtx.parent match {
+      case _: Instance_method_declarationContext =>
+        implDefList.instance_method_definition.map(_.method_definition()).find(_.method_selector.getText == selector)
+      case _: Class_method_declarationContext =>
+        implDefList.class_method_definition   .map(_.method_definition()).find(_.method_selector.getText == selector)
+      case _ =>
+        None
     }
-    None
   }
 
   override def visitTranslation_unit(ctx: Translation_unitContext): String = {

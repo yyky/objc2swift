@@ -14,23 +14,6 @@ import collection.JavaConversions._
 trait CategoryVisitor extends Converter {
   self: ObjCBaseVisitor[String] =>
 
-  def findCorrespondingCategoryImplementation(catCtx: Category_interfaceContext): Option[Category_implementationContext] = {
-    val className = catCtx.class_name.getText
-    val categoryName = catCtx.category_name.getText
-
-    for(extDclCtx <- root.external_declaration) {
-      Option(extDclCtx.category_implementation) match {
-        case Some(implCtx) =>
-          (implCtx.class_name.getText, implCtx.category_name.getText) match {
-            case (`className`, `categoryName`) => return Some(implCtx)
-            case _ =>
-          }
-        case None =>
-      }
-    }
-    None
-  }
-
   override def visitCategory_name(ctx: Category_nameContext) = ctx.getText
 
   override def visitCategory_interface(ctx: Category_interfaceContext): String = {
