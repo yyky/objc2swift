@@ -1,1 +1,0 @@
-trait ClassVisitor extends Converter
