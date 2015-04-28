@@ -4,14 +4,6 @@ import collection.JavaConversions._
 trait ExternalDeclarationVisitor extends Converter {
   self: ObjCBaseVisitor[String] =>
 
-  override def visitTranslation_unit(ctx: Translation_unitContext): String = {
-    concatChildResults(ctx, "")
-  }
-
-  override def visitExternal_declaration(ctx: External_declarationContext): String = {
-    concatChildResults(ctx, "\n\n")
-  }
-
   override def visitClass_interface(ctx: Class_interfaceContext): String = {
     val sb = new StringBuilder()
 
@@ -30,14 +22,12 @@ trait ExternalDeclarationVisitor extends Converter {
     // implementation of class
     sb.append(" {\n")
     Option(ctx.interface_declaration_list) match {
-      case Some(c) => sb.append(visit(c))
+      case Some(c) => sb.append(visit(c) + "\n\n")
       case None =>
     }
 
     findCorrespondingClassImplementation(ctx) match {
-      case Some(c) =>
-        setVisited(c)
-        sb.append(visit(c.implementation_definition_list))
+      case Some(c) => sb.append(visit(c))
       case None =>
     }
 
@@ -66,23 +56,17 @@ trait ExternalDeclarationVisitor extends Converter {
     sb.toString()
   }
 
-  override def visitInterface_declaration_list(ctx: Interface_declaration_listContext): String = {
-    concatChildResults(ctx, "\n")
+  override def visitInterface_declaration_list(ctx: Interface_declaration_listContext) = {
+    concatChildResults(ctx, "\n\n")
   }
 
-  override def visitClass_implementation(ctx: Class_implementationContext): String = {
-
-    // TODO: Considier what to do
-    //concatChildResults(ctx, "")
-    ""
+  override def visitClass_implementation(ctx: Class_implementationContext) = {
+    visit(ctx.implementation_definition_list())
   }
 
-  override def visitCategory_implementation(ctx: Category_implementationContext): String = {
-    // TODO
-    ""
+  override def visitImplementation_definition_list(ctx: Implementation_definition_listContext) = {
+    concatChildResults(ctx, "\n\n")
   }
-
-  override def visitImplementation_definition_list(ctx: Implementation_definition_listContext) = concatChildResults(ctx, "")
 
   override def visitClass_name(ctx: Class_nameContext) = ctx.getText
   override def visitSuperclass_name(ctx: Superclass_nameContext) = ctx.getText

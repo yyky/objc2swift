@@ -58,7 +58,7 @@ trait MethodVisitor extends Converter {
         val method_type = Option(ctx.method_type())
         sb.append(createMethodHeader(method_selector, method_type))
         sb.append(" {\n")
-        sb.append(indent(ctx) + "}\n")
+        sb.append(indent(ctx) + "}")
     }
 
     sb.toString()
@@ -100,7 +100,7 @@ trait MethodVisitor extends Converter {
     sb.append(createMethodHeader(method_selector, method_type))
     sb.append(" {\n")
     sb.append(visit(ctx.compound_statement()) + "\n")
-    sb.append(indent(ctx) + "}\n")
+    sb.append(indent(ctx) + "}")
 
     sb.toString()
   }

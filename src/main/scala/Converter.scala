@@ -18,7 +18,7 @@ trait Converter extends ObjCBaseVisitor[String] {
   }
 
   def concatResults(nodes: List[ParseTree], glue: String): String =
-    nodes.map(visit).filter(_ != null).mkString(glue)
+    nodes.map(visit).filter(s => s != null && s != "").mkString(glue)
 
   def indentLevel(node: ParserRuleContext): Int = {
     node.depth() match {
@@ -87,5 +87,13 @@ trait Converter extends ObjCBaseVisitor[String] {
         }
     }
     None
+  }
+
+  override def visitTranslation_unit(ctx: Translation_unitContext): String = {
+    concatChildResults(ctx, "\n\n")
+  }
+
+  override def visitExternal_declaration(ctx: External_declarationContext): String = {
+    concatChildResults(ctx, "")
   }
 }
