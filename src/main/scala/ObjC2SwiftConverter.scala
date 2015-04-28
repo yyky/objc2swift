@@ -24,31 +24,4 @@ class ObjC2SwiftConverter(_root: Translation_unitContext)
   with OperatorVisitor {
 
   val root = _root
-
-  /**
-   * Convert Objective-C type to Swift type.
-   *
-   * @param ctx the parse tree
-   * @return Swift type strings
-   *
-   * TODO: Implement other types
-   *
-   */
-  override def visitType_specifier(ctx: Type_specifierContext): String =
-    ctx.getText match {
-      case "void"   => "void"
-      case "id"     => "AnyObject"
-      case "short"  => "Int8"
-      case "int"    => "Int32"
-      case "long"   => "Int32"
-      case "float"  => "Float"
-      case "double" => "Double"
-      case "NSInteger" | "NSUInteger" => "Int"
-      case "NSArray" => "[AnyObject]"
-      case "NSDictionary" => "[NSObject : AnyObject]"
-      case "SEL" => "Selector"
-      case "BOOL" => "Bool"
-      case s if s != "" => s
-      case _ => "AnyObject"
-    }
 }
