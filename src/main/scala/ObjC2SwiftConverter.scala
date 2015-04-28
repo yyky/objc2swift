@@ -20,7 +20,8 @@ class ObjC2SwiftConverter(_root: Translation_unitContext)
   with MethodVisitor
   with DeclarationVisitor
   with StatementVisitor
-  with ExpressionVisitor {
+  with ExpressionVisitor
+  with OperatorVisitor {
 
   val root = _root
 
@@ -50,8 +51,4 @@ class ObjC2SwiftConverter(_root: Translation_unitContext)
       case s if s != "" => s
       case _ => "AnyObject"
     }
-
-  override def visitAssignment_operator(ctx: Assignment_operatorContext): String = {
-    ctx.getText
-  }
 }
