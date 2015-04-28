@@ -14,7 +14,9 @@ import collection.JavaConversions._
 
 class ObjC2SwiftConverter(_root: Translation_unitContext)
   extends ObjCBaseVisitor[String]
-  with ExternalDeclarationVisitor
+  with ClassVisitor
+  with CategoryVisitor
+  with ProtocolVisitor
   with PropertyVisitor
   with MethodVisitor
   with DeclarationVisitor

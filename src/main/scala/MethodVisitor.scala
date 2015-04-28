@@ -51,8 +51,6 @@ trait MethodVisitor extends Converter {
 
     findCorrespondingMethodDefinition(ctx) match {
       case Some(impl: Method_definitionContext) =>
-        visited.put(impl, true)
-        // Has definition. Delegate to method definition visitor
         sb.append(visit(impl))
       case None =>
         // Has no definition
@@ -60,7 +58,7 @@ trait MethodVisitor extends Converter {
         val method_type = Option(ctx.method_type())
         sb.append(createMethodHeader(method_selector, method_type))
         sb.append(" {\n")
-        sb.append(indent(ctx) + "}\n")
+        sb.append(indent(ctx) + "}")
     }
 
     sb.toString()
@@ -73,11 +71,10 @@ trait MethodVisitor extends Converter {
    * @return Strings of Swift code
    */
   override def visitInstance_method_definition(ctx: Instance_method_definitionContext): String =
-    Option(visited.get(ctx.method_definition())) match {
-      case Some(c) => "" // Already printed
-      case _ =>
+    isVisited(ctx.method_definition()) match {
+      case true => "" // Already printed
+      case false =>
         // Private method
-        visited.put(ctx.method_definition(), true)
         val sb = new StringBuilder()
         sb.append(indent(ctx) + "private func")
         sb.append(visit(ctx.method_definition()))
@@ -85,11 +82,10 @@ trait MethodVisitor extends Converter {
     }
 
   override def visitClass_method_definition(ctx: Class_method_definitionContext): String =
-    Option(visited.get(ctx.method_definition())) match {
-      case Some(c) => "" // Already printed
-      case _ =>
+    isVisited(ctx.method_definition()) match {
+      case true => "" // Already printed
+      case false =>
         // Private class method
-        visited.put(ctx.method_definition(), true)
         val sb = new StringBuilder()
         sb.append(indent(ctx) + "private class func")
         sb.append(visit(ctx.method_definition()))
@@ -104,7 +100,7 @@ trait MethodVisitor extends Converter {
     sb.append(createMethodHeader(method_selector, method_type))
     sb.append(" {\n")
     sb.append(visit(ctx.compound_statement()) + "\n")
-    sb.append(indent(ctx) + "}\n")
+    sb.append(indent(ctx) + "}")
 
     sb.toString()
   }
