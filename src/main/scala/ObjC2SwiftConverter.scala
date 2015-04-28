@@ -181,14 +181,12 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
 
     Option(ctx.property_attributes_declaration()) match {
       case None =>
-      case Some(property_attributes_declaration) =>
-        property_attributes_declaration.property_attributes_list().property_attribute().foreach (
-          visit(_) match {
-            case s if s == "weak" => property_attributes = s
-            case s if s == "readonly" => read_only = "{ get{} }"
-            case _ =>
-          }
-        )
+      case Some(p) =>
+        visit(p) match {
+          case s if s == "weak" => property_attributes = s
+          case s if s == "readonly" => read_only = "{ get{} }"
+          case _ =>
+        }
     }
 
     Option(ctx.struct_declaration()) match {
@@ -231,7 +229,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
           Option(j.declarator.direct_declarator()) match {
             case None =>
             case Some(direct_declarator) =>
-              val identifier = direct_declarator.identifier().getText
+              val identifier = visit(direct_declarator.identifier())
               sb.append(weak + "var " + identifier + ":" + type_of_variable + optional + read_only)
           }
         }
@@ -240,9 +238,16 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     sb.toString()
   }
 
+  override def visitProperty_attributes_declaration(ctx: Property_attributes_declarationContext) =visit(ctx.property_attributes_list)
+  override def visitProperty_attributes_list(ctx: Property_attributes_listContext) = {
+    ctx.property_attribute().map(visit).mkString(", ")
+  }
   override def visitProperty_attribute(ctx: Property_attributeContext) = ctx.getText
+
   override def visitClass_name(ctx: Class_nameContext) = ctx.getText
   override def visitProtocol_name(ctx: Protocol_nameContext) = ctx.getText
+  override def visitIdentifier(ctx: IdentifierContext) = ctx.getText
+
 
   /**
    * Convert Objective-C type to Swift type.
