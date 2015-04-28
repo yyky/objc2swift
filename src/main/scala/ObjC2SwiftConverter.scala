@@ -9,8 +9,7 @@
  */
 
 import ObjCParser._
-import org.antlr.v4.runtime.{CommonToken, ParserRuleContext}
-import org.antlr.v4.runtime.tree.{TerminalNode, ParseTree, ParseTreeProperty}
+import org.antlr.v4.runtime.tree.TerminalNode
 import collection.JavaConversions._
 
 class ObjC2SwiftConverter(_root: Translation_unitContext)
@@ -25,4 +24,17 @@ class ObjC2SwiftConverter(_root: Translation_unitContext)
   with TypeVisitor {
 
   val root = _root
+
+  override def visitPointer(ctx: PointerContext): String = {
+    val sb = new StringBuilder()
+
+    for (element <- ctx.children) {
+      if (! element.isInstanceOf[TerminalNode]) sb.append(visit(element))
+    }
+    sb.toString()
+  }
+
+  override def visitIdentifier(ctx: IdentifierContext): String = ctx.getText
+
+  override def visitConstant(ctx: ConstantContext): String = ctx.getText
 }
