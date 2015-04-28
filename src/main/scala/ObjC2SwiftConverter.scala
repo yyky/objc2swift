@@ -197,7 +197,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
         var type_of_variable = ""
         val specifier_qualifier_list = struct_declaration.specifier_qualifier_list()
         val struct_declarator_list = struct_declaration.struct_declarator_list()
-        var unowned_unsafe = ""
+        var weak = ""
         var optional = "?"
 
         specifier_qualifier_list.type_specifier().foreach { i =>
@@ -213,7 +213,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
             case None =>
             case Some(protocol_reference_list) =>
               val protocol_name = protocol_reference_list.protocol_list().protocol_name()
-              unowned_unsafe = "unowned(unsafe) "
+              weak = "weak "
 
               if(protocol_name.length == 1){
                 type_of_variable = visit(protocol_name.head)
@@ -233,7 +233,7 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
             case None =>
             case Some(direct_declarator) =>
               val identifier = direct_declarator.identifier().getText
-              sb.append(unowned_unsafe + "var " + identifier + ":" + type_of_variable + optional + read_only)
+              sb.append(weak + "var " + identifier + ":" + type_of_variable + optional + read_only)
           }
         }
     }
