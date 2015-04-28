@@ -17,24 +17,28 @@ trait ExternalDeclarationVisitor extends Converter {
 
     // class [CLASS-NAME] : [SUPERCLASS], [PROTOCOL1, PROTOCOL2, ...]
     sb.append("class " + visit(ctx.class_name))
-    if(ctx.superclass_name() != null) {
-      sb.append(" : ")
-      sb.append(visit(ctx.superclass_name))
+
+    Option(ctx.superclass_name) match {
+      case Some(c) => sb.append(" : " + visit(c))
+      case None =>
     }
-    if(ctx.protocol_reference_list() != null) {
-      sb.append(", " + visit(ctx.protocol_reference_list))
+    Option(ctx.protocol_reference_list) match {
+      case Some(c) => sb.append(", " + visit(c))
+      case None =>
     }
 
     // implementation of class
     sb.append(" {\n")
-    if(ctx.interface_declaration_list() != null) {
-      sb.append(visit(ctx.interface_declaration_list()))
+    Option(ctx.interface_declaration_list) match {
+      case Some(c) => sb.append(visit(c))
+      case None =>
     }
 
-    val implCtx = findCorrespondingClassImplementation(ctx)
-    if(implCtx != null && !visited.get(implCtx)) {
-      visited.put(implCtx, true)
-      sb.append(visit(implCtx.implementation_definition_list()))
+    findCorrespondingClassImplementation(ctx) match {
+      case Some(c) =>
+        visited.put(c, true)
+        sb.append(visit(c.implementation_definition_list))
+      case None =>
     }
 
     sb.append("\n}")
@@ -47,13 +51,15 @@ trait ExternalDeclarationVisitor extends Converter {
 
     // extension [CLASS-NAME]
     sb.append("extension " + visit(ctx.class_name))
-    if(ctx.protocol_reference_list() != null) {
-      sb.append(", " + visit(ctx.protocol_reference_list))
+    Option(ctx.protocol_reference_list) match {
+      case Some(c) => sb.append(", " + visit(c))
+      case None =>
     }
 
     sb.append(" {\n")
-    if(ctx.interface_declaration_list() != null) {
-      sb.append(visit(ctx.interface_declaration_list()))
+    Option(ctx.interface_declaration_list) match {
+      case Some(c) => sb.append(visit(c))
+      case None =>
     }
     sb.append("}")
 
@@ -65,6 +71,7 @@ trait ExternalDeclarationVisitor extends Converter {
   }
 
   override def visitClass_implementation(ctx: Class_implementationContext): String = {
+
     // TODO: Considier what to do
     //concatChildResults(ctx, "")
     ""

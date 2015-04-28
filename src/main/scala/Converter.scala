@@ -33,23 +33,22 @@ trait Converter {
     indentString * indentLevel(node)
   }
 
-  def findCorrespondingClassImplementation(classCtx: Class_interfaceContext): Class_implementationContext = {
+  def findCorrespondingClassImplementation(classCtx: Class_interfaceContext): Option[Class_implementationContext] = {
     val list = root.external_declaration
     for (extDclCtx <- list) {
       for (ctx <- extDclCtx.children if ctx.isInstanceOf[Class_implementationContext]) {
         val implCtx = ctx.asInstanceOf[Class_implementationContext]
         if(implCtx.class_name.getText == classCtx.class_name.getText)
-          return implCtx
+          return Some(implCtx)
       }
     }
-
-    null
+    None
   }
 
   def findCorrespondingMethodDefinition(declCtx: Method_declarationContext): Option[Method_definitionContext] = {
     val classCtx = declCtx.parent.parent.parent.asInstanceOf[Class_interfaceContext]
 
-    Option(findCorrespondingClassImplementation(classCtx)) match {
+    findCorrespondingClassImplementation(classCtx) match {
       case None =>
       case Some(implCtx) =>
         declCtx.parent match {
