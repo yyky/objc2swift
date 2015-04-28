@@ -3,12 +3,11 @@ import org.antlr.v4.runtime.ParserRuleContext
 import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeProperty}
 import collection.JavaConversions._
 
-trait Converter {
-  self: ObjCBaseVisitor[String] =>
+trait Converter extends ObjCBaseVisitor[String] {
 
   val root: Translation_unitContext
 
-  val visited = new ParseTreeProperty[Boolean]()
+  private val visited = new ParseTreeProperty[Boolean]()
   val indentString = " " * 4
 
   def getResult: String = visit(root)
@@ -33,13 +32,32 @@ trait Converter {
     indentString * indentLevel(node)
   }
 
+  override def visit(tree: ParseTree): String = {
+    setVisited(tree)
+    super.visit(tree)
+  }
+
+  def isVisited(node: ParseTree) = {
+    Option(visited.get(node)) match {
+      case Some(flag) if flag => true
+      case _ => false
+    }
+  }
+
+  def setVisited(node: ParseTree) = {
+    visited.put(node, true)
+  }
+
   def findCorrespondingClassImplementation(classCtx: Class_interfaceContext): Option[Class_implementationContext] = {
-    val list = root.external_declaration
-    for (extDclCtx <- list) {
-      for (ctx <- extDclCtx.children if ctx.isInstanceOf[Class_implementationContext]) {
-        val implCtx = ctx.asInstanceOf[Class_implementationContext]
-        if(implCtx.class_name.getText == classCtx.class_name.getText)
-          return Some(implCtx)
+    val className = classCtx.class_name.getText
+    for(extDclCtx <- root.external_declaration) {
+      Option(extDclCtx.class_implementation) match {
+        case Some(implCtx) =>
+          implCtx.class_name.getText match {
+            case `className` => return Some(implCtx)
+            case _ =>
+          }
+        case None =>
       }
     }
     None

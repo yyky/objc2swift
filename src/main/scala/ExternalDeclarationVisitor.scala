@@ -36,7 +36,7 @@ trait ExternalDeclarationVisitor extends Converter {
 
     findCorrespondingClassImplementation(ctx) match {
       case Some(c) =>
-        visited.put(c, true)
+        setVisited(c)
         sb.append(visit(c.implementation_definition_list))
       case None =>
     }
