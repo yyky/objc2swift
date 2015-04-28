@@ -74,61 +74,6 @@ trait ExpressionVisitor extends Converter {
     concatChildResults(ctx, "")
   }
 
-  override def visitSelection_statement(ctx: Selection_statementContext): String = {
-    val sb = new StringBuilder()
-    var statement_kind = ""
-
-    for (element <- ctx.children) {
-      element match {
-        case symbol: TerminalNode => {
-          symbol.getSymbol.getText match {
-            case s if s == "if" || s == "switch" => {
-              sb.append(s)
-              statement_kind = s
-            }
-            case "(" | ")" => sb.append(" ")
-            case _ => null
-          }
-        }
-        case expression: ExpressionContext => {
-          sb.append(visit(expression))
-        }
-        case statement: StatementContext => {
-          sb.append("{\n")
-
-          if (statement_kind == "if") {
-            sb.append(indentString)
-          }
-          sb.append(visitChildren(statement) + "\n")
-          sb.append(indent(statement) +  "}\n")
-        }
-        case _ => null
-      }
-    }
-
-    sb.toString()
-  }
-
-  override def visitLabeled_statement(ctx: Labeled_statementContext): String = {
-    val sb = new StringBuilder()
-
-    for (element <- ctx.children) {
-      element match {
-        case symbol: TerminalNode => {
-          symbol.getSymbol.getText match {
-            case "case" => sb.append("case ")
-            case "default" => sb.append("default")
-            case ":" => sb.append(":\n" + indentString)
-            case _ => null
-          }
-        }
-        case _ => sb.append(visit(element))
-        //TODO fix indent bug
-      }
-    }
-    sb.toString()
-  }
-
   override def visitEquality_expression(ctx: Equality_expressionContext)       = visitBinaryOperator(ctx)
   override def visitRelational_expression(ctx: Relational_expressionContext)   = visitBinaryOperator(ctx)
   override def visitLogical_or_expression(ctx: Logical_or_expressionContext)   = visitBinaryOperator(ctx)
