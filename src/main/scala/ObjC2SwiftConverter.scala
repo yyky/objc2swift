@@ -204,7 +204,6 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
           visit(i) match {
             case s if s == "IBOutlet" =>
               sb.append("@" + s + " " + property_attributes + " ")
-              optional = "!"
             case s =>
               type_of_variable = s
           }
