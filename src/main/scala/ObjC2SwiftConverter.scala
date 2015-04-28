@@ -13,7 +13,7 @@ import org.antlr.v4.runtime.{CommonToken, ParserRuleContext}
 import org.antlr.v4.runtime.tree.{TerminalNode, ParseTree, ParseTreeProperty}
 import collection.JavaConversions._
 
-class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisitor[String] with MethodVisitor {
+class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisitor[String] with MethodVisitor with DeclarationVisitor {
 
   val root = _root
   val visited = new ParseTreeProperty[Boolean]()
@@ -117,9 +117,13 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
 
     val implCtx = findCorrespondingClassImplementation(ctx)
     if(implCtx != null) {
-      val result = visit(implCtx.implementation_definition_list)
-      if(result != null) {
-        sb.append(result)
+      Option(implCtx.implementation_definition_list()) match {
+        case Some(c) =>
+          visit(c) match {
+            case s: String => sb.append(s)
+            case _ =>
+          }
+        case _ =>
       }
     }
 
