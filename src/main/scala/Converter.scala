@@ -64,6 +64,12 @@ trait Converter extends ObjCBaseVisitor[String] {
   }
 
   def findCorrespondingMethodDefinition(declCtx: Method_declarationContext): Option[Method_definitionContext] = {
+    // FIXME support category
+    declCtx.parent.parent.parent match {
+      case classCtx: Class_interfaceContext =>
+      case _ => return None
+    }
+
     val classCtx = declCtx.parent.parent.parent.asInstanceOf[Class_interfaceContext]
 
     findCorrespondingClassImplementation(classCtx) match {

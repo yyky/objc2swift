@@ -24,13 +24,14 @@ trait ClassVisitor extends Converter {
 
     // implementation of class
     sb.append(" {\n")
+
     Option(ctx.interface_declaration_list) match {
       case Some(c) => sb.append(visit(c) + "\n\n")
       case None =>
     }
 
     findCorrespondingClassImplementation(ctx) match {
-      case Some(c) => sb.append(visit(c))
+      case Some(c) => sb.append(visit(c) + "\n")
       case None =>
     }
 
