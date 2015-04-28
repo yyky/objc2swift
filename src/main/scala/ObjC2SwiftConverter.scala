@@ -114,6 +114,27 @@ class ObjC2SwiftConverter(_root: Translation_unitContext) extends ObjCBaseVisito
     concatChildResults(ctx, "\n\n")
   }
 
+  override def visitDeclaration(ctx: DeclarationContext): String = {
+    //TODO convert Swift grammer (dump objective-c grammer now)
+
+    val sb = new StringBuilder()
+    sb.append(indent(ctx))
+
+    for (element <- ctx.children) {
+      element match {
+        case symbol: TerminalNode => {
+          symbol.getSymbol.getText match {
+            case ";" => sb.append("\n")
+            case _ => null
+          }
+        }
+        case _ => sb.append(visit(element) + " ")
+      }
+    }
+
+    sb.toString()
+  }
+
   override def visitClass_interface(ctx: Class_interfaceContext): String = {
     val sb = new StringBuilder()
     sb.append("class " + ctx.class_name.getText)
