@@ -126,9 +126,36 @@ trait StatementVisitor extends Converter {
             case ";" => sb.append("; ")
             case _ => null
           }
+        case d: Declaration_specifiersContext =>
+          // TODO: Merge with visitDeclaration()
+          Option(d.type_specifier()) match {
+            case None => // No Type
+            case Some(ls) =>
+              Option(ctx.init_declarator_list()) match {
+                case None =>
+                case Some(c) =>
+                  // Other declaration. Find from init_declarator_list
+                  c.init_declarator().foreach { c2 =>
+                    val dd = c2.declarator().direct_declarator()
+                    Option(dd.identifier()) match {
+                      case None =>
+                      case Some(id) =>
+                        Option(c2.initializer()) match {
+                          case Some(c3) =>
+                            sb.append("var ")
+                            sb.append(visit(id))
+                            sb.append(" = " + visit(c3))
+                          case _ =>
+                        }
+                    }
+
+                  }
+              }
+          }
         case expression: ExpressionContext => sb.append(visit(expression))
         case statement: StatementContext =>
           sb.append("{\n")
+          // TODO: fix indent
           sb.append(indentString + visitChildren(statement) + "\n")
           sb.append(indent(statement) +  "}\n")
         case _ => null
