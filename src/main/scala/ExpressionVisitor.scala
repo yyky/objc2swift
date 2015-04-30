@@ -94,6 +94,21 @@ trait ExpressionVisitor extends Converter {
     visit(ctx.postfix_expression(0)) + " : " + visit(ctx.postfix_expression(1))
   }
 
+
+  override def visitBox_expression(ctx: Box_expressionContext): String = {
+    Option(ctx.constant) match {
+      case Some(const) => return visit(const)
+      case None =>
+    }
+
+    Option(ctx.postfix_expression) match {
+      case Some(expr) => return visit(expr)
+      case None =>
+    }
+
+    ""
+  }
+
   override def visitPrimary_expression(ctx: Primary_expressionContext): String = {
     Option(ctx.IDENTIFIER) match {
       case Some(id) =>
@@ -117,8 +132,10 @@ trait ExpressionVisitor extends Converter {
 
     ctx.getText match {
       case x if x == "self" || x == "super" => return x
-      case _ => return visitChildren(ctx)
+      case _ => // step over
     }
+
+    visitChildren(ctx)
   }
 
   override def visitExpression(ctx: ExpressionContext): String = concatChildResults(ctx, "")
