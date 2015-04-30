@@ -81,6 +81,19 @@ trait ExpressionVisitor extends Converter {
     sb.toString()
   }
 
+
+  override def visitDictionary_expression(ctx: Dictionary_expressionContext) = {
+    val sb = new StringBuilder()
+    sb.append("[")
+    sb.append(ctx.dictionary_pair.map(visit).mkString(", "))
+    sb.append("]")
+    sb.toString()
+  }
+
+  override def visitDictionary_pair(ctx: Dictionary_pairContext) = {
+    visit(ctx.postfix_expression(0)) + " : " + visit(ctx.postfix_expression(1))
+  }
+
   override def visitPrimary_expression(ctx: Primary_expressionContext): String = {
     Option(ctx.IDENTIFIER) match {
       case Some(id) =>
