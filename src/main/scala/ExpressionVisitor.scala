@@ -109,6 +109,31 @@ trait ExpressionVisitor extends Converter {
     ""
   }
 
+  // block_expression:'^' type_specifier? block_parameters? compound_statement;
+  override def visitBlock_expression(ctx: Block_expressionContext): String = {
+    val sb = new StringBuilder()
+    sb.append("{")
+
+    if(ctx.block_parameters != null && ctx.type_specifier != null)
+      sb.append(visit(ctx.block_parameters) + " -> " + visit(ctx.type_specifier) + " in\n")
+    else if(ctx.type_specifier != null)
+      sb.append("() -> " + visit(ctx.type_specifier) + " in\n")
+    else if(ctx.block_parameters != null )
+      sb.append(visit(ctx.block_parameters) + " in\n")
+    else
+      sb.append("\n")
+
+    sb.append(visit(ctx.compound_statement) + "\n")
+    sb.append(indent(ctx) + "}")
+
+    sb.toString()
+  }
+
+  //block_parameters: '(' (type_variable_declarator | 'void')? (',' type_variable_declarator)* ')';
+  override def visitBlock_parameters(ctx: Block_parametersContext): String = {
+    "(" + ctx.type_variable_declarator.map(visit).mkString(", ") + ")"
+  }
+
   override def visitPrimary_expression(ctx: Primary_expressionContext): String = {
     if(ctx.getChildCount == 3 && ctx.getChild(0).getText == "(" && ctx.getChild(2).getText == ")")
       return "(" + visit(ctx.getChild(1)) + ")"
