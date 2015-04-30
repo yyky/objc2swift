@@ -43,8 +43,67 @@ trait ExpressionVisitor extends Converter {
     sb.toString()
   }
 
+  def convertSimpleFormat(exps: scala.collection.mutable.Buffer[Assignment_expressionContext]): String = {
+    val r = "(%[a-z@]+)".r
+    r.findFirstIn(exps.get(0).getText) match {
+      case Some(m) =>
+        exps.foldLeft("")((s, c) => {
+          s match {
+            case "" => c.getText
+            case _ => r.replaceFirstIn(s, "\\\\(" + c.getText + ")")
+          }
+        }).replaceFirst("^@", "")
+      case None => ""
+    }
+  }
+
+  def convertComplexFormat(exps: scala.collection.mutable.Buffer[Assignment_expressionContext]): String = {
+    val r = "(%[0-9.]+[a-z@]+)".r
+    r.findFirstIn(exps.get(0).getText) match {
+      case Some(m) =>
+        val sb = new StringBuilder()
+        sb.append("String(")
+        exps.zipWithIndex.foreach { case (c, i) =>
+          if (i == 0) {
+            sb.append("format: " + c.getText.replaceFirst("^@", ""))
+          } else {
+            sb.append(", " + c.getText)
+          }
+        }
+        sb.append(")")
+        sb.toString()
+      case None => ""
+    }
+  }
+
   override def visitMessage_expression(ctx: Message_expressionContext): String = {
     val sel = ctx.message_selector()
+
+    // TODO: Support stringWithFormat()
+    val ptn2 = "(%[0-9.]+[a-z@]+)".r
+    Option(sel.keyword_argument()) match {
+      case Some(list) if !list.isEmpty =>
+        val arg = list.get(0)
+        val name = visit(arg.selector())
+        name match {
+          case "stringWithFormat" =>
+            val exps = arg.expression().assignment_expression()
+            val fmt = exps.get(0).getText
+            if (fmt.matches("^@\".*\"$"))
+              // TODO: Complex format
+              convertComplexFormat(exps) match {
+                case s if s != "" => return s
+                case _ =>
+                  // Simple format
+                  convertSimpleFormat(exps) match {
+                    case s if s != "" => return s
+                    case _ =>
+                  }
+              }
+          case _ =>
+        }
+      case _ =>
+    }
 
     val sb = new StringBuilder()
     sb.append(visit(ctx.receiver))
@@ -71,6 +130,8 @@ trait ExpressionVisitor extends Converter {
     }
     sb.toString()
   }
+
+  //override def visitReceiver(ctx: ReceiverContext): String = ctx.getText
 
   /*
    * Expressions
