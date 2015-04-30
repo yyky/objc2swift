@@ -132,6 +132,15 @@ trait ExpressionVisitor extends Converter {
     "(" + ctx.type_variable_declarator.map(visit).mkString(", ") + ")"
   }
 
+
+  override def visitConditional_expression(ctx: Conditional_expressionContext): String = {
+    if(ctx.getChildCount > 1) {
+      visit(ctx.getChild(0)) + " ? " + visit(ctx.getChild(2)) + " : " + visit(ctx.getChild(4))
+    } else {
+      visit(ctx.getChild(0))
+    }
+  }
+
   override def visitPrimary_expression(ctx: Primary_expressionContext): String = {
     if(ctx.getChildCount == 3 && ctx.getChild(0).getText == "(" && ctx.getChild(2).getText == ")")
       return "(" + visit(ctx.getChild(1)) + ")"
