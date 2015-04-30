@@ -72,6 +72,15 @@ trait ExpressionVisitor extends Converter {
     sb.toString()
   }
 
+
+  override def visitArray_expression(ctx: Array_expressionContext) = {
+    val sb = new StringBuilder()
+    sb.append("[")
+    sb.append(ctx.postfix_expression.map(visit).mkString(", "))
+    sb.append("]")
+    sb.toString()
+  }
+
   override def visitPrimary_expression(ctx: Primary_expressionContext): String = {
     Option(ctx.IDENTIFIER) match {
       case Some(id) =>
@@ -88,13 +97,7 @@ trait ExpressionVisitor extends Converter {
       case _ => // step over
     }
 
-    Option(ctx.message_expression) match {
-      case Some(e) => return visit(e)
-      case _ => // step over
-    }
-
-    // TODO need to support more
-    ctx.getText
+    visitChildren(ctx) // TODO need to support more
   }
 
   override def visitExpression(ctx: ExpressionContext): String = concatChildResults(ctx, "")
