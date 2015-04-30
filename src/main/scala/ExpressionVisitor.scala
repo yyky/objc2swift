@@ -110,6 +110,9 @@ trait ExpressionVisitor extends Converter {
   }
 
   override def visitPrimary_expression(ctx: Primary_expressionContext): String = {
+    if(ctx.getChildCount == 3 && ctx.getChild(0).getText == "(" && ctx.getChild(2).getText == ")")
+      return "(" + visit(ctx.getChild(1)) + ")"
+
     Option(ctx.IDENTIFIER) match {
       case Some(id) =>
         id.getText match {
