@@ -80,7 +80,6 @@ trait ExpressionVisitor extends Converter {
     val sel = ctx.message_selector()
 
     // TODO: Support stringWithFormat()
-    val ptn2 = "(%[0-9.]+[a-z@]+)".r
     Option(sel.keyword_argument()) match {
       case Some(list) if !list.isEmpty =>
         val arg = list.get(0)
@@ -130,37 +129,6 @@ trait ExpressionVisitor extends Converter {
     }
     sb.toString()
   }
-
-  //override def visitReceiver(ctx: ReceiverContext): String = ctx.getText
-
-  /*
-   * Expressions
-   */
-  /*
-  override def visitMessage_expression(ctx: Message_expressionContext): String = {
-    val sel = ctx.message_selector()
-    val rcv = visit(ctx.receiver)
-
-    // TODO: stringWithFormat conversion
-    rcv match {
-      case "NSString" =>
-        Option(sel.keyword_argument()) match {
-          case Some(k) if k.length != 0 =>
-            val p1 = k.get(0)
-            Option(p1.selector()) match {
-              case None => commonMessageExpression(ctx)
-              case Some(s) => s.getText match {
-                case s2 if s2 == "stringWithFormat" => stringWithFormat(sel)
-                case _ => commonMessageExpression(ctx)
-              }
-            }
-          case _ => commonMessageExpression(ctx)
-        }
-      case _ => commonMessageExpression(ctx)
-    }
-
-  }
-  */
 
   override def visitPrimary_expression(ctx: Primary_expressionContext): String = {
     // TODO need to support more
