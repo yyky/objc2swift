@@ -73,14 +73,27 @@ trait ExpressionVisitor extends Converter {
   }
 
   override def visitPrimary_expression(ctx: Primary_expressionContext): String = {
+    Option(ctx.IDENTIFIER) match {
+      case Some(id) =>
+        id.getText match {
+          case "YES" => return "true"
+          case "NO"  => return "false"
+          case other => return other
+        }
+      case _ => // step over
+    }
+
+    Option(ctx.STRING_LITERAL) match {
+      case Some(str) => return str.getText.substring(1) // remove @ from @"..."
+      case _ => // step over
+    }
+
+    Option(ctx.message_expression) match {
+      case Some(e) => return visit(e)
+      case _ => // step over
+    }
+
     // TODO need to support more
-
-    if(ctx.message_expression != null)
-      return visit(ctx.message_expression)
-
-    if(ctx.STRING_LITERAL != null)
-      return ctx.STRING_LITERAL().getText.substring(1)
-
     ctx.getText
   }
 
