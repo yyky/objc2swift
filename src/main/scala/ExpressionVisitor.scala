@@ -17,7 +17,7 @@ trait ExpressionVisitor extends Converter {
 
   self: ObjCBaseVisitor[String] =>
 
-  def visitBinaryOperator(ctx: ParserRuleContext): String = {
+  def visitBinaryExpression(ctx: ParserRuleContext): String = {
     val sb = new StringBuilder()
 
     for (element <- ctx.children) {
@@ -30,7 +30,7 @@ trait ExpressionVisitor extends Converter {
     sb.toString()
   }
 
-  def visitUnaryOperator(ctx: ParserRuleContext): String = {
+  def visitUnaryExpression(ctx: ParserRuleContext): String = {
     val sb = new StringBuilder()
 
     for (element <- ctx.children) {
@@ -109,7 +109,6 @@ trait ExpressionVisitor extends Converter {
     ""
   }
 
-  // block_expression:'^' type_specifier? block_parameters? compound_statement;
   override def visitBlock_expression(ctx: Block_expressionContext): String = {
     val sb = new StringBuilder()
     sb.append("{")
@@ -129,7 +128,6 @@ trait ExpressionVisitor extends Converter {
     sb.toString()
   }
 
-  //block_parameters: '(' (type_variable_declarator | 'void')? (',' type_variable_declarator)* ')';
   override def visitBlock_parameters(ctx: Block_parametersContext): String = {
     "(" + ctx.type_variable_declarator.map(visit).mkString(", ") + ")"
   }
@@ -166,17 +164,17 @@ trait ExpressionVisitor extends Converter {
     visitChildren(ctx)
   }
 
-  override def visitExpression(ctx: ExpressionContext): String = concatChildResults(ctx, "")
+  override def visitExpression(ctx: ExpressionContext) = concatChildResults(ctx, "")
+  override def visitArgument_expression_list(ctx: Argument_expression_listContext) = concatChildResults(ctx, ", ")
+  override def visitAssignment_expression(ctx: Assignment_expressionContext) = concatChildResults(ctx, " ")
 
-  override def visitEquality_expression(ctx: Equality_expressionContext)       = visitBinaryOperator(ctx)
-  override def visitRelational_expression(ctx: Relational_expressionContext)   = visitBinaryOperator(ctx)
-  override def visitLogical_or_expression(ctx: Logical_or_expressionContext)   = visitBinaryOperator(ctx)
-  override def visitLogical_and_expression(ctx: Logical_and_expressionContext) = visitBinaryOperator(ctx)
-  override def visitAdditive_expression(ctx: Additive_expressionContext)       = visitBinaryOperator(ctx)
-  override def visitMultiplicative_expression(ctx: Multiplicative_expressionContext) = visitBinaryOperator(ctx)
+  override def visitEquality_expression(ctx: Equality_expressionContext)       = visitBinaryExpression(ctx)
+  override def visitRelational_expression(ctx: Relational_expressionContext)   = visitBinaryExpression(ctx)
+  override def visitLogical_or_expression(ctx: Logical_or_expressionContext)   = visitBinaryExpression(ctx)
+  override def visitLogical_and_expression(ctx: Logical_and_expressionContext) = visitBinaryExpression(ctx)
+  override def visitAdditive_expression(ctx: Additive_expressionContext)       = visitBinaryExpression(ctx)
+  override def visitMultiplicative_expression(ctx: Multiplicative_expressionContext) = visitBinaryExpression(ctx)
 
-  override def visitAssignment_expression(ctx: Assignment_expressionContext): String = concatChildResults(ctx, " ")
-
-  override def visitUnary_expression(ctx: Unary_expressionContext)             = visitUnaryOperator(ctx)
-  override def visitPostfix_expression(ctx: Postfix_expressionContext)         = visitUnaryOperator(ctx)
+  override def visitUnary_expression(ctx: Unary_expressionContext)             = visitUnaryExpression(ctx)
+  override def visitPostfix_expression(ctx: Postfix_expressionContext)         = visitUnaryExpression(ctx)
 }
