@@ -110,7 +110,15 @@ trait ExpressionVisitor extends Converter {
       case _ => // step over
     }
 
-    visitChildren(ctx) // TODO need to support more
+    Option(ctx.constant) match {
+      case Some(c) => return c.getText
+      case _ => // step over
+    }
+
+    ctx.getText match {
+      case x if x == "self" || x == "super" => return x
+      case _ => return visitChildren(ctx)
+    }
   }
 
   override def visitExpression(ctx: ExpressionContext): String = concatChildResults(ctx, "")
