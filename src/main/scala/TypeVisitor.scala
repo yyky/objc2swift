@@ -23,13 +23,11 @@ trait TypeVisitor extends Converter {
    * TODO: Implement other types
    *
    */
-  override def visitType_specifier(ctx: Type_specifierContext): String = {
-    val t = if(ctx.pointer == null)
-      ctx.getText
-    else
-      ctx.IDENTIFIER.getText
-
-    t match {
+  override def visitType_specifier(ctx: Type_specifierContext): String =
+    (ctx.pointer match {
+      case null => ctx.getText
+      case _ => ctx.IDENTIFIER.getText
+    }) match {
       case "void"   => "void"
       case "id"     => "AnyObject"
       case "short"  => "Int8"
@@ -45,5 +43,4 @@ trait TypeVisitor extends Converter {
       case s if s != "" => s
       case _ => "AnyObject"
     }
-  }
 }

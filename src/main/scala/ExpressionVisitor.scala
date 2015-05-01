@@ -142,35 +142,32 @@ trait ExpressionVisitor extends Converter {
   }
 
   override def visitPrimary_expression(ctx: Primary_expressionContext): String = {
-    if(ctx.getChildCount == 3 && ctx.getChild(0).getText == "(" && ctx.getChild(2).getText == ")")
-      return "(" + visit(ctx.getChild(1)) + ")"
-
-    Option(ctx.IDENTIFIER) match {
-      case Some(id) =>
-        id.getText match {
-          case "YES" => return "true"
-          case "NO"  => return "false"
-          case other => return other
-        }
-      case _ => // step over
+    if(ctx.getChildCount == 3 && ctx.getChild(0).getText == "(" && ctx.getChild(2).getText == ")") {
+      "(" + visit(ctx.getChild(1)) + ")"
     }
 
-    Option(ctx.STRING_LITERAL) match {
-      case Some(str) => return str.getText.substring(1) // remove @ from @"..."
-      case _ => // step over
+    else if (ctx.IDENTIFIER != null) {
+      ctx.IDENTIFIER.getText match {
+        case "YES" => "true"
+        case "NO"  => "false"
+        case other => other
+      }
     }
 
-    Option(ctx.constant) match {
-      case Some(c) => return c.getText
-      case _ => // step over
+    else if(ctx.STRING_LITERAL != null) {
+      ctx.STRING_LITERAL.getText.substring(1)
     }
 
-    ctx.getText match {
-      case x if x == "self" || x == "super" => return x
-      case _ => // step over
+    else if(ctx.constant != null) {
+      ctx.constant.getText
     }
 
-    visitChildren(ctx)
+    else {
+      ctx.getText match {
+        case x @ ("self" | "super") => x
+        case _ => visitChildren(ctx)
+      }
+    }
   }
 
   override def visitExpression(ctx: ExpressionContext) = concatChildResults(ctx, "")
