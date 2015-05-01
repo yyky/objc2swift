@@ -2,6 +2,7 @@
 
 - (NSString *)stringWithFormatTest {
     [NSString stringWithFormat:@"int型：%d", num];
+    [NSString stringWithFormat:@"int型：%d", num1 + num2];
     [NSString stringWithFormat:@"%02i:%02i:%02i", hour, min, sec];
     [NSString stringWithFormat:@"double型：%f", x];
     [NSString stringWithFormat:@"double型：%.1f", f];
