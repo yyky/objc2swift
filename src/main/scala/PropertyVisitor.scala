@@ -17,20 +17,53 @@ trait PropertyVisitor extends Converter {
 
   override def visitProperty_declaration(ctx: ObjCParser.Property_declarationContext): String = {
     val sb = new StringBuilder()
+    val getter_setter_statement = new StringBuilder()
+    val getter_statement = new StringBuilder()
+    val setter_statement = new StringBuilder()
     var property_attributes = ""
     var read_only = ""
+    var getter_method_name = ""
+    var setter_method_name = ""
 
     sb.append(indent(ctx))
+    getter_setter_statement.append("{\n")
 
     Option(ctx.property_attributes_declaration()) match {
       case None =>
-      case Some(p) =>
-        visit(p) match {
-          case s if s == "weak" => property_attributes = s
-          case s if s == "readonly" => read_only = "{ get{} }"
-          case _ =>
+      case Some(p) => {
+        visit(p).split(", ").foreach { i =>
+          i match {
+            case s if s == "weak" => property_attributes = s
+            case s if s == "readonly" => {
+              read_only == "{ get{} }"
+            }
+            case s if s.split("=")(0) == "getter" => {
+              getter_method_name = s.split("=")(1).replaceAll(" ","")
+
+              getter_statement.append(indent(ctx) + indent(ctx))
+              getter_statement.append("get{\n" + findGetterMethod(ctx,getter_method_name) + "\n}")
+              getter_statement.append(indent(ctx) + indent(ctx))
+              getter_statement.append("\n}")
+            }
+            case s if s.split("=")(0) == "setter" => {
+              setter_method_name = s.split("=")(1).replaceAll(" |:","")
+
+              setter_statement.append("set{\n" + findGetterMethod(ctx,setter_method_name) + "\n}")
+            }
+            case _ =>
+          }
         }
+      }
     }
+
+    getter_setter_statement.append(getter_statement)
+    getter_setter_statement.append(setter_statement)
+    getter_setter_statement.append("\n}")
+
+//    if(read_only == "{ get{} }" && getter_method_name.length == 0){
+//      getter_setter_statement.setLength(0)
+//      getter_setter_statement.append("{ get{} }")
+//    }
 
     Option(ctx.struct_declaration()) match {
       case None =>
@@ -73,7 +106,7 @@ trait PropertyVisitor extends Converter {
             case None =>
             case Some(direct_declarator) =>
               val identifier = direct_declarator.identifier().getText
-              sb.append(weak + "var " + identifier + ":" + type_of_variable + optional + read_only)
+              sb.append(weak + "var " + identifier + ":" + type_of_variable + optional + getter_setter_statement)
           }
         }
     }
@@ -86,4 +119,41 @@ trait PropertyVisitor extends Converter {
     ctx.property_attribute().map(visit).mkString(", ")
   }
   override def visitProperty_attribute(ctx: Property_attributeContext) = ctx.getText
+
+  def findGetterMethod(declCtx: Property_declarationContext,selector:String):String = {
+    val sb = new StringBuilder()
+
+
+    for (extDclCtx <- root.external_declaration) {
+      Option(extDclCtx.class_implementation) match {
+        case Some(implCtx) => {
+          val instanceMethodDefinition = implCtx
+            .implementation_definition_list()
+            .instance_method_definition()
+
+          instanceMethodDefinition.foreach{ i =>
+            var methodSelector = i.method_definition().method_selector
+            var setterSelectorText = ""
+            var getterSelectorText = i.method_definition().method_selector.getText
+
+            methodSelector.keyword_declarator().foreach {j =>
+              Option(j.selector.getText) match {
+                case Some(k) => setterSelectorText = k
+                case None =>
+              }
+            }
+
+            if(selector == setterSelectorText || selector == getterSelectorText){
+              val compound = i.method_definition().compound_statement()
+
+              sb.append(visit(compound))
+            }
+          }
+        }
+        case None =>
+      }
+    }
+
+    sb.toString()
+  }
 }
