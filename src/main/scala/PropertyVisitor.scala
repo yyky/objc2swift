@@ -41,14 +41,17 @@ trait PropertyVisitor extends Converter {
               getter_method_name = s.split("=")(1).replaceAll(" ","")
 
               getter_statement.append(indent(ctx) + indent(ctx))
-              getter_statement.append("get{\n" + findGetterMethod(ctx,getter_method_name) + "\n}")
+              getter_statement.append("get{\n" + findGetterMethod(ctx,getter_method_name))
               getter_statement.append(indent(ctx) + indent(ctx))
               getter_statement.append("\n}")
             }
             case s if s.split("=")(0) == "setter" => {
               setter_method_name = s.split("=")(1).replaceAll(" |:","")
 
-              setter_statement.append("set{\n" + findGetterMethod(ctx,setter_method_name) + "\n}")
+              setter_statement.append(indent(ctx) + indent(ctx))
+              setter_statement.append("set{\n" + findGetterMethod(ctx,setter_method_name))
+              setter_statement.append(indent(ctx) + indent(ctx))
+              setter_statement.append("\n}")
             }
             case _ =>
           }
@@ -56,6 +59,10 @@ trait PropertyVisitor extends Converter {
       }
     }
 
+
+    if(getter_statement.length != 0 && setter_statement.length != 0) {
+      getter_statement.append("\n")
+    }
     getter_setter_statement.append(getter_statement)
     getter_setter_statement.append(setter_statement)
     getter_setter_statement.append("\n}")
