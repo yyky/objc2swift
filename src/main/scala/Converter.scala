@@ -1,5 +1,5 @@
 import ObjCParser._
-import org.antlr.v4.runtime.ParserRuleContext
+import org.antlr.v4.runtime.{RuleContext, ParserRuleContext}
 import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeProperty}
 import collection.JavaConversions._
 
@@ -21,11 +21,19 @@ trait Converter extends ObjCBaseVisitor[String] {
     nodes.map(visit).filter(s => s != null && s != "").mkString(glue)
 
   def indentLevel(node: ParserRuleContext): Int = {
-    node.depth() match {
-      case n if n < 4 => 0 // class
-      case n if n < 8 => 1 // method
-      case _ => 2 // TODO count number of compound_statement's
+    var level = 0
+    var ptr: RuleContext = node
+
+    while(ptr.parent != null) {
+      ptr match {
+        case _: External_declarationContext => level += 1
+        case _: Compound_statementContext   => level += 1
+        case _ =>
+      }
+      ptr = ptr.parent
+      level
     }
+    level
   }
 
   def indent(node: ParserRuleContext): String = {

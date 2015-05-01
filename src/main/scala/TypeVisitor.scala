@@ -24,7 +24,10 @@ trait TypeVisitor extends Converter {
    *
    */
   override def visitType_specifier(ctx: Type_specifierContext): String =
-    ctx.getText match {
+    (ctx.pointer match {
+      case null => ctx.getText
+      case _ => ctx.IDENTIFIER.getText
+    }) match {
       case "void"   => "void"
       case "id"     => "AnyObject"
       case "short"  => "Int8"
