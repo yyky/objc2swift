@@ -57,8 +57,10 @@ trait MethodVisitor extends Converter {
         val method_selector = ctx.method_selector()
         val method_type = Option(ctx.method_type())
         sb.append(createMethodHeader(method_selector, method_type))
-        sb.append(" {\n")
-        sb.append(indent(ctx) + "}")
+
+        // TODO: Check parent is protocol or not
+        //sb.append(" {\n")
+        //sb.append(indent(ctx) + "}")
     }
 
     sb.toString()
