@@ -25,7 +25,7 @@ trait ClassVisitor extends Converter {
     // TODO merge class-ext (aka unnamed-category)
 
     // implementation of class
-    sb.append(" {\n")
+    sb.append(" {\n\n")
 
     // TODO collect instance-vars from @intf, @impl and class-ext
     // TODO only insert \n\n in between method blocks.

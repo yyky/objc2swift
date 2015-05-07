@@ -9,9 +9,12 @@
  */
 
 import ObjCParser._
+import org.antlr.v4.runtime.tree.TerminalNode
 import collection.JavaConversions._
 
 trait ProtocolVisitor extends Converter {
+
+  self: ObjCBaseVisitor[String] =>
 
   object ProtocolList {
     def unapply(o: Option[Protocol_reference_listContext]): Option[String] =
@@ -36,9 +39,17 @@ trait ProtocolVisitor extends Converter {
 
     sb.append("{\n")
 
-    Option(ctx.interface_declaration_list()) match {
-      case Some(list) => sb.append(list.map(visit).mkString("\n") + "\n")
-      case None =>
+    // Support Optional Annotation
+    isOptionalProtocol = false
+    ctx.children.foreach {
+      case s: TerminalNode if s.getSymbol.getText == "@optional" =>
+        isOptionalProtocol = true
+      case s: TerminalNode if s.getSymbol.getText == "@required" =>
+        isOptionalProtocol = false
+      case list: Interface_declaration_listContext =>
+        //sb.append(list.children.map(visit).filter(_ != "").mkString("\n") + "\n")
+        sb.append(visit(list) + "\n")
+      case _ =>
     }
 
     sb.append("}")

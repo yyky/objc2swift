@@ -24,7 +24,7 @@ trait MethodVisitor extends Converter {
     val sb = new StringBuilder()
 
     // Public method
-    sb.append(indent(ctx) + "func")
+    sb.append(indent(ctx) + optional(ctx) + "func")
     sb.append(Option(ctx.method_declaration()).map(visit).getOrElse(""))
 
     sb.toString()
@@ -34,7 +34,7 @@ trait MethodVisitor extends Converter {
     val sb = new StringBuilder()
 
     // class method
-    sb.append(indent(ctx) + "class func")
+    sb.append(indent(ctx) + optional(ctx) +  "class func")
     sb.append(Option(ctx.method_declaration()).map(visit).getOrElse(""))
 
     sb.toString()
@@ -58,9 +58,13 @@ trait MethodVisitor extends Converter {
         val method_type = Option(ctx.method_type())
         sb.append(createMethodHeader(method_selector, method_type))
 
-        // TODO: Check parent is protocol or not
-        //sb.append(" {\n")
-        //sb.append(indent(ctx) + "}")
+        // Check ancestor is protocol or not
+        ctx.parent.parent.parent match {
+          case _: Protocol_declarationContext =>
+          case _ =>
+            sb.append(" {\n")
+            sb.append(indent(ctx) + "}")
+        }
     }
 
     sb.toString()
@@ -123,7 +127,7 @@ trait MethodVisitor extends Converter {
     // TODO: Support more types
     //
     tctx match {
-      case None => sb.append("-> AnyObject") // Default
+      case None => sb.append(" -> AnyObject") // Default
       case Some(c) => visit(c) match {
         case s if s != "" => sb.append(" -> " + s)
         case _            => // void
