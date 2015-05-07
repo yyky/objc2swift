@@ -34,15 +34,13 @@ trait ProtocolVisitor extends Converter {
   }
 
   override def visitProtocol_declaration(ctx: Protocol_declarationContext): String = {
+
     val sb = new StringBuilder()
 
-    sb.append("protocol")
-
-    val name = visit(ctx.protocol_name())
-    sb.append(" " + name + " ")
+    sb.append("protocol " + visit(ctx.protocol_name()) + " ")
 
     Option(ctx.protocol_reference_list()) match {
-      case ProtocolList(p) => sb.append(": " + p + " ")
+      case ProtocolList(list) => sb.append(": " + list + " ")
       case _ =>
     }
 

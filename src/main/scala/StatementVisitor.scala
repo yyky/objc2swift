@@ -94,6 +94,21 @@ trait StatementVisitor extends Converter {
     sb.toString()
   }
 
+  def concatDeclaratorList(ctx: Init_declarator_listContext): String =
+    ctx.init_declarator().map(c => {
+      Option(c.declarator().direct_declarator().identifier()) match {
+        case Some(id) =>
+          Option(c.initializer()) match {
+            case Some(init) => visit(id) + " = " + visit(init)
+            case None => ""
+          }
+        case None => ""
+      }
+    }).filter(_ != "").mkString(", ") match {
+      case s if s != "" => "var " + s
+      case _ => ""
+    }
+
   override def visitFor_statement(ctx: For_statementContext): String = {
     val sb = new StringBuilder()
 
@@ -105,29 +120,13 @@ trait StatementVisitor extends Converter {
         case d: Declaration_specifiersContext =>
           // TODO: Merge with visitDeclaration()
           Option(d.type_specifier()) match {
-            case None => // No Type
-            case Some(ls) =>
+            case Some(list) =>
+              // Other declaration. Find from init_declarator_list
               Option(ctx.init_declarator_list()) match {
+                case Some(c) => sb.append(concatDeclaratorList(c))
                 case None =>
-                case Some(c) =>
-                  // Other declaration. Find from init_declarator_list
-                  c.init_declarator().foreach { c2 =>
-                    val dd = c2.declarator().direct_declarator()
-                    Option(dd.identifier()) match {
-                      case None =>
-                      case Some(id) =>
-                        Option(c2.initializer()) match {
-                          case Some(c3) =>
-                            // TODO: Support multiple declaration
-                            sb.append("var ")
-                            sb.append(visit(id))
-                            sb.append(" = " + visit(c3))
-                          case _ =>
-                        }
-                    }
-
-                  }
               }
+            case None => // No Type info
           }
         case expression: ExpressionContext => sb.append(visit(expression))
         case statement: StatementContext =>
