@@ -21,12 +21,11 @@ trait PropertyVisitor extends Converter {
     val getter_statement = new StringBuilder()
     val setter_statement = new StringBuilder()
     var property_attributes = ""
-    var read_only = ""
+    var read_only = new StringBuilder()
     var getter_method_name = ""
     var setter_method_name = ""
 
     sb.append(indent(ctx))
-    getter_setter_statement.append("{\n")
 
     Option(ctx.property_attributes_declaration()) match {
       case None =>
@@ -35,23 +34,25 @@ trait PropertyVisitor extends Converter {
           i match {
             case s if s == "weak" => property_attributes = s
             case s if s == "readonly" => {
-              read_only == "{ get{} }"
+              read_only.append("{ get{} }")
             }
             case s if s.split("=")(0) == "getter" => {
               getter_method_name = s.split("=")(1).replaceAll(" ","")
 
-              getter_statement.append(indent(ctx) + indent(ctx))
-              getter_statement.append("get{\n" + findGetterMethod(ctx,getter_method_name))
-              getter_statement.append(indent(ctx) + indent(ctx))
-              getter_statement.append("\n}")
+              getter_statement.append(
+                indentString * 2 + "get{\n"
+                + indentString + findGetterMethod(ctx,getter_method_name) + "\n"
+                + indentString * 2 + "}"
+              )
             }
             case s if s.split("=")(0) == "setter" => {
               setter_method_name = s.split("=")(1).replaceAll(" |:","")
 
-              setter_statement.append(indent(ctx) + indent(ctx))
-              setter_statement.append("set{\n" + findGetterMethod(ctx,setter_method_name))
-              setter_statement.append(indent(ctx) + indent(ctx))
-              setter_statement.append("\n}")
+              setter_statement.append(
+                indentString * 2 + "set{\n"
+                + indentString + findGetterMethod(ctx,setter_method_name) + "\n"
+                + indentString * 2 + "}"
+              )
             }
             case _ =>
           }
@@ -59,18 +60,20 @@ trait PropertyVisitor extends Converter {
       }
     }
 
-
     if(getter_statement.length != 0 && setter_statement.length != 0) {
       getter_statement.append("\n")
     }
-    getter_setter_statement.append(getter_statement)
-    getter_setter_statement.append(setter_statement)
-    getter_setter_statement.append("\n}")
 
-//    if(read_only == "{ get{} }" && getter_method_name.length == 0){
-//      getter_setter_statement.setLength(0)
-//      getter_setter_statement.append("{ get{} }")
-//    }
+    if(getter_statement.length != 0 || setter_statement.length != 0) {
+      getter_statement.insert(0,"{\n")
+      getter_setter_statement.append(getter_statement)
+      getter_setter_statement.append(setter_statement)
+      getter_setter_statement.append("\n" + indentString + "}")
+    }
+
+    if(read_only.toString() == "{ get{} }" && getter_statement.length == 0){
+      getter_setter_statement.append(read_only.toString())
+    }
 
     Option(ctx.struct_declaration()) match {
       case None =>
