@@ -24,6 +24,15 @@ trait ProtocolVisitor extends Converter {
       }
   }
 
+  object OptionalAnnotation {
+    def unapply(node: TerminalNode): Option[Boolean] =
+      node.getSymbol.getText match {
+        case "@optional" => Some(true)
+        case "@required" => Some(false)
+        case _ => None
+      }
+  }
+
   override def visitProtocol_declaration(ctx: Protocol_declarationContext): String = {
     val sb = new StringBuilder()
 
@@ -42,13 +51,8 @@ trait ProtocolVisitor extends Converter {
     // Support Optional Annotation
     isOptionalProtocol = false
     ctx.children.foreach {
-      case s: TerminalNode if s.getSymbol.getText == "@optional" =>
-        isOptionalProtocol = true
-      case s: TerminalNode if s.getSymbol.getText == "@required" =>
-        isOptionalProtocol = false
-      case list: Interface_declaration_listContext =>
-        //sb.append(list.children.map(visit).filter(_ != "").mkString("\n") + "\n")
-        sb.append(visit(list) + "\n")
+      case OptionalAnnotation(bool) => isOptionalProtocol = bool
+      case list: Interface_declaration_listContext => sb.append(visit(list) + "\n")
       case _ =>
     }
 
@@ -57,14 +61,15 @@ trait ProtocolVisitor extends Converter {
     sb.toString()
   }
 
-
-  override def visitProtocol_reference_list(ctx: Protocol_reference_listContext) = visit(ctx.protocol_list)
+  override def visitProtocol_reference_list(ctx: Protocol_reference_listContext) =
+    visit(ctx.protocol_list)
 
   override def visitProtocol_list(ctx: Protocol_listContext): String =
     ctx.protocol_name.map(visit).mkString(", ")
 
   override def visitProtocol_name(ctx: Protocol_nameContext): String = ctx.getText
 
-  // TODO: Forward declaration
+  // Forward declaration. No need on swift.
   override def visitProtocol_declaration_list(ctx: Protocol_declaration_listContext) = ""
+
 }

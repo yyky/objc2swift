@@ -45,3 +45,5 @@
 - (UIColor *)colorForSegmentAtIndex:(NSUInteger)segmentIndex;
 @end
 */
+
+@protocol ExternalProtocol;
