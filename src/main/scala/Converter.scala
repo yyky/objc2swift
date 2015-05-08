@@ -1,5 +1,5 @@
 import ObjCParser._
-import org.antlr.v4.runtime.ParserRuleContext
+import org.antlr.v4.runtime.{RuleContext, ParserRuleContext}
 import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeProperty}
 import collection.JavaConversions._
 
@@ -10,6 +10,7 @@ trait Converter extends ObjCBaseVisitor[String] {
   private val usSetters = new ParseTreeProperty[Boolean]()
   private val visited = new ParseTreeProperty[Boolean]()
   val indentString = " " * 4
+  var isOptionalProtocol = false
 
   def getResult: String = visit(root)
 
@@ -22,11 +23,19 @@ trait Converter extends ObjCBaseVisitor[String] {
     nodes.map(visit).filter(s => s != null && s != "").mkString(glue)
 
   def indentLevel(node: ParserRuleContext): Int = {
-    node.depth() match {
-      case n if n < 4 => 0 // class
-      case n if n < 8 => 1 // method
-      case _ => 2 // TODO count number of compound_statement's
+    var level = 0
+    var ptr: RuleContext = node
+
+    while(ptr.parent != null) {
+      ptr match {
+        case _: External_declarationContext => level += 1
+        case _: Compound_statementContext   => level += 1
+        case _ =>
+      }
+      ptr = ptr.parent
+      level
     }
+    level
   }
 
   def indent(node: ParserRuleContext): String = {
@@ -112,13 +121,24 @@ trait Converter extends ObjCBaseVisitor[String] {
     }
   }
 
-  override def visitTranslation_unit(ctx: Translation_unitContext): String = {
-    concatChildResults(ctx, "\n\n")
+  private def isProtocolScope(ctx: RuleContext): Boolean = ctx match {
+    case _: Protocol_declarationContext => true
+    case _: Protocol_declaration_listContext => true
+    case _: External_declarationContext => false
+    case c => isProtocolScope(c.parent)
   }
 
-  override def visitExternal_declaration(ctx: External_declarationContext): String = {
+  def optional(node: ParserRuleContext): String =
+    isProtocolScope(node) && isOptionalProtocol match {
+      case true => "optional "
+      case false => ""
+    }
+
+  override def visitTranslation_unit(ctx: Translation_unitContext): String =
+    concatChildResults(ctx, "\n\n")
+
+  override def visitExternal_declaration(ctx: External_declarationContext): String =
     concatChildResults(ctx, "")
-  }
 
   def isUSSetter(node: ParseTree) = {
     Option(usSetters.get(node)) match {
