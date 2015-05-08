@@ -41,7 +41,7 @@ trait PropertyVisitor extends Converter {
 
               getter_statement.append(
                 indentString * 2 + "get{\n"
-                + indentString + findGetterMethod(ctx,getter_method_name) + "\n"
+                + indentString + findGetterMethod(ctx,getter_method_name)
                 + indentString * 2 + "}"
               )
             }
@@ -50,7 +50,7 @@ trait PropertyVisitor extends Converter {
 
               setter_statement.append(
                 indentString * 2 + "set{\n"
-                + indentString + findGetterMethod(ctx,setter_method_name) + "\n"
+                + indentString + findGetterMethod(ctx,setter_method_name)
                 + indentString * 2 + "}"
               )
             }
@@ -61,18 +61,18 @@ trait PropertyVisitor extends Converter {
     }
 
     if(getter_statement.length != 0 && setter_statement.length != 0) {
+      getter_statement.insert(0,"{\n")
       getter_statement.append("\n")
     }
 
-    if(getter_statement.length != 0 || setter_statement.length != 0) {
+    if(getter_statement.length != 0 && setter_statement.length == 0){
       getter_statement.insert(0,"{\n")
+    }
+
+    if(getter_statement.length != 0 || setter_statement.length != 0) {
       getter_setter_statement.append(getter_statement)
       getter_setter_statement.append(setter_statement)
       getter_setter_statement.append("\n" + indentString + "}")
-    }
-
-    if(read_only.toString() == "{ get{} }" && getter_statement.length == 0){
-      getter_setter_statement.append(read_only.toString())
     }
 
     Option(ctx.struct_declaration()) match {
@@ -116,6 +116,14 @@ trait PropertyVisitor extends Converter {
             case None =>
             case Some(direct_declarator) =>
               val identifier = direct_declarator.identifier().getText
+              val getterStr = "{\n" + indentString * 2 + "get{\n" + indentString * 3 + "return self." + identifier + "\n" + indentString * 2 + "}\n"
+
+              if(read_only.toString() == "{ get{} }" && getter_statement.length == 0){
+                getter_setter_statement.append(getterStr + indentString + "}")
+              }
+              if(getter_method_name.length == 0 && setter_statement.length != 0){
+                getter_setter_statement.insert(0,getterStr)
+              }
               sb.append(weak + "var " + identifier + ":" + type_of_variable + optional + getter_setter_statement)
           }
         }

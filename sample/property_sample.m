@@ -17,7 +17,7 @@
 }
 
 -(void)setterFunc:(int)sampleGetterAndSetter{
-    sampleGetterAndSetter = 30;
+    _sampleGetterAndSetter = 30;
 }
 
 @end
