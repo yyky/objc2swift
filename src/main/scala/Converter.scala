@@ -9,6 +9,7 @@ trait Converter extends ObjCBaseVisitor[String] {
 
   private val visited = new ParseTreeProperty[Boolean]()
   val indentString = " " * 4
+  var isOptionalProtocol = false
 
   def getResult: String = visit(root)
 
@@ -119,11 +120,23 @@ trait Converter extends ObjCBaseVisitor[String] {
     }
   }
 
-  override def visitTranslation_unit(ctx: Translation_unitContext): String = {
-    concatChildResults(ctx, "\n\n")
+  private def isProtocolScope(ctx: RuleContext): Boolean = ctx match {
+    case _: Protocol_declarationContext => true
+    case _: Protocol_declaration_listContext => true
+    case _: External_declarationContext => false
+    case c => isProtocolScope(c.parent)
   }
 
-  override def visitExternal_declaration(ctx: External_declarationContext): String = {
+  def optional(node: ParserRuleContext): String =
+    isProtocolScope(node) && isOptionalProtocol match {
+      case true => "optional "
+      case false => ""
+    }
+
+  override def visitTranslation_unit(ctx: Translation_unitContext): String =
+    concatChildResults(ctx, "\n\n")
+
+  override def visitExternal_declaration(ctx: External_declarationContext): String =
     concatChildResults(ctx, "")
-  }
+
 }

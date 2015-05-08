@@ -16,7 +16,7 @@ trait StatementVisitor extends Converter {
   self: ObjCBaseVisitor[String] =>
 
   override def visitStatement_list(ctx: Statement_listContext): String = {
-    concatChildResults(ctx, "\n")
+    concatChildResults(ctx, "\n") + "\n"
   }
 
   override def visitStatement(ctx: StatementContext): String = {
@@ -35,35 +35,24 @@ trait StatementVisitor extends Converter {
     }
   }
 
+  object TerminalText {
+    def unapply(node: TerminalNode): Option[String] = Option(node.getSymbol.getText)
+  }
+
   override def visitSelection_statement(ctx: Selection_statementContext): String = {
     val sb = new StringBuilder()
-    var statement_kind = ""
 
     for (element <- ctx.children) {
       element match {
-        case symbol: TerminalNode => {
-          symbol.getSymbol.getText match {
-            case s if s == "if" || s == "switch" => {
-              sb.append(s)
-              statement_kind = s
-            }
-            case "(" | ")" => sb.append(" ")
-            case _ => null
-          }
-        }
-        case expression: ExpressionContext => {
-          sb.append(visit(expression))
-        }
-        case statement: StatementContext => {
+        case TerminalText("if") => sb.append("if")
+        case TerminalText("switch") => sb.append("switch")
+        case TerminalText("(") | TerminalText(")") => sb.append(" ")
+        case expression: ExpressionContext => sb.append(visit(expression))
+        case statement: StatementContext =>
           sb.append("{\n")
-
-          if (statement_kind == "if") {
-            sb.append(indentString)
-          }
-          sb.append(visitChildren(statement) + "\n")
+          sb.append(visitChildren(statement))
           sb.append(indent(statement) +  "}\n")
-        }
-        case _ => null
+        case _ =>
       }
     }
 
@@ -73,18 +62,13 @@ trait StatementVisitor extends Converter {
   override def visitLabeled_statement(ctx: Labeled_statementContext): String = {
     val sb = new StringBuilder()
 
+    //TODO fix indent bug
     for (element <- ctx.children) {
       element match {
-        case symbol: TerminalNode => {
-          symbol.getSymbol.getText match {
-            case "case" => sb.append("case ")
-            case "default" => sb.append("default")
-            case ":" => sb.append(":\n" + indentString)
-            case _ => null
-          }
-        }
+        case TerminalText("case") => sb.append("case ")
+        case TerminalText("default") => sb.append("default")
+        case TerminalText(":") => sb.append(":\n")
         case _ => sb.append(visit(element))
-        //TODO fix indent bug
       }
     }
     sb.toString()
@@ -95,70 +79,61 @@ trait StatementVisitor extends Converter {
 
     for (element <- ctx.children) {
       element match {
-        case symbol: TerminalNode =>
-          symbol.getSymbol.getText match {
-            case "for" => sb.append("for")
-            case "in" => sb.append(" in ")
-            case "(" | ")" => sb.append(" ")
-            case _ => null
-          }
+        case TerminalText("for") => sb.append("for")
+        case TerminalText("in") => sb.append(" in ")
+        case TerminalText("(") | TerminalText(")") => sb.append(" ")
         case expression: ExpressionContext => sb.append(visit(expression))
         case statement: StatementContext =>
           sb.append("{\n")
-          sb.append(indentString + visitChildren(statement) + "\n")
+          sb.append(visitChildren(statement))
           sb.append(indent(statement) +  "}\n")
         case typeVariable: Type_variable_declaratorContext => sb.append(visit(typeVariable))
-        case _ => null
+        case _ =>
       }
     }
     sb.toString()
   }
+
+  def concatDeclaratorList(ctx: Init_declarator_listContext): String =
+    ctx.init_declarator().map(c => {
+      Option(c.declarator().direct_declarator().identifier()) match {
+        case Some(id) =>
+          Option(c.initializer()) match {
+            case Some(init) => visit(id) + " = " + visit(init)
+            case None => ""
+          }
+        case None => ""
+      }
+    }).filter(_ != "").mkString(", ") match {
+      case s if s != "" => "var " + s
+      case _ => ""
+    }
 
   override def visitFor_statement(ctx: For_statementContext): String = {
     val sb = new StringBuilder()
 
     for (element <- ctx.children) {
       element match {
-        case symbol: TerminalNode =>
-          symbol.getSymbol.getText match {
-            case "for" => sb.append("for")
-            case "(" | ")" => sb.append(" ")
-            case ";" => sb.append("; ")
-            case _ => null
-          }
+        case TerminalText("for") => sb.append("for")
+        case TerminalText("(") | TerminalText(")") => sb.append(" ")
+        case TerminalText(";") => sb.append("; ")
         case d: Declaration_specifiersContext =>
           // TODO: Merge with visitDeclaration()
           Option(d.type_specifier()) match {
-            case None => // No Type
-            case Some(ls) =>
+            case Some(list) =>
+              // Other declaration. Find from init_declarator_list
               Option(ctx.init_declarator_list()) match {
+                case Some(c) => sb.append(concatDeclaratorList(c))
                 case None =>
-                case Some(c) =>
-                  // Other declaration. Find from init_declarator_list
-                  c.init_declarator().foreach { c2 =>
-                    val dd = c2.declarator().direct_declarator()
-                    Option(dd.identifier()) match {
-                      case None =>
-                      case Some(id) =>
-                        Option(c2.initializer()) match {
-                          case Some(c3) =>
-                            sb.append("var ")
-                            sb.append(visit(id))
-                            sb.append(" = " + visit(c3))
-                          case _ =>
-                        }
-                    }
-
-                  }
               }
+            case None => // No Type info
           }
         case expression: ExpressionContext => sb.append(visit(expression))
         case statement: StatementContext =>
           sb.append("{\n")
-          // TODO: fix indent
-          sb.append(indentString + visitChildren(statement) + "\n")
+          sb.append(visitChildren(statement))
           sb.append(indent(statement) +  "}\n")
-        case _ => null
+        case _ =>
       }
     }
     sb.toString()
@@ -169,18 +144,14 @@ trait StatementVisitor extends Converter {
 
     for (element <- ctx.children) {
       element match {
-        case symbol: TerminalNode =>
-          symbol.getSymbol.getText match {
-            case "while" => sb.append("while")
-            case "(" | ")" => sb.append(" ")
-            case _ => null
-          }
+        case TerminalText("while") => sb.append("while")
+        case TerminalText("(") | TerminalText(")") => sb.append(" ")
         case expression: ExpressionContext => sb.append(visit(expression))
         case statement: StatementContext =>
           sb.append("{\n")
-          sb.append(indentString + visitChildren(statement) + "\n")
+          sb.append(visitChildren(statement))
           sb.append(indent(statement) +  "}\n")
-        case _ => null
+        case _ =>
       }
     }
     sb.toString()
@@ -191,19 +162,16 @@ trait StatementVisitor extends Converter {
 
     for (element <- ctx.children) {
       element match {
-        case symbol: TerminalNode =>
-          symbol.getSymbol.getText match {
-            case "do" => sb.append("do ")
-            case "while" => sb.append("while")
-            case "(" | ")" => sb.append(" ")
-            case _ => null
-          }
+        case TerminalText("do") => sb.append("do")
+        case TerminalText("while") => sb.append("while")
+        case TerminalText("(") => sb.append(" ")
+        case TerminalText(")") => sb.append("\n")
         case expression: ExpressionContext => sb.append(visit(expression))
         case statement: StatementContext =>
           sb.append("{\n")
-          sb.append(indentString + visitChildren(statement) + "\n")
+          sb.append(visitChildren(statement))
           sb.append(indent(statement) +  "} ")
-        case _ => null
+        case _ =>
       }
     }
     sb.toString()
