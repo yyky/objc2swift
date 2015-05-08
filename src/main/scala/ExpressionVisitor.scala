@@ -93,7 +93,13 @@ trait ExpressionVisitor extends Converter {
   override def visitAdditive_expression(ctx: Additive_expressionContext)       = visitBinaryOperator(ctx)
   override def visitMultiplicative_expression(ctx: Multiplicative_expressionContext) = visitBinaryOperator(ctx)
 
-  override def visitAssignment_expression(ctx: Assignment_expressionContext): String = concatChildResults(ctx, " ")
+  override def visitAssignment_expression(ctx: Assignment_expressionContext): String = {
+    if(isUSSetter(ctx.parent)){
+      concatChildResults(ctx, " ").replaceFirst("_","self.")
+    }else{
+      concatChildResults(ctx, " ")
+    }
+  }
 
   override def visitUnary_expression(ctx: Unary_expressionContext)             = visitUnaryOperator(ctx)
   override def visitPostfix_expression(ctx: Postfix_expressionContext)         = visitUnaryOperator(ctx)

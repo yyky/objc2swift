@@ -7,6 +7,7 @@ trait Converter extends ObjCBaseVisitor[String] {
 
   val root: Translation_unitContext
 
+  private val usSetters = new ParseTreeProperty[Boolean]()
   private val visited = new ParseTreeProperty[Boolean]()
   val indentString = " " * 4
 
@@ -117,5 +118,16 @@ trait Converter extends ObjCBaseVisitor[String] {
 
   override def visitExternal_declaration(ctx: External_declarationContext): String = {
     concatChildResults(ctx, "")
+  }
+
+  def isUSSetter(node: ParseTree) = {
+    Option(usSetters.get(node)) match {
+      case Some(flag) if flag => true
+      case _ => false
+    }
+  }
+
+  def setUSSetter(node: ParseTree) = {
+    usSetters.put(node, true)
   }
 }

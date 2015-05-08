@@ -133,7 +133,6 @@ trait PropertyVisitor extends Converter {
   def findGetterMethod(declCtx: Property_declarationContext,selector:String):String = {
     val sb = new StringBuilder()
 
-
     for (extDclCtx <- root.external_declaration) {
       Option(extDclCtx.class_implementation) match {
         case Some(implCtx) => {
@@ -155,6 +154,18 @@ trait PropertyVisitor extends Converter {
 
             if(selector == setterSelectorText || selector == getterSelectorText){
               val compound = i.method_definition().compound_statement()
+              compound.statement_list().foreach{l =>
+                l.statement().foreach{m =>
+                  Option(m.expression()) match {
+                    case Some(l) => {
+                      if(l.getText.indexOf("_") == 0){
+                        setUSSetter(m.expression())
+                      }
+                    }
+                    case None =>
+                  }
+                }
+              }
 
               sb.append(visit(compound))
             }
