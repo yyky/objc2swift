@@ -9,7 +9,6 @@
  */
 
 import ObjCParser._
-import org.antlr.v4.runtime.tree.TerminalNode
 import collection.JavaConversions._
 
 trait StatementVisitor extends Converter {
@@ -33,10 +32,6 @@ trait StatementVisitor extends Converter {
       case "break" => "" // TODO not implemented
       case _ => "" // TODO
     }
-  }
-
-  object TerminalText {
-    def unapply(node: TerminalNode): Option[String] = Option(node.getSymbol.getText)
   }
 
   override def visitSelection_statement(ctx: Selection_statementContext): String = {

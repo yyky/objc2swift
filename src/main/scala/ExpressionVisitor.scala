@@ -183,4 +183,25 @@ trait ExpressionVisitor extends Converter {
 
   override def visitUnary_expression(ctx: Unary_expressionContext)             = visitUnaryExpression(ctx)
   override def visitPostfix_expression(ctx: Postfix_expressionContext)         = visitUnaryExpression(ctx)
+
+  override def visitInclusive_or_expression(ctx: Inclusive_or_expressionContext): String =
+    ctx.exclusive_or_expression().map(visit).mkString(" | ")
+
+  override def visitExclusive_or_expression(ctx: Exclusive_or_expressionContext): String =
+    ctx.and_expression().map(visit).mkString(" ^ ")
+
+  override def visitAnd_expression(ctx: And_expressionContext): String =
+    ctx.equality_expression().map(visit).mkString(" & ")
+
+  override def visitShift_expression(ctx: Shift_expressionContext): String = {
+    val sb = new StringBuilder()
+    ctx.children.foreach {
+      case TerminalText("<<") => sb.append(" << ")
+      case TerminalText(">>") => sb.append(" >> ")
+      case a: Additive_expressionContext => sb.append(visit(a))
+      case _ =>
+    }
+    sb.toString()
+  }
+
 }
