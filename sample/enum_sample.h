@@ -33,9 +33,7 @@ typedef NS_OPTIONS(NSUInteger, OBJCEnumSampleE) {
 	OBJCEnumSampleE4 = 1 << 2,
 };
 
-/*
 typedef enum CTRAdPosition : NSUInteger {
     CTRAdPositionViewTop = 0,
     CTRAdPositionViewBottom
 } CTRAdPosition;
-*/
