@@ -26,7 +26,6 @@
 - (int)optionalMethod;
 @end
 
-/*
 @protocol OptionalProtocol2
 @required
 - (int)optionalMethod1;
@@ -44,6 +43,5 @@
 @required
 - (UIColor *)colorForSegmentAtIndex:(NSUInteger)segmentIndex;
 @end
-*/
 
 @protocol ExternalProtocol;
