@@ -96,6 +96,10 @@ trait DeclarationVisitor extends Converter {
 
             }
         }
+
+        if(sb.isEmpty && ls.size == 1) {
+          sb.append(Option(ls.get(0).enum_specifier()).map(visit).getOrElse(""))
+        }
     }
 
     sb.toString()

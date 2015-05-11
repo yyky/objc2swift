@@ -23,7 +23,8 @@ class ObjC2SwiftConverter(_root: Translation_unitContext)
   with StatementVisitor
   with ExpressionVisitor
   with OperatorVisitor
-  with TypeVisitor {
+  with TypeVisitor
+  with EnumVisitor {
 
   val root = _root
 
