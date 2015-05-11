@@ -65,10 +65,12 @@ category_implementation:
 	( implementation_definition_list )?
 	)'@end';
 
+// NOTE: Support multiple optional/required annotations
 protocol_declaration:
 	'@protocol'(
 	protocol_name ( protocol_reference_list )?
-	interface_declaration_list? '@optional'? interface_declaration_list?
+//	interface_declaration_list? '@optional'? interface_declaration_list?
+	(interface_declaration_list | '@optional' | '@required')*
 	)'@end';
 
 protocol_declaration_list:
