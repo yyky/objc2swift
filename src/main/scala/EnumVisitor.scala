@@ -37,7 +37,7 @@ trait EnumVisitor extends Converter {
       case element: EnumeratorContext => visit(element)
     }
 
-    enumeratorList.mkString(indentString, ",\n" + indentString, "\n")
+    enumeratorList.mkString(indentString, "\n" + indentString, "\n")
   }
 
   override def visitEnumerator(ctx: EnumeratorContext): String = {
