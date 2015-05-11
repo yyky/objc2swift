@@ -76,27 +76,21 @@ trait DeclarationVisitor extends Converter {
 
               Option(dd.identifier()) match {
                 case None => // not variables declaration?
-                  for (element <- ctx.children) {
-                    element match {
-                      case symbol: TerminalNode =>
-                        symbol.getSymbol.getText match {
-                          case ";" => sb.append("\n")
-                          case _ =>
-                        }
-                      case _ => sb.append(visit(element) + " ")
-                    }
+                  ctx.children.foreach {
+                    case TerminalText(";") => sb.append("\n")
+                    case _: TerminalNode =>
+                    case element => sb.append(visit(element) + " ")
                   }
                 case Some(id) => // variables declaration
                   sb.append("var ")
 
                   // Identifier
                   sb.append(visit(id))
+                  sb.append(": " + typeName)
 
                   // Initializer
-                  Option(c2.initializer()) match {
-                    case Some(c3) => sb.append(" = " + visit(c3))
-                    case _ => sb.append(": " + typeName) // No initializer
-                  }
+                  sb.append(Option(c2.initializer()).map(visit).map(" = " + _).getOrElse(""))
+
                   sb.append("\n")
               }
 
@@ -157,16 +151,10 @@ trait DeclarationVisitor extends Converter {
   override def visitDirect_declarator(ctx: Direct_declaratorContext): String = {
     val sb = new StringBuilder()
 
-    for (element <- ctx.children) {
-      element match {
-        case symbol: TerminalNode => {
-          symbol.getSymbol.getText match {
-            case "(" | ")" => sb.append(symbol.getSymbol.getText)
-            case _ => null
-          }
-        }
-        case _ => sb.append(visit(element))
-      }
+    ctx.children.foreach {
+      case s @ (TerminalText("(") | TerminalText(")")) => sb.append(s)
+      case _: TerminalNode =>
+      case element => sb.append(visit(element))
     }
 
     sb.toString()
