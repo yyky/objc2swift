@@ -23,14 +23,11 @@ trait EnumVisitor extends Converter {
   }
 
   def visitEnum_specifier(ctx: Enum_specifierContext, identifier: String): String = {
-    var enumeratorString = ""
     val typeStr = "Int"
-    Option(ctx.enumerator_list()) match {
-      case None =>
-      case Some(list) => enumeratorString = visit(list)
+    val enumeratorString = Option(ctx.enumerator_list()) match {
+      case None => ""
+      case Some(list) => "{\n" + visit(list) + "}\n"
     }
-
-    enumeratorString = "{\n" + enumeratorString + "}\n"
 
     List("enum", identifier, ":", typeStr, enumeratorString).mkString(" ")
   }
