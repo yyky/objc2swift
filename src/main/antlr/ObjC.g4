@@ -322,7 +322,7 @@ struct_declarator_list : struct_declarator (',' struct_declarator)* ;
 
 struct_declarator : declarator | declarator? ':' constant;
 
-enum_specifier : 'enum' IDENTIFIER? (':' type_name)?
+enum_specifier : 'enum' (IDENTIFIER? ':' type_name)?
   ( identifier ('{' enumerator_list '}')? 
   | '{' enumerator_list '}') 
   | 'NS_OPTIONS' '(' type_name ',' identifier ')' '{' enumerator_list '}'
