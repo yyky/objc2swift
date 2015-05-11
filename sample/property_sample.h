@@ -9,6 +9,9 @@
 @property(nonatomic,setter=setSetter:)int sampleSetter;
 @property(nonatomic,getter=getterFunc,setter=setterFunc:) int sampleGetterAndSetter;
 @property (readonly) NSObject sampleReadonly;
+@property(nonatomic) NSString *sampleDefaultGetter;
+@property(nonatomic) NSString *sampleDefaultSetter;
+@property(nonatomic) NSString *sampleDefaultGetterAndSetter;
 
 @property (nonatomic, assign) id <sampleProtocol1> sampleDelegate;
 @property (nonatomic, assign) id <sampleProtocol1, sampleProtocol2> sampleDelegate2;

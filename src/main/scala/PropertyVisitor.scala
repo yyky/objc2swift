@@ -24,6 +24,10 @@ trait PropertyVisitor extends Converter {
     var read_only = new StringBuilder()
     var getter_method_name = ""
     var setter_method_name = ""
+    var _isOriginalGetter = false
+    var _isOriginalSetter = false
+    var _originalGetterStatement = ""
+    var _originalSetterStatement = ""
 
     sb.append(indent(ctx))
 
@@ -38,19 +42,25 @@ trait PropertyVisitor extends Converter {
             }
             case s if s.split("=")(0) == "getter" => {
               getter_method_name = s.split("=")(1).replaceAll(" ","")
+              var (isOriginalGetter,originalGetterStatement) = findGetterOrSetterMethod(ctx,getter_method_name)
+              _isOriginalGetter = isOriginalGetter
+              _originalGetterStatement = originalGetterStatement
 
               getter_statement.append(
                 indentString * 2 + "get{\n"
-                + indentString + findGetterMethod(ctx,getter_method_name)
+                + indentString + originalGetterStatement
                 + indentString * 2 + "}"
               )
             }
             case s if s.split("=")(0) == "setter" => {
               setter_method_name = s.split("=")(1).replaceAll(" |:","")
+              var (isOriginalSetter,originalSetterStatement) = findGetterOrSetterMethod(ctx,setter_method_name)
+              _isOriginalSetter = isOriginalSetter
+              _originalSetterStatement = originalSetterStatement
 
               setter_statement.append(
                 indentString * 2 + "set{\n"
-                + indentString + findGetterMethod(ctx,setter_method_name)
+                + indentString + originalSetterStatement
                 + indentString * 2 + "}"
               )
             }
@@ -60,16 +70,16 @@ trait PropertyVisitor extends Converter {
       }
     }
 
-    if(getter_statement.length != 0 && setter_statement.length != 0) {
+    if(_isOriginalGetter && _isOriginalSetter){
       getter_statement.insert(0,"{\n")
       getter_statement.append("\n")
     }
 
-    if(getter_statement.length != 0 && setter_statement.length == 0){
+    if(_isOriginalGetter == true && _isOriginalSetter == false){
       getter_statement.insert(0,"{\n")
     }
 
-    if(getter_statement.length != 0 || setter_statement.length != 0) {
+    if(_isOriginalGetter || _isOriginalSetter){
       getter_setter_statement.append(getter_statement)
       getter_setter_statement.append(setter_statement)
       getter_setter_statement.append("\n" + indentString + "}")
@@ -117,13 +127,53 @@ trait PropertyVisitor extends Converter {
             case Some(direct_declarator) =>
               val identifier = direct_declarator.identifier().getText
               val getterStr = "{\n" + indentString * 2 + "get{\n" + indentString * 3 + "return self." + identifier + "\n" + indentString * 2 + "}\n"
+              var defaultSetterStr = "set" + (identifier capitalize)
 
-              if(read_only.toString() == "{ get{} }" && getter_statement.length == 0){
+
+              //no getter and only readonly
+              if(read_only.toString() == "{ get{} }" && _isOriginalGetter == false){
                 getter_setter_statement.append(getterStr + indentString + "}")
               }
-              if(getter_method_name.length == 0 && setter_statement.length != 0){
+
+              //no getter and setter only
+              if(_isOriginalGetter == false && _isOriginalSetter == true){
                 getter_setter_statement.insert(0,getterStr)
               }
+
+              if(!_isOriginalGetter && !_isOriginalSetter){
+                var (isDefaultGetter,defaultGetterStatement) = findGetterOrSetterMethod(ctx,identifier)
+                var (isDefaultSetter,defaultSetterStatement) = findGetterOrSetterMethod(ctx,defaultSetterStr)
+                //default getter or setter
+                if (isDefaultGetter || isDefaultSetter) {
+                  getter_setter_statement.append("{\n")
+
+                  if (isDefaultGetter) {
+                    getter_statement.append(
+                      indentString * 2 + "get{\n"
+                        + indentString + defaultGetterStatement
+                        + indentString * 2 + "}"
+                    )
+                  }
+
+                  if (isDefaultSetter) {
+                    setter_statement.append(
+                      indentString * 2 + "set{\n"
+                        + indentString + defaultSetterStatement
+                        + indentString * 2 + "}"
+                    )
+                  }
+
+                  //when you use both default getter and setter
+                  if (getter_statement.length != 0 && setter_statement.length != 0) {
+                    getter_statement.append("\n")
+                  }
+
+                  getter_setter_statement.append(getter_statement)
+                  getter_setter_statement.append(setter_statement)
+                  getter_setter_statement.append("\n" + indentString + "}")
+                }
+              }
+
               sb.append(weak + "var " + identifier + ":" + type_of_variable + optional + getter_setter_statement)
           }
         }
@@ -138,8 +188,9 @@ trait PropertyVisitor extends Converter {
   }
   override def visitProperty_attribute(ctx: Property_attributeContext) = ctx.getText
 
-  def findGetterMethod(declCtx: Property_declarationContext,selector:String):String = {
+  def findGetterOrSetterMethod(declCtx: Property_declarationContext,selector:String):(Boolean,String) = {
     val sb = new StringBuilder()
+    var isGetterOrSetterMethod = false
 
     for (extDclCtx <- root.external_declaration) {
       Option(extDclCtx.class_implementation) match {
@@ -175,6 +226,8 @@ trait PropertyVisitor extends Converter {
                 }
               }
 
+              isGetterOrSetterMethod = true
+
               sb.append(visit(compound))
             }
           }
@@ -183,6 +236,6 @@ trait PropertyVisitor extends Converter {
       }
     }
 
-    sb.toString()
+    (isGetterOrSetterMethod,sb.toString())
   }
 }

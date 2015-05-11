@@ -20,4 +20,19 @@
     _sampleGetterAndSetter = 30;
 }
 
+-(NSString *)sampleDefaultGetter{
+  return @"hoge";
+}
+
+-(void)setSampleDefaultSetter:(NSString *)sampleDefaultSetter{
+  _sampleDefaultSetter = @"hoge";
+}
+
+-(NSString *)sampleDefaultGetterAndSetter{
+  return @"fuga";
+}
+
+-(void)setSampleDefaultGetterAndSetter:(NSString *)sampleDefaultGetterAndSetter{
+  _sampleDefaultGetterAndSetter = @"fuga";
+}
 @end
