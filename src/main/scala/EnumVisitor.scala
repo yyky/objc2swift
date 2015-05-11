@@ -25,12 +25,9 @@ trait EnumVisitor extends Converter {
 
   def getClassName(ctx: Declaration_specifiersContext): String =
     Option(ctx.type_specifier()) match {
-      case Some(list) =>
-        list.size match {
-          case n if n >= 2 => Option(list(1).class_name()).map(visit).getOrElse("")
-          case _ => ""
-        }
-      case None => ""
+      case Some(list) if list.size >= 2 =>
+        Option(list(1).class_name()).map(visit).getOrElse("")
+      case _ => ""
     }
 
   /**
