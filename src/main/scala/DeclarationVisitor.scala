@@ -9,89 +9,12 @@
  */
 
 import ObjCParser._
-import org.antlr.v4.runtime.ParserRuleContext
-import org.antlr.v4.runtime.tree.{TerminalNode, ParseTree, ParseTreeProperty}
+import org.antlr.v4.runtime.tree.TerminalNode
 import collection.JavaConversions._
 
 trait DeclarationVisitor extends Converter {
 
   self: ObjCBaseVisitor[String] =>
-
-  object ClassName {
-    def unapply(node: ParserRuleContext): Option[String] =
-      node match {
-        case c: Type_specifierContext =>
-          Option(c.class_name()) match {
-            case Some(cn) => Option(visit(cn))
-            case _ => None
-          }
-        case _ => None
-      }
-  }
-
-  object EnumTypeSpecifier {
-    def unapply(ctx: Enum_specifierContext): Option[String] =
-      Option(ctx.type_name()) match {
-        case Some(c) =>
-          Option(c.specifier_qualifier_list()) match {
-            case Some(s) =>
-              Option(s.type_specifier()) match {
-                case Some(list) => Option(visit(list.get(0)))
-                case None => None
-              }
-            case None => None
-          }
-        case _ => None
-      }
-  }
-
-  override def visitEnumerator(ctx: EnumeratorContext): String = {
-    val sb = new StringBuilder()
-    sb.append(indent(ctx) + "case ")
-    sb.append(visit(ctx.identifier()))
-    Option(ctx.constant_expression()) match {
-      case Some(e) => sb.append(" = " + visit(e))
-      case None =>
-    }
-    sb.toString()
-  }
-
-  override def visitEnumerator_list(ctx: Enumerator_listContext): String =
-    ctx.enumerator().map(visit).mkString("\n")
-
-  def enumName(ctx: Declaration_specifiersContext): String =
-    Option(ctx.type_specifier()) match {
-      case None => ""
-      case Some(list) =>
-        list.size match {
-          case n if n >= 2 => visit(list.get(1).class_name())
-          case n if n >= 1 =>
-            Option(list.get(0).enum_specifier()) match {
-              case Some(e) => Option(e.identifier()).map(visit).getOrElse("")
-              case _ => ""
-            }
-        }
-    }
-
-  def makeEnum(ctx: Enum_specifierContext, dcl: Declaration_specifiersContext): String = {
-    val sb = new StringBuilder()
-    sb.append("enum")
-    enumName(dcl) match {
-      case s if s != "" => sb.append(" " + s)
-      case _ =>
-    }
-    ctx match {
-      case EnumTypeSpecifier(s) => sb.append(": " + s)
-      case _ =>
-    }
-    sb.append(" {\n")
-    Option(ctx.enumerator_list()) match {
-      case Some(el) => sb.append(visit(el) + "\n")
-      case _ =>
-    }
-    sb.append("}")
-    sb.toString()
-  }
 
   override def visitDeclaration(ctx: DeclarationContext): String = {
     val sb = new StringBuilder()
@@ -104,8 +27,8 @@ trait DeclarationVisitor extends Converter {
       case Some(ls) =>
 
         // Support Enumeration
-        Option(ls.get(0).enum_specifier()) match {
-          case Some(e) => return makeEnum(e, declaration_specifiers)
+        Option(ls(0).enum_specifier()) match {
+          case Some(e) => return visit(e)
           case None =>
         }
 
@@ -178,10 +101,6 @@ trait DeclarationVisitor extends Converter {
               }
 
             }
-        }
-
-        if(sb.isEmpty && ls.size == 1) {
-          sb.append(Option(ls.get(0).enum_specifier()).map(visit).getOrElse(""))
         }
     }
 
