@@ -148,16 +148,14 @@ trait DeclarationVisitor extends Converter {
     concatChildResults(ctx, "")
   }
 
-  override def visitDirect_declarator(ctx: Direct_declaratorContext): String = {
-    val sb = new StringBuilder()
-
-    ctx.children.foreach {
-      case s @ (TerminalText("(") | TerminalText(")")) => sb.append(s)
-      case _: TerminalNode =>
-      case element => sb.append(visit(element))
-    }
-
-    sb.toString()
-  }
+  override def visitDirect_declarator(ctx: Direct_declaratorContext): String =
+    ctx.children.foldLeft(List.empty[String])((z, c) => {
+      c match {
+        case TerminalText("(") => "(" :: z
+        case TerminalText(")") => ")" :: z
+        case _: TerminalNode => z
+        case element => visit(element) :: z
+      }
+    }).reverse.mkString
 
 }
