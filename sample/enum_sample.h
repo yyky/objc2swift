@@ -4,8 +4,6 @@ enum OBJCEnumSampleA {
     OBJCEnumSampleA2,
 };
 
-//TODO support following statements
-/*
 typedef enum {
     OBJCEnumSampleB0,
     OBJCEnumSampleB1,
@@ -34,4 +32,8 @@ typedef NS_OPTIONS(NSUInteger, OBJCEnumSampleE) {
 	OBJCEnumSampleE2 = 1 << 1,
 	OBJCEnumSampleE4 = 1 << 2,
 };
-*/
+
+typedef enum CTRAdPosition : NSUInteger {
+    CTRAdPositionViewTop = 0,
+    CTRAdPositionViewBottom
+} CTRAdPosition;
