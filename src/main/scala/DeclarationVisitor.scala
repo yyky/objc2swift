@@ -32,21 +32,11 @@ trait DeclarationVisitor extends Converter {
           case None =>
         }
 
-        // TODO: Merge type name conversion (ref. MethodVisitor)
         val typeName = ls.foldLeft("")((s, c) =>
           Option(c.class_name()) match {
             case Some(cn) if s == "" => visit(cn)
             case Some(cn) => s // Not type name?
-            case None =>
-              visit(c) match {
-                case "Int8" if s == "unsigned" => "UInt8"
-                case "Int32" if s == "unsigned" => "UInt32"
-                case "Int32" if s == "unsigned" => "UInt32"
-                case "Int32" if s == "Int32" => "Int64"
-                case "Int32" if s == "UInt32" => "UInt64"
-                case t if t != "" => t
-                case _ => s
-              }
+            case None => concatNumberType(s, c)
           }
         )
 
@@ -112,21 +102,11 @@ trait DeclarationVisitor extends Converter {
       case None => // No Type
       case Some(ls) =>
 
-        // TODO: Merge type name conversion (ref. MethodVisitor)
         val typeName = ls.foldLeft("")((s, c) =>
           Option(c.class_name()) match {
             case Some(cn) if s == "" => visit(cn)
             case Some(cn) => s // Not type name?
-            case None =>
-              visit(c) match {
-                case "Int8" if s == "unsigned" => "UInt8"
-                case "Int32" if s == "unsigned" => "UInt32"
-                case "Int32" if s == "unsigned" => "UInt32"
-                case "Int32" if s == "Int32" => "Int64"
-                case "Int32" if s == "UInt32" => "UInt64"
-                case t if t != "" => t
-                case _ => s
-              }
+            case None => concatNumberType(s, c)
           }
         )
 

@@ -143,4 +143,13 @@ trait Converter extends ObjCBaseVisitor[String] {
     def unapply(node: TerminalNode): Option[String] = Option(node.getSymbol.getText)
   }
 
+  def concatNumberType(prefix: String, ctx: Type_specifierContext): String =
+    (prefix, visit(ctx)) match {
+      case ("unsigned", "Int8") => "UInt8"
+      case ("unsigned", "Int32") => "UInt32"
+      case ("Int32", "Int32") => "Int64"
+      case ("UInt32", "Int32") => "UInt64"
+      case (_, t) if t != "" => t
+      case (_, _) => prefix
+    }
 }

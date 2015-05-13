@@ -50,8 +50,7 @@ trait MethodVisitor extends Converter {
     val sb = new StringBuilder()
 
     findCorrespondingMethodDefinition(ctx) match {
-      case Some(impl: Method_definitionContext) =>
-        sb.append(visit(impl))
+      case Some(impl: Method_definitionContext) => sb.append(visit(impl))
       case None =>
         // Has no definition
         val method_selector = ctx.method_selector()
@@ -196,17 +195,7 @@ trait MethodVisitor extends Converter {
     (type_specifier match {
       case None => defaultType
       case Some(contexts) =>
-        contexts.foldLeft(defaultType)((s, c) =>
-          visit(c) match {
-            case "Int8" if s == "unsigned"  => "UInt8"
-            case "Int32" if s == "unsigned" => "UInt32"
-            case "Int32" if s == "unsigned" => "UInt32"
-            case "Int32" if s == "Int32"    => "Int64"
-            case "Int32" if s == "UInt32"   => "UInt64"
-            case t if t != ""               => t
-            case _                          => s
-          }
-        )
+        contexts.foldLeft(defaultType)(concatNumberType)
     }) match {
       case "void" => "" // No return type
       case s      => s
