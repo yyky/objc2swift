@@ -136,4 +136,10 @@ trait DeclarationVisitor extends Converter {
       }
     }).reverse.mkString
 
+  /**
+   * Returns translated initializer context.
+   * @param ctx the parse tree
+   **/
+  override def visitInitializer(ctx: InitializerContext): String = concatChildResults(ctx, "")
+
 }
