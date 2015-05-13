@@ -2,6 +2,7 @@
 
 @property(nonatomic, strong) IBOutlet UILabel *sampleLabel;
 
+@property(nonatomic, weak) NSObject *sampleWeak;
 @property(nonatomic, copy) NSObject *sampleCopy;
 @property (nonatomic, retain) NSObject *sampleRetain;
 

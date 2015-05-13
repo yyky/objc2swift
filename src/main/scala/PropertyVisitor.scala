@@ -20,7 +20,7 @@ trait PropertyVisitor extends Converter {
     val getter_setter_statement = new StringBuilder()
     val getter_statement = new StringBuilder()
     val setter_statement = new StringBuilder()
-    var property_attributes = ""
+    var weak = ""
     var read_only = new StringBuilder()
     var getter_method_name = ""
     var setter_method_name = ""
@@ -36,7 +36,7 @@ trait PropertyVisitor extends Converter {
       case Some(p) => {
         visit(p).split(", ").foreach { i =>
           i match {
-            case s if s == "weak" => property_attributes = s
+            case s if s == "weak" => weak = "weak "
             case s if s == "readonly" => {
               read_only.append("{ get{} }")
             }
@@ -91,13 +91,12 @@ trait PropertyVisitor extends Converter {
         var type_of_variable = ""
         val specifier_qualifier_list = struct_declaration.specifier_qualifier_list()
         val struct_declarator_list = struct_declaration.struct_declarator_list()
-        var weak = ""
         var optional = "?"
 
         specifier_qualifier_list.type_specifier().foreach { i =>
           visit(i) match {
             case s if s == "IBOutlet" =>
-              sb.append("@" + s + " " + property_attributes + " ")
+              sb.append("@" + s + " ")
             case s =>
               type_of_variable = s
           }
