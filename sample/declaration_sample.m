@@ -33,5 +33,6 @@
     id i1;
     id i2, i3 = null;
     id i4 = @"foo";
+    HogeClass o1;
 }
 @end

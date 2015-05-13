@@ -143,13 +143,33 @@ trait Converter extends ObjCBaseVisitor[String] {
     def unapply(node: TerminalNode): Option[String] = Option(node.getSymbol.getText)
   }
 
+  /**
+   * Returns concatenated number type text.
+   * @param prefix Prefix text of current types.
+   * @param ctx Current type_specifier context
+   * @return Concatenated and translated number type text
+   */
   def concatNumberType(prefix: String, ctx: Type_specifierContext): String =
     (prefix, visit(ctx)) match {
       case ("unsigned", "Int8") => "UInt8"
       case ("unsigned", "Int32") => "UInt32"
       case ("Int32", "Int32") => "Int64"
       case ("UInt32", "Int32") => "UInt64"
+      case ("signed", t) =>  t
       case (_, t) if t != "" => t
       case (_, _) => prefix
+    }
+
+  type TSContexts = scala.collection.mutable.Buffer[Type_specifierContext]
+
+  /**
+   * Return concatenated type text.
+   * @param types List of type_specifier context
+   * @return Concatenated and translated type text
+   */
+  def concatType(types: TSContexts): String =
+    types.foldLeft("")(concatNumberType) match {
+      case "unsigned" => "UInt32"
+      case s => s
     }
 }

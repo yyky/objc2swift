@@ -163,7 +163,7 @@ trait StatementVisitor extends Converter {
         case TerminalText(")") => sb.append("\n")
         case expression: ExpressionContext => sb.append(visit(expression))
         case statement: StatementContext =>
-          sb.append("{\n")
+          sb.append(" {\n")
           sb.append(visitChildren(statement))
           sb.append(indent(statement) +  "} ")
         case _ =>

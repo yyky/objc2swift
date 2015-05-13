@@ -39,4 +39,6 @@ class ObjC2SwiftConverter(_root: Translation_unitContext)
   override def visitIdentifier(ctx: IdentifierContext): String = ctx.getText
 
   override def visitConstant(ctx: ConstantContext): String = ctx.getText
+
+  override def visitSelector(ctx: SelectorContext): String = ctx.getText
 }
