@@ -144,9 +144,7 @@ trait DeclarationVisitor extends Converter {
     sb.toString()
   }
 
-  override def visitDeclarator(ctx: DeclaratorContext): String = {
-    concatChildResults(ctx, "")
-  }
+  override def visitDeclarator(ctx: DeclaratorContext): String = concatChildResults(ctx, "")
 
   override def visitDirect_declarator(ctx: Direct_declaratorContext): String =
     ctx.children.foldLeft(List.empty[String])((z, c) => {
@@ -154,7 +152,7 @@ trait DeclarationVisitor extends Converter {
         case TerminalText("(") => "(" :: z
         case TerminalText(")") => ")" :: z
         case _: TerminalNode => z
-        case element => visit(element) :: z
+        case _ => visit(c) :: z
       }
     }).reverse.mkString
 
