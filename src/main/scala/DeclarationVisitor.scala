@@ -112,15 +112,6 @@ trait DeclarationVisitor extends Converter {
   override def visitType_variable_declarator(ctx: Type_variable_declaratorContext): String =
     Option(ctx.declaration_specifiers().type_specifier()) match {
       case Some(ls) =>
-        /*
-        val typeName = ls.foldLeft("")((s, c) =>
-          Option(c.class_name()) match {
-            case Some(cn) if s == "" => visit(cn)
-            case Some(cn) => s // Not type name?
-            case None => concatNumberType(s, c)
-          }
-        )
-        */
         Option(ctx.declarator().direct_declarator().identifier())
           .map(visit).map(_ + ": " + concatType(ls)).getOrElse("")
       case None => "" // No Type
