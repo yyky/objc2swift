@@ -149,7 +149,7 @@ trait Converter extends ObjCBaseVisitor[String] {
    * @param ctx Current type_specifier context
    * @return Concatenated and translated number type text
    */
-  def concatNumberType(prefix: String, ctx: Type_specifierContext): String =
+  private def concatNumberType(prefix: String, ctx: Type_specifierContext): String =
     (prefix, visit(ctx)) match {
       case ("unsigned", "Int8") => "UInt8"
       case ("unsigned", "Int32") => "UInt32"

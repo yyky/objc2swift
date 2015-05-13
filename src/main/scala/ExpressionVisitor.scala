@@ -193,15 +193,14 @@ trait ExpressionVisitor extends Converter {
   override def visitAnd_expression(ctx: And_expressionContext): String =
     ctx.equality_expression().map(visit).mkString(" & ")
 
-  override def visitShift_expression(ctx: Shift_expressionContext): String = {
-    val sb = new StringBuilder()
-    ctx.children.foreach {
-      case TerminalText("<<") => sb.append(" << ")
-      case TerminalText(">>") => sb.append(" >> ")
-      case a: Additive_expressionContext => sb.append(visit(a))
-      case _ =>
-    }
-    sb.toString()
-  }
+  override def visitShift_expression(ctx: Shift_expressionContext): String =
+    ctx.children.foldLeft(List.empty[String])((z, c) => {
+      c match {
+        case TerminalText("<<") => " << " :: z
+        case TerminalText(">>") => " >> " :: z
+        case a: Additive_expressionContext => visit(a) :: z
+        case _ => z
+      }
+    }).reverse.mkString
 
 }
