@@ -8,24 +8,33 @@
  * file that was distributed with this source code.
  */
 
-import java.io.{SequenceInputStream, FileInputStream}
+import java.io._
+import java.nio.file._
 import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree.ParseTreeWalker
+import org.apache.commons.io.FilenameUtils._
 import collection.JavaConversions._
+import scala.collection.mutable.ArrayBuffer
 
 object Main {
   def main(args: Array[String]) {
-    if(args.length == 0) {
+    val fileNames = args.filter(!_.startsWith("-"))
+    if(fileNames.length == 0) {
       println("error: no input file specified.")
+      return
+    }
+
+    val files = findFiles(fileNames)
+    if(files.length == 0) {
+      println("error: no file found for: '" + fileNames.mkString(", ") + "'")
       return
     }
 
     val options = Map("tree" -> args.contains("-t"))
 
-    val files = args.filter(!_.startsWith("-"))
-    val fileStreams = files.map(new FileInputStream(_))
-    val stream = new SequenceInputStream(fileStreams.toIterator)
-    val input = new ANTLRInputStream(stream)
+    val streams = files.map(new FileInputStream(_))
+    val seqStream = new SequenceInputStream(streams.toIterator)
+    val input = new ANTLRInputStream(seqStream)
 
     val lexer = new ObjCLexer(input)
     val tokens = new CommonTokenStream(lexer)
@@ -38,7 +47,7 @@ object Main {
     output(result, files, options, parser, root)
   }
 
-  def output(result: String, files: Array[String], options: Map[String, Any], parser: Parser, root: ParserRuleContext) {
+  def output(result: String, files: Array[File], options: Map[String, Any], parser: Parser, root: ParserRuleContext) {
     println("/* Hello Swift, Goodbye Obj-C.")
     println(" * converted by 'objc2swift' https://github.com/yahoojapan/objc2swift")
     println(" *")
@@ -62,5 +71,35 @@ object Main {
     println(" */")
     println()
     println(result)
+  }
+
+  def findFiles(input:Array[String]): Array[File] = {
+    val result = ArrayBuffer.empty[File]
+
+    input.foreach({
+      case x if x.contains("*") =>
+        val dir = (x.contains("/") match {
+          case true => Paths.get(x).getParent
+          case false => Paths.get(".")
+        }).toFile
+
+        val matcher = getName(x)
+        val files = dir.listFiles(new FilenameFilter {
+          override def accept(dir: File, name: String): Boolean = {
+              val extension = getExtension(name)
+              List("h", "m").contains(extension) && wildcardMatch(name, matcher)
+          }
+        })
+        result ++= files
+
+      case x =>
+        val file = Paths.get(x)
+        Files.exists(file) match {
+          case true => result += file.toFile
+          case false =>
+        }
+    })
+
+    result.toArray
   }
 }
