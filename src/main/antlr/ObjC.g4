@@ -65,10 +65,12 @@ category_implementation:
 	( implementation_definition_list )?
 	)'@end';
 
+// NOTE: Support multiple optional/required annotations
 protocol_declaration:
 	'@protocol'(
 	protocol_name ( protocol_reference_list )?
-	interface_declaration_list? '@optional'? interface_declaration_list?
+//	interface_declaration_list? '@optional'? interface_declaration_list?
+	(interface_declaration_list | '@optional' | '@required')*
 	)'@end';
 
 protocol_declaration_list:
@@ -320,7 +322,7 @@ struct_declarator_list : struct_declarator (',' struct_declarator)* ;
 
 struct_declarator : declarator | declarator? ':' constant;
 
-enum_specifier : 'enum' (':' type_name)? 
+enum_specifier : 'enum' (IDENTIFIER? ':' type_name)?
   ( identifier ('{' enumerator_list '}')? 
   | '{' enumerator_list '}') 
   | 'NS_OPTIONS' '(' type_name ',' identifier ')' '{' enumerator_list '}'

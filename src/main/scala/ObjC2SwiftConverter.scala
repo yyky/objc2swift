@@ -23,7 +23,8 @@ class ObjC2SwiftConverter(_root: Translation_unitContext)
   with StatementVisitor
   with ExpressionVisitor
   with OperatorVisitor
-  with TypeVisitor {
+  with TypeVisitor
+  with EnumVisitor {
 
   val root = _root
 
@@ -39,4 +40,6 @@ class ObjC2SwiftConverter(_root: Translation_unitContext)
   override def visitIdentifier(ctx: IdentifierContext): String = ctx.getText
 
   override def visitConstant(ctx: ConstantContext): String = ctx.getText
+
+  override def visitSelector(ctx: SelectorContext): String = ctx.getText
 }

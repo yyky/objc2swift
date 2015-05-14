@@ -1,6 +1,6 @@
 import ObjCParser._
 import org.antlr.v4.runtime.{RuleContext, ParserRuleContext}
-import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeProperty}
+import org.antlr.v4.runtime.tree.{TerminalNode, ParseTree, ParseTreeProperty}
 import collection.JavaConversions._
 
 trait Converter extends ObjCBaseVisitor[String] {
@@ -139,6 +139,10 @@ trait Converter extends ObjCBaseVisitor[String] {
 
   override def visitExternal_declaration(ctx: External_declarationContext): String =
     concatChildResults(ctx, "")
+
+  object TerminalText {
+    def unapply(node: TerminalNode): Option[String] = Option(node.getSymbol.getText)
+  }
 
   def isUSSetter(node: ParseTree) = {
     Option(usSetters.get(node)) match {
