@@ -1,7 +1,8 @@
 apply plugin: 'java'
 apply plugin: 'scala'
 
-sourceCompatibility = 1.6
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 version = '1.0'
 
 repositories {
@@ -22,6 +23,8 @@ dependencies {
     compile "org.antlr:antlr4-runtime:4.5"
 
     antlr 'org.antlr:antlr4:4.5'
+
+    testCompile 'org.scalatest:scalatest_2.11:2.2.4'
 }
 
 jar {
