@@ -1,14 +1,23 @@
-import java.io.{SequenceInputStream, FileInputStream}
-import collection.JavaConversions._
+/**
+ * This file is part of objc2swift.
+ * https://github.com/yahoojapan/objc2swift
+ *
+ * Copyright (c) 2015 Yahoo Japan Corporation
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-import org.antlr.v4.runtime._
+import java.io.{SequenceInputStream, FileInputStream}
+import org.scalatest.junit.JUnitRunner
+import org.junit.runner.RunWith
 import org.scalatest.FunSuite
 
+import org.antlr.v4.runtime._
+import collection.JavaConversions._
 import scala.io.Source
 
-/**
- * Created by hyokota on 2015/05/14.
- */
+@RunWith(classOf[JUnitRunner])
 class CompleteMatchTestSuite extends FunSuite {
 
   def getFilePath(filename: String): String = getClass.getResource(filename).getPath
