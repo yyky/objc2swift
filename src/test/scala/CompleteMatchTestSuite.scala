@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-import java.io.{SequenceInputStream, FileInputStream}
+import java.io.{InputStreamReader, SequenceInputStream, FileInputStream}
 import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
@@ -28,8 +28,9 @@ class CompleteMatchTestSuite extends FunSuite {
     val files = filenames.map(getFilePath)
 
     val fileStreams = files.map(new FileInputStream(_))
-    val stream = new SequenceInputStream(fileStreams.toIterator)
-    val input = new ANTLRInputStream(stream)
+    val streamReader = new InputStreamReader(
+      new SequenceInputStream(fileStreams.toIterator), "UTF-8")
+    val input = new ANTLRInputStream(streamReader)
 
     val lexer = new ObjCLexer(input)
     val tokens = new CommonTokenStream(lexer)
