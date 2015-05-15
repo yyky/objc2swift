@@ -21,6 +21,7 @@ import scala.io.Source
 class CompleteMatchTestSuite extends FunSuite {
 
   def getFilePath(filename: String): String = getClass.getResource(filename).getPath
+
   def getExpectedString(filename: String): String =
     Source.fromFile(getFilePath(filename))(io.Codec("UTF-8")).mkString
 
