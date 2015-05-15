@@ -32,21 +32,8 @@ object Main {
       return
     }
 
-    val streams = files.map(new FileInputStream(_))
-    val seqStream = new SequenceInputStream(streams.toIterator)
-    val input = new ANTLRInputStream(seqStream)
-
-    val lexer = new ObjCLexer(input)
-    val tokens = new CommonTokenStream(lexer)
-    val parser = new ObjCParser(tokens)
-
-    val root = parser.translation_unit
-    val converter = new ObjC2SwiftConverter(root)
-
-    val result = converter.getResult
-    val header = getHeader(files, options, parser, root)
-
-    println(s"$header\n$result")
+    val result = getResult(files, options)
+    println(result)
   }
 
   def findFiles(input:List[String]): List[File] = {
@@ -77,6 +64,24 @@ object Main {
     })
 
     result.result
+  }
+
+  def getResult(files: List[File], options: Map[String, Any]): String = {
+    val streams = files.map(new FileInputStream(_))
+    val seqStream = new SequenceInputStream(streams.toIterator)
+    val input = new ANTLRInputStream(seqStream)
+
+    val lexer = new ObjCLexer(input)
+    val tokens = new CommonTokenStream(lexer)
+    val parser = new ObjCParser(tokens)
+
+    val root = parser.translation_unit
+    val converter = new ObjC2SwiftConverter(root)
+
+    val result = converter.getResult
+    val header = getHeader(files, options, parser, root)
+
+    s"$header\n\n$result"
   }
 
   def getHeader(files: List[File], options: Map[String, Any], parser: Parser, root: ParserRuleContext): String = {
