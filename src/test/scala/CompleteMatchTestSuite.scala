@@ -57,7 +57,7 @@ class CompleteMatchTestSuite extends FunSuite {
       case s if s.isEmpty =>
       case str: String => buffer += str
     }
-    buffer.result.mkString("\n")
+    buffer.result().mkString("\n")
 
   }
 
