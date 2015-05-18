@@ -52,8 +52,8 @@ class CompleteMatchTestSuite extends FunSuite {
   def trimLines(stringArray: Array[String]): String = {
     val buffer = List.newBuilder[String]
 
-    stringArray.map(_.trim)
-    stringArray.foreach {
+    val trimmedStringArray = stringArray.map(_.trim)
+    trimmedStringArray.foreach {
       case s if s.isEmpty =>
       case str: String => buffer += str
     }
@@ -65,14 +65,14 @@ class CompleteMatchTestSuite extends FunSuite {
     val expected = getExpectedString("/sample.swift")
     val actual = getResult(Array("/sample.h", "/sample.m"))
 
-    compareResult(expected, actual)
+    assert(compareResult(expected, actual))
   }
 
   test("class_method_sample complete match test") {
     val expected = getExpectedString("/class_method_sample.swift")
     val actual = getResult(Array("/class_method_sample.h", "/class_method_sample.m"))
 
-    compareResult(expected, actual)
+    assert(compareResult(expected, actual))
   }
 
 
@@ -80,55 +80,55 @@ class CompleteMatchTestSuite extends FunSuite {
     val expected = getExpectedString("/control_flow_sample.swift")
     val actual = getResult(Array("/control_flow_sample.h", "/control_flow_sample.m"))
 
-    compareResult(expected, actual)
+    assert(compareResult(expected, actual))
   }
 
   test("declaration_sample complete match test") {
     val expected = getExpectedString("/declaration_sample.swift")
     val actual = getResult(Array("/declaration_sample.h", "/declaration_sample.m"))
 
-    compareResult(expected, actual)
+    assert(compareResult(expected, actual))
   }
 
   test("enum_sample complete match test") {
     val expected = getExpectedString("/enum_sample.swift")
     val actual = getResult(Array("/enum_sample.h"))
 
-    compareResult(expected, actual)
+    assert(compareResult(expected, actual))
   }
 
   test("expression_sample complete match test") {
     val expected = getExpectedString("/expression_sample.swift")
     val actual = getResult(Array("/expression_sample.h", "/expression_sample.m"))
 
-    compareResult(expected, actual)
+    assert(compareResult(expected, actual))
   }
 
   test("instance_method_sample complete match test") {
     val expected = getExpectedString("/instance_method_sample.swift")
     val actual = getResult(Array("/instance_method_sample.h", "/instance_method_sample.m"))
 
-    compareResult(expected, actual)
+    assert(compareResult(expected, actual))
   }
 
   test("property_sample complete match test") {
     val expected = getExpectedString("/property_sample.swift")
     val actual = getResult(Array("/property_sample.h"))
 
-    compareResult(expected, actual)
+    assert(compareResult(expected, actual))
   }
 
   test("protocol_sample complete match test") {
     val expected = getExpectedString("/protocol_sample.swift")
     val actual = getResult(Array("/protocol_sample.h", "/protocol_sample.m"))
 
-    compareResult(expected, actual)
+    assert(compareResult(expected, actual))
   }
 
   test("string_with_format_sample complete match test") {
     val expected = getExpectedString("/string_with_format_sample.swift")
     val actual = getResult(Array("/string_with_format_sample.h", "/string_with_format_sample.m"))
 
-    compareResult(expected, actual)
+    assert(compareResult(expected, actual))
   }
 }

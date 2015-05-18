@@ -35,11 +35,11 @@ protocol OptionalProtocol2 {
 }
 
 protocol XYZPieChartViewDataSource {
-    func numberOfSegments() -> Int
+    func numberOfSegments() -> UInt32
 
-    func sizeOfSegmentAtIndex(segmentIndex: Int) -> CGFloat
-    optional func titleForSegmentAtIndex(segmentIndex: Int) -> NSString
+    func sizeOfSegmentAtIndex(segmentIndex: UInt32) -> CGFloat
+    optional func titleForSegmentAtIndex(segmentIndex: UInt32) -> NSString
 
-    optional func shouldExplodeSegmentAtIndex(segmentIndex: Int) -> Bool
-    func colorForSegmentAtIndex(segmentIndex: Int) -> UIColor
+    optional func shouldExplodeSegmentAtIndex(segmentIndex: UInt32) -> Bool
+    func colorForSegmentAtIndex(segmentIndex: UInt32) -> UIColor
 }

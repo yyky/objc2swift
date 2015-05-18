@@ -41,7 +41,7 @@ class MyClassControll : NSObject, SomeProtocol {
             ++a
         }
 
-        do{
+        do {
             b++
         } while b < 10
 

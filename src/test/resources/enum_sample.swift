@@ -12,7 +12,7 @@ enum OBJCEnumSampleB : Int {
 }
 
 
-enum OBJCEnumSampleC : Int {
+enum OBJCEnumSampleC : UInt32 {
     case OBJCEnumSampleC0
     case OBJCEnumSampleC1
     case OBJCEnumSampleC2
@@ -24,13 +24,13 @@ enum OBJCEnumSampleC : Int {
 }
 
 
-enum OBJCEnumSampleD : Int {
+enum OBJCEnumSampleD : Int32 {
     case OBJCEnumSampleD0 = 0
     case OBJCEnumSampleD42 = 42
 }
 
 
-enum OBJCEnumSampleE : Int {
+enum OBJCEnumSampleE : UInt32 {
     case OBJCEnumSampleE0 = 0
     case OBJCEnumSampleE1 = 1 << 0
     case OBJCEnumSampleE2 = 1 << 1
@@ -38,7 +38,7 @@ enum OBJCEnumSampleE : Int {
 }
 
 
-enum CTRAdPosition : Int {
+enum CTRAdPosition : UInt32 {
     case CTRAdPositionViewTop = 0
     case CTRAdPositionViewBottom
 }
