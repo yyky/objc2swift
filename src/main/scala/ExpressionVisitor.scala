@@ -13,6 +13,9 @@ import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree.TerminalNode
 import collection.JavaConversions._
 
+/**
+ * Implements visit methods for expression contexts.
+ */
 trait ExpressionVisitor extends Converter {
 
   self: ObjCBaseVisitor[String] =>
@@ -94,7 +97,6 @@ trait ExpressionVisitor extends Converter {
     visit(ctx.postfix_expression(0)) + " : " + visit(ctx.postfix_expression(1))
   }
 
-
   override def visitBox_expression(ctx: Box_expressionContext): String = {
     Option(ctx.constant) match {
       case Some(const) => return visit(const)
@@ -128,9 +130,8 @@ trait ExpressionVisitor extends Converter {
     sb.toString()
   }
 
-  override def visitBlock_parameters(ctx: Block_parametersContext): String = {
+  override def visitBlock_parameters(ctx: Block_parametersContext): String =
     "(" + ctx.type_variable_declarator.map(visit).mkString(", ") + ")"
-  }
 
 
   override def visitConditional_expression(ctx: Conditional_expressionContext): String = {

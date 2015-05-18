@@ -128,7 +128,7 @@ trait MethodVisitor extends Converter {
     tctx match {
       case None => sb.append(" -> AnyObject") // Default
       case Some(c) => visit(c) match {
-        case s if s != "" => sb.append(" -> " + s)
+        case s if !s.isEmpty => sb.append(" -> " + s)
         case _            => // void
       }
     }
@@ -173,7 +173,7 @@ trait MethodVisitor extends Converter {
 
     // Separator
     val sep = selector match {
-      case s if s == ""        => "" // No external name
+      case s if s.isEmpty      => "" // No external name
       case s if s == paramName => "" // Same name
       case _                   => selector + "%s"
     }

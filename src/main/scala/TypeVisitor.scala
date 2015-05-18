@@ -36,19 +36,16 @@ trait TypeVisitor extends Converter {
         case TerminalText("long") => "Int32"
         case TerminalText("float") => "Float"
         case TerminalText("double") => "Double"
-        case TerminalText(s) if s != "" => s
+        case TerminalText(s) if !s.isEmpty => s
         case _: TerminalNode => "AnyObject"
-        case className: Class_nameContext =>
-          className.getText match {
-            case "NSInteger" => "Int32"
-            case "NSUInteger" => "UInt32"
-            case "NSArray" => "[AnyObject]"
-            case "NSDictionary" => "[NSObject : AnyObject]"
-            case "SEL" => "Selector"
-            case "BOOL" => "Bool"
-            case s if s != "" => s
-            case _ => "AnyObject"
-          }
+        case ClassNameText("NSInteger") => "Int32"
+        case ClassNameText("NSUInteger") => "UInt32"
+        case ClassNameText("NSArray") => "[AnyObject]"
+        case ClassNameText("NSDictionary") => "[NSObject : AnyObject]"
+        case ClassNameText("SEL") => "Selector"
+        case ClassNameText("BOOL") => "Bool"
+        case ClassNameText(s) if !s.isEmpty => s
+        case _: Class_nameContext => "AnyObject"
         case pointer: PointerContext => visit(pointer)
         case _ => element.getText
       })

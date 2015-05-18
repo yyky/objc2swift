@@ -4,12 +4,20 @@ import org.antlr.v4.runtime.tree.{TerminalNode, ParseTree, ParseTreeProperty}
 import collection.JavaConversions._
 
 trait Converter extends ObjCBaseVisitor[String] {
+  type TSContexts = scala.collection.mutable.Buffer[Type_specifierContext]
+
+  object TerminalText {
+    def unapply(node: TerminalNode): Option[String] = Option(node.getSymbol.getText)
+  }
+
+  object ClassNameText {
+    def unapply(node: Class_nameContext): Option[String] = Option(node.getText)
+  }
 
   val root: Translation_unitContext
-
-  private val visited = new ParseTreeProperty[Boolean]()
   val indentString = " " * 4
   var isOptionalProtocol = false
+  private val visited = new ParseTreeProperty[Boolean]()
 
   def getResult: String = visit(root)
 
@@ -19,7 +27,7 @@ trait Converter extends ObjCBaseVisitor[String] {
   }
 
   def concatResults(nodes: List[ParseTree], glue: String): String =
-    nodes.map(visit).filter(s => s != null && s != "").mkString(glue)
+    nodes.map(visit).collect{ case s: String if !s.isEmpty => s }.mkString(glue)
 
   def indentLevel(node: ParserRuleContext): Int = {
     var level = 0
@@ -37,9 +45,7 @@ trait Converter extends ObjCBaseVisitor[String] {
     level
   }
 
-  def indent(node: ParserRuleContext): String = {
-    indentString * indentLevel(node)
-  }
+  def indent(node: ParserRuleContext): String = indentString * indentLevel(node)
 
   override def visit(tree: ParseTree): String = {
     isVisited(tree) match {
@@ -50,14 +56,13 @@ trait Converter extends ObjCBaseVisitor[String] {
     }
   }
 
-  def isVisited(node: ParseTree) = {
+  def isVisited(node: ParseTree): Boolean =
     Option(visited.get(node)) match {
       case Some(flag) if flag => true
       case _ => false
     }
-  }
 
-  def setVisited(node: ParseTree) = {
+  def setVisited(node: ParseTree) {
     visited.put(node, true)
   }
 
@@ -139,10 +144,6 @@ trait Converter extends ObjCBaseVisitor[String] {
   override def visitExternal_declaration(ctx: External_declarationContext): String =
     concatChildResults(ctx, "")
 
-  object TerminalText {
-    def unapply(node: TerminalNode): Option[String] = Option(node.getSymbol.getText)
-  }
-
   /**
    * Returns concatenated number type text.
    * @param prefix Prefix text of current types.
@@ -156,11 +157,9 @@ trait Converter extends ObjCBaseVisitor[String] {
       case ("Int32", "Int32") => "Int64"
       case ("UInt32", "Int32") => "UInt64"
       case ("signed", t) =>  t
-      case (_, t) if t != "" => t
+      case (_, t) if !t.isEmpty => t
       case (_, _) => prefix
     }
-
-  type TSContexts = scala.collection.mutable.Buffer[Type_specifierContext]
 
   /**
    * Return concatenated type text.

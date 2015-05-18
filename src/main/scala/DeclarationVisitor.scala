@@ -12,6 +12,9 @@ import ObjCParser._
 import org.antlr.v4.runtime.tree.TerminalNode
 import collection.JavaConversions._
 
+/**
+ * Implements visit methods for declaration contexts.
+ */
 trait DeclarationVisitor extends Converter {
 
   self: ObjCBaseVisitor[String] =>
@@ -61,7 +64,7 @@ trait DeclarationVisitor extends Converter {
   private def concatShortDeclaration(types: TSContexts): String =
     Option(types.last.class_name()) match {
       case Some(s) => visit(s) match {
-        case t if t != "" => s"${indent(s)}var $t: ${concatType(types.init)}"
+        case t if !t.isEmpty => s"${indent(s)}var $t: ${concatType(types.init)}"
         case _ => ""
       }
       case None => ""

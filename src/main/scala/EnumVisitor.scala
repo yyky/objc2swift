@@ -12,6 +12,9 @@ import ObjCParser._
 import org.antlr.v4.runtime.RuleContext
 import collection.JavaConversions._
 
+/**
+ * Implements visit methods for enum contexts.
+ */
 trait EnumVisitor extends Converter {
 
   self: ObjCBaseVisitor[String] =>
@@ -47,7 +50,7 @@ trait EnumVisitor extends Converter {
 
   override def visitEnum_specifier(ctx: Enum_specifierContext): String =
     getEnumName(ctx) match {
-      case id if id != "" => visitEnum_specifier(ctx, id)
+      case id if !id.isEmpty => visitEnum_specifier(ctx, id)
       case _ => ""
     }
 
