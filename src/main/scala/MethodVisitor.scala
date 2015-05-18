@@ -11,66 +11,57 @@
 import ObjCParser._
 import collection.JavaConversions._
 
+/**
+ * Implements visit methods for method-contexts.
+ */
 trait MethodVisitor extends Converter {
   self: ObjCBaseVisitor[String] =>
 
   /**
-   * Convert instance method declaration(interface).
+   * Returns translated text of instance method declaration context.
    *
    * @param ctx the parse tree
    * @return Strings of Swift's instance method code
    */
   override def visitInstance_method_declaration(ctx: Instance_method_declarationContext): String = {
-    val sb = new StringBuilder()
-
-    // Public method
-    sb.append(indent(ctx) + optional(ctx) + "func")
-    sb.append(Option(ctx.method_declaration()).map(visit).getOrElse(""))
-
-    sb.toString()
-  }
-
-  override def visitClass_method_declaration(ctx: Class_method_declarationContext): String = {
-    val sb = new StringBuilder()
-
-    // class method
-    sb.append(indent(ctx) + optional(ctx) +  "class func")
-    sb.append(Option(ctx.method_declaration()).map(visit).getOrElse(""))
-
-    sb.toString()
+    val dcl = Option(ctx.method_declaration()).map(visit).getOrElse("")
+    s"${indent(ctx)}${optional(ctx)}func$dcl"
   }
 
   /**
-   * Convert method declaration(interface).
+   * Returns translated text of class method declaration context.
+   *
+   * @param ctx the parse tree
+   **/
+  override def visitClass_method_declaration(ctx: Class_method_declarationContext): String = {
+    val dcl = Option(ctx.method_declaration()).map(visit).getOrElse("")
+    s"${indent(ctx)}${optional(ctx)}class func$dcl"
+  }
+
+  /**
+   * Returns translated text of method declaration context.
    *
    * @param ctx the parse tree
    * @return Strings of Swift's method code
    */
-  override def visitMethod_declaration(ctx: Method_declarationContext): String = {
-    val sb = new StringBuilder()
-
+  override def visitMethod_declaration(ctx: Method_declarationContext): String =
     findCorrespondingMethodDefinition(ctx) match {
-      case Some(impl: Method_definitionContext) => sb.append(visit(impl))
-      case None =>
+      case Some(impl: Method_definitionContext) => visit(impl)
+      case _ =>
         // Has no definition
         val method_selector = ctx.method_selector()
         val method_type = Option(ctx.method_type())
-        sb.append(createMethodHeader(method_selector, method_type))
+        val hd = createMethodHeader(method_selector, method_type)
 
         // Check ancestor is protocol or not
         ctx.parent.parent.parent match {
-          case _: Protocol_declarationContext =>
-          case _ =>
-            sb.append(" {\n")
-            sb.append(indent(ctx) + "}")
+          case _: Protocol_declarationContext => hd
+          case _ => s"$hd {\n${indent(ctx)}}"
         }
     }
 
-    sb.toString()
-  }
-
   /**
-   * Convert instance method definition(implementation) in Objective-C to Swift code.
+   * Returns translated text of method definition context.
    *
    * @param ctx the parse tree
    * @return Strings of Swift code
@@ -78,23 +69,13 @@ trait MethodVisitor extends Converter {
   override def visitInstance_method_definition(ctx: Instance_method_definitionContext): String =
     isVisited(ctx.method_definition()) match {
       case true => "" // Already printed
-      case false =>
-        // Private method
-        val sb = new StringBuilder()
-        sb.append(indent(ctx) + "private func")
-        sb.append(visit(ctx.method_definition()))
-        sb.toString()
+      case false => s"${indent(ctx)}func${visit(ctx.method_definition())}"
     }
 
   override def visitClass_method_definition(ctx: Class_method_definitionContext): String =
     isVisited(ctx.method_definition()) match {
       case true => "" // Already printed
-      case false =>
-        // Private class method
-        val sb = new StringBuilder()
-        sb.append(indent(ctx) + "private class func")
-        sb.append(visit(ctx.method_definition()))
-        sb.toString()
+      case false => s"${indent(ctx)}class func${visit(ctx.method_definition())}"
     }
 
   override def visitMethod_definition(ctx: Method_definitionContext): String = {

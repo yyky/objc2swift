@@ -134,11 +134,11 @@ class InstanceMethodSample : NSObject, Protocol1, Protocol2 {
     func noParamNoRetNoDef2() {
     }
 
-    private func privateMethodSample(p1: NSString, pp p2: NSNumber) -> NSString {
+    func privateMethodSample(p1: NSString, pp p2: NSNumber) -> NSString {
 
     }
 
-    private func privateMethodSampleHasBody(p1: NSString, pp p2: NSNumber) -> NSString {
+    func privateMethodSampleHasBody(p1: NSString, pp p2: NSNumber) -> NSString {
         self.noParamIntRet()
         self.oneIntParamIntRet(1)
 
