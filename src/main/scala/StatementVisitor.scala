@@ -28,10 +28,7 @@ trait StatementVisitor extends Converter {
 
   override def visitJump_statement(ctx: Jump_statementContext): String = {
     ctx.getChild(0).getText match {
-      case "return" => "return" + (Option(ctx.expression()) match {
-        case None => ""
-        case Some(expression) => " " + visit(expression)
-      })
+      case "return" => "return " + visit(ctx.expression)
       case "break" => "" // TODO not implemented
       case _ => "" // TODO
     }

@@ -8,7 +8,6 @@
     if (x > y) {
         z = y;
     }
-    return;
 }
 + (double)oneFloatParamOneDoubleParamDoubleRet:(float)p1 dnum:(double)p2 {
     return p2;
