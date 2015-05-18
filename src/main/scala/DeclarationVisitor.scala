@@ -12,150 +12,112 @@ import ObjCParser._
 import org.antlr.v4.runtime.tree.TerminalNode
 import collection.JavaConversions._
 
+/**
+ * Implements visit methods for declaration contexts.
+ */
 trait DeclarationVisitor extends Converter {
 
   self: ObjCBaseVisitor[String] =>
 
   override def visitDeclaration(ctx: DeclarationContext): String = {
-    val sb = new StringBuilder()
-
-    val declaration_specifiers = ctx.declaration_specifiers()
+    var res = List.empty[String]
 
     // Type
-    Option(declaration_specifiers.type_specifier()) match {
-      case None => // No Type
+    Option(ctx.declaration_specifiers.type_specifier()) match {
       case Some(ls) =>
-
         // Support Enumeration
-        Option(ls(0).enum_specifier()) match {
-          case Some(e) => return visit(e)
-          case None =>
+        res = Option(ls(0).enum_specifier()) match {
+          case Some(e) => visit(e) :: res
+          case None => res
         }
-
-        // TODO: Merge type name conversion (ref. MethodVisitor)
-        val typeName = ls.foldLeft("")((s, c) =>
-          Option(c.class_name()) match {
-            case Some(cn) if s == "" => visit(cn)
-            case Some(cn) => s // Not type name?
-            case None =>
-              visit(c) match {
-                case "Int8" if s == "unsigned" => "UInt8"
-                case "Int32" if s == "unsigned" => "UInt32"
-                case "Int32" if s == "unsigned" => "UInt32"
-                case "Int32" if s == "Int32" => "Int64"
-                case "Int32" if s == "UInt32" => "UInt64"
-                case t if t != "" => t
-                case _ => s
-              }
-          }
-        )
-
-        Option(ctx.init_declarator_list()) match {
-          case None =>
-            // Single and no initializer declaration. Find id from class_name
-            ls.foldLeft("")((s, c) =>
-              Option(c.class_name()) match {
-                case Some(cn) if s == "" => visit(cn)
-                case _ => s
-              }
-            ) match {
-              case s if s != "" =>
-                sb.append(indent(ctx))
-                sb.append("var ")
-                sb.append(s)
-                sb.append(": " + typeName)
-                sb.append("\n")
-              case _ => // No identifier
-            }
+        res = Option(ctx.init_declarator_list()) match {
           case Some(c) =>
-            // Other declaration. Find from init_declarator_list
-            c.init_declarator().foreach { c2 =>
-              sb.append(indent(ctx))
-
-              val dd = c2.declarator().direct_declarator()
-
-              Option(dd.identifier()) match {
+            // single declaration with initializer, or multiple declaration.
+            // Find id from init_declarator_list
+            val typeName = concatType(ls)
+            c.init_declarator().foldLeft(List.empty[String])((z, c2) => {
+              Option(c2.declarator().direct_declarator().identifier()) match {
+                case Some(s) => concatInitDeclaratorContext(c2, typeName) :: z
                 case None => // not variables declaration?
-                  ctx.children.foreach {
-                    case TerminalText(";") => sb.append("\n")
-                    case _: TerminalNode =>
-                    case element => sb.append(visit(element) + " ")
-                  }
-                case Some(id) => // variables declaration
-                  sb.append("var ")
-
-                  // Identifier
-                  sb.append(visit(id))
-                  sb.append(": " + typeName)
-
-                  // Initializer
-                  sb.append(Option(c2.initializer()).map(visit).map(" = " + _).getOrElse(""))
-
-                  sb.append("\n")
+                  ctx.children.foldLeft(List.empty[String])((z2, c3) => {
+                    c3 match {
+                      case TerminalText(";") => "\n" :: z2
+                      case _: TerminalNode => z2
+                      case element => visit(element) + " " :: z2
+                    }
+                  }).reverse.mkString :: z
               }
-
-            }
+            }).reverse.mkString("\n") :: res
+          case None => concatShortDeclaration(ls) :: res
         }
-    }
-
-    sb.toString()
-  }
-
-  override def visitType_variable_declarator(ctx: Type_variable_declaratorContext): String = {
-
-    val sb = new StringBuilder()
-
-    val declaration_specifiers = ctx.declaration_specifiers()
-
-    // Type
-    Option(declaration_specifiers.type_specifier()) match {
       case None => // No Type
-      case Some(ls) =>
-
-        // TODO: Merge type name conversion (ref. MethodVisitor)
-        val typeName = ls.foldLeft("")((s, c) =>
-          Option(c.class_name()) match {
-            case Some(cn) if s == "" => visit(cn)
-            case Some(cn) => s // Not type name?
-            case None =>
-              visit(c) match {
-                case "Int8" if s == "unsigned" => "UInt8"
-                case "Int32" if s == "unsigned" => "UInt32"
-                case "Int32" if s == "unsigned" => "UInt32"
-                case "Int32" if s == "Int32" => "Int64"
-                case "Int32" if s == "UInt32" => "UInt64"
-                case t if t != "" => t
-                case _ => s
-              }
-          }
-        )
-
-        val dd = ctx.declarator().direct_declarator()
-
-        // Identifier
-        Option(dd.identifier()) match {
-          case Some(id) => // variables declaration
-            sb.append(visit(id))
-            sb.append(": " + typeName)
-          case _ =>
-        }
     }
 
-    sb.toString()
+    res.reverse.mkString("\n") + "\n"
   }
 
-  override def visitDeclarator(ctx: DeclaratorContext): String = {
-    concatChildResults(ctx, "")
-  }
+  /**
+   * Returns translated text of short style declaration.
+   *
+   * Called for single and no initializer declaration. Find id from class_name
+   */
+  private def concatShortDeclaration(types: TSContexts): String =
+    Option(types.last.class_name()) match {
+      case Some(s) => visit(s) match {
+        case t if !t.isEmpty => s"${indent(s)}var $t: ${concatType(types.init)}"
+        case _ => ""
+      }
+      case None => ""
+    }
 
+  /**
+   * Returns translated text of init_declarator context.
+   * @param ctx init_declarator context
+   * @param tp type name
+   * @return translated text
+   */
+  private def concatInitDeclaratorContext(ctx: Init_declaratorContext, tp: String): String =
+    ctx.children.foldLeft(List.empty[String])((z, c) => {
+      c match {
+        case TerminalText("=") => " = " :: z
+        case _: DeclaratorContext => s"var ${visit(c)}: $tp" :: z
+        case _: InitializerContext => visit(c) :: z
+        case _ => z
+      }
+    }).reverse.mkString(indent(ctx), "", "")
+
+  /**
+   * Returns translated text of declarator context.
+   * @param ctx the parse tree
+   **/
+  override def visitDeclarator(ctx: DeclaratorContext): String = concatChildResults(ctx, "")
+
+  /**
+   * Returns translated text of direct_declarator context.
+   * @param ctx the parse tree
+   **/
   override def visitDirect_declarator(ctx: Direct_declaratorContext): String =
     ctx.children.foldLeft(List.empty[String])((z, c) => {
       c match {
         case TerminalText("(") => "(" :: z
         case TerminalText(")") => ")" :: z
         case _: TerminalNode => z
-        case element => visit(element) :: z
+        case _ => visit(c) :: z
       }
     }).reverse.mkString
+
+  /**
+   * Returns translated initializer context.
+   * @param ctx the parse tree
+   **/
+  override def visitInitializer(ctx: InitializerContext): String = concatChildResults(ctx, "")
+
+  override def visitType_variable_declarator(ctx: Type_variable_declaratorContext): String =
+    Option(ctx.declaration_specifiers().type_specifier()) match {
+      case Some(ls) =>
+        Option(ctx.declarator().direct_declarator().identifier())
+          .map(visit).map(_ + ": " + concatType(ls)).getOrElse("")
+      case None => "" // No Type
+    }
 
 }

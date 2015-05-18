@@ -28,14 +28,13 @@ class ObjC2SwiftConverter(_root: Translation_unitContext)
 
   val root = _root
 
-  override def visitPointer(ctx: PointerContext): String = {
-    val sb = new StringBuilder()
-
-    for (element <- ctx.children) {
-      if (! element.isInstanceOf[TerminalNode]) sb.append(visit(element))
-    }
-    sb.toString()
-  }
+  override def visitPointer(ctx: PointerContext): String =
+    ctx.children.foldLeft(List.empty[String])((z, c) => {
+      c match {
+        case _: TerminalNode => z
+        case _ => visit(c) :: z
+      }
+    }).reverse.mkString
 
   override def visitIdentifier(ctx: IdentifierContext): String = ctx.getText
 

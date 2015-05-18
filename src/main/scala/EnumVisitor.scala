@@ -12,6 +12,9 @@ import ObjCParser._
 import org.antlr.v4.runtime.RuleContext
 import collection.JavaConversions._
 
+/**
+ * Implements visit methods for enum contexts.
+ */
 trait EnumVisitor extends Converter {
 
   self: ObjCBaseVisitor[String] =>
@@ -26,13 +29,13 @@ trait EnumVisitor extends Converter {
   def getClassName(ctx: Declaration_specifiersContext): String =
     Option(ctx.type_specifier()) match {
       case Some(list) if list.size >= 2 =>
-        Option(list(1).class_name()).map(visit).getOrElse("")
+        Option(list.last.class_name()).map(visit).getOrElse("")
       case _ => ""
     }
 
   /**
    * Get name of enumerator.
-   * @param ctx
+   * @param ctx parse tree
    * @return
    */
   def getEnumName(ctx: Enum_specifierContext): String =
@@ -47,15 +50,24 @@ trait EnumVisitor extends Converter {
 
   override def visitEnum_specifier(ctx: Enum_specifierContext): String =
     getEnumName(ctx) match {
-      case id if id != "" => visitEnum_specifier(ctx, id)
+      case id if !id.isEmpty => visitEnum_specifier(ctx, id)
       case _ => ""
     }
 
   def visitEnum_specifier(ctx: Enum_specifierContext, identifier: String): String = {
-    val typeStr = "Int"
+    val typeStr = Option(ctx.type_name) match {
+      case Some(s) => Option(s.specifier_qualifier_list()) match {
+        case Some(s2) => Option(s2.type_specifier()) match {
+          case Some(s3) => concatType(s3)
+          case _ => "Int"
+        }
+        case _ => "Int"
+      }
+      case _ => "Int"
+    }
     val enumeratorString = Option(ctx.enumerator_list()) match {
       case None => ""
-      case Some(list) => "{\n" + visit(list) + "\n}\n"
+      case Some(list) => "{\n" + visit(list) + "\n}"
     }
 
     List("enum", identifier, ":", typeStr, enumeratorString).mkString(" ")
