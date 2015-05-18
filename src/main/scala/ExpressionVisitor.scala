@@ -13,6 +13,9 @@ import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree.TerminalNode
 import collection.JavaConversions._
 
+/**
+ * Implements visit methods for expression contexts.
+ */
 trait ExpressionVisitor extends Converter {
 
   self: ObjCBaseVisitor[String] =>
@@ -152,7 +155,6 @@ trait ExpressionVisitor extends Converter {
     visit(ctx.postfix_expression(0)) + " : " + visit(ctx.postfix_expression(1))
   }
 
-
   override def visitBox_expression(ctx: Box_expressionContext): String = {
     Option(ctx.constant) match {
       case Some(const) => return visit(const)
@@ -186,9 +188,8 @@ trait ExpressionVisitor extends Converter {
     sb.toString()
   }
 
-  override def visitBlock_parameters(ctx: Block_parametersContext): String = {
+  override def visitBlock_parameters(ctx: Block_parametersContext): String =
     "(" + ctx.type_variable_declarator.map(visit).mkString(", ") + ")"
-  }
 
 
   override def visitConditional_expression(ctx: Conditional_expressionContext): String = {
@@ -251,15 +252,14 @@ trait ExpressionVisitor extends Converter {
   override def visitAnd_expression(ctx: And_expressionContext): String =
     ctx.equality_expression().map(visit).mkString(" & ")
 
-  override def visitShift_expression(ctx: Shift_expressionContext): String = {
-    val sb = new StringBuilder()
-    ctx.children.foreach {
-      case TerminalText("<<") => sb.append(" << ")
-      case TerminalText(">>") => sb.append(" >> ")
-      case a: Additive_expressionContext => sb.append(visit(a))
-      case _ =>
-    }
-    sb.toString()
-  }
+  override def visitShift_expression(ctx: Shift_expressionContext): String =
+    ctx.children.foldLeft(List.empty[String])((z, c) => {
+      c match {
+        case TerminalText("<<") => " << " :: z
+        case TerminalText(">>") => " >> " :: z
+        case a: Additive_expressionContext => visit(a) :: z
+        case _ => z
+      }
+    }).reverse.mkString
 
 }

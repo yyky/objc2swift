@@ -28,44 +28,30 @@ trait TypeVisitor extends Converter {
     val sb = new StringBuilder()
 
     for (element <- ctx.children) {
-      element match {
-        case symbol: TerminalNode => {
-          sb.append(
-            symbol.getSymbol.getText match {
-              case "void"   => "void"
-              case "id"     => "AnyObject"
-              case "short"  => "Int8"
-              case "int"    => "Int32"
-              case "long"   => "Int32"
-              case "float"  => "Float"
-              case "double" => "Double"
-              case s if s != "" => s
-              case _ => "AnyObject"
-            }
-          )
-        }
-        case className: Class_nameContext => {
-          sb.append(
-            className.getText match {
-              case "NSInteger" | "NSUInteger" => "Int"
-              case "NSArray" => "[AnyObject]"
-              case "NSDictionary" => "[NSObject : AnyObject]"
-              case "SEL" => "Selector"
-              case "BOOL" => "Bool"
-              case s if s != "" => s
-              case _ => "AnyObject"
-            }
-          )
-        }
-        case pointer: PointerContext => {
-          sb.append(visit(pointer))
-        }
-        case _ => {
-          sb.append(element.getText)
-        }
-      }
+      sb.append(element match {
+        case TerminalText("void") => "void"
+        case TerminalText("id") => "AnyObject"
+        case TerminalText("short") => "Int8"
+        case TerminalText("int") => "Int32"
+        case TerminalText("long") => "Int32"
+        case TerminalText("float") => "Float"
+        case TerminalText("double") => "Double"
+        case TerminalText(s) if !s.isEmpty => s
+        case _: TerminalNode => "AnyObject"
+        case ClassNameText("NSInteger") => "Int32"
+        case ClassNameText("NSUInteger") => "UInt32"
+        case ClassNameText("NSArray") => "[AnyObject]"
+        case ClassNameText("NSDictionary") => "[NSObject : AnyObject]"
+        case ClassNameText("SEL") => "Selector"
+        case ClassNameText("BOOL") => "Bool"
+        case ClassNameText(s) if !s.isEmpty => s
+        case _: Class_nameContext => "AnyObject"
+        case pointer: PointerContext => visit(pointer)
+        case _ => element.getText
+      })
     }
 
     sb.toString()
   }
+
 }
