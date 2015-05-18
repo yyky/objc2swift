@@ -31,8 +31,7 @@ class ClassMethodSample : NSObject, Protocol1, Protocol2 {
         if x > y {
             z = y
         }
-
-
+        return
     }
 
     private class func sameNamePrivateMethod(p1: Int32) {
