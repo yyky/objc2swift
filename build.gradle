@@ -24,6 +24,9 @@ dependencies {
     compile "commons-io:commons-io:2.4"
 
     antlr 'org.antlr:antlr4:4.5'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.scalatest:scalatest_2.11:2.2.4'
 }
 
 jar {
@@ -38,7 +41,7 @@ generateGrammarSource {
 }
 
 compileJava.dependsOn generateGrammarSource
-8
+
 compileJava {
     source = ['build/generated-src/antlr/main', 'src/main/java']
 }

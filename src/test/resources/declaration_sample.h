@@ -1,0 +1,2 @@
+@interface Declaration
+@end
