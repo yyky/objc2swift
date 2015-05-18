@@ -20,7 +20,6 @@ trait Converter extends ObjCBaseVisitor[String] {
   private val visited = new ParseTreeProperty[Boolean]()
   val indentString = " " * 4
   var isOptionalProtocol = false
-  private val visited = new ParseTreeProperty[Boolean]()
 
   def getResult: String = visit(root)
 

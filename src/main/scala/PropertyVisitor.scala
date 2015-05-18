@@ -21,7 +21,7 @@ trait PropertyVisitor extends Converter {
     val getter_statement = new StringBuilder()
     val setter_statement = new StringBuilder()
     var weak = ""
-    var read_only = new StringBuilder()
+    val read_only = new StringBuilder()
     var getter_method_name = ""
     var setter_method_name = ""
     var _isOriginalGetter = false
@@ -42,7 +42,7 @@ trait PropertyVisitor extends Converter {
             }
             case s if s.split("=")(0) == "getter" => {
               getter_method_name = s.split("=")(1).replaceAll(" ","")
-              var (isOriginalGetter,originalGetterStatement) = findGetterOrSetterMethod(ctx,getter_method_name)
+              val (isOriginalGetter,originalGetterStatement) = findGetterOrSetterMethod(ctx,getter_method_name)
               _isOriginalGetter = isOriginalGetter
               _originalGetterStatement = originalGetterStatement
 
@@ -54,7 +54,7 @@ trait PropertyVisitor extends Converter {
             }
             case s if s.split("=")(0) == "setter" => {
               setter_method_name = s.split("=")(1).replaceAll(" |:","")
-              var (isOriginalSetter,originalSetterStatement) = findGetterOrSetterMethod(ctx,setter_method_name)
+              val (isOriginalSetter,originalSetterStatement) = findGetterOrSetterMethod(ctx,setter_method_name)
               _isOriginalSetter = isOriginalSetter
               _originalSetterStatement = originalSetterStatement
 
@@ -126,7 +126,7 @@ trait PropertyVisitor extends Converter {
             case Some(direct_declarator) =>
               val identifier = direct_declarator.identifier().getText
               val getterStr = "{\n" + indentString * 2 + "get{\n" + indentString * 3 + "return self." + identifier + "\n" + indentString * 2 + "}\n"
-              var defaultSetterStr = "set" + (identifier capitalize)
+              val defaultSetterStr = "set" + identifier.capitalize
 
 
               //no getter and only readonly
@@ -199,9 +199,9 @@ trait PropertyVisitor extends Converter {
             .instance_method_definition()
 
           instanceMethodDefinition.foreach{ i =>
-            var methodSelector = i.method_definition().method_selector
+            val methodSelector = i.method_definition().method_selector
             var setterSelectorText = ""
-            var getterSelectorText = i.method_definition().method_selector.getText
+            val getterSelectorText = i.method_definition().method_selector.getText
 
             methodSelector.keyword_declarator().foreach {j =>
               Option(j.selector.getText) match {
