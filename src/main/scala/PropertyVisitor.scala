@@ -140,8 +140,8 @@ trait PropertyVisitor extends Converter {
               }
 
               if(!_isOriginalGetter && !_isOriginalSetter){
-                var (isDefaultGetter,defaultGetterStatement) = findGetterOrSetterMethod(ctx,identifier)
-                var (isDefaultSetter,defaultSetterStatement) = findGetterOrSetterMethod(ctx,defaultSetterStr)
+                val (isDefaultGetter,defaultGetterStatement) = findGetterOrSetterMethod(ctx,identifier)
+                val (isDefaultSetter,defaultSetterStatement) = findGetterOrSetterMethod(ctx,defaultSetterStr)
                 //default getter or setter
                 if (isDefaultGetter || isDefaultSetter) {
                   getter_setter_statement.append("{\n")
