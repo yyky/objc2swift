@@ -33,41 +33,35 @@ trait PropertyVisitor extends Converter {
 
     Option(ctx.property_attributes_declaration()) match {
       case None =>
-      case Some(p) => {
-        visit(p).split(", ").foreach { i =>
-          i match {
-            case s if s == "weak" => weak = "weak "
-            case s if s == "readonly" => {
-              read_only.append("{ get{} }")
-            }
-            case s if s.split("=")(0) == "getter" => {
-              getter_method_name = s.split("=")(1).replaceAll(" ","")
-              val (isOriginalGetter,originalGetterStatement) = findGetterOrSetterMethod(ctx,getter_method_name)
-              _isOriginalGetter = isOriginalGetter
-              _originalGetterStatement = originalGetterStatement
+      case Some(p) =>
+        visit(p).split(", ").foreach {
+          case s if s == "weak" => weak = "weak "
+          case s if s == "readonly" =>
+            read_only.append("{ get{} }")
+          case s if s.split("=")(0) == "getter" =>
+            getter_method_name = s.split("=")(1).replaceAll(" ","")
+            val (isOriginalGetter,originalGetterStatement) = findGetterOrSetterMethod(ctx,getter_method_name)
+            _isOriginalGetter = isOriginalGetter
+            _originalGetterStatement = originalGetterStatement
 
-              getter_statement.append(
-                indentString * 2 + "get{\n"
-                + indentString + originalGetterStatement
-                + indentString * 2 + "}"
-              )
-            }
-            case s if s.split("=")(0) == "setter" => {
-              setter_method_name = s.split("=")(1).replaceAll(" |:","")
-              val (isOriginalSetter,originalSetterStatement) = findGetterOrSetterMethod(ctx,setter_method_name)
-              _isOriginalSetter = isOriginalSetter
-              _originalSetterStatement = originalSetterStatement
+            getter_statement.append(
+              indentString * 2 + "get{\n"
+              + indentString + originalGetterStatement
+              + indentString * 2 + "}"
+            )
+          case s if s.split("=")(0) == "setter" =>
+            setter_method_name = s.split("=")(1).replaceAll(" |:","")
+            val (isOriginalSetter,originalSetterStatement) = findGetterOrSetterMethod(ctx,setter_method_name)
+            _isOriginalSetter = isOriginalSetter
+            _originalSetterStatement = originalSetterStatement
 
-              setter_statement.append(
-                indentString * 2 + "set{\n"
-                + indentString + originalSetterStatement
-                + indentString * 2 + "}"
-              )
-            }
-            case _ =>
-          }
+            setter_statement.append(
+              indentString * 2 + "set{\n"
+              + indentString + originalSetterStatement
+              + indentString * 2 + "}"
+            )
+          case _ =>
         }
-      }
     }
 
     if(_isOriginalGetter && _isOriginalSetter){
