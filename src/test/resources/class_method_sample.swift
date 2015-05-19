@@ -27,18 +27,18 @@ class ClassMethodSample : NSObject, Protocol1, Protocol2 {
 
     }
 
-    private class func privateClassMethodHasDef() {
+    class func privateClassMethodHasDef() {
         if x > y {
             z = y
         }
         return
     }
 
-    private class func sameNamePrivateMethod(p1: Int32) {
+    class func sameNamePrivateMethod(p1: Int32) {
 
     }
 
-    private func sameNamePrivateMethod(p1: Int32) {
+    func sameNamePrivateMethod(p1: Int32) {
 
     }
 

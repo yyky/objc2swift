@@ -1,6 +1,6 @@
 class Declaration {
 
-    private func declare() {
+    func declare() {
         var num1: Int32
         var num2: Int32 = 7
         var num3: Int32

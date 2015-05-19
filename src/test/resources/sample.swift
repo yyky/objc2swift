@@ -17,7 +17,7 @@ class MyClass : NSObject, SomeProtocol {
 
     }
 
-    private func privateMethod() {
+    func privateMethod() {
         "private"
 
     }

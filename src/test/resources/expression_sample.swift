@@ -1,6 +1,6 @@
 class ExpressionSample {
 
-    private func sampleExpressions() {
+    func sampleExpressions() {
         1 + 2
         1 - 2
         1 * 2

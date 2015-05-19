@@ -1,6 +1,6 @@
 class StringWithFormatSample : NSObject, Protocol1, Protocol2 {
 
-    private func stringWithFormatTest() -> NSString {
+    func stringWithFormatTest() -> NSString {
         "int型：\(num)"
         "int型：\(num1+num2)"
         String(format: "%02i:%02i:%02i", hour, min, sec)
