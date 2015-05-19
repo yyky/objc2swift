@@ -90,11 +90,7 @@ trait PropertyVisitor extends Converter {
               if(protocol_name.length == 1){
                 type_of_variable = visit(protocol_name.head)
               }else if(protocol_name.length > 1){
-                var protocol_names = ""
-                protocol_name.foreach (
-                  protocol_names += visit(_) + ","
-                )
-                type_of_variable = "protocol<" + protocol_names.stripSuffix(",") + ">"
+                type_of_variable = setProtocolName(protocol_name)
                 optional = ""
               }
           }
@@ -191,6 +187,14 @@ trait PropertyVisitor extends Converter {
     )
 
     (isOriginalSetter,originalSetterStatement,setter_statement)
+  }
+
+  def setProtocolName(protocol_name:scala.collection.mutable.Buffer[Protocol_nameContext]): String ={
+    var protocol_names = ""
+    protocol_name.foreach (
+      protocol_names += visit(_) + ","
+    )
+    "protocol<" + protocol_names.stripSuffix(",") + ">"
   }
 
   def findGetterOrSetterMethod(declCtx: Property_declarationContext,selector:String):(Boolean,String) = {
