@@ -24,9 +24,9 @@ trait MethodVisitor extends Converter {
    * @return Strings of Swift's instance method code
    */
   override def visitInstance_method_declaration(ctx: Instance_method_declarationContext): String =
-    Option(ctx.method_declaration()).map { c =>
-      s"${indent(ctx)}${optional(ctx)}${visit(c)}" stripSuffix " "
-    } getOrElse ""
+    Option(ctx.method_declaration()).map(c =>
+      s"${indent(ctx)}${optional(ctx)}${visit(c)}".stripSuffix(" ")
+    ).getOrElse("")
 
   /**
    * Returns translated text of class method declaration context.
@@ -34,9 +34,9 @@ trait MethodVisitor extends Converter {
    * @param ctx the parse tree
    **/
   override def visitClass_method_declaration(ctx: Class_method_declarationContext): String =
-    Option(ctx.method_declaration()).map { c =>
-      s"${indent(ctx)}${optional(ctx)}class ${visit(c)}" stripSuffix " "
-    } getOrElse ""
+    Option(ctx.method_declaration()).map(c =>
+      s"${indent(ctx)}${optional(ctx)}class ${visit(c)}".stripSuffix(" ")
+    ).getOrElse("")
 
   /**
    * Returns translated text of method definition context.
@@ -46,7 +46,7 @@ trait MethodVisitor extends Converter {
    */
   override def visitInstance_method_definition(ctx: Instance_method_definitionContext): String =
     ctx.method_definition() match {
-      case c if !isVisited(c) => s"${indent(ctx)}${visit(c)}" stripSuffix " "
+      case c if !isVisited(c) => s"${indent(ctx)}${visit(c)}".stripSuffix(" ")
       case _ => "" // Already printed
     }
 
@@ -57,7 +57,7 @@ trait MethodVisitor extends Converter {
    **/
   override def visitClass_method_definition(ctx: Class_method_definitionContext): String =
     ctx.method_definition() match {
-      case c if !isVisited(c) => s"${indent(ctx)}class ${visit(c)}" stripSuffix " "
+      case c if !isVisited(c) => s"${indent(ctx)}class ${visit(c)}".stripSuffix(" ")
       case _ => "" // Already printed
     }
 
