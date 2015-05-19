@@ -75,7 +75,7 @@ trait PropertyVisitor extends Converter {
       getter_statement.append("\n")
     }
 
-    if(_isOriginalGetter == true && _isOriginalSetter == false){
+    if(_isOriginalGetter && !_isOriginalSetter){
       getter_statement.insert(0,"{\n")
     }
 
@@ -130,12 +130,12 @@ trait PropertyVisitor extends Converter {
 
 
               //no getter and only readonly
-              if(read_only.toString() == "{ get{} }" && _isOriginalGetter == false){
+              if(read_only.toString() == "{ get{} }" && !_isOriginalGetter){
                 getter_setter_statement.append(getterStr + indentString + "}")
               }
 
               //no getter and setter only
-              if(_isOriginalGetter == false && _isOriginalSetter == true){
+              if(!_isOriginalGetter && _isOriginalSetter){
                 getter_setter_statement.insert(0,getterStr)
               }
 
