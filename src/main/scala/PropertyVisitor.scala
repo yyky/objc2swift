@@ -187,7 +187,7 @@ trait PropertyVisitor extends Converter {
 
     for (extDclCtx <- root.external_declaration) {
       Option(extDclCtx.class_implementation) match {
-        case Some(implCtx) => {
+        case Some(implCtx) =>
           val instanceMethodDefinition = implCtx
             .implementation_definition_list()
             .instance_method_definition()
@@ -209,11 +209,10 @@ trait PropertyVisitor extends Converter {
               compound.statement_list().foreach{l =>
                 l.statement().foreach{m =>
                   Option(m.expression()) match {
-                    case Some(l) => {
-                      if(l.getText.indexOf("_") == 0){
+                    case Some(n) =>
+                      if(n.getText.indexOf("_") == 0){
                         setUSSetter(m.expression())
                       }
-                    }
                     case None =>
                   }
                 }
@@ -224,7 +223,6 @@ trait PropertyVisitor extends Converter {
               sb.append(visit(compound))
             }
           }
-        }
         case None =>
       }
     }
