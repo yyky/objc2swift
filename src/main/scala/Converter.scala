@@ -68,15 +68,12 @@ trait Converter extends ObjCBaseVisitor[String] {
 
   def findCorrespondingClassImplementation(classCtx: Class_interfaceContext): Option[Class_implementationContext] = {
     val className = classCtx.class_name.getText
-    for(extDclCtx <- root.external_declaration) {
-      Option(extDclCtx.class_implementation) match {
-        case Some(implCtx) =>
-          implCtx.class_name.getText match {
-            case `className` => return Some(implCtx)
-            case _ =>
-          }
-        case None =>
-      }
+    for {
+      extDclCtx <- root.external_declaration
+      implCtx <- Option(extDclCtx.class_implementation())
+    } implCtx.class_name().getText match {
+      case `className` => return Some(implCtx)
+      case _ =>
     }
     None
   }
@@ -85,15 +82,12 @@ trait Converter extends ObjCBaseVisitor[String] {
     val className = catCtx.class_name.getText
     val categoryName = catCtx.category_name.getText
 
-    for(extDclCtx <- root.external_declaration) {
-      Option(extDclCtx.category_implementation) match {
-        case Some(implCtx) =>
-          (implCtx.class_name.getText, implCtx.category_name.getText) match {
-            case (`className`, `categoryName`) => return Some(implCtx)
-            case _ =>
-          }
-        case None =>
-      }
+    for {
+      extDclCtx <- root.external_declaration
+      implCtx <- Option(extDclCtx.category_implementation())
+    } (implCtx.class_name.getText, implCtx.category_name.getText) match {
+      case (`className`, `categoryName`) => return Some(implCtx)
+      case _ =>
     }
     None
   }
@@ -139,7 +133,7 @@ trait Converter extends ObjCBaseVisitor[String] {
     }
 
   override def visitTranslation_unit(ctx: Translation_unitContext): String =
-    concatChildResults(ctx, "\n\n")
+    ctx.external_declaration().map(visit).mkString("\n\n")
 
   override def visitExternal_declaration(ctx: External_declarationContext): String =
     concatChildResults(ctx, "")
