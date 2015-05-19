@@ -61,6 +61,19 @@ class CompleteMatchTestSuite extends FunSuite {
 
   }
 
+  def failedMessage(expected: String, actual: String): String =
+    s"""
+    |=========================================
+    |> Expected:
+    |-----------------------------------------
+    |$expected
+    |=========================================
+    |> But actual:
+    |-----------------------------------------
+    |$actual
+    |=========================================
+    """.stripMargin
+
   test("sample complete match test") {
     val expected = getExpectedString("/sample.swift")
     val actual = getResult(Array("/sample.h", "/sample.m"))
@@ -130,5 +143,12 @@ class CompleteMatchTestSuite extends FunSuite {
     val actual = getResult(Array("/string_with_format_sample.h", "/string_with_format_sample.m"))
 
     assert(compareResult(expected, actual))
+  }
+
+  test("empty_class complete match test") {
+    val expected = getExpectedString("/empty_class.swift")
+    val actual = getResult(Array("/empty_class.h", "/empty_class.m"))
+
+    assert(compareResult(expected, actual), failedMessage(expected, actual))
   }
 }
