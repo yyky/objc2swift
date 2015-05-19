@@ -18,12 +18,10 @@ trait PropertyVisitor extends Converter {
   override def visitProperty_declaration(ctx: ObjCParser.Property_declarationContext): String = {
     val sb = new StringBuilder()
     val getter_setter_statement = new StringBuilder()
-    val getter_statement = new StringBuilder()
-    val setter_statement = new StringBuilder()
+    var getter_statement = new StringBuilder()
+    var setter_statement = new StringBuilder()
     var weak = ""
     val read_only = new StringBuilder()
-    var getter_method_name = ""
-    var setter_method_name = ""
     var _isOriginalGetter = false
     var _isOriginalSetter = false
     var _originalGetterStatement = ""
@@ -39,27 +37,15 @@ trait PropertyVisitor extends Converter {
           case s if s == "readonly" =>
             read_only.append("{ get{} }")
           case s if s.split("=")(0) == "getter" =>
-            getter_method_name = s.split("=")(1).replaceAll(" ","")
-            val (isOriginalGetter,originalGetterStatement) = findGetterOrSetterMethod(ctx,getter_method_name)
+            val (isOriginalGetter,originalGetterStatement,getterStatement) = parseGetterStatement(ctx,s,getter_statement)
             _isOriginalGetter = isOriginalGetter
             _originalGetterStatement = originalGetterStatement
-
-            getter_statement.append(
-              indentString * 2 + "get{\n"
-              + indentString + originalGetterStatement
-              + indentString * 2 + "}"
-            )
+            getter_statement = getterStatement
           case s if s.split("=")(0) == "setter" =>
-            setter_method_name = s.split("=")(1).replaceAll(" |:","")
-            val (isOriginalSetter,originalSetterStatement) = findGetterOrSetterMethod(ctx,setter_method_name)
+            val (isOriginalSetter,originalSetterStatement,setterStatement) = parseGetterStatement(ctx,s,setter_statement)
             _isOriginalSetter = isOriginalSetter
             _originalSetterStatement = originalSetterStatement
-
-            setter_statement.append(
-              indentString * 2 + "set{\n"
-              + indentString + originalSetterStatement
-              + indentString * 2 + "}"
-            )
+            setter_statement = setterStatement
           case _ =>
         }
     }
@@ -180,6 +166,32 @@ trait PropertyVisitor extends Converter {
     ctx.property_attribute().map(visit).mkString(", ")
   }
   override def visitProperty_attribute(ctx: Property_attributeContext) = ctx.getText
+
+  def parseGetterStatement(ctx:ObjCParser.Property_declarationContext,s:String,getter_statement:StringBuilder):(Boolean,String,StringBuilder) = {
+    val getter_method_name = s.split("=")(1).replaceAll(" ","")
+    val (isOriginalGetter,originalGetterStatement) = findGetterOrSetterMethod(ctx,getter_method_name)
+
+    getter_statement.append(
+      indentString * 2 + "get{\n"
+        + indentString + originalGetterStatement
+        + indentString * 2 + "}"
+    )
+
+    (isOriginalGetter,originalGetterStatement,getter_statement)
+  }
+
+  def parseSetterStatement(ctx:ObjCParser.Property_declarationContext,s:String,setter_statement:StringBuilder):(Boolean,String,StringBuilder) = {
+    val setter_method_name = s.split("=")(1).replaceAll(" |:","")
+    val (isOriginalSetter,originalSetterStatement) = findGetterOrSetterMethod(ctx,setter_method_name)
+
+    setter_statement.append(
+      indentString * 2 + "set{\n"
+        + indentString + originalSetterStatement
+        + indentString * 2 + "}"
+    )
+
+    (isOriginalSetter,originalSetterStatement,setter_statement)
+  }
 
   def findGetterOrSetterMethod(declCtx: Property_declarationContext,selector:String):(Boolean,String) = {
     val sb = new StringBuilder()
