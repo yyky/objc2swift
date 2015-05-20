@@ -78,14 +78,14 @@ class CompleteMatchTestSuite extends FunSuite {
     val expected = getExpectedString("/sample.swift")
     val actual = getResult(Array("/sample.h", "/sample.m"))
 
-    assert(compareResult(expected, actual))
+    assert(compareResult(expected, actual), failedMessage(expected, actual))
   }
 
   test("class_method_sample complete match test") {
     val expected = getExpectedString("/class_method_sample.swift")
     val actual = getResult(Array("/class_method_sample.h", "/class_method_sample.m"))
 
-    assert(compareResult(expected, actual))
+    assert(compareResult(expected, actual), failedMessage(expected, actual))
   }
 
 
@@ -93,61 +93,68 @@ class CompleteMatchTestSuite extends FunSuite {
     val expected = getExpectedString("/control_flow_sample.swift")
     val actual = getResult(Array("/control_flow_sample.h", "/control_flow_sample.m"))
 
-    assert(compareResult(expected, actual))
+    assert(compareResult(expected, actual), failedMessage(expected, actual))
   }
 
   test("declaration_sample complete match test") {
     val expected = getExpectedString("/declaration_sample.swift")
     val actual = getResult(Array("/declaration_sample.h", "/declaration_sample.m"))
 
-    assert(compareResult(expected, actual))
+    assert(compareResult(expected, actual), failedMessage(expected, actual))
   }
 
   test("enum_sample complete match test") {
     val expected = getExpectedString("/enum_sample.swift")
     val actual = getResult(Array("/enum_sample.h"))
 
-    assert(compareResult(expected, actual))
+    assert(compareResult(expected, actual), failedMessage(expected, actual))
   }
 
   test("expression_sample complete match test") {
     val expected = getExpectedString("/expression_sample.swift")
     val actual = getResult(Array("/expression_sample.h", "/expression_sample.m"))
 
-    assert(compareResult(expected, actual))
+    assert(compareResult(expected, actual), failedMessage(expected, actual))
   }
 
   test("instance_method_sample complete match test") {
     val expected = getExpectedString("/instance_method_sample.swift")
     val actual = getResult(Array("/instance_method_sample.h", "/instance_method_sample.m"))
 
-    assert(compareResult(expected, actual))
+    assert(compareResult(expected, actual), failedMessage(expected, actual))
   }
 
   test("property_sample complete match test") {
     val expected = getExpectedString("/property_sample.swift")
     val actual = getResult(Array("/property_sample.h"))
 
-    assert(compareResult(expected, actual))
+    assert(compareResult(expected, actual), failedMessage(expected, actual))
   }
 
   test("protocol_sample complete match test") {
     val expected = getExpectedString("/protocol_sample.swift")
     val actual = getResult(Array("/protocol_sample.h", "/protocol_sample.m"))
 
-    assert(compareResult(expected, actual))
+    assert(compareResult(expected, actual), failedMessage(expected, actual))
   }
 
   test("string_with_format_sample complete match test") {
     val expected = getExpectedString("/string_with_format_sample.swift")
     val actual = getResult(Array("/string_with_format_sample.h", "/string_with_format_sample.m"))
 
-    assert(compareResult(expected, actual))
+    assert(compareResult(expected, actual), failedMessage(expected, actual))
   }
 
   test("empty_class complete match test") {
     val expected = getExpectedString("/empty_class.swift")
     val actual = getResult(Array("/empty_class.h", "/empty_class.m"))
+
+    assert(compareResult(expected, actual), failedMessage(expected, actual))
+  }
+
+  test("if_statement complete match test") {
+    val expected = getExpectedString("/if_statement_sample.swift")
+    val actual = getResult(Array("/if_statement_sample.h", "/if_statement_sample.m"))
 
     assert(compareResult(expected, actual), failedMessage(expected, actual))
   }

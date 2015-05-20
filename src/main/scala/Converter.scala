@@ -133,7 +133,7 @@ trait Converter extends ObjCBaseVisitor[String] {
     }
 
   override def visitTranslation_unit(ctx: Translation_unitContext): String =
-    ctx.external_declaration().map(visit).mkString("\n\n")
+    ctx.external_declaration().map(visit).filter(_ != "").mkString("\n\n")
 
   override def visitExternal_declaration(ctx: External_declarationContext): String =
     concatChildResults(ctx, "")

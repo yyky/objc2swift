@@ -14,79 +14,101 @@ import collection.JavaConversions._
 trait StatementVisitor extends Converter {
   self: ObjCBaseVisitor[String] =>
 
-  override def visitStatement_list(ctx: Statement_listContext): String = {
-    concatChildResults(ctx, "\n") + "\n"
-  }
+  override def visitCompound_statement(ctx: Compound_statementContext): String =
+    concatChildResults(ctx, "")
+
+  override def visitStatement_list(ctx: Statement_listContext): String =
+    ctx.statement().map(visit).filter(!_.isEmpty).mkString("\n") + "\n"
 
   override def visitStatement(ctx: StatementContext): String = {
     indent(ctx) + concatChildResults(ctx, " ") // TODO
+    //concatChildResults(ctx, " ") // TODO
   }
 
-  override def visitCompound_statement(ctx: Compound_statementContext): String = {
-    concatChildResults(ctx, "")
-  }
-
-  override def visitJump_statement(ctx: Jump_statementContext): String = {
+  override def visitJump_statement(ctx: Jump_statementContext): String =
     ctx.getChild(0).getText match {
       case "return" => s"return ${Option(ctx.expression).map(visit).getOrElse("")}".trim
-      case "break" => "" // TODO not implemented
-      case _ => "" // TODO
+      case "break"  => "" // TODO not implemented
+      case _        => "" // TODO
     }
-  }
 
   override def visitSelection_statement(ctx: Selection_statementContext): String = {
-    val sb = new StringBuilder()
+    val builder = List.newBuilder[String]
 
     for (element <- ctx.children) {
       element match {
-        case TerminalText("if") => sb.append("if")
-        case TerminalText("switch") => sb.append("switch")
-        case TerminalText("(") | TerminalText(")") => sb.append(" ")
-        case expression: ExpressionContext => sb.append(visit(expression))
-        case statement: StatementContext =>
-          sb.append("{\n")
-          sb.append(visitChildren(statement))
-          sb.append(indent(statement) +  "}\n")
+        case TerminalText("if")                    => builder += "if"
+        case TerminalText("switch")                => builder += "switch"
+        case TerminalText("(") | TerminalText(")") => builder += " "
+        case expression: ExpressionContext         => builder += visit(expression)
+        case statement: StatementContext           =>
+          builder += "{\n"
+          Option(statement.compound_statement()) match {
+            case Some(s) => builder += visitChildren(statement)
+            case None => builder += indentString + visit(statement) + "\n"
+          }
+          builder += indent(ctx) + "}\n"
+          /*
+          builder +=
+            s"""{
+               |${visit(statement)}
+               |${indent(ctx)}}
+               |""".stripMargin
+               */
+          /*
+          builder += "{\n"
+          statement.children.foreach {
+            case TerminalText(s) =>
+            case c => builder += s"${indent(ctx) + indentString}${visit(c)}\n"
+          }
+          builder += s"${indent(ctx)}}\n"
+          */
         case _ =>
       }
     }
 
-    sb.toString()
+    builder.result().mkString
   }
 
   override def visitLabeled_statement(ctx: Labeled_statementContext): String = {
-    val sb = new StringBuilder()
+    val builder = List.newBuilder[String]
 
     //TODO fix indent bug
     for (element <- ctx.children) {
       element match {
-        case TerminalText("case") => sb.append("case ")
-        case TerminalText("default") => sb.append("default")
-        case TerminalText(":") => sb.append(":\n")
-        case _ => sb.append(visit(element))
+        case TerminalText("case")    => builder += "case "
+        case TerminalText("default") => builder += "default"
+        case TerminalText(":")       => builder += ":\n"
+        case _                       => builder += visit(element)
       }
     }
-    sb.toString()
+
+    builder.result().mkString
   }
 
   override def visitFor_in_statement(ctx: For_in_statementContext): String = {
-    val sb = new StringBuilder()
+    val builder = List.newBuilder[String]
 
     for (element <- ctx.children) {
       element match {
-        case TerminalText("for") => sb.append("for")
-        case TerminalText("in") => sb.append(" in ")
-        case TerminalText("(") | TerminalText(")") => sb.append(" ")
-        case expression: ExpressionContext => sb.append(visit(expression))
-        case statement: StatementContext =>
-          sb.append("{\n")
-          sb.append(visitChildren(statement))
-          sb.append(indent(statement) +  "}\n")
-        case typeVariable: Type_variable_declaratorContext => sb.append(visit(typeVariable))
+        case TerminalText("for")                   => builder += "for"
+        case TerminalText("in")                    => builder += " in "
+        case TerminalText("(") | TerminalText(")") => builder += " "
+        case expression: ExpressionContext         => builder += visit(expression)
+        case statement: StatementContext           => builder += "{\n" + visit(statement) + indent(ctx) + "}\n"
+          /*
+          builder +=
+            s"""{
+               |${visit(statement)}
+               |${indent(ctx)}}
+             """.stripMargin
+             */
+        case typeVariable: Type_variable_declaratorContext => builder += visit(typeVariable)
         case _ =>
       }
     }
-    sb.toString()
+
+    builder.result().mkString
   }
 
   def concatDeclaratorList(ctx: Init_declarator_listContext): String =
@@ -105,15 +127,20 @@ trait StatementVisitor extends Converter {
     }
 
   override def visitFor_statement(ctx: For_statementContext): String = {
-    val sb = new StringBuilder()
+    val builder = List.newBuilder[String]
 
     for (element <- ctx.children) {
       element match {
-        case TerminalText("for") => sb.append("for")
-        case TerminalText("(") | TerminalText(")") => sb.append(" ")
-        case TerminalText(";") => sb.append("; ")
+        case TerminalText("for")                   => builder += "for"
+        case TerminalText("(") | TerminalText(")") => builder += " "
+        case TerminalText(";")                     => builder += "; "
         case d: Declaration_specifiersContext =>
           // TODO: Merge with visitDeclaration()
+          for {
+            x <- Option(d.type_specifier())
+            y <- Option(ctx.init_declarator_list())
+          } builder += concatDeclaratorList(y)
+          /*
           Option(d.type_specifier()) match {
             case Some(list) =>
               // Other declaration. Find from init_declarator_list
@@ -123,15 +150,18 @@ trait StatementVisitor extends Converter {
               }
             case None => // No Type info
           }
-        case expression: ExpressionContext => sb.append(visit(expression))
+          */
+        case expression: ExpressionContext => builder += visit(expression)
         case statement: StatementContext =>
-          sb.append("{\n")
-          sb.append(visitChildren(statement))
-          sb.append(indent(statement) +  "}\n")
+          builder +=
+            s"""{
+               |${visit(statement)}
+               |${indent(ctx)}}
+             """.stripMargin
         case _ =>
       }
     }
-    sb.toString()
+    builder.result().mkString
   }
 
   override def visitWhile_statement(ctx: While_statementContext): String = {

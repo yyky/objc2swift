@@ -15,6 +15,9 @@
   if ( a && b ) {
     b = 1;
   }
+//  if (x && y)
+//    a = b + c;
+
   switch (a) {
   case 0:
     b = 1;
@@ -26,9 +29,13 @@
     b = 2;
     break;
   }
+
   for (a = 0; a < 10; a++) {
     b += 1;
   }
+//  for (a = 10; a > 0; a--)
+//    b -= 1;
+
   while (a < 10) {
     ++a;
   }
