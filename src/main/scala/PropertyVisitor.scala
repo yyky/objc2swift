@@ -222,48 +222,70 @@ trait PropertyVisitor extends Converter {
   }
 
   def findGetterOrSetterMethod(declCtx: Property_declarationContext,selector:String):(Boolean,String) = {
+    var _str = ""
+    var _isGetterOrSetterMethod = false
+
+    val buffer = for {
+      extDclCtx <- root.external_declaration
+      cl <- Option(extDclCtx.class_implementation)
+      instanceMethodDefinition = cl.implementation_definition_list().instance_method_definition()
+    } yield parseInstanceMethodDefinition(instanceMethodDefinition,selector)
+
+    buffer.map(t => {
+      val (isGetterOrSetterMethod,str) = t
+      _isGetterOrSetterMethod = isGetterOrSetterMethod
+      _str = str
+    })
+
+    (_isGetterOrSetterMethod,_str)
+  }
+
+  def getSetterSelectorText(ctx:Instance_method_definitionContext):String = {
+    val methodSelector = ctx.method_definition().method_selector
+    var setterSelectorText = ""
+    methodSelector.keyword_declarator().foreach {j =>
+      Option(j.selector.getText) match {
+        case Some(k) => setterSelectorText = k
+        case None =>
+      }
+    }
+
+    setterSelectorText
+  }
+
+  def getCompoundStatement(ctx:Instance_method_definitionContext):Compound_statementContext = {
+    val compound = ctx.method_definition().compound_statement()
+    compound.statement_list().foreach{l =>
+      l.statement().foreach{m =>
+        Option(m.expression()) match {
+          case Some(n) =>
+            if(n.getText.indexOf("_") == 0){
+              setUSSetter(m.expression())
+            }
+          case None =>
+        }
+      }
+    }
+
+    compound
+  }
+
+  def parseInstanceMethodDefinition(instanceMethodDefinition:scala.collection.mutable.Buffer[Instance_method_definitionContext],selector:String):(Boolean,String) = {
     val sb = new StringBuilder()
     var isGetterOrSetterMethod = false
 
-    for (extDclCtx <- root.external_declaration) {
-      Option(extDclCtx.class_implementation) match {
-        case Some(implCtx) =>
-          val instanceMethodDefinition = implCtx
-            .implementation_definition_list()
-            .instance_method_definition()
+    instanceMethodDefinition.foreach{ i =>
+      var setterSelectorText = ""
+      val getterSelectorText = i.method_definition().method_selector.getText
 
-          instanceMethodDefinition.foreach{ i =>
-            val methodSelector = i.method_definition().method_selector
-            var setterSelectorText = ""
-            val getterSelectorText = i.method_definition().method_selector.getText
+      setterSelectorText = getSetterSelectorText(i)
 
-            methodSelector.keyword_declarator().foreach {j =>
-              Option(j.selector.getText) match {
-                case Some(k) => setterSelectorText = k
-                case None =>
-              }
-            }
+      if(selector == setterSelectorText || selector == getterSelectorText){
+        val compound = getCompoundStatement(i)
 
-            if(selector == setterSelectorText || selector == getterSelectorText){
-              val compound = i.method_definition().compound_statement()
-              compound.statement_list().foreach{l =>
-                l.statement().foreach{m =>
-                  Option(m.expression()) match {
-                    case Some(n) =>
-                      if(n.getText.indexOf("_") == 0){
-                        setUSSetter(m.expression())
-                      }
-                    case None =>
-                  }
-                }
-              }
+        isGetterOrSetterMethod = true
 
-              isGetterOrSetterMethod = true
-
-              sb.append(visit(compound))
-            }
-          }
-        case None =>
+        sb.append(visit(compound))
       }
     }
 
