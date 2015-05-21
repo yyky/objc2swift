@@ -37,6 +37,7 @@ class ExpressionSample {
         x = ~y
         x = y << z
         x = y >> z
+        button.size = CGSizeMake(32, 44)
 
     }
 
