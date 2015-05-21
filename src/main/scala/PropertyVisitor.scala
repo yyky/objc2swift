@@ -42,7 +42,7 @@ trait PropertyVisitor extends Converter {
             _originalGetterStatement = originalGetterStatement
             getter_statement = getterStatement
           case s if s.split("=")(0) == "setter" =>
-            val (isOriginalSetter,originalSetterStatement,setterStatement) = parseGetterStatement(ctx,s,setter_statement)
+            val (isOriginalSetter,originalSetterStatement,setterStatement) = parseSetterStatement(ctx,s,setter_statement)
             _isOriginalSetter = isOriginalSetter
             _originalSetterStatement = originalSetterStatement
             setter_statement = setterStatement
