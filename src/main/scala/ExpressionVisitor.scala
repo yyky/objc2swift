@@ -111,7 +111,7 @@ trait ExpressionVisitor extends Converter {
     sb.append(visit(ctx.receiver))
     sb.append(".")
 
-    if(sel.keyword_argument.length == 0) { // no argument
+    if(sel.keyword_argument.isEmpty) { // no argument
       sb.append(sel.selector.getText + "()")
     } else {
       for (i <- 0 until sel.keyword_argument.length) {
@@ -133,6 +133,20 @@ trait ExpressionVisitor extends Converter {
     sb.toString()
   }
 
+  /**
+   * Returns translated text of selector_expression context.
+   *
+   * @param ctx the parse tree
+   **/
+  override def visitSelector_expression(ctx: Selector_expressionContext): String =
+    "\"" + visit(ctx.selector_name()) + "\""
+
+  /**
+   * Returns translated text of selector_name context.
+   *
+   * @param ctx the parse tree
+   **/
+  override def visitSelector_name(ctx: Selector_nameContext): String = ctx.getText
 
   override def visitArray_expression(ctx: Array_expressionContext) = {
     val sb = new StringBuilder()
