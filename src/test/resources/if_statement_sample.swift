@@ -24,6 +24,12 @@ class IfStatementSample : NSObject, SomeProtocol {
             a = b + c
         }
 
+        if a {
+            b = 1
+            if b {
+                c = d
+            }
+        }
     }
 
 }
