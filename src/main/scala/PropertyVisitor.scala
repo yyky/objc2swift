@@ -16,7 +16,7 @@ trait PropertyVisitor extends Converter {
   self: ObjCBaseVisitor[String] =>
 
   override def visitProperty_declaration(ctx: ObjCParser.Property_declarationContext): String = {
-    val sb = new StringBuilder()
+    var sb = new StringBuilder()
     var getter_setter_statement = new StringBuilder()
     var getter_statement = new StringBuilder()
     var setter_statement = new StringBuilder()
@@ -73,49 +73,46 @@ trait PropertyVisitor extends Converter {
         val struct_declarator_list = struct_declaration.struct_declarator_list()
         var optional = "?"
 
-        specifier_qualifier_list.type_specifier().foreach { i =>
-          visit(i) match {
-            case s if s == "IBOutlet" =>
-              sb.append("@" + s + " ")
-            case s =>
-              type_of_variable = s
-          }
+        val (typeOfVariable,_sb) = getTypeSpecifier(specifier_qualifier_list,sb)
+        type_of_variable = typeOfVariable
+        sb = _sb
 
-          Option(i.protocol_reference_list()) match {
-            case None =>
-            case Some(protocol_reference_list) =>
-              val protocol_name = protocol_reference_list.protocol_list().protocol_name()
-              weak = "weak "
 
-              if(protocol_name.length == 1){
-                type_of_variable = visit(protocol_name.head)
-              }else if(protocol_name.length > 1){
-                type_of_variable = setProtocolName(protocol_name)
-                optional = ""
-              }
+        for{
+          type_specifier <- specifier_qualifier_list.type_specifier()
+          protocol_reference_list <- Option(type_specifier.protocol_reference_list())
+        }{
+          val protocol_name = protocol_reference_list.protocol_list().protocol_name()
+          weak = "weak "
+
+          if(protocol_name.length == 1){
+            type_of_variable = visit(protocol_name.head)
+          }else if(protocol_name.length > 1){
+            type_of_variable = setProtocolName(protocol_name)
+            optional = ""
           }
         }
 
-        struct_declarator_list.struct_declarator.foreach { j =>
-          Option(j.declarator.direct_declarator()) match {
-            case None =>
-            case Some(direct_declarator) =>
-              val identifier = direct_declarator.identifier().getText
+        for{
+          list <- struct_declarator_list.struct_declarator
+          direct_declarator <- Option(list.declarator.direct_declarator())
+        }{
+          val identifier = direct_declarator.identifier().getText
 
-              getter_setter_statement = getGetterAndSetterStatement(
-                ctx,
-                direct_declarator,
-                _isOriginalGetter,
-                _isOriginalSetter,
-                read_only,
-                getter_statement,
-                setter_statement,
-                getter_setter_statement
-              )
+          getter_setter_statement = getGetterAndSetterStatement(
+            ctx,
+            direct_declarator,
+            _isOriginalGetter,
+            _isOriginalSetter,
+            read_only,
+            getter_statement,
+            setter_statement,
+            getter_setter_statement
+          )
 
-              sb.append(weak + "var " + identifier + ":" + type_of_variable + optional + getter_setter_statement)
-          }
+          sb.append(weak + "var " + identifier + ":" + type_of_variable + optional + getter_setter_statement)
         }
+
     }
 
     sb.toString()
@@ -126,6 +123,20 @@ trait PropertyVisitor extends Converter {
     ctx.property_attribute().map(visit).mkString(", ")
   }
   override def visitProperty_attribute(ctx: Property_attributeContext) = ctx.getText
+
+  def getTypeSpecifier(ctx:Specifier_qualifier_listContext,sb:StringBuilder):(String,StringBuilder) = {
+    var typeOfVariable = ""
+    ctx.type_specifier().foreach { i =>
+      visit(i) match {
+        case s if s == "IBOutlet" =>
+          sb.append("@" + s + " ")
+        case s =>
+          typeOfVariable = s
+      }
+    }
+
+    (typeOfVariable,sb)
+  }
 
   def parseGetterStatement(ctx:ObjCParser.Property_declarationContext,s:String,getter_statement:StringBuilder):(Boolean,String,StringBuilder) = {
     val getter_method_name = s.split("=")(1).replaceAll(" ","")
