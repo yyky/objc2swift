@@ -37,3 +37,13 @@ typedef enum CTRAdPosition : NSUInteger {
     CTRAdPositionViewTop = 0,
     CTRAdPositionViewBottom
 } CTRAdPosition;
+
+typedef enum {
+     YSSKeywordTypeRecommended,
+     YSSKeywordTypeFavKeyword,
+     YSSKeywordTypeTrending,
+     YSSKeywordTypeNews,
+     YSSKeywordTypeColumn,
+     YSSKeywordTypeBuzz,
+     YSSKeywordTypeOther = 99
+ } YSSKeywordType;
