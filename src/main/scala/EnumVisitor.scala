@@ -56,23 +56,14 @@ trait EnumVisitor extends Converter {
 
   def visitEnum_specifier(ctx: Enum_specifierContext, identifier: String): String = {
     val builder = List.newBuilder[String]
-    val typeStr = Option(ctx.type_name) match {
-      case Some(s) => Option(s.specifier_qualifier_list()) match {
-        case Some(s2) => Option(s2.type_specifier()) match {
-          case Some(s3) => concatType(s3)
-          case _ => "Int"
-        }
-        case _ => "Int"
-      }
-      case _ => "Int"
-    }
+    val typeStr = for {
+      c1 <- Option(ctx.type_name())
+      c2 <- Option(c1.specifier_qualifier_list())
+      c3 <- Option(c2.type_specifier())
+    } yield concatType(c3)
 
-    builder += s"enum $identifier : $typeStr"
-
-    Option(ctx.enumerator_list()) match {
-      case Some(list) => builder += s" {\n${visit(list)}\n}"
-      case None =>
-    }
+    builder += s"enum $identifier : ${typeStr.getOrElse("Int")}"
+    builder += Option(ctx.enumerator_list()).map(visit).getOrElse("")
 
     builder.result().mkString
   }
@@ -83,7 +74,7 @@ trait EnumVisitor extends Converter {
    * @param ctx the parse tree
    **/
   override def visitEnumerator_list(ctx: Enumerator_listContext): String =
-    ctx.enumerator().map(visit).mkString("\n")
+    s" {\n${ctx.enumerator().map(visit).mkString("\n")}\n}"
 
   /**
    * Returns translated text of enumerator context.
