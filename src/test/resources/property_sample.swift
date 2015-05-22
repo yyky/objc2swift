@@ -26,5 +26,8 @@ class MyClass : NSObject, SomeProtocol {
 
     var sampleSelector:Selector?
 
+    @IBOutlet  var searchTypeScrollView:UIScrollView!
+
+    var searchTypeButtons:[AnyObject]?
 
 }

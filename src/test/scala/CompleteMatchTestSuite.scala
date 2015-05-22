@@ -121,14 +121,14 @@ class CompleteMatchTestSuite extends FunSuite {
     val expected = getExpectedString("/instance_method_sample.swift")
     val actual = getResult(Array("/instance_method_sample.h", "/instance_method_sample.m"))
 
-    assert(compareResult(expected, actual))
+    assert(compareResult(expected, actual), failedMessage(expected, actual))
   }
 
   test("property_sample complete match test") {
     val expected = getExpectedString("/property_sample.swift")
     val actual = getResult(Array("/property_sample.h"))
 
-    assert(compareResult(expected, actual))
+    assert(compareResult(expected, actual), failedMessage(expected, actual))
   }
 
   test("protocol_sample complete match test") {
