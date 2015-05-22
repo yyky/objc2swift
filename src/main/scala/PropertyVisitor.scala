@@ -71,10 +71,10 @@ trait PropertyVisitor extends Converter {
             case "IBOutletCollection" =>
               sb.append("@IBOutlet " + property_attributes + " ")
               optional = "!"
+              */
             case "IBOutlet" =>
               sb.append("@IBOutlet " + property_attributes + " ")
               optional = "!"
-              */
             case s if !s.isEmpty =>
               // TODO: Implement appropriately
               sb.append("@" + s + " " + property_attributes + " ")
