@@ -55,6 +55,7 @@ trait EnumVisitor extends Converter {
     }
 
   def visitEnum_specifier(ctx: Enum_specifierContext, identifier: String): String = {
+    val builder = List.newBuilder[String]
     val typeStr = Option(ctx.type_name) match {
       case Some(s) => Option(s.specifier_qualifier_list()) match {
         case Some(s2) => Option(s2.type_specifier()) match {
@@ -65,12 +66,15 @@ trait EnumVisitor extends Converter {
       }
       case _ => "Int"
     }
-    val enumeratorString = Option(ctx.enumerator_list()) match {
-      case None => ""
-      case Some(list) => "{\n" + visit(list) + "\n}"
+
+    builder += s"enum $identifier : $typeStr"
+
+    Option(ctx.enumerator_list()) match {
+      case Some(list) => builder += s" {\n${visit(list)}\n}"
+      case None =>
     }
 
-    List("enum", identifier, ":", typeStr, enumeratorString).mkString(" ")
+    builder.result().mkString
   }
 
   /**
