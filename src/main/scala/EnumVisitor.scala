@@ -10,14 +10,16 @@
 
 import ObjCParser._
 import org.antlr.v4.runtime.RuleContext
+import org.antlr.v4.runtime.tree.ParseTreeProperty
 import collection.JavaConversions._
 
 /**
  * Implements visit methods for enum contexts.
  */
 trait EnumVisitor extends Converter {
-
   self: ObjCBaseVisitor[String] =>
+
+  private val identifiers = new ParseTreeProperty[String]()
 
   def findDeclarationSpecifiers(ctx: RuleContext): Option[Declaration_specifiersContext] =
     ctx match {
@@ -54,6 +56,13 @@ trait EnumVisitor extends Converter {
       case _ => ""
     }
 
+  /**
+   * Return translated text of enum_specifier context.
+   *
+   * @param ctx parse tree
+   * @param identifier enum id
+   * @return translated text
+   */
   def visitEnum_specifier(ctx: Enum_specifierContext, identifier: String): String = {
     val builder = List.newBuilder[String]
     val typeStr = for {
@@ -61,6 +70,9 @@ trait EnumVisitor extends Converter {
       c2 <- Option(c1.specifier_qualifier_list())
       c3 <- Option(c2.type_specifier())
     } yield concatType(c3)
+
+    // save this enum id
+    identifiers.put(ctx, identifier)
 
     builder += s"enum $identifier : ${typeStr.getOrElse("Int")}"
     builder += Option(ctx.enumerator_list()).map(visit).getOrElse("")
@@ -92,7 +104,14 @@ trait EnumVisitor extends Converter {
    */
   private def getEnumIdentifier(ctx: EnumeratorContext): String = {
     val origId = visit(ctx.identifier())
-    origId
+    val enumId = identifiers.get(ctx.parent.parent)
+    val digitId = "[0-9].*".r
+
+    // Trim duplicate prefix
+    origId.stripPrefix(enumId) match {
+      case digitId() => origId
+      case s         => s
+    }
   }
 
   /**

@@ -39,16 +39,16 @@ enum OBJCEnumSampleE : UInt32 {
 
 
 enum CTRAdPosition : UInt32 {
-    case CTRAdPositionViewTop = 0
-    case CTRAdPositionViewBottom
+    case ViewTop = 0
+    case ViewBottom
 }
 
 enum YSSKeywordType : Int {
-    case YSSKeywordTypeRecommended
-    case YSSKeywordTypeFavKeyword
-    case YSSKeywordTypeTrending
-    case YSSKeywordTypeNews
-    case YSSKeywordTypeColumn
-    case YSSKeywordTypeBuzz
-    case YSSKeywordTypeOther = 99
+    case Recommended
+    case FavKeyword
+    case Trending
+    case News
+    case Column
+    case Buzz
+    case Other = 99
 }
