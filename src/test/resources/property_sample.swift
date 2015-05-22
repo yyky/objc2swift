@@ -28,6 +28,6 @@ class MyClass : NSObject, SomeProtocol {
 
     @IBOutlet  var searchTypeScrollView:UIScrollView!
 
-    var searchTypeButtons:[AnyObject]?
+    @IBOutletCollection  var searchTypeButtons:[AnyObject]!
 
 }

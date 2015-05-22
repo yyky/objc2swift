@@ -91,7 +91,7 @@ protocol_list:
 	protocol_name (',' protocol_name)*;
 
 property_declaration
-    : '@property' property_attributes_declaration? struct_declaration
+    : '@property' property_attributes_declaration? ib_outlet_specifier? struct_declaration
     ;
 
 property_attributes_declaration
@@ -106,6 +106,10 @@ property_attribute
     : 'nonatomic' | 'assign' | 'weak' | 'strong' | 'retain' | 'readonly' | 'readwrite' |
     | 'getter' '=' IDENTIFIER //  getter 
     | 'setter' '=' IDENTIFIER ':' // setter
+    | IDENTIFIER
+    ;
+ib_outlet_specifier
+    : IDENTIFIER '(' class_name ')'
     | IDENTIFIER
     ;
 
@@ -199,7 +203,6 @@ block_type:type_specifier '(''^' type_specifier? ')' block_parameters? ;
 type_specifier:
 'void' | 'char' | 'short' | 'int' | 'long' | 'float' | 'double' | 'signed' | 'unsigned' 
 	|	('id' ( protocol_reference_list )? )
-	|   ('IBOutletCollection' '(' class_name ')')
 	|	(class_name ( protocol_reference_list )?)
 	|	struct_or_union_specifier
 	|	enum_specifier 

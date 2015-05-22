@@ -43,14 +43,14 @@ trait PropertyVisitor extends Converter {
         var unowned_unsafe = ""
         var optional = "?"
 
+        Option(ctx.ib_outlet_specifier()).foreach { o =>
+          val outlet = o.IDENTIFIER().getText
+          sb.append("@" + outlet + " " + property_attributes + " ")
+          optional = "!"
+        }
+
         specifier_qualifier_list.type_specifier().foreach { i =>
-          visit(i) match {
-            case s if s == "IBOutlet" =>
-              sb.append("@" + s + " " + property_attributes + " ")
-              optional = "!"
-            case s =>
-              type_of_variable = s
-          }
+          type_of_variable = visit(i)
 
           Option(i.protocol_reference_list()) match {
             case None =>
