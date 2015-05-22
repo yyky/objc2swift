@@ -43,12 +43,6 @@ trait PropertyVisitor extends Converter {
         var unowned_unsafe = ""
         var optional = "?"
 
-        Option(ctx.ib_outlet_specifier()).foreach { o =>
-          val outlet = o.IDENTIFIER().getText
-          sb.append("@" + outlet + " " + property_attributes + " ")
-          optional = "!"
-        }
-
         specifier_qualifier_list.type_specifier().foreach { i =>
           type_of_variable = visit(i)
 
@@ -68,6 +62,24 @@ trait PropertyVisitor extends Converter {
                 type_of_variable = "protocol<" + protocol_names.stripSuffix(",") + ">"
                 optional = ""
               }
+          }
+        }
+
+        Option(ctx.ib_outlet_specifier()).foreach { o =>
+          o.IDENTIFIER().getText match {
+              /*
+            case "IBOutletCollection" =>
+              sb.append("@IBOutlet " + property_attributes + " ")
+              optional = "!"
+            case "IBOutlet" =>
+              sb.append("@IBOutlet " + property_attributes + " ")
+              optional = "!"
+              */
+            case s if !s.isEmpty =>
+              // TODO: Implement appropriately
+              sb.append("@" + s + " " + property_attributes + " ")
+              optional = "!"
+            case _ =>
           }
         }
 

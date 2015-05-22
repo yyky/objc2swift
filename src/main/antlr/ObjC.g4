@@ -108,6 +108,7 @@ property_attribute
     | 'setter' '=' IDENTIFIER ':' // setter
     | IDENTIFIER
     ;
+
 ib_outlet_specifier
     : IDENTIFIER '(' class_name ')'
     | IDENTIFIER
