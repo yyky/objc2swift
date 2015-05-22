@@ -73,22 +73,39 @@ trait EnumVisitor extends Converter {
     List("enum", identifier, ":", typeStr, enumeratorString).mkString(" ")
   }
 
-  override def visitEnumerator_list(ctx: Enumerator_listContext): String = {
-    val enumeratorList = ctx.children.collect {
-      case element: EnumeratorContext => indent(ctx) + visit(element)
-    }
-    enumeratorList.mkString("\n")
+  /**
+   * Returns translated text of enumerator_list context.
+   *
+   * @param ctx the parse tree
+   **/
+  override def visitEnumerator_list(ctx: Enumerator_listContext): String =
+    ctx.enumerator().map(visit).mkString("\n")
+
+  /**
+   * Returns translated text of enumerator context.
+   *
+   * @param ctx the parse tree
+   **/
+  override def visitEnumerator(ctx: EnumeratorContext): String =
+    s"${indent(ctx)}case ${getEnumIdentifier(ctx)}${getEnumConstant(ctx)}"
+
+  /**
+   * Returns translated text of identifier under the enumerator context
+   *
+   * @param ctx the parse tree
+   * @return translated text
+   */
+  private def getEnumIdentifier(ctx: EnumeratorContext): String = {
+    val origId = visit(ctx.identifier())
+    origId
   }
 
-  override def visitEnumerator(ctx: EnumeratorContext): String = {
-    val id = visit(ctx.identifier())
-    var strList = List("case " + id)
-
-    strList = Option(ctx.constant_expression()) match {
-      case None => strList
-      case Some(constant) => visit(constant) :: strList
-    }
-    strList.reverse.mkString(" = ")
-  }
-
+  /**
+   * Returns translated text of constant_expression under the enumerator context
+   *
+   * @param ctx the parse tree
+   * @return translated text
+   */
+  private def getEnumConstant(ctx: EnumeratorContext): String =
+    Option(ctx.constant_expression()).map(c => s" = ${visit(c)}").getOrElse("")
 }
