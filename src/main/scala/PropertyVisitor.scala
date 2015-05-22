@@ -37,15 +37,15 @@ trait PropertyVisitor extends Converter {
           case s if s == "readonly" =>
             read_only.append("{ get{} }")
           case s if s.split("=")(0) == "getter" =>
-            val (isOriginalGetter,originalGetterStatement,getterStatement) = parseGetterStatement(ctx,s,getter_statement)
-            _isOriginalGetter = isOriginalGetter
-            _originalGetterStatement = originalGetterStatement
-            getter_statement = getterStatement
+            val t = parseGetterStatement(ctx,s,getter_statement)
+            _isOriginalGetter = t._1
+            _originalGetterStatement = t._2
+            getter_statement = t._3
           case s if s.split("=")(0) == "setter" =>
-            val (isOriginalSetter,originalSetterStatement,setterStatement) = parseSetterStatement(ctx,s,setter_statement)
-            _isOriginalSetter = isOriginalSetter
-            _originalSetterStatement = originalSetterStatement
-            setter_statement = setterStatement
+            val t = parseSetterStatement(ctx,s,setter_statement)
+            _isOriginalSetter = t._1
+            _originalSetterStatement = t._2
+            setter_statement = t._3
           case _ =>
         }
     }
@@ -73,10 +73,9 @@ trait PropertyVisitor extends Converter {
         val struct_declarator_list = struct_declaration.struct_declarator_list()
         var optional = "?"
 
-        val (typeOfVariable,_sb) = getTypeSpecifier(specifier_qualifier_list,sb)
-        type_of_variable = typeOfVariable
-        sb = _sb
-
+        val t = getTypeSpecifier(specifier_qualifier_list,sb)
+        type_of_variable = t._1
+        sb = t._2
 
         for{
           type_specifier <- specifier_qualifier_list.type_specifier()
@@ -125,17 +124,17 @@ trait PropertyVisitor extends Converter {
   override def visitProperty_attribute(ctx: Property_attributeContext) = ctx.getText
 
   def getTypeSpecifier(ctx:Specifier_qualifier_listContext,sb:StringBuilder):(String,StringBuilder) = {
-    var typeOfVariable = ""
+    var type_of_variable = ""
     ctx.type_specifier().foreach { i =>
       visit(i) match {
         case s if s == "IBOutlet" =>
           sb.append("@" + s + " ")
         case s =>
-          typeOfVariable = s
+          type_of_variable = s
       }
     }
 
-    (typeOfVariable,sb)
+    (type_of_variable,sb)
   }
 
   def parseGetterStatement(ctx:ObjCParser.Property_declarationContext,s:String,getter_statement:StringBuilder):(Boolean,String,StringBuilder) = {
@@ -243,9 +242,8 @@ trait PropertyVisitor extends Converter {
     } yield parseInstanceMethodDefinition(instanceMethodDefinition,selector)
 
     buffer.map(t => {
-      val (isGetterOrSetterMethod,str) = t
-      _isGetterOrSetterMethod = isGetterOrSetterMethod
-      _str = str
+      _isGetterOrSetterMethod = t._1
+      _str = t._2
     })
 
     (_isGetterOrSetterMethod,_str)
