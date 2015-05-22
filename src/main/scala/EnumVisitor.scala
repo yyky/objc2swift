@@ -43,11 +43,7 @@ trait EnumVisitor extends Converter {
   def getEnumName(ctx: Enum_specifierContext): String =
     Option(ctx.identifier()) match {
       case Some(id) => visit(id)
-      case None =>
-        findDeclarationSpecifiers(ctx) match {
-          case Some(d) => getClassName(d)
-          case None => ""
-        }
+      case None => findDeclarationSpecifiers(ctx).map(getClassName).getOrElse("")
     }
 
   override def visitEnum_specifier(ctx: Enum_specifierContext): String =
