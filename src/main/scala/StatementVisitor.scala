@@ -61,6 +61,7 @@ trait StatementVisitor extends Converter {
     for (element <- ctx.children) {
       element match {
         case TerminalText("if")                    => builder += "if"
+        case TerminalText("else")                  => builder += " else "
         case TerminalText("switch")                => builder += "switch"
         case TerminalText("(") | TerminalText(")") => builder += " "
         case c: ExpressionContext                  => builder += visit(c)
@@ -72,8 +73,7 @@ trait StatementVisitor extends Converter {
           builder +=
             s"""{
                |$statements
-               |${indent(ctx)}}
-               |""".stripMargin
+               |${indent(ctx)}}""".stripMargin
         case _ =>
       }
     }
