@@ -43,3 +43,12 @@ enum CTRAdPosition : UInt32 {
     case CTRAdPositionViewBottom
 }
 
+enum YSSKeywordType : Int {
+    case YSSKeywordTypeRecommended
+    case YSSKeywordTypeFavKeyword
+    case YSSKeywordTypeTrending
+    case YSSKeywordTypeNews
+    case YSSKeywordTypeColumn
+    case YSSKeywordTypeBuzz
+    case YSSKeywordTypeOther = 99
+}

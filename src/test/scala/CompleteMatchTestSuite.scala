@@ -107,7 +107,7 @@ class CompleteMatchTestSuite extends FunSuite {
     val expected = getExpectedString("/enum_sample.swift")
     val actual = getResult(Array("/enum_sample.h"))
 
-    assert(compareResult(expected, actual))
+    assert(compareResult(expected, actual), failedMessage(expected, actual))
   }
 
   test("expression_sample complete match test") {
