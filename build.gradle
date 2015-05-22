@@ -43,3 +43,7 @@ compileJava.dependsOn generateGrammarSource
 compileJava {
     source = ['build/generated-src/antlr/main', 'src/main/java']
 }
+
+tasks.withType(ScalaCompile) {
+    scalaCompileOptions.useAnt = false
+}
