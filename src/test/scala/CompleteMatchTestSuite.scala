@@ -152,6 +152,13 @@ class CompleteMatchTestSuite extends FunSuite {
     assert(compareResult(expected, actual), failedMessage(expected, actual))
   }
 
+  test("IBAction complete match test") {
+    val expected = getExpectedString("/ib_action_test.swift")
+    val actual = getResult(Array("/ib_action_test.h", "/ib_action_test.m"))
+
+    assert(compareResult(expected, actual), failedMessage(expected, actual))
+  }
+
   test("if_statement complete match test") {
     val expected = getExpectedString("/if_statement_sample.swift")
     val actual = getResult(Array("/if_statement_sample.h", "/if_statement_sample.m"))

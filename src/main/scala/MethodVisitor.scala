@@ -172,6 +172,7 @@ trait MethodVisitor extends Converter {
   private def createMethodHeader(sctx: Method_selectorContext, tctx: Option[Method_typeContext]): String =
     tctx match {
       case Some(c) => visit(c) match {
+        case "IBAction"      => s"@IBAction func ${visit(sctx)}" // IBAction
         case s if !s.isEmpty => s"func ${visit(sctx)} -> $s"
         case _               => s"func ${visit(sctx)}" // void
       }
