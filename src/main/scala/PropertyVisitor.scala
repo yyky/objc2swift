@@ -73,6 +73,26 @@ trait PropertyVisitor extends Converter {
         val struct_declarator_list = struct_declaration.struct_declarator_list()
         var optional = "?"
 
+        Option(ctx.ib_outlet_specifier()).foreach { o =>
+          o.IDENTIFIER().getText match {
+              /*
+            case "IBOutletCollection" =>
+              sb.append("@IBOutlet " + property_attributes + " ")
+              optional = "!"
+              */
+            case "IBOutlet" =>
+              //sb.append("@IBOutlet " + property_attributes + " ")
+              sb.append("@IBOutlet ")
+              optional = "!"
+            case s if !s.isEmpty =>
+              // TODO: Implement appropriately
+              //sb.append("@" + s + " " + property_attributes + " ")
+              sb.append("@" + s + " ")
+              optional = "!"
+            case _ =>
+          }
+        }
+
         val t = getTypeSpecifier(specifier_qualifier_list,sb)
         type_of_variable = t._1
         sb = t._2
@@ -89,24 +109,6 @@ trait PropertyVisitor extends Converter {
           }else if(protocol_name.length > 1){
             type_of_variable = setProtocolName(protocol_name)
             optional = ""
-          }
-        }
-
-        Option(ctx.ib_outlet_specifier()).foreach { o =>
-          o.IDENTIFIER().getText match {
-              /*
-            case "IBOutletCollection" =>
-              sb.append("@IBOutlet " + property_attributes + " ")
-              optional = "!"
-              */
-            case "IBOutlet" =>
-              sb.append("@IBOutlet " + property_attributes + " ")
-              optional = "!"
-            case s if !s.isEmpty =>
-              // TODO: Implement appropriately
-              sb.append("@" + s + " " + property_attributes + " ")
-              optional = "!"
-            case _ =>
           }
         }
 

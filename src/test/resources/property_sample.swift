@@ -1,6 +1,6 @@
 class MyClass : NSObject, SomeProtocol {
 
-    @IBOutlet  var sampleLabel:UILabel!
+    @IBOutlet var sampleLabel:UILabel!
 
     var sampleCopy:NSObject?
 
