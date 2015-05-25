@@ -108,4 +108,8 @@
     [self oneIntParamIntRet:1];
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return nil;
+}
+
 @end

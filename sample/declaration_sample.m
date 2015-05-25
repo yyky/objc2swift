@@ -34,5 +34,7 @@
     id i2, i3 = null;
     id i4 = @"foo";
     HogeClass o1;
+    NSArray a;
+    static NSString *const kSectionTitleFavorite = @"お気に入り";
 }
 @end
