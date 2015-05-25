@@ -9,8 +9,6 @@
  */
 
 import ObjCParser._
-import org.antlr.v4.runtime.tree.TerminalNode
-import collection.JavaConversions._
 
 class ObjC2SwiftConverter(_root: Translation_unitContext)
   extends ObjCBaseVisitor[String]

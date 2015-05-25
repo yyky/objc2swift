@@ -16,26 +16,30 @@ import collection.JavaConversions._
  * Implements visit methods for declaration contexts.
  */
 trait DeclarationVisitor extends Converter {
-
   self: ObjCBaseVisitor[String] =>
 
+  /**
+   * Returns translated text of declaration context.
+   *
+   * @param ctx the parse tree
+   **/
   override def visitDeclaration(ctx: DeclarationContext): String = {
-    var res = List.empty[String]
+    val builder = List.newBuilder[String]
 
     // Type
     Option(ctx.declaration_specifiers.type_specifier()) match {
       case Some(ls) =>
         // Support Enumeration
-        res = Option(ls(0).enum_specifier()) match {
-          case Some(e) => visit(e) :: res
-          case None => res
+        Option(ls(0).enum_specifier()) match {
+          case Some(e) => builder += visit(e)
+          case None =>
         }
-        res = Option(ctx.init_declarator_list()) match {
+        Option(ctx.init_declarator_list()) match {
           case Some(c) =>
             // single declaration with initializer, or multiple declaration.
             // Find id from init_declarator_list
             val typeName = concatType(ls)
-            c.init_declarator().foldLeft(List.empty[String])((z, c2) => {
+            builder += c.init_declarator().foldLeft(List.empty[String])((z, c2) => {
               Option(c2.declarator().direct_declarator().identifier()) match {
                 case Some(s) => concatInitDeclaratorContext(c2, typeName) :: z
                 case None => // not variables declaration? ex) NSLog(foo)
@@ -44,13 +48,13 @@ trait DeclarationVisitor extends Converter {
                     case None => z
                   }
               }
-            }).reverse.mkString("\n") :: res
-          case None => concatShortDeclaration(ls) :: res
+            }).reverse.mkString("\n")
+          case None => builder += concatShortDeclaration(ls)
         }
       case None => // No Type
     }
 
-    res.reverse.mkString("\n") + "\n"
+    builder.result().mkString + "\n"
   }
 
   /**
