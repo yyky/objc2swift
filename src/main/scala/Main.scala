@@ -14,7 +14,6 @@ import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree.ParseTreeWalker
 import org.apache.commons.io.FilenameUtils._
 import collection.JavaConversions._
-import scala.collection.mutable.ArrayBuffer
 
 object Main {
   def main(args: Array[String]) {
@@ -27,8 +26,8 @@ object Main {
     }
 
     val files = findFiles(fileNames)
-    if(files.length == 0) {
-      println("error: no file found for: '" + fileNames.mkString(", ") + "'")
+    if (files.length == 0) {
+      println(s"error: no file found for: '${fileNames.mkString(", ")}'")
       return
     }
 
@@ -37,9 +36,9 @@ object Main {
   }
 
   def findFiles(input:List[String]): List[File] = {
-    val result = List.newBuilder[File]
+    val builder = List.newBuilder[File]
 
-    input.foreach({
+    input.foreach {
       case x if x.contains("*") =>
         val dir = (x.contains("/") match {
           case true => Paths.get(x).getParent
@@ -53,17 +52,17 @@ object Main {
             List("h", "m").contains(extension) && wildcardMatch(name, matcher)
           }
         })
-        result ++= files
+        builder ++= files
 
       case x =>
         val file = Paths.get(x)
         Files.exists(file) match {
-          case true => result += file.toFile
+          case true => builder += file.toFile
           case false =>
         }
-    })
+    }
 
-    result.result
+    builder.result()
   }
 
   def getResult(files: List[File], options: Map[String, Any]): String = {
@@ -91,7 +90,7 @@ object Main {
     lines += "converted by 'objc2swift' https://github.com/yahoojapan/objc2swift"
     lines += "original source: " + files.mkString(", ")
 
-    if(options("tree") == true) {
+    if (options("tree") == true) {
       lines += ""
       lines += "source-tree:"
       new ParseTreeWalker().walk(new ObjCBaseListener() {
@@ -103,6 +102,6 @@ object Main {
       }, root)
     }
 
-    "/* " + lines.result.mkString("\n * ") + "\n */"
+    s"/* ${lines.result().mkString("\n * ")}\n */"
   }
 }

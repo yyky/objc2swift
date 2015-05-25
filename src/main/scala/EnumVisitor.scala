@@ -10,14 +10,16 @@
 
 import ObjCParser._
 import org.antlr.v4.runtime.RuleContext
+import org.antlr.v4.runtime.tree.ParseTreeProperty
 import collection.JavaConversions._
 
 /**
  * Implements visit methods for enum contexts.
  */
 trait EnumVisitor extends Converter {
-
   self: ObjCBaseVisitor[String] =>
+
+  private val identifiers = new ParseTreeProperty[String]()
 
   def findDeclarationSpecifiers(ctx: RuleContext): Option[Declaration_specifiersContext] =
     ctx match {
@@ -41,11 +43,7 @@ trait EnumVisitor extends Converter {
   def getEnumName(ctx: Enum_specifierContext): String =
     Option(ctx.identifier()) match {
       case Some(id) => visit(id)
-      case None =>
-        findDeclarationSpecifiers(ctx) match {
-          case Some(d) => getClassName(d)
-          case None => ""
-        }
+      case None => findDeclarationSpecifiers(ctx).map(getClassName).getOrElse("")
     }
 
   override def visitEnum_specifier(ctx: Enum_specifierContext): String =
@@ -54,41 +52,70 @@ trait EnumVisitor extends Converter {
       case _ => ""
     }
 
+  /**
+   * Return translated text of enum_specifier context.
+   *
+   * @param ctx parse tree
+   * @param identifier enum id
+   * @return translated text
+   */
   def visitEnum_specifier(ctx: Enum_specifierContext, identifier: String): String = {
-    val typeStr = Option(ctx.type_name) match {
-      case Some(s) => Option(s.specifier_qualifier_list()) match {
-        case Some(s2) => Option(s2.type_specifier()) match {
-          case Some(s3) => concatType(s3)
-          case _ => "Int"
-        }
-        case _ => "Int"
-      }
-      case _ => "Int"
-    }
-    val enumeratorString = Option(ctx.enumerator_list()) match {
-      case None => ""
-      case Some(list) => "{\n" + visit(list) + "\n}"
-    }
+    val builder = List.newBuilder[String]
+    val typeStr = for {
+      c1 <- Option(ctx.type_name())
+      c2 <- Option(c1.specifier_qualifier_list())
+      c3 <- Option(c2.type_specifier())
+    } yield concatType(c3)
 
-    List("enum", identifier, ":", typeStr, enumeratorString).mkString(" ")
+    // save this enum id
+    identifiers.put(ctx, identifier)
+
+    builder += s"enum $identifier : ${typeStr.getOrElse("Int")}"
+    builder += Option(ctx.enumerator_list()).map(visit).getOrElse("")
+
+    builder.result().mkString
   }
 
-  override def visitEnumerator_list(ctx: Enumerator_listContext): String = {
-    val enumeratorList = ctx.children.collect {
-      case element: EnumeratorContext => indent(ctx) + visit(element)
+  /**
+   * Returns translated text of enumerator_list context.
+   *
+   * @param ctx the parse tree
+   **/
+  override def visitEnumerator_list(ctx: Enumerator_listContext): String =
+    s" {\n${ctx.enumerator().map(visit).mkString("\n")}\n}"
+
+  /**
+   * Returns translated text of enumerator context.
+   *
+   * @param ctx the parse tree
+   **/
+  override def visitEnumerator(ctx: EnumeratorContext): String =
+    s"${indent(ctx)}case ${getEnumIdentifier(ctx)}${getEnumConstant(ctx)}"
+
+  /**
+   * Returns translated text of identifier under the enumerator context
+   *
+   * @param ctx the parse tree
+   * @return translated text
+   */
+  private def getEnumIdentifier(ctx: EnumeratorContext): String = {
+    val origId = visit(ctx.identifier())
+    val enumId = identifiers.get(ctx.parent.parent)
+    val digitId = "[0-9].*".r
+
+    // Trim duplicate prefix
+    origId.stripPrefix(enumId) match {
+      case digitId() => origId
+      case s         => s
     }
-    enumeratorList.mkString("\n")
   }
 
-  override def visitEnumerator(ctx: EnumeratorContext): String = {
-    val id = visit(ctx.identifier())
-    var strList = List("case " + id)
-
-    strList = Option(ctx.constant_expression()) match {
-      case None => strList
-      case Some(constant) => visit(constant) :: strList
-    }
-    strList.reverse.mkString(" = ")
-  }
-
+  /**
+   * Returns translated text of constant_expression under the enumerator context
+   *
+   * @param ctx the parse tree
+   * @return translated text
+   */
+  private def getEnumConstant(ctx: EnumeratorContext): String =
+    Option(ctx.constant_expression()).map(c => s" = ${visit(c)}").getOrElse("")
 }

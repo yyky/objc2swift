@@ -92,6 +92,24 @@ trait PropertyVisitor extends Converter {
           }
         }
 
+        Option(ctx.ib_outlet_specifier()).foreach { o =>
+          o.IDENTIFIER().getText match {
+              /*
+            case "IBOutletCollection" =>
+              sb.append("@IBOutlet " + property_attributes + " ")
+              optional = "!"
+              */
+            case "IBOutlet" =>
+              sb.append("@IBOutlet " + property_attributes + " ")
+              optional = "!"
+            case s if !s.isEmpty =>
+              // TODO: Implement appropriately
+              sb.append("@" + s + " " + property_attributes + " ")
+              optional = "!"
+            case _ =>
+          }
+        }
+
         for{
           list <- struct_declarator_list.struct_declarator
           direct_declarator <- Option(list.declarator.direct_declarator())

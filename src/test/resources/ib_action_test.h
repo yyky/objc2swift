@@ -1,0 +1,2 @@
+@interface IBActionTest
+@end
