@@ -26,6 +26,12 @@ trait DeclarationVisitor extends Converter {
   override def visitDeclaration(ctx: DeclarationContext): String = {
     val builder = List.newBuilder[String]
 
+    // Static, etc
+    val prefix = Option(ctx.declaration_specifiers().storage_class_specifier()) match {
+      case Some(ls) => ls.map(visit).filter(!_.isEmpty).mkString(" ")
+      case _ => ""
+    }
+
     // Type
     Option(ctx.declaration_specifiers.type_specifier()) match {
       case Some(ls) =>
@@ -41,7 +47,7 @@ trait DeclarationVisitor extends Converter {
             val typeName = concatType(ls)
             c.init_declarator().foreach(c2 => {
               Option(c2.declarator().direct_declarator().identifier()) match {
-                case Some(s) => builder += concatInitDeclaratorContext(c2, typeName)
+                case Some(s) => builder += concatInitDeclaratorContext(c2, typeName, prefix)
                 case None => // not variables declaration? ex) NSLog(foo)
                   Option(c2.declarator().direct_declarator().declarator()) match {
                     case Some(s) => builder += s"$indentString$typeName(${visit(s)})"
@@ -54,7 +60,7 @@ trait DeclarationVisitor extends Converter {
       case None => // No Type
     }
 
-    builder.result().mkString("\n") + "\n"
+    builder.result().filter(!_.isEmpty).mkString("\n") + "\n"
   }
 
   /**
@@ -73,16 +79,23 @@ trait DeclarationVisitor extends Converter {
 
   /**
    * Returns translated text of init_declarator context.
+   *
    * @param ctx init_declarator context
    * @param tp type name
+   * @param prefix Prefix specifier
    * @return translated text
    */
-  private def concatInitDeclaratorContext(ctx: Init_declaratorContext, tp: String): String = {
+  private def concatInitDeclaratorContext(ctx: Init_declaratorContext, tp: String, prefix: String): String = {
     val builder = List.newBuilder[String]
+
+    prefix match {
+      case s if !s.isEmpty => builder += s"${indent(ctx)}$s "
+      case _               => builder += indent(ctx)
+    }
 
     ctx.children.foreach {
       case TerminalText("=") => // NOOP
-      case c: DeclaratorContext => builder += s"${indent(ctx)}${visit(c)}: $tp"
+      case c: DeclaratorContext  => builder += s"${visit(c)}: $tp"
       case c: InitializerContext => builder += s" = ${visit(c)}"
     }
 
@@ -100,31 +113,34 @@ trait DeclarationVisitor extends Converter {
       case c: Direct_declaratorContext =>
         ctx.getParent match {
           case p: Init_declaratorContext =>
-            builder.result().mkString match {
-              case s if s.startsWith("let ") => builder += visit(c)
-              case _                         => builder += s"var ${visit(c)}"
+            builder.result().find(_ == "let") match {
+              case Some(x) => builder += visit(c)
+              case None    => builder += s"var ${visit(c)}"
             }
           case _ => builder += visit(c)
         }
       case c: PointerContext => builder += visit(c)
     }
 
-    builder.result().mkString
+    builder.result().filter(!_.isEmpty).mkString(" ")
   }
 
   /**
    * Returns translated text of direct_declarator context.
    * @param ctx the parse tree
    **/
-  override def visitDirect_declarator(ctx: Direct_declaratorContext): String =
-    ctx.children.foldLeft(List.empty[String])((z, c) => {
-      c match {
-        case TerminalText("(") => "(" :: z
-        case TerminalText(")") => ")" :: z
-        case _: TerminalNode => z
-        case _ => visit(c) :: z
-      }
-    }).reverse.mkString
+  override def visitDirect_declarator(ctx: Direct_declaratorContext): String = {
+    val builder = List.newBuilder[String]
+
+    ctx.children.foreach {
+      case TerminalText("(") => builder += "("
+      case TerminalText(")") => builder += ")"
+      case _: TerminalNode   => // NOOP
+      case c                 => builder += visit(c)
+    }
+
+    builder.result().mkString
+  }
 
   /**
    * Returns translated initializer context.
@@ -163,10 +179,11 @@ trait DeclarationVisitor extends Converter {
   override def visitDeclaration_specifiers(ctx: Declaration_specifiersContext): String = {
     val builder = List.newBuilder[String]
     ctx.children.foreach {
-      case c: Type_qualifierContext => builder += visit(c)
+      case c: Type_qualifierContext          => builder += visit(c)
+      case c: Storage_class_specifierContext => builder += visit(c)
       case _ => // TODO: Do something if you need
     }
-    builder.result().mkString
+    builder.result().filter(!_.isEmpty).mkString(" ")
   }
 
   /**
@@ -177,9 +194,21 @@ trait DeclarationVisitor extends Converter {
   override def visitType_qualifier(ctx: Type_qualifierContext): String = {
     val builder = List.newBuilder[String]
     ctx.children.foreach {
-      case TerminalText("const") => builder += "let "
+      case TerminalText("const") => builder += "let"
       case _ => // TODO: Do something if you need
     }
     builder.result().mkString
   }
+
+  /**
+   * Returns translated text of storage_class_specifier context.
+   *
+   * @param ctx the parse tree
+   **/
+  override def visitStorage_class_specifier(ctx: Storage_class_specifierContext): String =
+    ctx.getText match {
+      case "static" => "static"
+      case _ => "" // TODO: Do something if you need
+    }
+
 }

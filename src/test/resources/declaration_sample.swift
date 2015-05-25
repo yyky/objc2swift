@@ -23,7 +23,7 @@ class Declaration {
         var i4: AnyObject = "foo"
         var o1: HogeClass
         var a: [AnyObject]
-        let kSectionTitleFavorite: NSString = "お気に入り"
+        static let kSectionTitleFavorite: NSString = "お気に入り"
     }
 
 }
