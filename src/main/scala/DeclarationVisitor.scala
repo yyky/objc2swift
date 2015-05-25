@@ -39,22 +39,22 @@ trait DeclarationVisitor extends Converter {
             // single declaration with initializer, or multiple declaration.
             // Find id from init_declarator_list
             val typeName = concatType(ls)
-            builder += c.init_declarator().foldLeft(List.empty[String])((z, c2) => {
+            c.init_declarator().foreach(c2 => {
               Option(c2.declarator().direct_declarator().identifier()) match {
-                case Some(s) => concatInitDeclaratorContext(c2, typeName) :: z
+                case Some(s) => builder += concatInitDeclaratorContext(c2, typeName)
                 case None => // not variables declaration? ex) NSLog(foo)
                   Option(c2.declarator().direct_declarator().declarator()) match {
-                    case Some(s) => s"$indentString$typeName(${visit(s)})" :: z
-                    case None => z
+                    case Some(s) => builder += s"$indentString$typeName(${visit(s)})"
+                    case None =>
                   }
               }
-            }).reverse.mkString("\n")
+            })
           case None => builder += concatShortDeclaration(ls)
         }
       case None => // No Type
     }
 
-    builder.result().mkString + "\n"
+    builder.result().mkString("\n") + "\n"
   }
 
   /**
@@ -102,7 +102,7 @@ trait DeclarationVisitor extends Converter {
           case p: Init_declaratorContext => builder += s"var ${visit(c)}"
           case _ => builder += visit(c)
         }
-      case c: PointerContext =>
+      case c: PointerContext => builder += visit(c)
     }
     builder.result().mkString
   }
@@ -170,10 +170,11 @@ trait DeclarationVisitor extends Converter {
    * @param ctx the parse tree
    **/
   override def visitType_qualifier(ctx: Type_qualifierContext): String = {
+    val builder = List.newBuilder[String]
     ctx.children.foreach {
-      case TerminalText("const") => // TODO: Do something for constant value
+      case TerminalText("const") => builder += "let "
       case _ => // TODO: Do something if you need
     }
-    ""
+    builder.result().mkString
   }
 }
