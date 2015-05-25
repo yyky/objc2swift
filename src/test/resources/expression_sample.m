@@ -38,5 +38,6 @@
     x = y << z;
     x = y >> z;
     button.size = CGSizeMake(32, 44);
+    x = y ?: z;
 }
 @end
