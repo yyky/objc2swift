@@ -216,7 +216,7 @@ trait ExpressionVisitor extends Converter {
     val conds = ctx.conditional_expression()
     ctx.conditional_expression().length match {
       case 0 => left
-      case 1 => s"$left ? $left : ${visit(conds(0))}"
+      case 1 => s"$left ?? ${visit(conds(0))}"
       case 2 => s"$left ? ${visit(conds(0))} : ${visit(conds(1))}"
     }
   }
