@@ -38,14 +38,11 @@ trait DeclarationVisitor extends Converter {
             c.init_declarator().foldLeft(List.empty[String])((z, c2) => {
               Option(c2.declarator().direct_declarator().identifier()) match {
                 case Some(s) => concatInitDeclaratorContext(c2, typeName) :: z
-                case None => // not variables declaration?
-                  ctx.children.foldLeft(List.empty[String])((z2, c3) => {
-                    c3 match {
-                      case TerminalText(";") => "\n" :: z2
-                      case _: TerminalNode => z2
-                      case element => visit(element) + " " :: z2
-                    }
-                  }).reverse.mkString :: z
+                case None => // not variables declaration? ex) NSLog(foo)
+                  Option(c2.declarator().direct_declarator().declarator()) match {
+                    case Some(s) => s"$indentString$typeName(${visit(s)})" :: z
+                    case None => z
+                  }
               }
             }).reverse.mkString("\n") :: res
           case None => concatShortDeclaration(ls) :: res
@@ -76,21 +73,35 @@ trait DeclarationVisitor extends Converter {
    * @param tp type name
    * @return translated text
    */
-  private def concatInitDeclaratorContext(ctx: Init_declaratorContext, tp: String): String =
-    ctx.children.foldLeft(List.empty[String])((z, c) => {
-      c match {
-        case TerminalText("=") => " = " :: z
-        case _: DeclaratorContext => s"var ${visit(c)}: $tp" :: z
-        case _: InitializerContext => visit(c) :: z
-        case _ => z
-      }
-    }).reverse.mkString(indent(ctx), "", "")
+  private def concatInitDeclaratorContext(ctx: Init_declaratorContext, tp: String): String = {
+    val builder = List.newBuilder[String]
+
+    ctx.children.foreach {
+      case TerminalText("=") => // NOOP
+      case c: DeclaratorContext => builder += s"${indent(ctx)}${visit(c)}: $tp"
+      case c: InitializerContext => builder += s" = ${visit(c)}"
+    }
+
+    builder.result().mkString
+  }
 
   /**
    * Returns translated text of declarator context.
    * @param ctx the parse tree
    **/
-  override def visitDeclarator(ctx: DeclaratorContext): String = concatChildResults(ctx, "")
+  override def visitDeclarator(ctx: DeclaratorContext): String = {
+    val builder = List.newBuilder[String]
+    // TODO: Support const(let) value
+    ctx.children.foreach {
+      case c: Direct_declaratorContext =>
+        ctx.getParent match {
+          case p: Init_declaratorContext => builder += s"var ${visit(c)}"
+          case _ => builder += visit(c)
+        }
+      case c: PointerContext =>
+    }
+    builder.result().mkString
+  }
 
   /**
    * Returns translated text of direct_declarator context.
@@ -120,4 +131,45 @@ trait DeclarationVisitor extends Converter {
       case None => "" // No Type
     }
 
+  /**
+   * Returns translated text of pointer context.
+   *
+   * @param ctx the parse tree
+   **/
+  override def visitPointer(ctx: PointerContext): String = {
+    val builder = List.newBuilder[String]
+    ctx.children.foreach {
+      case TerminalText("*") => // NOOP
+      case c: Declaration_specifiersContext => builder += visit(c)
+      case c: PointerContext => // TODO: Do something if you need
+    }
+    builder.result().mkString
+  }
+
+  /**
+   * Returns translated text of declaration_specifiers context.
+   *
+   * @param ctx the parse tree
+   **/
+  override def visitDeclaration_specifiers(ctx: Declaration_specifiersContext): String = {
+    val builder = List.newBuilder[String]
+    ctx.children.foreach {
+      case c: Type_qualifierContext => builder += visit(c)
+      case _ => // TODO: Do something if you need
+    }
+    builder.result().mkString
+  }
+
+  /**
+   * Returns translated text of type_qualifier context.
+   *
+   * @param ctx the parse tree
+   **/
+  override def visitType_qualifier(ctx: Type_qualifierContext): String = {
+    ctx.children.foreach {
+      case TerminalText("const") => // TODO: Do something for constant value
+      case _ => // TODO: Do something if you need
+    }
+    ""
+  }
 }

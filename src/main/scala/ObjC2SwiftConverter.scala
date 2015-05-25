@@ -28,14 +28,6 @@ class ObjC2SwiftConverter(_root: Translation_unitContext)
 
   val root = _root
 
-  override def visitPointer(ctx: PointerContext): String =
-    ctx.children.foldLeft(List.empty[String])((z, c) => {
-      c match {
-        case _: TerminalNode => z
-        case _ => visit(c) :: z
-      }
-    }).reverse.mkString
-
   override def visitIdentifier(ctx: IdentifierContext): String = ctx.getText
 
   override def visitConstant(ctx: ConstantContext): String = ctx.getText
