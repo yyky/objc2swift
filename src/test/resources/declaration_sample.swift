@@ -20,7 +20,10 @@ class Declaration {
         var i1: AnyObject
         var i2: AnyObject
         var i3: AnyObject = null
-
+        var i4: AnyObject = "foo"
+        var o1: HogeClass
+        var a: [AnyObject]
+        let kSectionTitleFavorite: NSString = "お気に入り"
     }
 
 }

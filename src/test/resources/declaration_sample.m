@@ -14,5 +14,9 @@
     unsigned long long l1, l2 = 3;
     id i1;
     id i2, i3 = null;
+    id i4 = @"foo";
+    HogeClass o1;
+    NSArray a;
+    static NSString *const kSectionTitleFavorite = @"お気に入り";
 }
 @end

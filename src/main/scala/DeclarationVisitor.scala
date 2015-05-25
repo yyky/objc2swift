@@ -95,15 +95,20 @@ trait DeclarationVisitor extends Converter {
    **/
   override def visitDeclarator(ctx: DeclaratorContext): String = {
     val builder = List.newBuilder[String]
-    // TODO: Support const(let) value
+
     ctx.children.foreach {
       case c: Direct_declaratorContext =>
         ctx.getParent match {
-          case p: Init_declaratorContext => builder += s"var ${visit(c)}"
+          case p: Init_declaratorContext =>
+            builder.result().mkString match {
+              case s if s.startsWith("let ") => builder += visit(c)
+              case _                         => builder += s"var ${visit(c)}"
+            }
           case _ => builder += visit(c)
         }
       case c: PointerContext => builder += visit(c)
     }
+
     builder.result().mkString
   }
 
