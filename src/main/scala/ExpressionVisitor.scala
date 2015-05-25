@@ -206,11 +206,18 @@ trait ExpressionVisitor extends Converter {
     "(" + ctx.type_variable_declarator.map(visit).mkString(", ") + ")"
 
 
+  /**
+   * Returns translated text of conditional_expression context.
+   *
+   * @param ctx the parse tree
+   **/
   override def visitConditional_expression(ctx: Conditional_expressionContext): String = {
-    if(ctx.getChildCount > 1) {
-      visit(ctx.getChild(0)) + " ? " + visit(ctx.getChild(2)) + " : " + visit(ctx.getChild(4))
-    } else {
-      visit(ctx.getChild(0))
+    val left = visit(ctx.logical_or_expression())
+    val conds = ctx.conditional_expression()
+    ctx.conditional_expression().length match {
+      case 0 => left
+      case 1 => s"$left ? $left : ${visit(conds(0))}"
+      case 2 => s"$left ? ${visit(conds(0))} : ${visit(conds(1))}"
     }
   }
 

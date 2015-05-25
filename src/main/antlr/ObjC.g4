@@ -430,7 +430,7 @@ assignment_operator:
   '=' | '*=' | '/=' | '%=' | '+=' | '-=' | '<<=' | '>>=' | '&=' | '^=' | '|=';
 
 conditional_expression : logical_or_expression 
-  ('?' conditional_expression ':' conditional_expression)? ;
+  ('?' conditional_expression? ':' conditional_expression)? ;
 
 constant_expression : conditional_expression ;
 
