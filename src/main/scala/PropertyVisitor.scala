@@ -44,13 +44,7 @@ trait PropertyVisitor extends Converter {
         var optional = "?"
 
         specifier_qualifier_list.type_specifier().foreach { i =>
-          visit(i) match {
-            case s if s == "IBOutlet" =>
-              sb.append("@" + s + " " + property_attributes + " ")
-              optional = "!"
-            case s =>
-              type_of_variable = s
-          }
+          type_of_variable = visit(i)
 
           Option(i.protocol_reference_list()) match {
             case None =>
@@ -68,6 +62,24 @@ trait PropertyVisitor extends Converter {
                 type_of_variable = "protocol<" + protocol_names.stripSuffix(",") + ">"
                 optional = ""
               }
+          }
+        }
+
+        Option(ctx.ib_outlet_specifier()).foreach { o =>
+          o.IDENTIFIER().getText match {
+              /*
+            case "IBOutletCollection" =>
+              sb.append("@IBOutlet " + property_attributes + " ")
+              optional = "!"
+              */
+            case "IBOutlet" =>
+              sb.append("@IBOutlet " + property_attributes + " ")
+              optional = "!"
+            case s if !s.isEmpty =>
+              // TODO: Implement appropriately
+              sb.append("@" + s + " " + property_attributes + " ")
+              optional = "!"
+            case _ =>
           }
         }
 
