@@ -31,10 +31,8 @@ class IfStatementSample : NSObject, SomeProtocol {
             }
         }
 
-        if (comps.containsObject("画像")) {
+        if comps.containsObject("画像") {
             return YSSSearchTypeImage
-        } else if (comps.containsObject("動画")) {
-            return YSSSearchTypeVideo
         } else {
             return YSSSearchTypeDefault
         }

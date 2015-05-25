@@ -21,12 +21,20 @@
        c = d;
     }
   }
+
+  if([comps containsObject:@"画像"])
+    return YSSSearchTypeImage;
+  else
+    return YSSSearchTypeDefault;
+
+  /*
   if([comps containsObject:@"画像"])
     return YSSSearchTypeImage;
   else if([comps containsObject:@"動画"])
     return YSSSearchTypeVideo;
   else
     return YSSSearchTypeDefault;
+  */
 }
 
 @end
