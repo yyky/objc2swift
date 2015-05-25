@@ -214,7 +214,7 @@ trait ExpressionVisitor extends Converter {
   override def visitConditional_expression(ctx: Conditional_expressionContext): String = {
     val left = visit(ctx.logical_or_expression())
     val conds = ctx.conditional_expression()
-    ctx.conditional_expression().length match {
+    conds.length match {
       case 0 => left
       case 1 => s"$left ?? ${visit(conds(0))}"
       case 2 => s"$left ? ${visit(conds(0))} : ${visit(conds(1))}"
