@@ -41,7 +41,12 @@ class Declaration {
         var i4: AnyObject = "foo"
         var o1: HogeClass
         var a: [AnyObject]
+        static var num21: Int32
+        let kConstNum1: Int32 = 200
+        static let kConstNum2: Int32 = 200
+        static let kNumFloat: Float = 1.25f
         static let kSectionTitleFavorite: NSString = "お気に入り"
+        static let kSectionTitleFavorite2: NSString = "お気に入り"
     }
 
 }
