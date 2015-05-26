@@ -109,40 +109,52 @@ trait MethodVisitor extends Converter {
     Option(ctx.selector()) match {
       case Some(s) => s"${visit(s)}()" // No parameters
       case _ =>
-        val builder = List.newBuilder[String]
-        ctx.keyword_declarator().zipWithIndex.foreach {
-          case (c, 0) => builder += visit(c).format("(")
-          case (c, i) => builder += s", ${visit(c).format(" ")}"
-        }
-        builder += ")"
-        builder.result().mkString
+        // Method name(selector)
+        val selector = Option(ctx.keyword_declarator(0).selector()).map(visit).getOrElse("")
+
+        // First parameter
+        val head = visitKeyword_declarator(ctx.keyword_declarator(0), isHead = true)
+
+        // Other parameters
+        val tail = ctx.keyword_declarator().tail.foldLeft("")((z, c) => {
+          z + ", " + visitKeyword_declarator(c)
+        })
+
+        s"$selector($head$tail)"
     }
 
   /**
    * Returns translated text of keyword declarator
    *
    * @param ctx the parse tree
+   **/
+  override def visitKeyword_declarator(ctx: Keyword_declaratorContext): String =
+    self.visitKeyword_declarator(ctx, isHead = false)
+
+  /**
+   * Returns translated text of keyword declarator
+   *
+   * @param ctx the parse tree
+   * @param isHead node index in branches
    * @return parameter code
    */
-  override def visitKeyword_declarator(ctx: Keyword_declaratorContext): String = {
-    // Method name or Parameter's External name
-    val selector = Option(ctx.selector()).map(visit).getOrElse("")
-
+  private def visitKeyword_declarator(ctx: Keyword_declaratorContext, isHead: Boolean): String = {
     // Parameter's Internal name
     val paramName = ctx.IDENTIFIER().getText
 
+    // Method name(idx = 0) or Parameter's External name
+    val selector = Option(ctx.selector()).map(visit).getOrElse("")
+
     // Parameter's Type
     val it = ctx.method_type().toIterator
-    val paramType = it.map(visit).find(_ != "").getOrElse("")
+    val paramType = it.map(visit).find(!_.isEmpty).getOrElse("")
 
-    // Separator
-    val sep = selector match {
-      case s if s.isEmpty      => "" // No external name
-      case s if s == paramName => "" // Same name
-      case _                   => selector + "%s"
+    selector match {
+      case s if s.isEmpty      => s"$paramName: $paramType" // No external name
+      case s if isHead         => s"$paramName: $paramType" // head param has no external name
+      case s if s == paramName => s"$paramName: $paramType" // external name equals internal one
+      case _                   => s"$selector $paramName: $paramType"
     }
-
-    s"$sep$paramName: $paramType"
   }
 
   /**
