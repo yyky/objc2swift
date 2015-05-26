@@ -36,5 +36,8 @@
     HogeClass o1;
     NSArray a;
     static NSString *const kSectionTitleFavorite = @"お気に入り";
+    //static NSString const* kSectionTitleFavorite = @"お気に入り";
+    //const NSInteger kConstNum = 200;
+    //static const float kNumFloat = 1.25f;
 }
 @end

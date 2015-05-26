@@ -25,12 +25,15 @@ trait DeclarationVisitor extends Converter {
    **/
   override def visitDeclaration(ctx: DeclarationContext): String = {
     val builder = List.newBuilder[String]
+    val specifiers = List.newBuilder[String]
 
-    // Static, etc
-    val prefix = Option(ctx.declaration_specifiers().storage_class_specifier()) match {
+    // static, etc
+    specifiers += (Option(ctx.declaration_specifiers().storage_class_specifier()) match {
       case Some(ls) => ls.map(visit).filter(!_.isEmpty).mkString(" ")
       case _ => ""
-    }
+    })
+
+    val prefix = specifiers.result().mkString(" ")
 
     // Type
     Option(ctx.declaration_specifiers.type_specifier()) match {
