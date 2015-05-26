@@ -63,16 +63,16 @@ class CompleteMatchTestSuite extends FunSuite {
 
   def failedMessage(expected: String, actual: String): String =
     s"""
-    |=========================================
-    |> Expected:
-    |-----------------------------------------
-    |$expected
-    |=========================================
-    |> But actual:
-    |-----------------------------------------
-    |$actual
-    |=========================================
-    """.stripMargin
+       |=========================================
+       |> Expected:
+       |-----------------------------------------
+       |$expected
+       |=========================================
+       |> But actual:
+       |-----------------------------------------
+       |$actual
+       |=========================================
+       |""".stripMargin
 
   test("sample complete match test") {
     val expected = getExpectedString("/sample.swift")

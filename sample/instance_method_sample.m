@@ -108,8 +108,30 @@
     [self oneIntParamIntRet:1];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
     return nil;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self shouldShowSection:section] ? [self numberOfQueriesInSection:section] : 0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *reuseId = (indexPath.section == YSSSearchPanelSectionFavorite) ? kFavKeywordCellIdentifier : kDefaultCellIdentifier;
+
+    YSSSearchPanelTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseId];
+    cell.searchPanelViewController = self;
+    cell.query = [self queryAtIndexPath:indexPath];
+
+    return cell;
 }
 
 @end
