@@ -56,11 +56,13 @@ trait Converter extends ObjCBaseVisitor[String] {
     }
   }
 
-  def isVisited(node: ParseTree): Boolean =
-    Option(visited.get(node)) match {
-      case Some(flag) if flag => true
-      case _ => false
-    }
+  /**
+   * Returns if node was visited or not
+   *
+   * @param node parse tree
+   * @return true if node was visited, otherwise false
+   */
+  def isVisited(node: ParseTree): Boolean = Option(visited.get(node)).getOrElse(false)
 
   def setVisited(node: ParseTree) {
     visited.put(node, true)
