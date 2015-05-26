@@ -73,29 +73,22 @@ trait PropertyVisitor extends Converter {
         val struct_declarator_list = struct_declaration.struct_declarator_list()
         var optional = "?"
 
+        val t = getTypeSpecifier(specifier_qualifier_list,sb)
+        type_of_variable = t._1
+        sb = t._2
+
         Option(ctx.ib_outlet_specifier()).foreach { o =>
           o.IDENTIFIER().getText match {
-              /*
             case "IBOutletCollection" =>
-              sb.append("@IBOutlet " + property_attributes + " ")
-              optional = "!"
-              */
-            case "IBOutlet" =>
-              //sb.append("@IBOutlet " + property_attributes + " ")
               sb.append("@IBOutlet ")
+              type_of_variable = "[" + o.class_name().getText + "]"
               optional = "!"
-            case s if !s.isEmpty =>
-              // TODO: Implement appropriately
-              //sb.append("@" + s + " " + property_attributes + " ")
-              sb.append("@" + s + " ")
+            case "IBOutlet" =>
+              sb.append("@IBOutlet ")
               optional = "!"
             case _ =>
           }
         }
-
-        val t = getTypeSpecifier(specifier_qualifier_list,sb)
-        type_of_variable = t._1
-        sb = t._2
 
         for{
           type_specifier <- specifier_qualifier_list.type_specifier()
