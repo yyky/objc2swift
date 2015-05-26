@@ -25,4 +25,7 @@
 @property(nonatomic) NSDictionary sampleDictionary;
 @property(nonatomic) SEL sampleSelector;
 
+@property (nonatomic) IBOutlet UIScrollView *searchTypeScrollView;
+@property (nonatomic) IBOutletCollection(UIButton) NSArray *searchTypeButtons; // TODO this is not implemented
+
 @end

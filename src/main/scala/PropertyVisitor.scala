@@ -230,6 +230,14 @@ trait PropertyVisitor extends Converter {
         }
 
         if (isDefaultSetter) {
+          if (!isDefaultGetter) {
+            //set getter when you use only default setter
+            getterStatement.append(
+              indentString * 2 + "get{\n"
+                + indentString * 3 + "return self." + identifier + "\n"
+                + indentString * 2 + "}\n"
+            )
+          }
           setterStatement.append(
             indentString * 2 + "set{\n"
               + indentString + defaultSetterStatement
@@ -238,7 +246,7 @@ trait PropertyVisitor extends Converter {
         }
 
         //when you use both default getter and setter
-        if (getterStatement.length != 0 && setterStatement.length != 0) {
+        if (isDefaultGetter && isDefaultSetter) {
           getterStatement.append("\n")
         }
 
