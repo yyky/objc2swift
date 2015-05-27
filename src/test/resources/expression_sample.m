@@ -53,24 +53,55 @@
     NSString *item2 = dic1[@"key1"];
     dic2[@"key1"] = @"updateValue1";
 
-    /* TODO
-    NSNumber *smallestInt = @(-INT_MAX - 1);
-    ↓
-    var smallestInt: NSNumber = -INT_MAX - 1
+    /**
+     * TODO: Invalid conversion
+     *
+     * ObjC
+     * ```
+     * NSNumber *smallestInt = @(-INT_MAX - 1);
+     * ```
+     * ↓
+     * Swift
+     * ```
+     * var smallestInt: NSNumber = -INT_MAX - 1
+     * ```
+     */
+    //NSNumber *smallestInt = @(-INT_MAX - 1);
 
-    NSNumber *piOverTwo = @(M_PI / 2);
-    ↓
-    var piOverTwo: NSNumber = M_PI / 2
-    */
+    /**
+     * TODO: Invalid conversion
+     *
+     * ObjC
+     * ```
+     * NSNumber *piOverTwo = @(M_PI / 2);
+     * ```
+     * ↓
+     * Swift
+     * ```
+     * var piOverTwo: NSNumber = M_PI / 2
+     * ```
+     */
+    //NSNumber *piOverTwo = @(M_PI / 2);
 
-    /* TODO
-    int (^power)(int) = ^(int x) {
-        return x * x;
-    };
-    ↓
-    var power: (Int32) -> Int32 = {(x: Int32) -> Int32 in
-        return x * x
-    }
-    */
+    /**
+     * TODO: Invalid conversion
+     *
+     * ObjC
+     * ```
+     * int (^power)(int) = ^(int x) {
+     *   return x * x;
+     * };
+     * ```
+     * ↓
+     * Swift
+     * ```
+     * var power: (Int32) -> Int32 = {(x: Int32) -> Int32 in
+     *     return x * x
+     * }
+     * ```
+     */
+     //int (^power)(int) = ^(int x) {
+     //  return x * x;
+     //};
 }
 @end
