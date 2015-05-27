@@ -31,6 +31,14 @@ class IfStatementSample : NSObject, SomeProtocol {
             }
         }
 
+        if a == b {
+            return 1
+        }
+
+        if a == b {
+            return 2
+        }
+
         if comps.containsObject("画像") {
             return YSSSearchTypeImage
         } else {

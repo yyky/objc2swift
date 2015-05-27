@@ -106,7 +106,7 @@ class CompleteMatchTestSuite extends FunSuite {
     val actual = getResult(Array("/control_flow_sample.h", "/control_flow_sample.m"))
 
     assert(compareResult(expected, actual), failedMessage(expected, actual))
-    diffResult("control_flow_sample", actual)
+    //diffResult("control_flow_sample", actual)
   }
 
   test("declaration_sample complete match test") {
