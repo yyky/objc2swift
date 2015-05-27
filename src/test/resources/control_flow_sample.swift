@@ -22,8 +22,26 @@ class MyClassControll : NSObject, SomeProtocol {
             b += 1
         }
 
+        for a = 10; a > 0; a-- {
+            b -= 1
+        }
+
+        for a = 0; a < 10; a++ {
+            b *= 2
+            c *= 3
+        }
+
         while a < 10 {
             ++a
+        }
+
+        while b != 1 {
+            b = b * b - b
+        }
+
+        while !c {
+            c = d
+            d = e
         }
 
         do {
@@ -32,6 +50,10 @@ class MyClassControll : NSObject, SomeProtocol {
 
         for str: NSString in array {
             NSLog(str) 
+        }
+
+        for i: Int32 in num {
+            self.hoge(i)
         }
 
         for var i = 0; i < 10; i++ {
