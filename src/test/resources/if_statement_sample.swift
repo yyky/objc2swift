@@ -64,6 +64,16 @@ class IfStatementSample : NSObject, SomeProtocol {
             }
         }
 
+        if comps.containsObject("画像2") {
+            return YSSSearchTypeImage
+        } else {
+            if comps.containsObject("動画2") {
+                return YSSSearchTypeVideo
+            } else {
+                return YSSSearchTypeDefault
+            }
+        }
+
     }
 
 }

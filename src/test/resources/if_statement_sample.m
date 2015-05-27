@@ -53,14 +53,12 @@
     return YSSSearchTypeDefault;
   }
 
-/*
-  if([comps containsObject:@"画像"])
+  if([comps containsObject:@"画像2"])
     return YSSSearchTypeImage;
-  else if([comps containsObject:@"動画"])
+  else if([comps containsObject:@"動画2"])
     return YSSSearchTypeVideo;
   else
     return YSSSearchTypeDefault;
-*/
 
 }
 
