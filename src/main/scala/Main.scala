@@ -20,13 +20,13 @@ object Main {
     val options = Map("tree" -> args.contains("-t"))
 
     val fileNames = args.filter(!_.startsWith("-")).toList
-    if(fileNames.length == 0) {
+    if (fileNames.isEmpty) {
       println("error: no input file specified.")
       return
     }
 
     val files = findFiles(fileNames)
-    if (files.length == 0) {
+    if (files.isEmpty) {
       println(s"error: no file found for: '${fileNames.mkString(", ")}'")
       return
     }
