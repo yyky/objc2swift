@@ -48,6 +48,9 @@
     NSLog(str);
   }
 
+  for (int i in num)
+    [self hoge:i];
+
   for (int i = 0; i < 10; i++) {
     for (int j = 0, k = 1; j < 5; j++) {
       foo = [self hoge];

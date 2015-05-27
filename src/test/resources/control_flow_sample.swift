@@ -52,6 +52,10 @@ class MyClassControll : NSObject, SomeProtocol {
             NSLog (str) 
         }
 
+        for i: Int32 in num {
+            self.hoge(i)
+        }
+
         for var i = 0; i < 10; i++ {
             for var j = 0, k = 1; j < 5; j++ {
                 foo = self.hoge()
