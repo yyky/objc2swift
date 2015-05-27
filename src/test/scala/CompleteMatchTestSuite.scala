@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-import java.io.{InputStreamReader, SequenceInputStream, FileInputStream}
+import java.io.{InputStreamReader, SequenceInputStream, FileInputStream, PrintWriter}
 import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
@@ -16,6 +16,8 @@ import org.scalatest.FunSuite
 import org.antlr.v4.runtime._
 import collection.JavaConversions._
 import scala.io.Source
+
+import scala.sys.process._
 
 @RunWith(classOf[JUnitRunner])
 class CompleteMatchTestSuite extends FunSuite {
@@ -61,7 +63,18 @@ class CompleteMatchTestSuite extends FunSuite {
 
   }
 
-  def failedMessage(expected: String, actual: String): String =
+  private def diffResult(prefix: String, actual: String) = {
+    val expectedPath = getFilePath("/" + prefix + ".swift")
+    val actualPath = expectedPath.stripSuffix(".swift") + ".out"
+    val out = new PrintWriter(actualPath)
+    out.println(actual)
+    out.close()
+    println(s"#============ START DIFF: $prefix =============")
+    s"diff -u $expectedPath $actualPath".!
+    println(s"#============= END DIFF: $prefix ==============")
+  }
+
+  private def failedMessage(expected: String, actual: String): String =
     s"""
        |=========================================
        |> Expected:
@@ -88,12 +101,12 @@ class CompleteMatchTestSuite extends FunSuite {
     assert(compareResult(expected, actual), failedMessage(expected, actual))
   }
 
-
   test("control_flow_sample complete match test") {
     val expected = getExpectedString("/control_flow_sample.swift")
     val actual = getResult(Array("/control_flow_sample.h", "/control_flow_sample.m"))
 
     assert(compareResult(expected, actual), failedMessage(expected, actual))
+    diffResult("control_flow_sample", actual)
   }
 
   test("declaration_sample complete match test") {
