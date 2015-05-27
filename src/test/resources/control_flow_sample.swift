@@ -22,6 +22,15 @@ class MyClassControll : NSObject, SomeProtocol {
             b += 1
         }
 
+        for a = 10; a > 0; a-- {
+            b -= 1
+        }
+
+        for a = 0; a < 10; a++ {
+            b *= 2
+            c *= 3
+        }
+
         while a < 10 {
             ++a
         }

@@ -149,9 +149,14 @@ trait StatementVisitor extends Converter {
             x <- Option(d.type_specifier())
             y <- Option(ctx.init_declarator_list())
           } builder += declaratorListString(y)
-        case c: StatementContext           => builder +=
+        case c: StatementContext                   =>
+          val statements = Option(c.compound_statement()) match {
+            case Some(s) => visitChildren(c)
+            case None => s"$indentString${visit(c)}\n"
+          }
+          builder +=
             s"""{
-               |${visitChildren(c)}
+               |$statements
                |${indent(ctx)}}
                |""".stripMargin
         case _ =>
