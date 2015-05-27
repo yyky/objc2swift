@@ -1,6 +1,6 @@
 class MyClass : NSObject, SomeProtocol {
 
-    @IBOutlet  var label:UILabel!
+    @IBOutlet var label:UILabel!
 
     func doSomething() {
         self.somethingWithArg1("hello", arg2: 0)

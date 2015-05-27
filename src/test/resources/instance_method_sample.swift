@@ -144,4 +144,23 @@ class InstanceMethodSample : NSObject, Protocol1, Protocol2 {
 
     }
 
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int32) -> NSString {
+        return nil
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int32) -> Int32 {
+        return self.shouldShowSection(section) ? self.numberOfQueriesInSection(section) : 0
+    }
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 44
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        var reuseId: NSString = (indexPath.section == YSSSearchPanelSectionFavorite) ? kFavKeywordCellIdentifier : kDefaultCellIdentifier
+        var cell: YSSSearchPanelTableViewCell = tableView.dequeueReusableCellWithIdentifier(reuseId)
+        cell.searchPanelViewController = self
+        cell.query = self.queryAtIndexPath(indexPath)
+        return cell
+    }
 }

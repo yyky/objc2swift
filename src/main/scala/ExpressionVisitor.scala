@@ -206,11 +206,18 @@ trait ExpressionVisitor extends Converter {
     "(" + ctx.type_variable_declarator.map(visit).mkString(", ") + ")"
 
 
+  /**
+   * Returns translated text of conditional_expression context.
+   *
+   * @param ctx the parse tree
+   **/
   override def visitConditional_expression(ctx: Conditional_expressionContext): String = {
-    if(ctx.getChildCount > 1) {
-      visit(ctx.getChild(0)) + " ? " + visit(ctx.getChild(2)) + " : " + visit(ctx.getChild(4))
-    } else {
-      visit(ctx.getChild(0))
+    val left = visit(ctx.logical_or_expression())
+    val conds = ctx.conditional_expression()
+    conds.length match {
+      case 0 => left
+      case 1 => s"$left ?? ${visit(conds(0))}"
+      case 2 => s"$left ? ${visit(conds(0))} : ${visit(conds(1))}"
     }
   }
 
@@ -245,7 +252,13 @@ trait ExpressionVisitor extends Converter {
 
   override def visitExpression(ctx: ExpressionContext) = concatChildResults(ctx, "")
   override def visitArgument_expression_list(ctx: Argument_expression_listContext) = concatChildResults(ctx, ", ")
-  override def visitAssignment_expression(ctx: Assignment_expressionContext) = concatChildResults(ctx, " ")
+  override def visitAssignment_expression(ctx: Assignment_expressionContext): String = {
+    if(isUSSetter(ctx.parent)){
+      concatChildResults(ctx, " ").replaceFirst("_","self.")
+    }else{
+      concatChildResults(ctx, " ")
+    }
+  }
 
   override def visitEquality_expression(ctx: Equality_expressionContext)       = visitBinaryExpression(ctx)
   override def visitRelational_expression(ctx: Relational_expressionContext)   = visitBinaryExpression(ctx)

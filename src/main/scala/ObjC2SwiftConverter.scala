@@ -9,8 +9,6 @@
  */
 
 import ObjCParser._
-import org.antlr.v4.runtime.tree.TerminalNode
-import collection.JavaConversions._
 
 class ObjC2SwiftConverter(_root: Translation_unitContext)
   extends ObjCBaseVisitor[String]
@@ -27,14 +25,6 @@ class ObjC2SwiftConverter(_root: Translation_unitContext)
   with EnumVisitor {
 
   val root = _root
-
-  override def visitPointer(ctx: PointerContext): String =
-    ctx.children.foldLeft(List.empty[String])((z, c) => {
-      c match {
-        case _: TerminalNode => z
-        case _ => visit(c) :: z
-      }
-    }).reverse.mkString
 
   override def visitIdentifier(ctx: IdentifierContext): String = ctx.getText
 

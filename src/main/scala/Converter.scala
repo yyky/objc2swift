@@ -15,9 +15,11 @@ trait Converter extends ObjCBaseVisitor[String] {
   }
 
   val root: Translation_unitContext
+
+  private val usSetters = new ParseTreeProperty[Boolean]()
+  private val visited = new ParseTreeProperty[Boolean]()
   val indentString = " " * 4
   var isOptionalProtocol = false
-  private val visited = new ParseTreeProperty[Boolean]()
 
   def getResult: String = visit(root)
 
@@ -56,11 +58,13 @@ trait Converter extends ObjCBaseVisitor[String] {
     }
   }
 
-  def isVisited(node: ParseTree): Boolean =
-    Option(visited.get(node)) match {
-      case Some(flag) if flag => true
-      case _ => false
-    }
+  /**
+   * Returns if node was visited or not
+   *
+   * @param node parse tree
+   * @return true if node was visited, otherwise false
+   */
+  def isVisited(node: ParseTree): Boolean = Option(visited.get(node)).getOrElse(false)
 
   def setVisited(node: ParseTree) {
     visited.put(node, true)
@@ -165,4 +169,14 @@ trait Converter extends ObjCBaseVisitor[String] {
       case "unsigned" => "UInt32"
       case s => s
     }
+  def isUSSetter(node: ParseTree) = {
+    Option(usSetters.get(node)) match {
+      case Some(flag) if flag => true
+      case _ => false
+    }
+  }
+
+  def setUSSetter(node: ParseTree) = {
+    usSetters.put(node, true)
+  }
 }
