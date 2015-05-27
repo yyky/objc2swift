@@ -179,11 +179,16 @@ trait StatementVisitor extends Converter {
         case TerminalText("while")                 => builder += "while"
         case TerminalText("(") | TerminalText(")") => builder += " "
         case c: ExpressionContext                  => builder += visit(c)
-        case c: StatementContext                   => builder +=
-          s"""{
-             |${visitChildren(c)}
-             |${indent(ctx)}}
-             |""".stripMargin
+        case c: StatementContext                   =>
+          val statements = Option(c.compound_statement()) match {
+            case Some(s) => visitChildren(c)
+            case None => s"$indentString${visit(c)}\n"
+          }
+          builder +=
+            s"""{
+               |$statements
+               |${indent(ctx)}}
+               |""".stripMargin
         case _ =>
       }
     }

@@ -35,6 +35,15 @@ class MyClassControll : NSObject, SomeProtocol {
             ++a
         }
 
+        while b != 1 {
+            b = b * b - b
+        }
+
+        while !c {
+            c = d
+            d = e
+        }
+
         do {
             b++
         } while b < 10
