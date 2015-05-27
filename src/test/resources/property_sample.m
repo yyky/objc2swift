@@ -35,4 +35,9 @@
 -(void)setSampleDefaultGetterAndSetter:(NSString *)sampleDefaultGetterAndSetter{
   _sampleDefaultGetterAndSetter = @"fuga";
 }
+
+- (UIViewController *)sourceViewController
+{
+  return [_transitionContext viewControllerForKey:(!_reverse ? UITransitionContextFromViewControllerKey : UITransitionContextToViewControllerKey)];
+}
 @end

@@ -82,4 +82,10 @@ class MyClass : NSObject, SomeProtocol {
 
     @IBOutlet var searchTypeButtons:[UIButton]!
 
+    var sourceViewController:UIViewController?{
+          get{
+              return _transitionContext.viewControllerForKey((!_reverse ? UITransitionContextFromViewControllerKey : UITransitionContextToViewControllerKey))
+          }
+      }
+
 }

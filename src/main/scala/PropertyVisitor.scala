@@ -197,11 +197,6 @@ trait PropertyVisitor extends Converter {
     val getterStr = "{\n" + indentString * 2 + "get{\n" + indentString * 3 + "return self." + identifier + "\n" + indentString * 2 + "}\n"
     val defaultSetterStr = "set" + identifier.capitalize
 
-    //no getter and only readonly
-    if(readOnly.toString() == "{ get{} }" && !isOriginalGetter){
-      getterSetterStatement.append(getterStr + indentString + "}")
-    }
-
     //no getter and setter only
     if(!isOriginalGetter && isOriginalSetter){
       getterSetterStatement.insert(0,getterStr)
@@ -210,6 +205,12 @@ trait PropertyVisitor extends Converter {
     if(!isOriginalGetter && !isOriginalSetter){
       val (isDefaultGetter,defaultGetterStatement) = findGetterOrSetterMethod(ctx,identifier)
       val (isDefaultSetter,defaultSetterStatement) = findGetterOrSetterMethod(ctx,defaultSetterStr)
+
+      //you dont use default getter and original getter.only readonly
+      if(readOnly.toString() == "{ get{} }" && !isOriginalGetter && !isDefaultGetter){
+        getterSetterStatement.append(getterStr + indentString + "}")
+      }
+
       //default getter or setter
       if (isDefaultGetter || isDefaultSetter) {
         getterSetterStatement.append("{\n")

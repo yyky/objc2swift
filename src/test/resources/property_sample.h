@@ -27,4 +27,6 @@
 @property (nonatomic) IBOutlet UIScrollView *searchTypeScrollView;
 @property (nonatomic) IBOutletCollection(UIButton) NSArray *searchTypeButtons; // TODO this is not implemented
 
+@property (nonatomic, readonly) UIViewController *sourceViewController;
+
 @end
