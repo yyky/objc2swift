@@ -1,6 +1,6 @@
 class MyClassControll : NSObject, SomeProtocol {
 
-    @IBOutlet  var label:UILabel!
+    @IBOutlet var label:UILabel!
 
     func fuga() {
         var a: Int32 = 0

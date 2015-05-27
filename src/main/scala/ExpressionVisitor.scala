@@ -252,7 +252,13 @@ trait ExpressionVisitor extends Converter {
 
   override def visitExpression(ctx: ExpressionContext) = concatChildResults(ctx, "")
   override def visitArgument_expression_list(ctx: Argument_expression_listContext) = concatChildResults(ctx, ", ")
-  override def visitAssignment_expression(ctx: Assignment_expressionContext) = concatChildResults(ctx, " ")
+  override def visitAssignment_expression(ctx: Assignment_expressionContext): String = {
+    if(isUSSetter(ctx.parent)){
+      concatChildResults(ctx, " ").replaceFirst("_","self.")
+    }else{
+      concatChildResults(ctx, " ")
+    }
+  }
 
   override def visitEquality_expression(ctx: Equality_expressionContext)       = visitBinaryExpression(ctx)
   override def visitRelational_expression(ctx: Relational_expressionContext)   = visitBinaryExpression(ctx)
