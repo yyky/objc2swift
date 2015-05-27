@@ -72,11 +72,11 @@ trait StatementVisitor extends Converter {
       case TerminalText("else")   => builder += "else"
       case TerminalText("switch") => builder += "switch"
       case c: ExpressionContext   => builder += visit(c)
-      case c: StatementContext    => builder += visitBodyStatement(c)
+      case c: StatementContext    => builder += visitBodyStatement(c).stripLineEnd
       case _ =>
     }
 
-    builder.result().mkString(" ")
+    builder.result().mkString(" ") + "\n"
   }
 
   /**
