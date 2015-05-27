@@ -31,7 +31,7 @@ class MyClassControll : NSObject, SomeProtocol {
         } while b < 10
 
         for str: NSString in array {
-            NSLog (str) 
+            NSLog(str) 
         }
 
         for var i = 0; i < 10; i++ {

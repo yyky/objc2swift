@@ -34,5 +34,12 @@
     id i2, i3 = null;
     id i4 = @"foo";
     HogeClass o1;
+    NSArray a;
+    static int num21;
+    const NSInteger kConstNum1 = 200;
+    static const NSInteger kConstNum2 = 200;
+    static const float kNumFloat = 1.25f;
+    static NSString *const kSectionTitleFavorite = @"お気に入り";
+    static NSString const* kSectionTitleFavorite2 = @"お気に入り";
 }
 @end
