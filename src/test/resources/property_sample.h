@@ -1,6 +1,7 @@
 @interface MyClass : NSObject <SomeProtocol>
 
 @property(nonatomic, strong) IBOutlet UILabel *sampleLabel;
+@property (nonatomic) IBOutletCollection(UIButton) NSArray *searchTypeButtons;
 
 @property(nonatomic, weak) NSObject *sampleWeak;
 @property(nonatomic, copy) NSObject *sampleCopy;
