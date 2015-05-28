@@ -1,6 +1,7 @@
 @interface MyClass : NSObject <SomeProtocol>
 
 @property(nonatomic, strong) IBOutlet UILabel *label;
+@property (nonatomic) NSString *pointName;
 
 - (void)doSomething;
 - (NSString *)somethingWithArg1:(id)arg1 arg2:(int)arg2;
