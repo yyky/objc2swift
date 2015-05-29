@@ -49,7 +49,7 @@ class ExpressionSample {
         dic2["key1"] = "updateValue1"
         var resultSet: YSSSearchResultSet = YSSSearchResultSet()
         var myClass: MyClass = MyClass(name: "Snoopy")
-        UIMenuController.sharedMenuController.menuItems = [UIMenuItem(title:"検索", action: search)]
+        UIMenuController.sharedMenuController.menuItems = [UIMenuItem(title: "検索", action: "search:")]
     }
 
 }
