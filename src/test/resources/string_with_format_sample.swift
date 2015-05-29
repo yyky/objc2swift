@@ -8,7 +8,7 @@ class StringWithFormatSample : NSObject, Protocol1, Protocol2 {
         String(format: "double型：%.1f", f)
         "\(rawResult["FirstName"]) \(rawResult["LastName"])"
         "NSArray型：\(ary)"
-        NSString.initWithFormat("文字列：%ld"n)
+        NSString().initWithFormat("文字列：%ld"n)
 
     }
 

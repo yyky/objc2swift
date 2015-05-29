@@ -53,6 +53,10 @@
     NSString *item2 = dic1[@"key1"];
     dic2[@"key1"] = @"updateValue1";
 
+    // initializer
+    YSSSearchResultSet *resultSet = [[YSSSearchResultSet alloc] init];
+    MyClass *myClass = [[MyClass alloc]initWithName:@"Snoopy"];
+
     /**
      * TODO: Invalid conversion
      *

@@ -20,7 +20,7 @@ trait MessageVisitor {
         case Some(s) =>
           // No argument
           s.getText match {
-            case "alloc" => Some(visit(ctx.receiver))
+            case "alloc" => Some(s"${visit(ctx.receiver)}()")
             case _ => None
           }
         case None => None
