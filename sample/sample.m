@@ -16,6 +16,7 @@
     entity.access = [[NSString alloc] initWithFormat:@"%@駅から徒歩%@分", nearestStation, time];
     YSSSearchResultSet *resultSet = [[YSSSearchResultSet alloc] init];
     MyClass *myClass = [[MyClass alloc]initWithName:@"Snoopy"];
+    UIMenuController.sharedMenuController.menuItems = @[[[UIMenuItem alloc] initWithTitle:@"検索" action:@selector(search:)]];
 }
 
 - (NSString *)somethingWithArg1:(id)arg1 arg2:(int)arg2
