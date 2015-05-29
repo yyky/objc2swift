@@ -57,10 +57,10 @@ trait MessageVisitor {
       case Some(m) =>
         val res = exps.foldLeft("")((s, c) => {
           s match {
-            case "" => c.getText
-            case _ => r.replaceFirstIn(s, "\\\\(" + c.getText + ")")
+            case "" => visit(c)
+            case _ => r.replaceFirstIn(s, s"\\\\(${visit(c)})")
           }
-        }).stripPrefix("@")
+        })
         Some(res)
       case None => None
     }
@@ -72,8 +72,8 @@ trait MessageVisitor {
       case Some(m) =>
         val builder = List.newBuilder[String]
         exps.zipWithIndex.foreach {
-          case (c, 0) => builder += s"format: ${c.getText.stripPrefix("@")}"
-          case (c, _) => builder += s", ${c.getText}"
+          case (c, 0) => builder += s"format: ${visit(c)}"
+          case (c, _) => builder += s", ${visit(c)}"
         }
         Some(s"String(${builder.result().mkString})")
       case None => None

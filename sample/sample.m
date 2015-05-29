@@ -9,6 +9,7 @@
 - (void)doSomething
 {
     [self somethingWithArg1:@"hello" arg2:0];
+    NSString formattedText = [NSString stringWithFormat:@"%@ %@", rawResult[@"FirstName"], rawResult[@"LastName"]];
     YSSSearchResultSet *resultSet = [[YSSSearchResultSet alloc] init];
     MyClass *myClass = [[MyClass alloc]initWithName:@"Snoopy"];
 }
