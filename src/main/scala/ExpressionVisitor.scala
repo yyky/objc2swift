@@ -10,7 +10,6 @@
 
 import ObjCParser._
 import org.antlr.v4.runtime._
-import org.antlr.v4.runtime.tree.TerminalNode
 import collection.JavaConversions._
 
 /**
@@ -20,30 +19,38 @@ trait ExpressionVisitor extends Converter {
 
   self: ObjCBaseVisitor[String] =>
 
+  /**
+   * Returns translated text of binary expression contexts (equality, relational, etc..)
+   *
+   * @param ctx parse tree
+   * @return translated text
+   */
   def visitBinaryExpression(ctx: ParserRuleContext): String = {
-    val sb = new StringBuilder()
+    val builder = List.newBuilder[String]
 
-    for (element <- ctx.children) {
-      element match {
-        case symbol: TerminalNode => sb.append(" " + symbol.getSymbol.getText + " ")
-        case _ => sb.append(visit(element))
-      }
+    ctx.children.foreach {
+      case TerminalText(s) => builder += s" $s "
+      case c               => builder += visit(c)
     }
 
-    sb.toString()
+    builder.result().mkString
   }
 
+  /**
+   * Returns translated text of unary expression contexts
+   *
+   * @param ctx parse tree
+   * @return translated text
+   */
   def visitUnaryExpression(ctx: ParserRuleContext): String = {
-    val sb = new StringBuilder()
+    val builder = List.newBuilder[String]
 
-    for (element <- ctx.children) {
-      element match {
-        case symbol: TerminalNode => sb.append(symbol.getSymbol.getText)
-        case _ => sb.append(visit(element))
-      }
+    ctx.children.foreach {
+      case TerminalText(s) => builder += s
+      case c               => builder += visit(c)
     }
 
-    sb.toString()
+    builder.result().mkString
   }
 
   def convertSimpleFormat(exps: scala.collection.mutable.Buffer[Assignment_expressionContext]): String = {
