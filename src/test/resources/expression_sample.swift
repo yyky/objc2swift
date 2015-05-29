@@ -47,8 +47,9 @@ class ExpressionSample {
         var dic2: NSMutableDictionary = ["key4" : "value4", "key5" : "value5", "key6" : "value6"].mutableCopy()
         var item2: NSString = dic1["key1"]
         dic2["key1"] = "updateValue1"
-        var resultSet: YSSSearchResultSet = YSSSearchResultSet().init()
-        var myClass: MyClass = MyClass().initWithName("Snoopy")
+        var resultSet: YSSSearchResultSet = YSSSearchResultSet()
+        var myClass: MyClass = MyClass(name: "Snoopy")
+        UIMenuController.sharedMenuController.menuItems = [UIMenuItem(title:"検索", action: search)]
     }
 
 }
