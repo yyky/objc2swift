@@ -15,7 +15,15 @@ import collection.JavaConversions._
 trait PropertyVisitor extends Converter {
   self: ObjCBaseVisitor[String] =>
 
-  override def visitProperty_declaration(ctx: ObjCParser.Property_declarationContext): String = {
+  object PropertyAttribute {
+    def unapply(ctx: Property_attributeContext): Option[String] =
+      ctx.getText match {
+        case s if !s.isEmpty => Some(s)
+        case _ => None
+      }
+  }
+
+  override def visitProperty_declaration(ctx: Property_declarationContext): String = {
     var sb = new StringBuilder()
     var getter_setter_statement = new StringBuilder()
     var getter_statement = new StringBuilder()
@@ -32,17 +40,17 @@ trait PropertyVisitor extends Converter {
     Option(ctx.property_attributes_declaration()) match {
       case None =>
       case Some(p) =>
-        visit(p).split(", ").foreach {
-          case s if s == "weak" => weak = "weak "
-          case s if s == "readonly" =>
+        p.property_attributes_list().property_attribute().foreach {
+          case PropertyAttribute("weak") => weak = "weak "
+          case PropertyAttribute("readonly") =>
             read_only.append("{ get{} }")
-          case s if s.split("=")(0) == "getter" =>
-            val t = parseGetterStatement(ctx,s,getter_statement)
+          case PropertyAttribute(s) if s.split("=")(0) == "getter" =>
+            val t = parseGetterStatement(ctx, s, getter_statement)
             _isOriginalGetter = t._1
             _originalGetterStatement = t._2
             getter_statement = t._3
-          case s if s.split("=")(0) == "setter" =>
-            val t = parseSetterStatement(ctx,s,setter_statement)
+          case PropertyAttribute(s) if s.split("=")(0) == "setter" =>
+            val t = parseSetterStatement(ctx, s ,setter_statement)
             _isOriginalSetter = t._1
             _originalSetterStatement = t._2
             setter_statement = t._3
@@ -50,8 +58,8 @@ trait PropertyVisitor extends Converter {
         }
     }
 
-    if(_isOriginalGetter && _isOriginalSetter){
-      getter_statement.insert(0,"{\n")
+    if (_isOriginalGetter && _isOriginalSetter) {
+      getter_statement.insert(0, "{\n")
       getter_statement.append("\n")
     }
 
@@ -198,11 +206,11 @@ trait PropertyVisitor extends Converter {
     val defaultSetterStr = "set" + identifier.capitalize
 
     //no getter and setter only
-    if(!isOriginalGetter && isOriginalSetter){
-      getterSetterStatement.insert(0,getterStr)
+    if (!isOriginalGetter && isOriginalSetter) {
+      getterSetterStatement.insert(0, getterStr)
     }
 
-    if(!isOriginalGetter && !isOriginalSetter){
+    if (!isOriginalGetter && !isOriginalSetter) {
       val (isDefaultGetter,defaultGetterStatement) = findGetterOrSetterMethod(ctx,identifier)
       val (isDefaultSetter,defaultSetterStatement) = findGetterOrSetterMethod(ctx,defaultSetterStr)
 
@@ -260,15 +268,16 @@ trait PropertyVisitor extends Converter {
     val buffer = for {
       extDclCtx <- root.external_declaration
       cl <- Option(extDclCtx.class_implementation)
-      instanceMethodDefinition = cl.implementation_definition_list().instance_method_definition()
-    } yield parseInstanceMethodDefinition(instanceMethodDefinition,selector)
+      impl <- Option(cl.implementation_definition_list())
+      instanceMethodDefinition = impl.instance_method_definition()
+    } yield parseInstanceMethodDefinition(instanceMethodDefinition, selector)
 
-    buffer.map(t => {
+    buffer.foreach(t => {
       _isGetterOrSetterMethod = t._1
       _str = t._2
     })
 
-    (_isGetterOrSetterMethod,_str)
+    (_isGetterOrSetterMethod, _str)
   }
 
   def getSetterSelectorText(ctx:Instance_method_definitionContext):String = {

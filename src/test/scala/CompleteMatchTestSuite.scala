@@ -106,7 +106,7 @@ class CompleteMatchTestSuite extends FunSuite {
     val actual = getResult(Array("/control_flow_sample.h", "/control_flow_sample.m"))
 
     assert(compareResult(expected, actual), failedMessage(expected, actual))
-    diffResult("control_flow_sample", actual)
+    //diffResult("control_flow_sample", actual)
   }
 
   test("declaration_sample complete match test") {
@@ -140,6 +140,13 @@ class CompleteMatchTestSuite extends FunSuite {
   test("property_sample complete match test") {
     val expected = getExpectedString("/property_sample.swift")
     val actual = getResult(Array("/property_sample.h","/property_sample.m"))
+
+    assert(compareResult(expected, actual), failedMessage(expected, actual))
+  }
+
+  test("non_implemented_property complete match test") {
+    val expected = getExpectedString("/non_implemented_property.swift")
+    val actual = getResult(Array("/non_implemented_property.h"))
 
     assert(compareResult(expected, actual), failedMessage(expected, actual))
   }

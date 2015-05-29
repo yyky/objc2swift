@@ -20,19 +20,34 @@ object Main {
     val options = Map("tree" -> args.contains("-t"))
 
     val fileNames = args.filter(!_.startsWith("-")).toList
-    if(fileNames.length == 0) {
+    if (fileNames.isEmpty) {
       println("error: no input file specified.")
       return
     }
 
     val files = findFiles(fileNames)
-    if (files.length == 0) {
+    if (files.isEmpty) {
       println(s"error: no file found for: '${fileNames.mkString(", ")}'")
       return
     }
 
     val result = getResult(files, options)
     println(result)
+  }
+
+  /**
+   * Extractor to validate target file.
+   */
+  object ValidFile {
+    def unapply(s: String): Option[Path] =
+      Paths.get(s) match {
+        case p if Files.exists(p) =>
+          getExtension(s) match {
+            case "h"|"m" => Some(p)
+            case _ => None
+          }
+        case _ => None
+      }
   }
 
   def findFiles(input:List[String]): List[File] = {
@@ -48,18 +63,15 @@ object Main {
         val matcher = getName(x)
         val files = dir.listFiles(new FilenameFilter {
           override def accept(dir: File, name: String): Boolean = {
-            val extension = getExtension(name)
-            List("h", "m").contains(extension) && wildcardMatch(name, matcher)
+            s"$dir/$name" match {
+              case ValidFile(path) => wildcardMatch(name, matcher)
+              case _ => false
+            }
           }
         })
         builder ++= files
-
-      case x =>
-        val file = Paths.get(x)
-        Files.exists(file) match {
-          case true => builder += file.toFile
-          case false =>
-        }
+      case ValidFile(path) => builder += path.toFile
+      case _ =>
     }
 
     builder.result()

@@ -1,5 +1,8 @@
 @interface MyClass()
 
+@property (nonatomic, readwrite) BOOL loadingContentInfo;
+@property NSString *privateProp;
+
 - (void)privateMethod;
 
 @end
@@ -27,6 +30,15 @@
 - (void)privateMethod
 {
     @"private";
+}
+
+//- (void)funcA:(NSString *)p1 p2:(void (^)(id, NSError *))p2
+//{
+//}
+
+- (NSURL *)faviconURL
+{
+    return _faviconURL ?: _linkURL ? [YSSURLGenerator faviconURLForURL:_linkURL] : nil;
 }
 
 @end
