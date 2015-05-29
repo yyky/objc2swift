@@ -13,6 +13,7 @@
 {
     [self somethingWithArg1:@"hello" arg2:0];
     NSString formattedText = [NSString stringWithFormat:@"%@ %@", rawResult[@"FirstName"], rawResult[@"LastName"]];
+    entity.access = [[NSString alloc] initWithFormat:@"%@駅から徒歩%@分", nearestStation, time];
     YSSSearchResultSet *resultSet = [[YSSSearchResultSet alloc] init];
     MyClass *myClass = [[MyClass alloc]initWithName:@"Snoopy"];
 }

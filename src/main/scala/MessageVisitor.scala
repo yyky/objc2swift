@@ -72,6 +72,9 @@ trait MessageVisitor {
                     convertSimpleFormat(exps).filter(!_.isEmpty)
                 case _ => None
               }
+            case "initWithFormat" =>
+              val exps = a(0).expression().assignment_expression()
+              Some(s"String(format: ${exps.map(visit).mkString(", ")})")
             case _ => None
           }
         case _ => None
