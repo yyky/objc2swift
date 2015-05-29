@@ -30,6 +30,50 @@ class IfStatementSample : NSObject, SomeProtocol {
                 c = d
             }
         }
+
+        if a == b {
+            return 1
+        }
+
+        if a == b {
+            return 2
+        }
+
+        if comps.containsObject("画像") {
+            return YSSSearchTypeImage
+        } else {
+            return YSSSearchTypeDefault
+        }
+
+        if comps.containsObject("画像") {
+            return YSSSearchTypeImage
+        } else {
+            return YSSSearchTypeDefault
+        }
+
+        if comps.containsObject("画像") {
+            a = b + c
+            return YSSSearchTypeImage
+        } else {
+            if comps.containsObject("動画") {
+                a = b - c
+                return YSSSearchTypeVideo
+            } else {
+                a = b * c
+                return YSSSearchTypeDefault
+            }
+        }
+
+        if comps.containsObject("画像2") {
+            return YSSSearchTypeImage
+        } else {
+            if comps.containsObject("動画2") {
+                return YSSSearchTypeVideo
+            } else {
+                return YSSSearchTypeDefault
+            }
+        }
+
     }
 
 }
