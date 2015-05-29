@@ -61,6 +61,7 @@ trait ExpressionVisitor extends Converter with MessageVisitor {
     ctx match {
       case StringWithFormatMessageExpression(s) => s
       case AllocMessageExpression(s)            => s
+      case InitMessageExpression(s)             => s
       case _ =>
         val sel = ctx.message_selector()
         val builder = List.newBuilder[String]

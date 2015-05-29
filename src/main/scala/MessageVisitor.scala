@@ -20,11 +20,40 @@ trait MessageVisitor {
         case Some(s) =>
           // No argument
           s.getText match {
-            case "alloc" => Some(s"${visit(ctx.receiver)}()")
+            case "alloc" => Some(visit(ctx.receiver))
             case _ => None
           }
         case None => None
       }
+  }
+
+  object InitMessageExpression {
+    def unapply(ctx: Message_expressionContext): Option[String] = {
+      Option(ctx.message_selector().selector()) match {
+        case Some(s) =>
+          s.getText match {
+            case "init" => Some(s"${visit(ctx.receiver)}()")
+            case _ => None
+          }
+        case None =>
+          val params = ctx.message_selector().keyword_argument
+          params(0).selector.getText match {
+            case s if !s.startsWith("initWith") => None
+            case _ =>
+              val builder = List.newBuilder[String]
+              params.zipWithIndex.foreach {
+                case (c, 0) =>
+                  val selector = c.selector.getText
+                  val oldName = selector.stripPrefix("initWith")
+                  val newName = oldName.head.toLower + oldName.tail
+                  builder += s"$newName: ${visit(c.expression)}"
+                case (c, _) =>
+                  builder += s", ${c.selector.getText}: ${visit(c.expression)}"
+              }
+              Some(s"${visit(ctx.receiver)}(${builder.result().mkString})")
+          }
+      }
+    }
   }
 
   /**
