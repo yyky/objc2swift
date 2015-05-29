@@ -19,6 +19,8 @@ trait ExpressionVisitor extends Converter {
 
   self: ObjCBaseVisitor[String] =>
 
+  type AEContexts = scala.collection.mutable.Buffer[Assignment_expressionContext]
+
   /**
    * Returns translated text of binary expression contexts (equality, relational, etc..)
    *
@@ -53,64 +55,65 @@ trait ExpressionVisitor extends Converter {
     builder.result().mkString
   }
 
-  def convertSimpleFormat(exps: scala.collection.mutable.Buffer[Assignment_expressionContext]): String = {
+  def convertSimpleFormat(exps: AEContexts): Option[String] = {
     val r = "(%[a-z@]+)".r
-    r.findFirstIn(exps.get(0).getText) match {
+    r.findFirstIn(exps.head.getText) match {
       case Some(m) =>
-        exps.foldLeft("")((s, c) => {
+        val res = exps.foldLeft("")((s, c) => {
           s match {
             case "" => c.getText
             case _ => r.replaceFirstIn(s, "\\\\(" + c.getText + ")")
           }
-        }).replaceFirst("^@", "")
-      case None => ""
+        }).stripPrefix("@")
+        Some(res)
+      case None => None
     }
   }
 
-  def convertComplexFormat(exps: scala.collection.mutable.Buffer[Assignment_expressionContext]): String = {
+  def convertComplexFormat(exps: AEContexts): Option[String] = {
     val r = "(%[0-9.]+[a-z@]+)".r
-    r.findFirstIn(exps.get(0).getText) match {
+    r.findFirstIn(exps.head.getText) match {
       case Some(m) =>
-        val sb = new StringBuilder()
-        sb.append("String(")
-        exps.zipWithIndex.foreach { case (c, i) =>
-          if (i == 0) {
-            sb.append("format: " + c.getText.replaceFirst("^@", ""))
-          } else {
-            sb.append(", " + c.getText)
-          }
+        val builder = List.newBuilder[String]
+        exps.zipWithIndex.foreach {
+          case (c, 0) => builder += s"format: ${c.getText.stripPrefix("@")}"
+          case (c, _) => builder += s", ${c.getText}"
         }
-        sb.append(")")
-        sb.toString()
-      case None => ""
+        Some(s"String(${builder.result().mkString})")
+      case None => None
     }
   }
 
+  object FormattedStringExpression {
+    def unapply(ctx: Message_expressionContext): Option[String] =
+      Option(ctx.message_selector().keyword_argument()) match {
+        case Some(a) if !a.isEmpty =>
+          visit(a(0).selector()) match {
+            case "stringWithFormat" =>
+              val exps = a(0).expression().assignment_expression()
+              exps(0).getText match {
+                case s if s.matches("^@\".*\"$") =>
+                  convertComplexFormat(exps).filter(!_.isEmpty) orElse
+                    convertSimpleFormat(exps).filter(!_.isEmpty)
+                case _ => None
+              }
+            case _ => None
+          }
+        case _ => None
+      }
+  }
+
+  /**
+   * Returns translated text of message_expression context.
+   *
+   * @param ctx the parse tree
+   **/
   override def visitMessage_expression(ctx: Message_expressionContext): String = {
     val sel = ctx.message_selector()
 
-    // TODO: Support stringWithFormat()
-    Option(sel.keyword_argument()) match {
-      case Some(list) if !list.isEmpty =>
-        val arg = list.get(0)
-        val name = visit(arg.selector())
-        name match {
-          case "stringWithFormat" =>
-            val exps = arg.expression().assignment_expression()
-            val fmt = exps.get(0).getText
-            if (fmt.matches("^@\".*\"$"))
-              // TODO: Complex format
-              convertComplexFormat(exps) match {
-                case s if s != "" => return s
-                case _ =>
-                  // Simple format
-                  convertSimpleFormat(exps) match {
-                    case s if s != "" => return s
-                    case _ =>
-                  }
-              }
-          case _ =>
-        }
+    // Support stringWithFormat conversion
+    ctx match {
+      case FormattedStringExpression(s) => return s
       case _ =>
     }
 
