@@ -15,11 +15,8 @@ import collection.JavaConversions._
 /**
  * Implements visit methods for expression contexts.
  */
-trait ExpressionVisitor extends Converter {
-
+trait ExpressionVisitor extends Converter with MessageVisitor {
   self: ObjCBaseVisitor[String] =>
-
-  type AEContexts = scala.collection.mutable.Buffer[Assignment_expressionContext]
 
   /**
    * Returns translated text of binary expression contexts (equality, relational, etc..)
@@ -55,93 +52,32 @@ trait ExpressionVisitor extends Converter {
     builder.result().mkString
   }
 
-  def convertSimpleFormat(exps: AEContexts): Option[String] = {
-    val r = "(%[a-z@]+)".r
-    r.findFirstIn(exps.head.getText) match {
-      case Some(m) =>
-        val res = exps.foldLeft("")((s, c) => {
-          s match {
-            case "" => c.getText
-            case _ => r.replaceFirstIn(s, "\\\\(" + c.getText + ")")
-          }
-        }).stripPrefix("@")
-        Some(res)
-      case None => None
-    }
-  }
-
-  def convertComplexFormat(exps: AEContexts): Option[String] = {
-    val r = "(%[0-9.]+[a-z@]+)".r
-    r.findFirstIn(exps.head.getText) match {
-      case Some(m) =>
-        val builder = List.newBuilder[String]
-        exps.zipWithIndex.foreach {
-          case (c, 0) => builder += s"format: ${c.getText.stripPrefix("@")}"
-          case (c, _) => builder += s", ${c.getText}"
-        }
-        Some(s"String(${builder.result().mkString})")
-      case None => None
-    }
-  }
-
-  object FormattedStringExpression {
-    def unapply(ctx: Message_expressionContext): Option[String] =
-      Option(ctx.message_selector().keyword_argument()) match {
-        case Some(a) if !a.isEmpty =>
-          visit(a(0).selector()) match {
-            case "stringWithFormat" =>
-              val exps = a(0).expression().assignment_expression()
-              exps(0).getText match {
-                case s if s.matches("^@\".*\"$") =>
-                  convertComplexFormat(exps).filter(!_.isEmpty) orElse
-                    convertSimpleFormat(exps).filter(!_.isEmpty)
-                case _ => None
-              }
-            case _ => None
-          }
-        case _ => None
-      }
-  }
-
   /**
    * Returns translated text of message_expression context.
    *
    * @param ctx the parse tree
    **/
-  override def visitMessage_expression(ctx: Message_expressionContext): String = {
-    val sel = ctx.message_selector()
-
-    // Support stringWithFormat conversion
+  override def visitMessage_expression(ctx: Message_expressionContext): String =
     ctx match {
-      case FormattedStringExpression(s) => return s
+      case StringWithFormatMessageExpression(s) => s
+      case AllocMessageExpression(s)            => s
       case _ =>
-    }
+        val sel = ctx.message_selector()
+        val builder = List.newBuilder[String]
 
-    val sb = new StringBuilder()
-    sb.append(visit(ctx.receiver))
-    sb.append(".")
+        builder += s"${visit(ctx.receiver)}."
 
-    if(sel.keyword_argument.isEmpty) { // no argument
-      sb.append(sel.selector.getText + "()")
-    } else {
-      for (i <- 0 until sel.keyword_argument.length) {
-        val arg = sel.keyword_argument(i)
-        if(i > 0)
-          sb.append(", ")
-
-        if(i == 0) {
-          sb.append(arg.selector().getText)
-          sb.append("(")
-          sb.append(visit(arg.expression))
-        } else {
-          sb.append(arg.selector().getText + ": ")
-          sb.append(visit(arg.expression))
+        Option(sel.selector()) match {
+          case Some(s) => builder += s"${s.getText}()" // no argument
+          case None =>
+            sel.keyword_argument.zipWithIndex.foreach {
+              case (c, 0) => builder += s"${c.selector.getText}(${visit(c.expression)}"
+              case (c, _) => builder += s", ${c.selector.getText}: ${visit(c.expression)}"
+            }
+            builder += ")"
         }
-      }
-      sb.append(")")
+        builder.result().mkString
     }
-    sb.toString()
-  }
 
   /**
    * Returns translated text of selector_expression context.

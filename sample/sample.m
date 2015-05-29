@@ -9,6 +9,8 @@
 - (void)doSomething
 {
     [self somethingWithArg1:@"hello" arg2:0];
+    YSSSearchResultSet *resultSet = [[YSSSearchResultSet alloc] init];
+    MyClass *myClass = [[MyClass alloc]initWithName:@"Snoopy"];
 }
 
 - (NSString *)somethingWithArg1:(id)arg1 arg2:(int)arg2
