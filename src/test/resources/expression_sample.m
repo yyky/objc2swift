@@ -52,6 +52,13 @@
                                 mutableCopy];
     NSString *item2 = dic1[@"key1"];
     dic2[@"key1"] = @"updateValue1";
+    NSDictionary *dic3 = @{
+                             @"url": URL.absoluteString,
+                             @"w": @(size.width),
+                             @"h": @(size.height),
+                             @"s": @"s",
+                             @"device": iPhone() ? @"sp" : @"tb"
+                         };
 
     /**
      * TODO: Invalid conversion

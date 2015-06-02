@@ -43,10 +43,11 @@ class ExpressionSample {
         var a2: NSMutableArray = ["value4", "value5", "value6"].mutableCopy()
         var item1: NSString = a1[0]
         a2[0] = "value7"
-        var dic1: [NSObject : AnyObject] = ["key1" : "value1", "key2" : "value2", "key3" : "value3"]
-        var dic2: NSMutableDictionary = ["key4" : "value4", "key5" : "value5", "key6" : "value6"].mutableCopy()
+        var dic1: [NSObject : AnyObject] = ["key1": "value1", "key2": "value2", "key3": "value3"]
+        var dic2: NSMutableDictionary = ["key4": "value4", "key5": "value5", "key6": "value6"].mutableCopy()
         var item2: NSString = dic1["key1"]
         dic2["key1"] = "updateValue1"
+        var dic3: [NSObject : AnyObject] = ["url": URL.absoluteString, "w": size.width, "h": size.height, "s": "s", "device": iPhone() ? "sp" : "tb"]
     }
 
 }

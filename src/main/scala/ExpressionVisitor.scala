@@ -165,8 +165,16 @@ trait ExpressionVisitor extends Converter {
     sb.toString()
   }
 
-  override def visitDictionary_pair(ctx: Dictionary_pairContext) = {
-    visit(ctx.postfix_expression(0)) + " : " + visit(ctx.postfix_expression(1))
+  /**
+   * Returns translated text of dictionary_pair context.
+   *
+   * @param ctx the parse tree
+   **/
+  override def visitDictionary_pair(ctx: Dictionary_pairContext): String = {
+    Option(ctx.assignment_expression()) match {
+      case Some(s) => s"${visit(ctx.postfix_expression(0))}: ${visit(ctx.assignment_expression())}"
+      case None    => s"${visit(ctx.postfix_expression(0))}: ${visit(ctx.postfix_expression(1))}"
+    }
   }
 
   override def visitBox_expression(ctx: Box_expressionContext): String = {

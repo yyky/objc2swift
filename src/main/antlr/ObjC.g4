@@ -233,7 +233,7 @@ primary_expression:
         | block_expression;
 
 dictionary_pair:
-         postfix_expression':'postfix_expression;
+         postfix_expression ':' (postfix_expression | assignment_expression);
 
 dictionary_expression:
         '@''{' dictionary_pair? (',' dictionary_pair)* ','? '}';

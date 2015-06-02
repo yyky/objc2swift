@@ -12,6 +12,15 @@
 - (void)doSomething
 {
     [self somethingWithArg1:@"hello" arg2:0];
+
+    return [NSURL URLWithString:kYSSWebPageCaptureEndpointURL
+                  getParams:@{
+                      @"url": URL.absoluteString,
+                      @"w": @(size.width),
+                      @"h": @(size.height),
+                      @"s": @"s",
+                      @"device": iPhone() ? @"sp" : @"tb"
+                  }];
 }
 
 - (NSString *)somethingWithArg1:(id)arg1 arg2:(int)arg2
