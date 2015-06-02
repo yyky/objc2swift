@@ -59,6 +59,9 @@
                              @"s": @"s",
                              @"device": iPhone() ? @"sp" : @"tb"
                          };
+    x = @"CONSTANT_VALUE";
+    x = @(a);
+    x = @(a + b);
 
     /**
      * TODO: Invalid conversion

@@ -48,6 +48,9 @@ class ExpressionSample {
         var item2: NSString = dic1["key1"]
         dic2["key1"] = "updateValue1"
         var dic3: [NSObject : AnyObject] = ["url": URL.absoluteString, "w": size.width, "h": size.height, "s": "s", "device": iPhone() ? "sp" : "tb"]
+        x = "CONSTANT_VALUE"
+        x = a
+        x = a + b
     }
 
 }

@@ -233,7 +233,7 @@ primary_expression:
         | block_expression;
 
 dictionary_pair:
-         postfix_expression ':' (postfix_expression | assignment_expression);
+         postfix_expression ':' (postfix_expression | expression);
 
 dictionary_expression:
         '@''{' dictionary_pair? (',' dictionary_pair)* ','? '}';
@@ -242,8 +242,9 @@ array_expression:
         '@''[' postfix_expression? (',' postfix_expression)* ','? ']';
 
 box_expression:
-        '@''('postfix_expression')' |
+        '@' '(' (postfix_expression | expression) ')' |
         '@'constant;
+
 block_parameters: '(' (type_variable_declarator | 'void')? (',' type_variable_declarator)* ')';
 
 block_expression:'^' type_specifier? block_parameters? compound_statement;

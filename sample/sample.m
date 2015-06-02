@@ -19,7 +19,8 @@
                       @"w": @(size.width),
                       @"h": @(size.height),
                       @"s": @"s",
-                      @"device": iPhone() ? @"sp" : @"tb"
+                      @"device": iPhone() ? @"sp" : @"tb",
+                      @"width":@(width * kStaticMapRatio)
                   }];
 }
 
