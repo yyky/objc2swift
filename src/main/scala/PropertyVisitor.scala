@@ -43,7 +43,7 @@ trait PropertyVisitor extends Converter {
         p.property_attributes_list().property_attribute().foreach {
           case PropertyAttribute("weak") => weak = "weak "
           case PropertyAttribute("readonly") =>
-            read_only.append("{ get{} }")
+            read_only.append(" { get{} }")
           case PropertyAttribute(s) if s.split("=")(0) == "getter" =>
             val t = parseGetterStatement(ctx, s, getter_statement)
             _isOriginalGetter = t._1
@@ -59,12 +59,12 @@ trait PropertyVisitor extends Converter {
     }
 
     if (_isOriginalGetter && _isOriginalSetter) {
-      getter_statement.insert(0, "{\n")
+      getter_statement.insert(0, " {\n")
       getter_statement.append("\n")
     }
 
     if(_isOriginalGetter && !_isOriginalSetter){
-      getter_statement.insert(0,"{\n")
+      getter_statement.insert(0, " {\n")
     }
 
     if(_isOriginalGetter || _isOriginalSetter){
@@ -130,7 +130,7 @@ trait PropertyVisitor extends Converter {
             getter_setter_statement
           )
 
-          sb.append(weak + "var " + identifier + ":" + type_of_variable + optional + getter_setter_statement)
+          sb.append(s"${weak}var $identifier: $type_of_variable$optional$getter_setter_statement")
         }
 
     }
@@ -163,7 +163,7 @@ trait PropertyVisitor extends Converter {
     val (isOriginalGetter,originalGetterStatement) = findGetterOrSetterMethod(ctx,getter_method_name)
 
     getter_statement.append(
-      indentString * 2 + "get{\n"
+      indentString * 2 + "get {\n"
         + indentString + originalGetterStatement
         + indentString * 2 + "}"
     )
@@ -176,7 +176,7 @@ trait PropertyVisitor extends Converter {
     val (isOriginalSetter,originalSetterStatement) = findGetterOrSetterMethod(ctx,setter_method_name)
 
     setter_statement.append(
-      indentString * 2 + "set{\n"
+      indentString * 2 + "set {\n"
         + indentString + originalSetterStatement
         + indentString * 2 + "}"
     )
@@ -184,13 +184,8 @@ trait PropertyVisitor extends Converter {
     (isOriginalSetter,originalSetterStatement,setter_statement)
   }
 
-  def setProtocolName(protocol_name:scala.collection.mutable.Buffer[Protocol_nameContext]): String ={
-    var protocol_names = ""
-    protocol_name.foreach (
-      protocol_names += visit(_) + ","
-    )
-    "protocol<" + protocol_names.stripSuffix(",") + ">"
-  }
+  def setProtocolName(protocol_name: scala.collection.mutable.Buffer[Protocol_nameContext]): String =
+    s"protocol<${protocol_name.map(visit).mkString(", ")}>"
 
   def getGetterAndSetterStatement(ctx:ObjCParser.Property_declarationContext,
                                   direct_declarator:Direct_declaratorContext,
@@ -202,7 +197,7 @@ trait PropertyVisitor extends Converter {
                                   getterSetterStatement:StringBuilder):StringBuilder = {
 
     val identifier = direct_declarator.identifier().getText
-    val getterStr = "{\n" + indentString * 2 + "get{\n" + indentString * 3 + "return self." + identifier + "\n" + indentString * 2 + "}\n"
+    val getterStr = " {\n" + indentString * 2 + "get {\n" + indentString * 3 + "return self." + identifier + "\n" + indentString * 2 + "}\n"
     val defaultSetterStr = "set" + identifier.capitalize
 
     //no getter and setter only
@@ -215,17 +210,17 @@ trait PropertyVisitor extends Converter {
       val (isDefaultSetter,defaultSetterStatement) = findGetterOrSetterMethod(ctx,defaultSetterStr)
 
       //you dont use default getter and original getter.only readonly
-      if(readOnly.toString() == "{ get{} }" && !isOriginalGetter && !isDefaultGetter){
+      if(readOnly.toString() == " { get{} }" && !isOriginalGetter && !isDefaultGetter){
         getterSetterStatement.append(getterStr + indentString + "}")
       }
 
       //default getter or setter
       if (isDefaultGetter || isDefaultSetter) {
-        getterSetterStatement.append("{\n")
+        getterSetterStatement.append(" {\n")
 
         if (isDefaultGetter) {
           getterStatement.append(
-            indentString * 2 + "get{\n"
+            indentString * 2 + "get {\n"
               + indentString + defaultGetterStatement
               + indentString * 2 + "}"
           )
@@ -235,13 +230,13 @@ trait PropertyVisitor extends Converter {
           if (!isDefaultGetter) {
             //set getter when you use only default setter
             getterStatement.append(
-              indentString * 2 + "get{\n"
+              indentString * 2 + "get {\n"
                 + indentString * 3 + "return self." + identifier + "\n"
                 + indentString * 2 + "}\n"
             )
           }
           setterStatement.append(
-            indentString * 2 + "set{\n"
+            indentString * 2 + "set {\n"
               + indentString + defaultSetterStatement
               + indentString * 2 + "}"
           )

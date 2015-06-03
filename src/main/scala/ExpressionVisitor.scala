@@ -166,7 +166,7 @@ trait ExpressionVisitor extends Converter {
   }
 
   override def visitDictionary_pair(ctx: Dictionary_pairContext) = {
-    visit(ctx.postfix_expression(0)) + " : " + visit(ctx.postfix_expression(1))
+    visit(ctx.postfix_expression(0)) + ": " + visit(ctx.postfix_expression(1))
   }
 
   override def visitBox_expression(ctx: Box_expressionContext): String = {
