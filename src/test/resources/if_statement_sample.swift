@@ -1,6 +1,6 @@
-class IfStatementSample : NSObject, SomeProtocol {
+class IfStatementSample: NSObject, SomeProtocol {
 
-    @IBOutlet var label:UILabel!
+    @IBOutlet var label: UILabel!
 
     func fuga() {
 

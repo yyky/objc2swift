@@ -1,19 +1,19 @@
 protocol SimpleProtocol {
 }
 
-protocol ExtendedProtocol : SimpleProtocol {
+protocol ExtendedProtocol: SimpleProtocol {
 }
 
 protocol SimpleProtocol2 {
 }
 
-protocol ExtendedProtocol2 : SimpleProtocol, SimpleProtocol2 {
+protocol ExtendedProtocol2: SimpleProtocol, SimpleProtocol2 {
 }
 
 protocol SimpleMethodProtocol {
     func simpleMethod()
 
-    func simpleMethod2() -> Int32
+    func simpleMethod2() -> Int
 }
 
 protocol ComplexMethodProtocol {
@@ -23,23 +23,23 @@ protocol ComplexMethodProtocol {
 }
 
 protocol OptionalProtocol {
-    func requiredMethod() -> Int32
-    optional func optionalMethod() -> Int32
+    func requiredMethod() -> Int
+    optional func optionalMethod() -> Int
 }
 
 protocol OptionalProtocol2 {
-    func optionalMethod1() -> Int32
+    func optionalMethod1() -> Int
 
-    func optionalMethod2() -> Int32
-    optional func optionalMethod3() -> Int32
+    func optionalMethod2() -> Int
+    optional func optionalMethod3() -> Int
 }
 
 protocol XYZPieChartViewDataSource {
-    func numberOfSegments() -> UInt32
+    func numberOfSegments() -> UInt
 
-    func sizeOfSegmentAtIndex(segmentIndex: UInt32) -> CGFloat
-    optional func titleForSegmentAtIndex(segmentIndex: UInt32) -> NSString
+    func sizeOfSegmentAtIndex(segmentIndex: UInt) -> CGFloat
+    optional func titleForSegmentAtIndex(segmentIndex: UInt) -> NSString
 
-    optional func shouldExplodeSegmentAtIndex(segmentIndex: UInt32) -> Bool
-    func colorForSegmentAtIndex(segmentIndex: UInt32) -> UIColor
+    optional func shouldExplodeSegmentAtIndex(segmentIndex: UInt) -> Bool
+    func colorForSegmentAtIndex(segmentIndex: UInt) -> UIColor
 }

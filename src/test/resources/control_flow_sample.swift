@@ -1,19 +1,19 @@
-class MyClassControll : NSObject, SomeProtocol {
+class MyClassControll: NSObject, SomeProtocol {
 
-    @IBOutlet var label:UILabel!
+    @IBOutlet var label: UILabel!
 
     func fuga() {
-        var a: Int32 = 0
-        var b: Int32 = 0
+        var a: Int = 0
+        var b: Int = 0
 
         switch a {
-            case 0:
+        case 0:
             b = 1
             
-            case 1:
+        case 1:
             b = 0
             
-            default:
+        default:
             b = 2
             
         }
@@ -52,7 +52,7 @@ class MyClassControll : NSObject, SomeProtocol {
             NSLog(str) 
         }
 
-        for i: Int32 in num {
+        for i: Int in num {
             self.hoge(i)
         }
 

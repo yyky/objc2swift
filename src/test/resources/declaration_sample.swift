@@ -1,20 +1,20 @@
 class Declaration {
 
     func declare() {
-        var num1: Int32
-        var num2: Int32 = 7
-        var num3: Int32
-        var num4: Int32
-        var num5: Int32 = 1
-        var num6: Int32
-        var num7: Int32
-        var num8: UInt32
-        var num9: UInt32
-        var num10: UInt32 = 1
-        var num11: UInt32 = 8
-        var num12: Int32
-        var num13: UInt32
-        var num14: Int32
+        var num1: Int
+        var num2: Int = 7
+        var num3: Int
+        var num4: Int
+        var num5: Int = 1
+        var num6: Int
+        var num7: Int
+        var num8: UInt
+        var num9: UInt
+        var num10: UInt = 1
+        var num11: UInt = 8
+        var num12: Int
+        var num13: UInt
+        var num14: Int
         var num15: Int64
         var num16: UInt64
         var num17: UInt64 = 3
@@ -31,9 +31,9 @@ class Declaration {
         var str2: NSString = "hoge"
         var str3: NSString
         var str4: NSString = "fuga"
-        var n1: Int32
-        var n2: Int32 = -2
-        var n3: UInt32 = 4
+        var n1: Int
+        var n2: Int = -2
+        var n3: UInt = 4
         var n4: NSNumber
         var i1: AnyObject
         var i2: AnyObject
@@ -41,9 +41,9 @@ class Declaration {
         var i4: AnyObject = "foo"
         var o1: HogeClass
         var a: [AnyObject]
-        static var num21: Int32
-        let kConstNum1: Int32 = 200
-        static let kConstNum2: Int32 = 200
+        static var num21: Int
+        let kConstNum1: Int = 200
+        static let kConstNum2: Int = 200
         static let kNumFloat: Float = 1.25f
         static let kSectionTitleFavorite: NSString = "お気に入り"
         static let kSectionTitleFavorite2: NSString = "お気に入り"
