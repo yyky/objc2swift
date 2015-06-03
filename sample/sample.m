@@ -17,6 +17,16 @@
     YSSSearchResultSet *resultSet = [[YSSSearchResultSet alloc] init];
     MyClass *myClass = [[MyClass alloc]initWithName:@"Snoopy"];
     UIMenuController.sharedMenuController.menuItems = @[[[UIMenuItem alloc] initWithTitle:@"検索" action:@selector(search:)]];
+
+    return [NSURL URLWithString:kYSSWebPageCaptureEndpointURL
+                  getParams:@{
+                      @"url": URL.absoluteString,
+                      @"w": @(size.width),
+                      @"h": @(size.height),
+                      @"s": @"s",
+                      @"device": iPhone() ? @"sp" : @"tb",
+                      @"width":@(width * kStaticMapRatio)
+                  }];
 }
 
 - (NSString *)somethingWithArg1:(id)arg1 arg2:(int)arg2

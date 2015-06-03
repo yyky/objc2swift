@@ -14,6 +14,18 @@ trait Converter extends ObjCBaseVisitor[String] {
     def unapply(node: Class_nameContext): Option[String] = Option(node.getText)
   }
 
+  object ConstantBox {
+    def unapply(ctx: Box_expressionContext): Option[ConstantContext] = Option(ctx.constant())
+  }
+
+  object ExpressionBox {
+    def unapply(ctx: Box_expressionContext): Option[ExpressionContext] = Option(ctx.expression())
+  }
+
+  object PostfixExpressionBox {
+    def unapply(ctx: Box_expressionContext): Option[Postfix_expressionContext] = Option(ctx.postfix_expression())
+  }
+
   val root: Translation_unitContext
 
   private val usSetters = new ParseTreeProperty[Boolean]()

@@ -112,23 +112,28 @@ trait ExpressionVisitor extends Converter with MessageVisitor {
     sb.toString()
   }
 
-  override def visitDictionary_pair(ctx: Dictionary_pairContext) = {
-    visit(ctx.postfix_expression(0)) + ": " + visit(ctx.postfix_expression(1))
-  }
-
-  override def visitBox_expression(ctx: Box_expressionContext): String = {
-    Option(ctx.constant) match {
-      case Some(const) => return visit(const)
-      case None =>
+  /**
+   * Returns translated text of dictionary_pair context.
+   *
+   * @param ctx the parse tree
+   **/
+  override def visitDictionary_pair(ctx: Dictionary_pairContext): String =
+    Option(ctx.expression()) match {
+      case Some(s) => s"${visit(ctx.postfix_expression(0))}: ${visit(ctx.expression())}"
+      case None    => s"${visit(ctx.postfix_expression(0))}: ${visit(ctx.postfix_expression(1))}"
     }
 
-    Option(ctx.postfix_expression) match {
-      case Some(expr) => return visit(expr)
-      case None =>
+  /**
+   * Returns translated text of box_expression context.
+   *
+   * @param ctx the parse tree
+   **/
+  override def visitBox_expression(ctx: Box_expressionContext): String =
+    ctx match {
+      case ConstantBox(c) => visit(c)
+      case ExpressionBox(c) => visit(c)
+      case PostfixExpressionBox(c) => visit(c)
     }
-
-    ""
-  }
 
   override def visitBlock_expression(ctx: Block_expressionContext): String = {
     val sb = new StringBuilder()
