@@ -62,41 +62,13 @@
     x = @"CONSTANT_VALUE";
     x = @(a);
     x = @(a + b);
+    NSNumber *smallestInt = @(-INT_MAX - 1);
+    NSNumber *piOverTwo = @(M_PI / 2);
 
     // initializer
     YSSSearchResultSet *resultSet = [[YSSSearchResultSet alloc] init];
     MyClass *myClass = [[MyClass alloc]initWithName:@"Snoopy"];
     UIMenuController.sharedMenuController.menuItems = @[[[UIMenuItem alloc] initWithTitle:@"検索" action:@selector(search:)]];
-
-    /**
-     * TODO: Invalid conversion
-     *
-     * ObjC
-     * ```
-     * NSNumber *smallestInt = @(-INT_MAX - 1);
-     * ```
-     * ↓
-     * Swift
-     * ```
-     * var smallestInt: NSNumber = -INT_MAX - 1
-     * ```
-     */
-    //NSNumber *smallestInt = @(-INT_MAX - 1);
-
-    /**
-     * TODO: Invalid conversion
-     *
-     * ObjC
-     * ```
-     * NSNumber *piOverTwo = @(M_PI / 2);
-     * ```
-     * ↓
-     * Swift
-     * ```
-     * var piOverTwo: NSNumber = M_PI / 2
-     * ```
-     */
-    //NSNumber *piOverTwo = @(M_PI / 2);
 
     /**
      * TODO: Invalid conversion

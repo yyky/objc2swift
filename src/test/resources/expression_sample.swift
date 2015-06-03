@@ -47,10 +47,12 @@ class ExpressionSample {
         var dic2: NSMutableDictionary = ["key4": "value4", "key5": "value5", "key6": "value6"].mutableCopy()
         var item2: NSString = dic1["key1"]
         dic2["key1"] = "updateValue1"
-        var dic3: [NSObject : AnyObject] = ["url": URL.absoluteString, "w": size.width, "h": size.height, "s": "s", "device": iPhone() ? "sp" : "tb"]
+        var dic3: [NSObject: AnyObject] = ["url": URL.absoluteString, "w": size.width, "h": size.height, "s": "s", "device": iPhone() ? "sp" : "tb"]
         x = "CONSTANT_VALUE"
         x = a
         x = a + b
+        var smallestInt: NSNumber = -INT_MAX - 1
+        var piOverTwo: NSNumber = M_PI / 2
         var resultSet: YSSSearchResultSet = YSSSearchResultSet()
         var myClass: MyClass = MyClass(name: "Snoopy")
         UIMenuController.sharedMenuController.menuItems = [UIMenuItem(title: "検索", action: "search:")]
