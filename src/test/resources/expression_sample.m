@@ -53,6 +53,11 @@
     NSString *item2 = dic1[@"key1"];
     dic2[@"key1"] = @"updateValue1";
 
+    // initializer
+    YSSSearchResultSet *resultSet = [[YSSSearchResultSet alloc] init];
+    MyClass *myClass = [[MyClass alloc]initWithName:@"Snoopy"];
+    UIMenuController.sharedMenuController.menuItems = @[[[UIMenuItem alloc] initWithTitle:@"検索" action:@selector(search:)]];
+
     /**
      * TODO: Invalid conversion
      *

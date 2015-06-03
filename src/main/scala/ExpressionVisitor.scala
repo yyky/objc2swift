@@ -10,128 +10,75 @@
 
 import ObjCParser._
 import org.antlr.v4.runtime._
-import org.antlr.v4.runtime.tree.TerminalNode
 import collection.JavaConversions._
 
 /**
  * Implements visit methods for expression contexts.
  */
-trait ExpressionVisitor extends Converter {
-
+trait ExpressionVisitor extends Converter with MessageVisitor {
   self: ObjCBaseVisitor[String] =>
 
+  /**
+   * Returns translated text of binary expression contexts (equality, relational, etc..)
+   *
+   * @param ctx parse tree
+   * @return translated text
+   */
   def visitBinaryExpression(ctx: ParserRuleContext): String = {
-    val sb = new StringBuilder()
+    val builder = List.newBuilder[String]
 
-    for (element <- ctx.children) {
-      element match {
-        case symbol: TerminalNode => sb.append(" " + symbol.getSymbol.getText + " ")
-        case _ => sb.append(visit(element))
-      }
+    ctx.children.foreach {
+      case TerminalText(s) => builder += s" $s "
+      case c               => builder += visit(c)
     }
 
-    sb.toString()
+    builder.result().mkString
   }
 
+  /**
+   * Returns translated text of unary expression contexts
+   *
+   * @param ctx parse tree
+   * @return translated text
+   */
   def visitUnaryExpression(ctx: ParserRuleContext): String = {
-    val sb = new StringBuilder()
+    val builder = List.newBuilder[String]
 
-    for (element <- ctx.children) {
-      element match {
-        case symbol: TerminalNode => sb.append(symbol.getSymbol.getText)
-        case _ => sb.append(visit(element))
-      }
+    ctx.children.foreach {
+      case TerminalText(s) => builder += s
+      case c               => builder += visit(c)
     }
 
-    sb.toString()
+    builder.result().mkString
   }
 
-  def convertSimpleFormat(exps: scala.collection.mutable.Buffer[Assignment_expressionContext]): String = {
-    val r = "(%[a-z@]+)".r
-    r.findFirstIn(exps.get(0).getText) match {
-      case Some(m) =>
-        exps.foldLeft("")((s, c) => {
-          s match {
-            case "" => c.getText
-            case _ => r.replaceFirstIn(s, "\\\\(" + c.getText + ")")
-          }
-        }).replaceFirst("^@", "")
-      case None => ""
-    }
-  }
-
-  def convertComplexFormat(exps: scala.collection.mutable.Buffer[Assignment_expressionContext]): String = {
-    val r = "(%[0-9.]+[a-z@]+)".r
-    r.findFirstIn(exps.get(0).getText) match {
-      case Some(m) =>
-        val sb = new StringBuilder()
-        sb.append("String(")
-        exps.zipWithIndex.foreach { case (c, i) =>
-          if (i == 0) {
-            sb.append("format: " + c.getText.replaceFirst("^@", ""))
-          } else {
-            sb.append(", " + c.getText)
-          }
-        }
-        sb.append(")")
-        sb.toString()
-      case None => ""
-    }
-  }
-
-  override def visitMessage_expression(ctx: Message_expressionContext): String = {
-    val sel = ctx.message_selector()
-
-    // TODO: Support stringWithFormat()
-    Option(sel.keyword_argument()) match {
-      case Some(list) if !list.isEmpty =>
-        val arg = list.get(0)
-        val name = visit(arg.selector())
-        name match {
-          case "stringWithFormat" =>
-            val exps = arg.expression().assignment_expression()
-            val fmt = exps.get(0).getText
-            if (fmt.matches("^@\".*\"$"))
-              // TODO: Complex format
-              convertComplexFormat(exps) match {
-                case s if s != "" => return s
-                case _ =>
-                  // Simple format
-                  convertSimpleFormat(exps) match {
-                    case s if s != "" => return s
-                    case _ =>
-                  }
-              }
-          case _ =>
-        }
+  /**
+   * Returns translated text of message_expression context.
+   *
+   * @param ctx the parse tree
+   **/
+  override def visitMessage_expression(ctx: Message_expressionContext): String =
+    ctx match {
+      case StringWithFormatMessageExpression(s) => s
+      case AllocMessageExpression(s)            => s
+      case InitMessageExpression(s)             => s
       case _ =>
-    }
+        val sel = ctx.message_selector()
+        val builder = List.newBuilder[String]
 
-    val sb = new StringBuilder()
-    sb.append(visit(ctx.receiver))
-    sb.append(".")
+        builder += s"${visit(ctx.receiver)}."
 
-    if(sel.keyword_argument.isEmpty) { // no argument
-      sb.append(sel.selector.getText + "()")
-    } else {
-      for (i <- 0 until sel.keyword_argument.length) {
-        val arg = sel.keyword_argument(i)
-        if(i > 0)
-          sb.append(", ")
-
-        if(i == 0) {
-          sb.append(arg.selector().getText)
-          sb.append("(")
-          sb.append(visit(arg.expression))
-        } else {
-          sb.append(arg.selector().getText + ": ")
-          sb.append(visit(arg.expression))
+        Option(sel.selector()) match {
+          case Some(s) => builder += s"${s.getText}()" // no argument
+          case None =>
+            sel.keyword_argument.zipWithIndex.foreach {
+              case (c, 0) => builder += s"${c.selector.getText}(${visit(c.expression)}"
+              case (c, _) => builder += s", ${c.selector.getText}: ${visit(c.expression)}"
+            }
+            builder += ")"
         }
-      }
-      sb.append(")")
+        builder.result().mkString
     }
-    sb.toString()
-  }
 
   /**
    * Returns translated text of selector_expression context.
