@@ -33,41 +33,63 @@ trait ProtocolVisitor extends Converter {
       }
   }
 
+  /**
+   * Returns translated text of protocol_declaration context.
+   *
+   * @param ctx the parse tree
+   **/
   override def visitProtocol_declaration(ctx: Protocol_declarationContext): String = {
-
-    val sb = new StringBuilder()
-
-    sb.append("protocol " + visit(ctx.protocol_name()) + " ")
+    val builder = List.newBuilder[String]
 
     Option(ctx.protocol_reference_list()) match {
-      case ProtocolList(list) => sb.append(": " + list + " ")
-      case _ =>
+      case ProtocolList(a) => builder += s"protocol ${visit(ctx.protocol_name)}: $a {\n"
+      case _               => builder += s"protocol ${visit(ctx.protocol_name)} {\n"
     }
-
-    sb.append("{\n")
 
     // Support Optional Annotation
     isOptionalProtocol = false
+
     ctx.children.foreach {
-      case OptionalAnnotation(bool) => isOptionalProtocol = bool
-      case list: Interface_declaration_listContext => sb.append(visit(list) + "\n")
+      case OptionalAnnotation(b) => isOptionalProtocol = b
+      case c: Interface_declaration_listContext => builder += s"${visit(c)}\n"
       case _ =>
     }
 
-    sb.append("}")
+    builder += "}"
 
-    sb.toString()
+    builder.result().mkString
   }
 
-  override def visitProtocol_reference_list(ctx: Protocol_reference_listContext) =
+  /**
+   * Returns translated text of protocol_reference_list context.
+   *
+   * @param ctx the parse tree
+   **/
+  override def visitProtocol_reference_list(ctx: Protocol_reference_listContext): String =
     visit(ctx.protocol_list)
 
+  /**
+   * Returns translated text of protocol_list context.
+   *
+   * @param ctx the parse tree
+   **/
   override def visitProtocol_list(ctx: Protocol_listContext): String =
     ctx.protocol_name.map(visit).mkString(", ")
 
+  /**
+   * Returns translated text of protocol_name context.
+   *
+   * @param ctx the parse tree
+   **/
   override def visitProtocol_name(ctx: Protocol_nameContext): String = ctx.getText
 
-  // Forward declaration. No need on swift.
-  override def visitProtocol_declaration_list(ctx: Protocol_declaration_listContext) = ""
+  /**
+   * Returns translated text of protocol_declaration_list context.
+   *
+   * NOTE: Forward declaration is not needed on swift.
+   *
+   * @param ctx the parse tree
+   **/
+  override def visitProtocol_declaration_list(ctx: Protocol_declaration_listContext): String = ""
 
 }

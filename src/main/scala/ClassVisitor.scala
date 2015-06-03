@@ -12,7 +12,7 @@ trait ClassVisitor extends Converter {
 
     // class [CLASS-NAME] : [SUPERCLASS], [PROTOCOL1, PROTOCOL2, ...]
     builder += s"class ${visit(ctx.class_name())}"
-    builder += Option(ctx.superclass_name()).map(c => s" : ${visit(c)}").getOrElse("")
+    builder += Option(ctx.superclass_name()).map(c => s": ${visit(c)}").getOrElse("")
     builder += Option(ctx.protocol_reference_list()).map(c => s", ${visit(c)}").getOrElse("")
 
     // TODO merge class-ext (aka unnamed-category)

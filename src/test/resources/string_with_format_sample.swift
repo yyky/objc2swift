@@ -1,4 +1,4 @@
-class StringWithFormatSample : NSObject, Protocol1, Protocol2 {
+class StringWithFormatSample: NSObject, Protocol1, Protocol2 {
 
     func stringWithFormatTest() -> NSString {
         "int型：\(num)"

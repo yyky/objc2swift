@@ -115,11 +115,12 @@ trait Converter extends ObjCBaseVisitor[String] {
 
     declCtx.parent match {
       case _: Instance_method_declarationContext =>
-        implDefList.instance_method_definition.map(_.method_definition()).find(_.method_selector.getText == selector)
+        implDefList.instance_method_definition.map(_.method_definition())
+          .find(_.method_selector.getText == selector)
       case _: Class_method_declarationContext =>
-        implDefList.class_method_definition   .map(_.method_definition()).find(_.method_selector.getText == selector)
-      case _ =>
-        None
+        implDefList.class_method_definition.map(_.method_definition())
+          .find(_.method_selector.getText == selector)
+      case _ => None
     }
   }
 
@@ -151,12 +152,12 @@ trait Converter extends ObjCBaseVisitor[String] {
   private def concatNumberType(prefix: String, ctx: Type_specifierContext): String =
     (prefix, visit(ctx)) match {
       case ("unsigned", "Int8") => "UInt8"
-      case ("unsigned", "Int32") => "UInt32"
-      case ("Int32", "Int32") => "Int64"
-      case ("UInt32", "Int32") => "UInt64"
-      case ("signed", t) =>  t
+      case ("unsigned", "Int")  => "UInt"
+      case ("Int", "Int")       => "Int64"
+      case ("UInt", "Int")      => "UInt64"
+      case ("signed", t)        => t
       case (_, t) if !t.isEmpty => t
-      case (_, _) => prefix
+      case (_, _)               => prefix
     }
 
   /**
@@ -166,9 +167,10 @@ trait Converter extends ObjCBaseVisitor[String] {
    */
   def concatType(types: TSContexts): String =
     types.foldLeft("")(concatNumberType) match {
-      case "unsigned" => "UInt32"
-      case s => s
+      case "unsigned" => "UInt"
+      case s          => s
     }
+
   def isUSSetter(node: ParseTree) = {
     Option(usSetters.get(node)) match {
       case Some(flag) if flag => true

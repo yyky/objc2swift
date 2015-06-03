@@ -12,11 +12,14 @@ import ObjCParser._
 import org.antlr.v4.runtime.tree.TerminalNode
 import collection.JavaConversions._
 
+/**
+ * Implements visit methods for type contexts.
+ */
 trait TypeVisitor extends Converter {
   self: ObjCBaseVisitor[String] =>
 
   /**
-   * Convert Objective-C type to Swift type.
+   * Returns translated text of type_specifier context.
    *
    * @param ctx the parse tree
    * @return Swift type strings
@@ -25,33 +28,31 @@ trait TypeVisitor extends Converter {
    *
    */
   override def visitType_specifier(ctx: Type_specifierContext): String = {
-    val sb = new StringBuilder()
+    val builder = List.newBuilder[String]
 
-    for (element <- ctx.children) {
-      sb.append(element match {
-        case TerminalText("void") => "void"
-        case TerminalText("id") => "AnyObject"
-        case TerminalText("short") => "Int8"
-        case TerminalText("int") => "Int32"
-        case TerminalText("long") => "Int32"
-        case TerminalText("float") => "Float"
-        case TerminalText("double") => "Double"
-        case TerminalText(s) if !s.isEmpty => s
-        case _: TerminalNode => "AnyObject"
-        case ClassNameText("NSInteger") => "Int32"
-        case ClassNameText("NSUInteger") => "UInt32"
-        case ClassNameText("NSArray") => "[AnyObject]"
-        case ClassNameText("NSDictionary") => "[NSObject : AnyObject]"
-        case ClassNameText("SEL") => "Selector"
-        case ClassNameText("BOOL") => "Bool"
-        case ClassNameText(s) if !s.isEmpty => s
-        case _: Class_nameContext => "AnyObject"
-        case pointer: PointerContext => visit(pointer)
-        case _ => element.getText
-      })
-    }
+    ctx.children map {
+      case TerminalText("void")           => "void"
+      case TerminalText("id")             => "AnyObject"
+      case TerminalText("short")          => "Int8"
+      case TerminalText("int")            => "Int"
+      case TerminalText("long")           => "Int"
+      case TerminalText("float")          => "Float"
+      case TerminalText("double")         => "Double"
+      case TerminalText(s) if !s.isEmpty  => s
+      case _: TerminalNode                => "AnyObject"
+      case ClassNameText("NSInteger")     => "Int"
+      case ClassNameText("NSUInteger")    => "UInt"
+      case ClassNameText("NSArray")       => "[AnyObject]"
+      case ClassNameText("NSDictionary")  => "[NSObject: AnyObject]"
+      case ClassNameText("SEL")           => "Selector"
+      case ClassNameText("BOOL")          => "Bool"
+      case ClassNameText(s) if !s.isEmpty => s
+      case _: Class_nameContext           => "AnyObject"
+      case c: PointerContext              => visit(c)
+      case c                              => c.getText
+    } foreach { builder += _ }
 
-    sb.toString()
+    builder.result().mkString
   }
 
 }
