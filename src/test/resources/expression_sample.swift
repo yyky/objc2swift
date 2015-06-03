@@ -43,7 +43,7 @@ class ExpressionSample {
         var a2: NSMutableArray = ["value4", "value5", "value6"].mutableCopy()
         var item1: NSString = a1[0]
         a2[0] = "value7"
-        var dic1: [NSObject : AnyObject] = ["key1": "value1", "key2": "value2", "key3": "value3"]
+        var dic1: [NSObject: AnyObject] = ["key1": "value1", "key2": "value2", "key3": "value3"]
         var dic2: NSMutableDictionary = ["key4": "value4", "key5": "value5", "key6": "value6"].mutableCopy()
         var item2: NSString = dic1["key1"]
         dic2["key1"] = "updateValue1"
@@ -51,6 +51,9 @@ class ExpressionSample {
         x = "CONSTANT_VALUE"
         x = a
         x = a + b
+        var resultSet: YSSSearchResultSet = YSSSearchResultSet()
+        var myClass: MyClass = MyClass(name: "Snoopy")
+        UIMenuController.sharedMenuController.menuItems = [UIMenuItem(title: "検索", action: "search:")]
     }
 
 }

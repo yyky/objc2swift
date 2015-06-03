@@ -1,9 +1,9 @@
-class YSSWeatherEntity : YSSWebContentEntity {
+class YSSWeatherEntity: YSSWebContentEntity {
 
-    var pointName:NSString?
+    var pointName: NSString?
 
-    var refTime:NSDate?
+    var refTime: NSDate?
 
-    var daily:[AnyObject]?
+    var daily: [AnyObject]?
 
 }

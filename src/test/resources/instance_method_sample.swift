@@ -1,38 +1,38 @@
-class InstanceMethodSample : NSObject, Protocol1, Protocol2 {
+class InstanceMethodSample: NSObject, Protocol1, Protocol2 {
 
     func noParamNoRet() {
 
     }
 
-    func oneIntParamNoRet(p1: Int32) {
+    func oneIntParamNoRet(p1: Int) {
 
     }
 
-    func twoIntParamsNoRet(n1: Int32, opt2 n2: Int32) {
+    func twoIntParamsNoRet(n1: Int, opt2 n2: Int) {
 
     }
 
-    func threeIntParamsNoRet(n1: Int32, opt2 n2: Int32, opt3 n3: Int32) {
+    func threeIntParamsNoRet(n1: Int, opt2 n2: Int, opt3 n3: Int) {
 
     }
 
-    func noParamIntRet() -> Int32 {
+    func noParamIntRet() -> Int {
 
     }
 
-    func oneIntParamIntRet(n1: Int32) -> Int32 {
+    func oneIntParamIntRet(n1: Int) -> Int {
 
     }
 
-    func noParamUIntRet() -> UInt32 {
+    func noParamUIntRet() -> UInt {
 
     }
 
-    func noParamSIntRet() -> Int32 {
+    func noParamSIntRet() -> Int {
 
     }
 
-    func oneUIntParamUIntRet(n1: UInt32) -> UInt32 {
+    func oneUIntParamUIntRet(n1: UInt) -> UInt {
 
     }
 
@@ -50,11 +50,11 @@ class InstanceMethodSample : NSObject, Protocol1, Protocol2 {
 
     }
 
-    func noParamLongRet() -> Int32 {
+    func noParamLongRet() -> Int {
 
     }
 
-    func noParamULongRet() -> UInt32 {
+    func noParamULongRet() -> UInt {
 
     }
 
@@ -144,11 +144,11 @@ class InstanceMethodSample : NSObject, Protocol1, Protocol2 {
 
     }
 
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int32) -> NSString {
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> NSString {
         return nil
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int32) -> Int32 {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.shouldShowSection(section) ? self.numberOfQueriesInSection(section) : 0
     }
 

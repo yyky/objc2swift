@@ -1,13 +1,13 @@
-class MyClass : NSObject, SomeProtocol {
+class MyClass: NSObject, SomeProtocol {
 
-    @IBOutlet var label:UILabel!
+    @IBOutlet var label: UILabel!
 
     func doSomething() {
         self.somethingWithArg1("hello", arg2: 0)
 
     }
 
-    func somethingWithArg1(arg1: AnyObject, arg2: Int32) -> NSString {
+    func somethingWithArg1(arg1: AnyObject, arg2: Int) -> NSString {
         return "something"
 
     }

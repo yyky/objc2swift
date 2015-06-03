@@ -1,9 +1,9 @@
-class ClassMethodSample : NSObject, Protocol1, Protocol2 {
+class ClassMethodSample: NSObject, Protocol1, Protocol2 {
 
     class func classMethodNoDef() {
     }
 
-    class func classMethodNoDef2(num: Int32) -> Int32 {
+    class func classMethodNoDef2(num: Int) -> Int {
     }
 
     class func classMethodHasDef() {
@@ -19,11 +19,11 @@ class ClassMethodSample : NSObject, Protocol1, Protocol2 {
 
     }
 
-    class func sameNameMethod(p1: Int32) {
+    class func sameNameMethod(p1: Int) {
 
     }
 
-    func sameNameMethod(p1: Int32) {
+    func sameNameMethod(p1: Int) {
 
     }
 
@@ -34,11 +34,11 @@ class ClassMethodSample : NSObject, Protocol1, Protocol2 {
         return
     }
 
-    class func sameNamePrivateMethod(p1: Int32) {
+    class func sameNamePrivateMethod(p1: Int) {
 
     }
 
-    func sameNamePrivateMethod(p1: Int32) {
+    func sameNamePrivateMethod(p1: Int) {
 
     }
 
