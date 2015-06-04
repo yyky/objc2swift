@@ -1,12 +1,17 @@
 /**
+ * This file is part of objc2swift.
+ * https://github.com/yahoojapan/objc2swift
  *
+ * Copyright (c) 2015 Yahoo Japan Corporation
  *
- * Copyright (C) 2015 Yahoo Japan Corporation.
- * All Rights Reserved.
- * @since 2015/05/29
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
-import ObjCParser._
-import collection.JavaConversions._
+
+package org.objc2swift
+
+import org.objc2swift.ObjCParser._
+import scala.collection.JavaConversions._
 
 trait MessageVisitor {
   self: ObjCBaseVisitor[String] =>

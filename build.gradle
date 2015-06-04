@@ -35,13 +35,14 @@ jar {
 }
 
 generateGrammarSource {
-    arguments = ['-visitor']
+    arguments = ['-visitor', '-package', 'org.objc2swift']
+    outputDirectory = file("${project.buildDir}/generated-src/main/java/org/objc2swift/")
 }
 
 compileJava.dependsOn generateGrammarSource
 
 compileJava {
-    source = ['build/generated-src/antlr/main', 'src/main/java']
+    source = ['build/generated-src/main/java', 'src/main/java']
 }
 
 tasks.withType(ScalaCompile) {

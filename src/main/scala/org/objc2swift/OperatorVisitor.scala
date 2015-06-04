@@ -8,8 +8,9 @@
  * file that was distributed with this source code.
  */
 
-import ObjCParser._
-import collection.JavaConversions._
+package org.objc2swift
+
+import org.objc2swift.ObjCParser._
 
 trait OperatorVisitor extends Converter {
   self: ObjCBaseVisitor[String] =>

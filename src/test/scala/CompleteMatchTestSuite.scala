@@ -14,6 +14,7 @@ import org.junit.runner.RunWith
 import org.scalatest.FunSuite
 
 import org.antlr.v4.runtime._
+import org.objc2swift._
 import collection.JavaConversions._
 import scala.io.Source
 

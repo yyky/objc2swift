@@ -8,10 +8,14 @@
  * file that was distributed with this source code.
  */
 
-import ObjCParser._
+package org.objc2swift
+
+import org.objc2swift.ObjCParser._
+
 import org.antlr.v4.runtime.RuleContext
 import org.antlr.v4.runtime.tree.ParseTreeProperty
-import collection.JavaConversions._
+import org.objc2swift.ObjCParser._
+import scala.collection.JavaConversions._
 
 /**
  * Implements visit methods for enum contexts.

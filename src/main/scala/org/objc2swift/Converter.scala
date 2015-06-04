@@ -1,7 +1,20 @@
-import ObjCParser._
-import org.antlr.v4.runtime.{RuleContext, ParserRuleContext}
-import org.antlr.v4.runtime.tree.{TerminalNode, ParseTree, ParseTreeProperty}
-import collection.JavaConversions._
+/**
+ * This file is part of objc2swift.
+ * https://github.com/yahoojapan/objc2swift
+ *
+ * Copyright (c) 2015 Yahoo Japan Corporation
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+package org.objc2swift
+
+import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeProperty, TerminalNode}
+import org.antlr.v4.runtime.{ParserRuleContext, RuleContext}
+
+import org.objc2swift.ObjCParser._
+import scala.collection.JavaConversions._
 
 trait Converter extends ObjCBaseVisitor[String] {
   type TSContexts = scala.collection.mutable.Buffer[Type_specifierContext]

@@ -1,19 +1,23 @@
 /**
- * This file is part of objc2swift. 
+ * This file is part of objc2swift.
  * https://github.com/yahoojapan/objc2swift
- * 
+ *
  * Copyright (c) 2015 Yahoo Japan Corporation
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
+package org.objc2swift
+
 import java.io._
 import java.nio.file._
+
 import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree.ParseTreeWalker
 import org.apache.commons.io.FilenameUtils._
-import collection.JavaConversions._
+
+import scala.collection.JavaConversions._
 
 object Main {
   def main(args: Array[String]) {

@@ -70,7 +70,7 @@ Import Project from gradle build file.
 
 ![ss2.png](doc/ss2.png)
 
-Unmark build/ as 'Excluded', mark build/generated-src as 'Sources', re-mark other directories under build/ as 'Excluded'.
+Unmark build/ as 'Excluded'; mark build/generated-src/main/java as 'Sources', other directories under build/ as 'Excluded'.
 
 ![ss4.png](doc/ss4.png)
 
