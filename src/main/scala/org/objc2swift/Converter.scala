@@ -39,14 +39,12 @@ trait Converter extends ObjCBaseVisitor[String] {
     def unapply(ctx: Box_expressionContext): Option[Postfix_expressionContext] = Option(ctx.postfix_expression())
   }
 
-  val root: Translation_unitContext
+  protected val root: Translation_unitContext
 
   private val usSetters = new ParseTreeProperty[Boolean]()
   private val visited = new ParseTreeProperty[Boolean]()
   val indentString = " " * 4
   var isOptionalProtocol = false
-
-  def getResult: String = visit(root)
 
   def concatChildResults(node: ParseTree, glue: String): String = {
     val children = for(i <- 0 until node.getChildCount) yield node.getChild(i)

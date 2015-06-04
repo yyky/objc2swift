@@ -10,9 +10,13 @@
 
 package org.objc2swift
 
+import java.io.{ByteArrayInputStream, InputStream}
+
+import org.antlr.v4.runtime.{ANTLRInputStream, ParserRuleContext, CommonTokenStream}
+import org.antlr.v4.runtime.tree.ParseTreeWalker
 import org.objc2swift.ObjCParser._
 
-class ObjC2SwiftConverter(_root: Translation_unitContext)
+class ObjC2SwiftConverter(input: InputStream)
   extends ObjCBaseVisitor[String]
   with ClassVisitor
   with CategoryVisitor
@@ -26,7 +30,29 @@ class ObjC2SwiftConverter(_root: Translation_unitContext)
   with TypeVisitor
   with EnumVisitor {
 
-  val root = _root
+  private val lexer = new ObjCLexer(new ANTLRInputStream(input))
+  private val tokens = new CommonTokenStream(lexer)
+  private val parser = new ObjCParser(tokens)
+
+  protected val root = parser.translation_unit
+
+  def this(inputString: String) {
+    this(new ByteArrayInputStream(inputString.getBytes))
+  }
+
+  def getResult() = visit(root)
+
+  def getParseTree() = {
+    val lines = List.newBuilder[String]
+    new ParseTreeWalker().walk(new ObjCBaseListener() {
+      override def enterEveryRule(ctx: ParserRuleContext): Unit = {
+        lines +=
+          (ctx.depth - 1) + "  " * ctx.depth +
+            parser.getRuleNames()(ctx.getRuleIndex) + ": " + "'" + ctx.getStart.getText.replace("\n\r\t", " ") + "'"
+      }
+    }, root)
+    lines.result().mkString("\n")
+  }
 
   override def visitIdentifier(ctx: IdentifierContext): String = ctx.getText
 
