@@ -89,7 +89,7 @@ object Main {
     builder.result()
   }
 
-  def printResult(files: List[File], result: String) = {
+  def printResult(files: List[File], result: String) {
     val lines = List.newBuilder[String]
     lines += "Hello Swift, Goodbye Obj-C."
     lines += "converted by 'objc2swift' https://github.com/yahoojapan/objc2swift"
