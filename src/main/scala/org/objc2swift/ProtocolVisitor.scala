@@ -10,14 +10,12 @@
 
 package org.objc2swift
 
+import org.antlr.v4.runtime.{ParserRuleContext, RuleContext}
 import org.objc2swift.ObjCParser._
-import org.antlr.v4.runtime.tree.TerminalNode
+import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeProperty, TerminalNode}
 import scala.collection.JavaConversions._
 
-trait ProtocolVisitor extends Converter {
-
-  self: ObjCBaseVisitor[String] =>
-
+protected trait ProtocolVisitor extends BaseConverter {
   object ProtocolList {
     def unapply(o: Option[Protocol_reference_listContext]): Option[String] =
       o match {
@@ -33,6 +31,33 @@ trait ProtocolVisitor extends Converter {
         case "@required" => Some(false)
         case _ => None
       }
+  }
+
+  private val usSetters = new ParseTreeProperty[Boolean]()
+  private var isOptionalProtocol = false
+
+  private def isProtocolScope(ctx: RuleContext): Boolean = ctx match {
+    case _: Protocol_declarationContext => true
+    case _: Protocol_declaration_listContext => true
+    case _: External_declarationContext => false
+    case c => isProtocolScope(c.parent)
+  }
+
+  def optional(node: ParserRuleContext): String =
+    isProtocolScope(node) && isOptionalProtocol match {
+      case true => "optional "
+      case false => ""
+    }
+
+  def isUSSetter(node: ParseTree) = {
+    Option(usSetters.get(node)) match {
+      case Some(flag) if flag => true
+      case _ => false
+    }
+  }
+
+  def setUSSetter(node: ParseTree) = {
+    usSetters.put(node, true)
   }
 
   /**

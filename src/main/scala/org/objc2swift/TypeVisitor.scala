@@ -17,9 +17,7 @@ import scala.collection.JavaConversions._
 /**
  * Implements visit methods for type contexts.
  */
-trait TypeVisitor extends Converter {
-  self: ObjCBaseVisitor[String] =>
-
+protected trait TypeVisitor extends BaseConverter {
   /**
    * Returns translated text of type_specifier context.
    *
@@ -57,4 +55,31 @@ trait TypeVisitor extends Converter {
     builder.result().mkString
   }
 
+  /**
+   * Returns concatenated number type text.
+   * @param prefix Prefix text of current types.
+   * @param ctx Current type_specifier context
+   * @return Concatenated and translated number type text
+   */
+  private def concatNumberType(prefix: String, ctx: Type_specifierContext): String =
+    (prefix, visit(ctx)) match {
+      case ("unsigned", "Int8") => "UInt8"
+      case ("unsigned", "Int")  => "UInt"
+      case ("Int", "Int")       => "Int64"
+      case ("UInt", "Int")      => "UInt64"
+      case ("signed", t)        => t
+      case (_, t) if !t.isEmpty => t
+      case (_, _)               => prefix
+    }
+
+  /**
+   * Return concatenated type text.
+   * @param types List of type_specifier context
+   * @return Concatenated and translated type text
+   */
+  def concatType(types: TSContexts): String =
+    types.foldLeft("")(concatNumberType) match {
+      case "unsigned" => "UInt"
+      case s          => s
+    }
 }

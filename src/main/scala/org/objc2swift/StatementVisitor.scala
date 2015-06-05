@@ -13,9 +13,7 @@ package org.objc2swift
 import org.objc2swift.ObjCParser._
 import scala.collection.JavaConversions._
 
-trait StatementVisitor extends Converter {
-  self: ObjCBaseVisitor[String] =>
-
+protected trait StatementVisitor extends BaseConverter {
   /**
    * Returns translated text of compound_statement context.
    *

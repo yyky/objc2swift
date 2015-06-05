@@ -16,9 +16,7 @@ import scala.collection.JavaConversions._
 /**
  * Implements visit methods for method-contexts.
  */
-trait MethodVisitor extends Converter {
-  self: ObjCBaseVisitor[String] =>
-
+protected trait MethodVisitor extends BaseConverter {
   /**
    * Returns translated text of instance method declaration context.
    *
@@ -131,7 +129,7 @@ trait MethodVisitor extends Converter {
    * @param ctx the parse tree
    **/
   override def visitKeyword_declarator(ctx: Keyword_declaratorContext): String =
-    self.visitKeyword_declarator(ctx, isHead = false)
+    this.visitKeyword_declarator(ctx, isHead = false)
 
   /**
    * Returns translated text of keyword declarator
@@ -193,4 +191,31 @@ trait MethodVisitor extends Converter {
       case None              => s"func ${visit(sctx)} -> AnyObject" // Default
     }
 
+  def findCorrespondingMethodDefinition(declCtx: Method_declarationContext): Option[Method_definitionContext] = {
+    val selector = declCtx.method_selector.getText
+
+    val implDefList = declCtx.parent.parent.parent match {
+      case classCtx: Class_interfaceContext =>
+        findCorrespondingClassImplementation(classCtx) match {
+          case Some(implCtx) => implCtx.implementation_definition_list
+          case None => return None
+        }
+      case catCtx: Category_interfaceContext =>
+        findCorrespondingCategoryImplementation(catCtx) match {
+          case Some(implCtx) => implCtx.implementation_definition_list
+          case None => return None
+        }
+      case _ => return None
+    }
+
+    declCtx.parent match {
+      case _: Instance_method_declarationContext =>
+        implDefList.instance_method_definition.map(_.method_definition())
+          .find(_.method_selector.getText == selector)
+      case _: Class_method_declarationContext =>
+        implDefList.class_method_definition.map(_.method_definition())
+          .find(_.method_selector.getText == selector)
+      case _ => None
+    }
+  }
 }
