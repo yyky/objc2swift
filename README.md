@@ -70,7 +70,7 @@ Import Project from gradle build file.
 
 ![ss2.png](doc/ss2.png)
 
-Unmark build/ as 'Excluded'; mark build/generated-src/main/java as 'Sources', other directories under build/ as 'Excluded'.
+Unmark build/ as 'Excluded', mark build/generated-src/main/java as 'Sources', and other directories under build/ as 'Excluded'.
 
 ![ss4.png](doc/ss4.png)
 
@@ -103,21 +103,11 @@ input:
 output:
 
 ```
-/* Hello Swift, Goodbye Obj-C.
- * converted by 'objc2swift' https://github.com/yahoojapan/objc2swift
- *
- * source: sample/sample.h
- * source-tree:
- *  translation_unit: '@interface' - '@end'
- *    external_declaration: '@interface' - '@end'
- *      class_interface: '@interface' - '@end'
- *        class_name: 'A'
- *        superclass_name: 'NSObject'
- */
-
-class A : NSObject {
-
-}
+1. translation_unit: '@interface' - '@end'
+2.   external_declaration: '@interface' - '@end'
+3.     class_interface: '@interface' - '@end'
+4.       class_name: 'A'
+4.       superclass_name: 'NSObject'
 ```
 
 ## LICENSE
