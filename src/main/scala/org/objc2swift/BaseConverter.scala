@@ -16,28 +16,8 @@ import org.antlr.v4.runtime.{ParserRuleContext, RuleContext}
 import org.objc2swift.ObjCParser._
 import scala.collection.JavaConversions._
 
-protected abstract class BaseConverter extends ObjCBaseVisitor[String] {
+protected abstract class BaseConverter extends ObjCBaseVisitor[String] with UtilObjects {
   type TSContexts = scala.collection.mutable.Buffer[Type_specifierContext]
-
-  object TerminalText {
-    def unapply(node: TerminalNode): Option[String] = Option(node.getSymbol.getText)
-  }
-
-  object ClassNameText {
-    def unapply(node: Class_nameContext): Option[String] = Option(node.getText)
-  }
-
-  object ConstantBox {
-    def unapply(ctx: Box_expressionContext): Option[ConstantContext] = Option(ctx.constant())
-  }
-
-  object ExpressionBox {
-    def unapply(ctx: Box_expressionContext): Option[ExpressionContext] = Option(ctx.expression())
-  }
-
-  object PostfixExpressionBox {
-    def unapply(ctx: Box_expressionContext): Option[Postfix_expressionContext] = Option(ctx.postfix_expression())
-  }
 
   protected val root: Translation_unitContext
 
