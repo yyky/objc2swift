@@ -10,13 +10,12 @@
 
 package org.objc2swift
 
-import java.io.{ByteArrayInputStream, InputStream}
+import java.io.InputStream
 
-import org.antlr.v4.runtime.{ANTLRInputStream, ParserRuleContext, CommonTokenStream}
+import org.antlr.v4.runtime.ParserRuleContext
 import org.antlr.v4.runtime.tree.ParseTreeWalker
-import org.objc2swift.ObjCParser._
 
-class ObjC2SwiftConverter(input: InputStream) extends BaseConverter
+class ObjC2SwiftConverter(input: InputStream) extends BaseConverter(input)
   with ClassVisitor
   with CategoryVisitor
   with ProtocolVisitor
@@ -28,19 +27,11 @@ class ObjC2SwiftConverter(input: InputStream) extends BaseConverter
   with MessageVisitor
   with OperatorVisitor
   with TypeVisitor
-  with EnumVisitor {
+  with EnumVisitor
+  with ErrorHandler {
 
-  private val lexer = new ObjCLexer(new ANTLRInputStream(input))
-  private val tokens = new CommonTokenStream(lexer)
-  private val parser = new ObjCParser(tokens)
-
-  protected val root = parser.translation_unit
-
-  def this(inputString: String) {
-    this(new ByteArrayInputStream(inputString.getBytes))
-  }
-
-  def getResult() = visit(root)
+  parser.removeErrorListeners()
+  parser.addErrorListener(this)
 
   def getParseTree() = {
     val lines = List.newBuilder[String]
