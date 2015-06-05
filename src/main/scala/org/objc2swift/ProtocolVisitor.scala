@@ -8,9 +8,11 @@
  * file that was distributed with this source code.
  */
 
-import ObjCParser._
+package org.objc2swift
+
+import org.objc2swift.ObjCParser._
 import org.antlr.v4.runtime.tree.TerminalNode
-import collection.JavaConversions._
+import scala.collection.JavaConversions._
 
 trait ProtocolVisitor extends Converter {
 

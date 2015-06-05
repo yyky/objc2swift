@@ -14,6 +14,7 @@ import org.junit.runner.RunWith
 import org.scalatest.FunSuite
 
 import org.antlr.v4.runtime._
+import org.objc2swift._
 import collection.JavaConversions._
 import scala.io.Source
 
@@ -29,18 +30,10 @@ class CompleteMatchTestSuite extends FunSuite {
 
   def getResult(filenames :Array[String]): String = {
     val files = filenames.map(getFilePath)
-
     val fileStreams = files.map(new FileInputStream(_))
-    val streamReader = new InputStreamReader(
-      new SequenceInputStream(fileStreams.toIterator), "UTF-8")
-    val input = new ANTLRInputStream(streamReader)
+    val inputStream = new SequenceInputStream(fileStreams.toIterator)
 
-    val lexer = new ObjCLexer(input)
-    val tokens = new CommonTokenStream(lexer)
-    val parser = new ObjCParser(tokens)
-
-    val root = parser.translation_unit
-    val converter = new ObjC2SwiftConverter(root)
+    val converter = new ObjC2SwiftConverter(inputStream)
     converter.getResult + "\n"
   }
 

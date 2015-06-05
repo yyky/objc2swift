@@ -1,23 +1,27 @@
 /**
- * This file is part of objc2swift. 
+ * This file is part of objc2swift.
  * https://github.com/yahoojapan/objc2swift
- * 
+ *
  * Copyright (c) 2015 Yahoo Japan Corporation
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
+package org.objc2swift
+
 import java.io._
 import java.nio.file._
+
 import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree.ParseTreeWalker
 import org.apache.commons.io.FilenameUtils._
-import collection.JavaConversions._
+
+import scala.collection.JavaConversions._
 
 object Main {
   def main(args: Array[String]) {
-    val options = Map("tree" -> args.contains("-t"))
+    val options = Map("-t" -> args.contains("-t"))
 
     val fileNames = args.filter(!_.startsWith("-")).toList
     if (fileNames.isEmpty) {
@@ -31,8 +35,16 @@ object Main {
       return
     }
 
-    val result = getResult(files, options)
-    println(result)
+    val streams = files.map(new FileInputStream(_))
+    val seqStream = new SequenceInputStream(streams.toIterator)
+    val converter = new ObjC2SwiftConverter(seqStream)
+
+    val result = if(options("-t"))
+      converter.getParseTree()
+    else
+      converter.getResult()
+
+    printResult(files, result)
   }
 
   /**
@@ -77,43 +89,14 @@ object Main {
     builder.result()
   }
 
-  def getResult(files: List[File], options: Map[String, Any]): String = {
-    val streams = files.map(new FileInputStream(_))
-    val seqStream = new SequenceInputStream(streams.toIterator)
-    val input = new ANTLRInputStream(seqStream)
-
-    val lexer = new ObjCLexer(input)
-    val tokens = new CommonTokenStream(lexer)
-    val parser = new ObjCParser(tokens)
-
-    val root = parser.translation_unit
-    val converter = new ObjC2SwiftConverter(root)
-
-    val result = converter.getResult
-    val header = getHeader(files, options, parser, root)
-
-    s"$header\n\n$result"
-  }
-
-  def getHeader(files: List[File], options: Map[String, Any], parser: Parser, root: ParserRuleContext): String = {
+  def printResult(files: List[File], result: String) {
     val lines = List.newBuilder[String]
-
     lines += "Hello Swift, Goodbye Obj-C."
     lines += "converted by 'objc2swift' https://github.com/yahoojapan/objc2swift"
     lines += "original source: " + files.mkString(", ")
 
-    if (options("tree") == true) {
-      lines += ""
-      lines += "source-tree:"
-      new ParseTreeWalker().walk(new ObjCBaseListener() {
-        override def enterEveryRule(ctx: ParserRuleContext): Unit = {
-          lines +=
-            (ctx.depth - 1) + "  " * ctx.depth +
-            parser.getRuleNames()(ctx.getRuleIndex) + ": " + "'" + ctx.getStart.getText.replace("\n\r\t", " ") + "'"
-        }
-      }, root)
-    }
-
-    s"/* ${lines.result().mkString("\n * ")}\n */"
+    println(s"/* ${lines.result().mkString("\n * ")}\n */")
+    println()
+    println(result)
   }
 }

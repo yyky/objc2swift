@@ -8,8 +8,10 @@
  * file that was distributed with this source code.
  */
 
-import ObjCParser._
-import collection.JavaConversions._
+package org.objc2swift
+
+import org.objc2swift.ObjCParser._
+import scala.collection.JavaConversions._
 
 /**
  * Implements visit methods for method-contexts.

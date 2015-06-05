@@ -8,8 +8,9 @@
  * file that was distributed with this source code.
  */
 
-import ObjCParser._
-import collection.JavaConversions._
+package org.objc2swift
+
+import org.objc2swift.ObjCParser._
 
 trait CategoryVisitor extends Converter {
   self: ObjCBaseVisitor[String] =>
@@ -38,7 +39,7 @@ trait CategoryVisitor extends Converter {
     }
 
     findCorrespondingCategoryImplementation(ctx) match {
-      case Some(c) => sb.append(visit(c.implementation_definition_list) + "\n")
+      case Some(c) => sb.append(visit(c.implementation_definition_list()) + "\n")
       case None =>
     }
 

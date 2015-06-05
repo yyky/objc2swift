@@ -2,6 +2,7 @@ apply plugin: 'java'
 apply plugin: 'scala'
 
 version = '1.0'
+def packageName = 'org.objc2swift'
 
 repositories {
     mavenCentral()
@@ -29,19 +30,20 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Main-Class' : 'Main'
+        attributes 'Main-Class' : packageName + '.Main'
     }
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
 }
 
 generateGrammarSource {
-    arguments = ['-visitor']
+    arguments = ['-visitor', '-package', packageName]
+    outputDirectory = file("${project.buildDir}/generated-src/main/java/org/objc2swift/")
 }
 
 compileJava.dependsOn generateGrammarSource
 
 compileJava {
-    source = ['build/generated-src/antlr/main', 'src/main/java']
+    source = ['build/generated-src/main/java', 'src/main/java']
 }
 
 tasks.withType(ScalaCompile) {
