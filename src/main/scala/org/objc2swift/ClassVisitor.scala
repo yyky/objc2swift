@@ -11,6 +11,7 @@
 package org.objc2swift
 
 import org.objc2swift.ObjCParser._
+import scala.collection.JavaConversions._
 
 protected trait ClassVisitor extends BaseConverter {
   override def visitClass_name(ctx: Class_nameContext): String = ctx.getText
@@ -53,4 +54,16 @@ protected trait ClassVisitor extends BaseConverter {
 
   // ignore implementation with no corresponding interface.
   override def visitClass_implementation(ctx: Class_implementationContext): String = ""
+
+  def findCorrespondingClassImplementation(classCtx: Class_interfaceContext): Option[Class_implementationContext] = {
+    val className = classCtx.class_name.getText
+    for {
+      extDclCtx <- root.external_declaration
+      implCtx <- Option(extDclCtx.class_implementation())
+    } implCtx.class_name().getText match {
+      case `className` => return Some(implCtx)
+      case _ =>
+    }
+    None
+  }
 }

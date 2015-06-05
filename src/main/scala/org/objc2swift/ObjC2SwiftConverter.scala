@@ -53,10 +53,4 @@ class ObjC2SwiftConverter(input: InputStream) extends BaseConverter
     }, root)
     lines.result().mkString("\n")
   }
-
-  override def visitIdentifier(ctx: IdentifierContext): String = ctx.getText
-
-  override def visitConstant(ctx: ConstantContext): String = ctx.getText
-
-  override def visitSelector(ctx: SelectorContext): String = ctx.getText
 }

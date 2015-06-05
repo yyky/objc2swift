@@ -11,6 +11,7 @@
 package org.objc2swift
 
 import org.objc2swift.ObjCParser._
+import scala.collection.JavaConversions._
 
 protected trait CategoryVisitor extends BaseConverter {
   override def visitCategory_name(ctx: Category_nameContext) = ctx.getText
@@ -48,4 +49,18 @@ protected trait CategoryVisitor extends BaseConverter {
 
   // ignore category implementation with no corresponding interface.
   override def visitCategory_implementation(ctx: Category_implementationContext): String = ""
+
+  def findCorrespondingCategoryImplementation(catCtx: Category_interfaceContext): Option[Category_implementationContext] = {
+    val className = catCtx.class_name.getText
+    val categoryName = catCtx.category_name.getText
+
+    for {
+      extDclCtx <- root.external_declaration
+      implCtx <- Option(extDclCtx.category_implementation())
+    } (implCtx.class_name.getText, implCtx.category_name.getText) match {
+      case (`className`, `categoryName`) => return Some(implCtx)
+      case _ =>
+    }
+    None
+  }
 }
