@@ -16,9 +16,7 @@ import scala.collection.JavaConversions._
 /**
  * Implements visit methods for method-contexts.
  */
-trait MethodVisitor extends Converter {
-  self: ObjCBaseVisitor[String] =>
-
+protected trait MethodVisitor extends BaseConverter {
   /**
    * Returns translated text of instance method declaration context.
    *
@@ -131,7 +129,7 @@ trait MethodVisitor extends Converter {
    * @param ctx the parse tree
    **/
   override def visitKeyword_declarator(ctx: Keyword_declaratorContext): String =
-    self.visitKeyword_declarator(ctx, isHead = false)
+    this.visitKeyword_declarator(ctx, isHead = false)
 
   /**
    * Returns translated text of keyword declarator

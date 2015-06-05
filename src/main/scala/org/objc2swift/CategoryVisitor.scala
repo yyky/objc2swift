@@ -12,9 +12,7 @@ package org.objc2swift
 
 import org.objc2swift.ObjCParser._
 
-trait CategoryVisitor extends Converter {
-  self: ObjCBaseVisitor[String] =>
-
+protected trait CategoryVisitor extends BaseConverter {
   override def visitCategory_name(ctx: Category_nameContext) = ctx.getText
 
   override def visitCategory_interface(ctx: Category_interfaceContext): String = {

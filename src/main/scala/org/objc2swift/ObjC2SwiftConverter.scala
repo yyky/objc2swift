@@ -16,8 +16,7 @@ import org.antlr.v4.runtime.{ANTLRInputStream, ParserRuleContext, CommonTokenStr
 import org.antlr.v4.runtime.tree.ParseTreeWalker
 import org.objc2swift.ObjCParser._
 
-class ObjC2SwiftConverter(input: InputStream)
-  extends ObjCBaseVisitor[String]
+class ObjC2SwiftConverter(input: InputStream) extends BaseConverter
   with ClassVisitor
   with CategoryVisitor
   with ProtocolVisitor
@@ -26,6 +25,7 @@ class ObjC2SwiftConverter(input: InputStream)
   with DeclarationVisitor
   with StatementVisitor
   with ExpressionVisitor
+  with MessageVisitor
   with OperatorVisitor
   with TypeVisitor
   with EnumVisitor {

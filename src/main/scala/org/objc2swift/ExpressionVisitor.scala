@@ -17,9 +17,7 @@ import scala.collection.JavaConversions._
 /**
  * Implements visit methods for expression contexts.
  */
-trait ExpressionVisitor extends Converter with MessageVisitor {
-  self: ObjCBaseVisitor[String] =>
-
+protected trait ExpressionVisitor extends BaseConverter with MessageVisitor {
   /**
    * Returns translated text of binary expression contexts (equality, relational, etc..)
    *

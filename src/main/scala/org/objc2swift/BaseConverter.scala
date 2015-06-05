@@ -16,7 +16,7 @@ import org.antlr.v4.runtime.{ParserRuleContext, RuleContext}
 import org.objc2swift.ObjCParser._
 import scala.collection.JavaConversions._
 
-trait Converter extends ObjCBaseVisitor[String] {
+protected abstract class BaseConverter extends ObjCBaseVisitor[String] {
   type TSContexts = scala.collection.mutable.Buffer[Type_specifierContext]
 
   object TerminalText {
@@ -166,33 +166,7 @@ trait Converter extends ObjCBaseVisitor[String] {
   override def visitExternal_declaration(ctx: External_declarationContext): String =
     concatChildResults(ctx, "")
 
-  /**
-   * Returns concatenated number type text.
-   * @param prefix Prefix text of current types.
-   * @param ctx Current type_specifier context
-   * @return Concatenated and translated number type text
-   */
-  private def concatNumberType(prefix: String, ctx: Type_specifierContext): String =
-    (prefix, visit(ctx)) match {
-      case ("unsigned", "Int8") => "UInt8"
-      case ("unsigned", "Int")  => "UInt"
-      case ("Int", "Int")       => "Int64"
-      case ("UInt", "Int")      => "UInt64"
-      case ("signed", t)        => t
-      case (_, t) if !t.isEmpty => t
-      case (_, _)               => prefix
-    }
-
-  /**
-   * Return concatenated type text.
-   * @param types List of type_specifier context
-   * @return Concatenated and translated type text
-   */
-  def concatType(types: TSContexts): String =
-    types.foldLeft("")(concatNumberType) match {
-      case "unsigned" => "UInt"
-      case s          => s
-    }
+  def concatType(types: TSContexts): String // overridden in TypeVisitor
 
   def isUSSetter(node: ParseTree) = {
     Option(usSetters.get(node)) match {

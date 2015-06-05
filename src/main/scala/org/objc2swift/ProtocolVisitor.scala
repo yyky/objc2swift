@@ -14,10 +14,7 @@ import org.objc2swift.ObjCParser._
 import org.antlr.v4.runtime.tree.TerminalNode
 import scala.collection.JavaConversions._
 
-trait ProtocolVisitor extends Converter {
-
-  self: ObjCBaseVisitor[String] =>
-
+protected trait ProtocolVisitor extends BaseConverter {
   object ProtocolList {
     def unapply(o: Option[Protocol_reference_listContext]): Option[String] =
       o match {
