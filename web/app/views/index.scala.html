@@ -7,6 +7,7 @@
     <script src="@routes.Assets.versioned("javascripts/mode/clike.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/mode/swift.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/addon/selection/active-line.js")"></script>
+    <script src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))'></script>
     <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/codemirror.css")">
     <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/theme/monokai.css")">
     <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
@@ -38,7 +39,7 @@
             <form action="." method="POST">
               <div class="titleArea">
                 <p class="titleObjc">Objective-C</p>
-                <input type="submit" value="convert" class="topConvertBtn">
+                <input type="checkbox" id="auto" checked="checked"/> Auto
               </div>
               <textarea id="editorObjc" name="source" rows="20" class="objcTextArea">@input</textarea>
               <input type="submit" value="convert" class="convertBtn">
