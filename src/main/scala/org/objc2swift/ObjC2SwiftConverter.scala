@@ -10,7 +10,7 @@
 
 package org.objc2swift
 
-import java.io.InputStream
+import java.io.{ByteArrayInputStream, InputStream}
 
 import org.antlr.v4.runtime.ParserRuleContext
 import org.antlr.v4.runtime.tree.ParseTreeWalker
@@ -32,6 +32,10 @@ class ObjC2SwiftConverter(input: InputStream) extends BaseConverter(input)
 
   parser.removeErrorListeners()
   parser.addErrorListener(this)
+
+  def this(inputString: String) {
+    this(new ByteArrayInputStream(inputString.getBytes))
+  }
 
   def getParseTree() = {
     val lines = List.newBuilder[String]

@@ -21,10 +21,6 @@ import scala.collection.JavaConversions._
 protected abstract class BaseConverter(input: InputStream) extends ObjCBaseVisitor[String] with UtilObjects {
   type TSContexts = scala.collection.mutable.Buffer[Type_specifierContext]
 
-  def this(inputString: String) {
-    this(new ByteArrayInputStream(inputString.getBytes))
-  }
-
   protected lazy val parser = {
     val lexer = new ObjCLexer(new ANTLRInputStream(input))
     val tokens = new CommonTokenStream(lexer)
