@@ -15,7 +15,8 @@ libraryDependencies ++= Seq(
 
 libraryDependencies ++= Seq(
   "org.webjars" %% "webjars-play" % "2.4.0",
-  "org.webjars" % "jquery" % "2.1.1"
+  "org.webjars" % "jquery" % "2.1.1",
+  "org.webjars" % "codemirror" % "5.4"
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"

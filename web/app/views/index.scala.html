@@ -3,13 +3,14 @@
 <html>
   <head>
     <title>@title</title>
-    <script src="@routes.Assets.versioned("javascripts/codemirror.js")"></script>
-    <script src="@routes.Assets.versioned("javascripts/mode/clike.js")"></script>
-    <script src="@routes.Assets.versioned("javascripts/mode/swift.js")"></script>
-    <script src="@routes.Assets.versioned("javascripts/addon/selection/active-line.js")"></script>
+    <script src='@routes.WebJarAssets.at(WebJarAssets.locate("codemirror.js"))'></script>
+    <script src='@routes.WebJarAssets.at(WebJarAssets.locate("mode/clike/clike.js"))'></script>
+    <script src='@routes.WebJarAssets.at(WebJarAssets.locate("mode/swift/swift.js"))'></script>
+    <script src='@routes.WebJarAssets.at(WebJarAssets.locate("addon/selection/active-line.js"))'></script>
     <script src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))'></script>
-    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/codemirror.css")">
-    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/theme/monokai.css")">
+
+    <link rel="stylesheet" media="screen" href='@routes.WebJarAssets.at(WebJarAssets.locate("codemirror.css"))'>
+    <link rel="stylesheet" media="screen" href='@routes.WebJarAssets.at(WebJarAssets.locate("theme/monokai.css"))'>
     <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
