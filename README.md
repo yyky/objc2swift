@@ -13,7 +13,7 @@ $ gradle build
 $ java -jar build/libs/objc2swift-1.0.jar sample/sample.*
 ```
 
-The Obj-C source code such as:
+With the input Obj-C code:
 
 ```
 @interface MyClass
@@ -34,7 +34,7 @@ The Obj-C source code such as:
 @end
 ```
 
-you'll get the converted Swift code as:
+you'll get the converted Swift code:
 
 ```
 class MyClass {
@@ -46,12 +46,11 @@ class MyClass {
 
 Great!
 
-
 ## Web-UI
 
 ![ss1.png](doc/ss1.png)
 
-Install typesafe activator and run on your localhost!
+You can also run the Web-UI on your localhost.
 
 ```
 $ brew install typesafe-activator
