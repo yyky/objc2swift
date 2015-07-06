@@ -1,5 +1,5 @@
 var objcEditor = CodeMirror.fromTextArea(document.getElementById('editorObjc'), {
-    mode: "clike",
+    mode: "text/x-objectivec",
     lineNumbers: true,
     lineWrapping: true,
     matchBrackets: true,
