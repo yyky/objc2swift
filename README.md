@@ -10,48 +10,36 @@ Build the project, run the jar with Obj-C source files in the sample dir.
 
 ```
 $ gradle build
-$ java -jar build/libs/objc2swift-1.0.jar sample/sample.h sample/sample.m
+$ java -jar build/libs/objc2swift-1.0.jar sample/sample.*
 ```
 
-The input files are Obj-C header and implementation files such as:
+The Obj-C source code such as:
 
 ```
-// sample/sample.h
-@interface MyClass : NSObject <SomeProtocol>
+@interface MyClass
 
 - (void)doSomething;
-- (NSString *)somethingWithArg1:(id)arg1 arg2:(int)arg2;
 
 @end
 ```
 
 ```
-// sample/sample.m
 @implementation MyClass
 
 - (void)doSomething
 {
-    [self somethingWithArg1:nil arg2:0];
-}
-
-- (NSString *)somethingWithArg1:(id)arg1 arg2:(int)arg2
-{
-    return @"something";
+    NSLog(@"hello");
 }
 
 @end
 ```
 
-They will be processed as a single input file, and you'll get the converted Swift class as below:
+you'll get the converted Swift code as:
 
 ```
-class MyClass : NSObject, SomeProtocol {
+class MyClass {
     func doSomething() {
-        self.somethingWithArg1(nil, arg2: 0)
-    }
-
-    func somethingWithArg1(arg1:AnyObject, arg2 arg2:Int32) -> NSString {
-        return "something"
+        NSLog("hello")
     }
 }
 ```
@@ -75,9 +63,9 @@ $ activator run
 * `@interface Hoge ... @end` -> `class Hoge { ... }`
 * ... more to come!
 
-## Developer's Guide
+# Developer's Guide
 
-### 1. Project Setup
+## 1. Project Setup
 
 Import Project from gradle build file.
 
@@ -93,11 +81,11 @@ Create new Run Configuration as below:
 
 Run!
 
-### 2. Project Structure
+## 2. Project Structure
 
 coming soon...
 
-### 3. Printing the Parse Tree
+## 3. Printing the Parse Tree
 
 With the `-t` option, the parse tree of the input source will be printed. You can use this to find the name and the containing text for each node.
 
@@ -123,5 +111,5 @@ output:
 4.       superclass_name: 'NSObject'
 ```
 
-## LICENSE
+# LICENSE
 This software is released under the MIT License, see [LICENSE.txt](LICENSE.txt).
