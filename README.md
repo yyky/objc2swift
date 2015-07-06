@@ -61,7 +61,7 @@ Great!
 
 ## Web-UI
 
-![ss2.png](doc/ss2.png)
+![ss1.png](doc/ss1.png)
 
 Install typesafe activator and run on your localhost!
 
