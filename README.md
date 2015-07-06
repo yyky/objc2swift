@@ -56,7 +56,20 @@ class MyClass : NSObject, SomeProtocol {
 }
 ```
 
-Cool!
+Great!
+
+
+## Web-UI
+
+![ss2.png](doc/ss2.png)
+
+Install typesafe activator and run on your localhost!
+
+```
+$ brew install typesafe-activator
+$ cd web/
+$ activator run
+```
 
 ## Features
 * `@interface Hoge ... @end` -> `class Hoge { ... }`
