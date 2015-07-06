@@ -1,5 +1,7 @@
 var objcEditor = CodeMirror.fromTextArea(document.getElementById('editorObjc'), {
     mode: "text/x-objectivec",
+    indentUnit: 4,
+    smartIndent: false,
     lineNumbers: true,
     lineWrapping: true,
     matchBrackets: true,
@@ -8,6 +10,8 @@ var objcEditor = CodeMirror.fromTextArea(document.getElementById('editorObjc'), 
 
 var swiftEditor = CodeMirror.fromTextArea(document.getElementById('editorSwift'), {
     mode: "swift",
+    indentUnit: 4,
+    smartIndent: true,
     lineNumbers: true,
     lineWrapping: true,
     matchBrackets: true,
