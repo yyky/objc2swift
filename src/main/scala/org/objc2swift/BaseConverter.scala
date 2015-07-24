@@ -17,9 +17,10 @@ import org.antlr.v4.runtime.{CommonTokenStream, ANTLRInputStream, ParserRuleCont
 
 import org.objc2swift.ObjCParser._
 import scala.collection.JavaConversions._
+import scala.collection.mutable
 
 protected abstract class BaseConverter(input: InputStream) extends ObjCBaseVisitor[String] with UtilObjects {
-  type TSContexts = scala.collection.mutable.Buffer[Type_specifierContext]
+  type TSContexts = mutable.Buffer[Type_specifierContext]
 
   protected lazy val parser = {
     val lexer = new ObjCLexer(new ANTLRInputStream(input))
@@ -30,33 +31,29 @@ protected abstract class BaseConverter(input: InputStream) extends ObjCBaseVisit
   protected lazy val root = parser.translation_unit()
 
   protected val indentString = " " * 4
-  private val visited = new ParseTreeProperty[Boolean]()
-  protected val errors = collection.mutable.Map[Int, (String, String)]()
+  private val visited = new ParseTreeProperty[Boolean]
+  protected val errors = mutable.Map[Int, (String, String)]()
 
   def getResult() = visit(root)
 
   def concatChildResults(node: ParseTree, glue: String): String = {
-    val children = for(i <- 0 until node.getChildCount) yield node.getChild(i)
+    val children = (0 until node.getChildCount).map(node.getChild)
     concatResults(children.toList, glue)
   }
 
   def concatResults(nodes: List[ParseTree], glue: String): String =
-    nodes.map(visit).collect{ case s: String if !s.isEmpty => s }.mkString(glue)
+    nodes.view.map(visit).filter(_ != null).filter(_.nonEmpty).mkString(glue)
 
   def indentLevel(node: ParserRuleContext): Int = {
-    var level = 0
-    var ptr: RuleContext = node
-
-    while(ptr.parent != null) {
-      ptr match {
-        case _: External_declarationContext => level += 1
-        case _: Compound_statementContext   => level += 1
-        case _ =>
-      }
-      ptr = ptr.parent
-      level
+    def parents =
+      Stream.from(0)
+        .scanLeft(node.parent) { (list, _) => list.parent }
+        .takeWhile(_ != null)
+    parents.count {
+      case _: External_declarationContext => true
+      case _: Compound_statementContext   => true
+      case _ => false
     }
-    level
   }
 
   def indent(node: ParserRuleContext): String = indentString * indentLevel(node)
@@ -65,18 +62,15 @@ protected abstract class BaseConverter(input: InputStream) extends ObjCBaseVisit
     if(!isVisited(tree)) {
       setVisited(tree)
 
-      lineError(tree) match {
-        case Some(error) =>
-          val ctx = tree.asInstanceOf[ParserRuleContext]
-          val (message, source) = error
-          s"""
-             |${indent(ctx)}// ${message}
-             |${indent(ctx)}// ${source}
-             |
-           """.stripMargin + super.visit(tree)
-
-        case None => super.visit(tree)
-      }
+      lineError(tree).map { error =>
+        val ctx = tree.asInstanceOf[ParserRuleContext]
+        val (message, source) = error
+        s"""
+           |${indent(ctx)}// ${message}
+           |${indent(ctx)}// ${source}
+           |
+         """.stripMargin + super.visit(tree)
+      }.getOrElse(super.visit(tree))
     } else {
       ""
     }
@@ -105,7 +99,7 @@ protected abstract class BaseConverter(input: InputStream) extends ObjCBaseVisit
   def setVisited(node: ParseTree) = visited.put(node, true)
 
   override def visitTranslation_unit(ctx: Translation_unitContext): String =
-    ctx.external_declaration().map(visit).filter(_ != "").mkString("\n\n")
+    ctx.external_declaration().map(visit).filter(_.nonEmpty).mkString("\n\n")
 
   override def visitExternal_declaration(ctx: External_declarationContext): String =
     concatChildResults(ctx, "")
