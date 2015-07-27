@@ -25,14 +25,10 @@ protected trait ExpressionVisitor extends BaseConverter with MessageVisitor {
    * @return translated text
    */
   def visitBinaryExpression(ctx: ParserRuleContext): String = {
-    val builder = List.newBuilder[String]
-
-    ctx.children.foreach {
-      case TerminalText(s) => builder += s" $s "
-      case c               => builder += visit(c)
-    }
-
-    builder.result().mkString
+    ctx.children.map {
+      case TerminalText(s) => s" $s "
+      case c               => visit(c)
+    }.mkString
   }
 
   /**
@@ -42,14 +38,10 @@ protected trait ExpressionVisitor extends BaseConverter with MessageVisitor {
    * @return translated text
    */
   def visitUnaryExpression(ctx: ParserRuleContext): String = {
-    val builder = List.newBuilder[String]
-
-    ctx.children.foreach {
-      case TerminalText(s) => builder += s
-      case c               => builder += visit(c)
-    }
-
-    builder.result().mkString
+    ctx.children.map {
+      case TerminalText(s) => s
+      case c               => visit(c)
+    }.mkString
   }
 
   /**
@@ -62,22 +54,20 @@ protected trait ExpressionVisitor extends BaseConverter with MessageVisitor {
       case StringWithFormatMessageExpression(s) => s
       case AllocMessageExpression(s)            => s
       case InitMessageExpression(s)             => s
-      case _ =>
+      case _ => {
         val sel = ctx.message_selector()
-        val builder = List.newBuilder[String]
-
-        builder += s"${visit(ctx.receiver)}."
-
-        Option(sel.selector()) match {
-          case Some(s) => builder += s"${s.getText}()" // no argument
-          case None =>
-            sel.keyword_argument.zipWithIndex.foreach {
-              case (c, 0) => builder += s"${c.selector.getText}(${visit(c.expression)}"
-              case (c, _) => builder += s", ${c.selector.getText}: ${visit(c.expression)}"
-            }
-            builder += ")"
+        val method = Option(sel.selector()) match {
+          case Some(s) => s"${s.getText}()" // no argument
+          case None => {
+            val head :: tail = sel.keyword_argument.toList
+            val firstArg = s"${head.selector.getText}(${visit(head.expression)}"
+            val restArgs = tail.map { c => s", ${c.selector.getText}: ${visit(c.expression)}" }
+            s"$firstArg${restArgs.mkString})"
+          }
         }
-        builder.result().mkString
+
+        s"${visit(ctx.receiver)}.$method"
+      }
     }
 
   /**
@@ -86,7 +76,7 @@ protected trait ExpressionVisitor extends BaseConverter with MessageVisitor {
    * @param ctx the parse tree
    **/
   override def visitSelector_expression(ctx: Selector_expressionContext): String =
-    "\"" + visit(ctx.selector_name()) + "\""
+    s""""${visit(ctx.selector_name())}""""
 
   /**
    * Returns translated text of selector_name context.
@@ -96,20 +86,12 @@ protected trait ExpressionVisitor extends BaseConverter with MessageVisitor {
   override def visitSelector_name(ctx: Selector_nameContext): String = ctx.getText
 
   override def visitArray_expression(ctx: Array_expressionContext) = {
-    val sb = new StringBuilder()
-    sb.append("[")
-    sb.append(ctx.postfix_expression.map(visit).mkString(", "))
-    sb.append("]")
-    sb.toString()
+    s"[${ctx.postfix_expression.map(visit).mkString(", ")}]"
   }
 
 
   override def visitDictionary_expression(ctx: Dictionary_expressionContext) = {
-    val sb = new StringBuilder()
-    sb.append("[")
-    sb.append(ctx.dictionary_pair.map(visit).mkString(", "))
-    sb.append("]")
-    sb.toString()
+    s"[${ctx.dictionary_pair.map(visit).mkString(", ")}]"
   }
 
   /**
@@ -136,26 +118,23 @@ protected trait ExpressionVisitor extends BaseConverter with MessageVisitor {
     }
 
   override def visitBlock_expression(ctx: Block_expressionContext): String = {
-    val sb = new StringBuilder()
-    sb.append("{")
+    val blockType = (ctx.block_parameters, ctx.type_specifier) match {
+      case (null, null) => ""
+      case (null, t) =>
+        s"() -> ${visit(t)} in"
+      case (b, null) =>
+        s"${visit(b)} in"
+      case (b, t) =>
+        s"${visit(b)} -> ${visit(t)} in"
+    }
 
-    if(ctx.block_parameters != null && ctx.type_specifier != null)
-      sb.append(visit(ctx.block_parameters) + " -> " + visit(ctx.type_specifier) + " in\n")
-    else if(ctx.type_specifier != null)
-      sb.append("() -> " + visit(ctx.type_specifier) + " in\n")
-    else if(ctx.block_parameters != null )
-      sb.append(visit(ctx.block_parameters) + " in\n")
-    else
-      sb.append("\n")
-
-    sb.append(visit(ctx.compound_statement) + "\n")
-    sb.append(indent(ctx) + "}")
-
-    sb.toString()
+    s"""|{$blockType
+        |${visit(ctx.compound_statement)}
+        |${indent(ctx)}}""".stripMargin
   }
 
   override def visitBlock_parameters(ctx: Block_parametersContext): String =
-    "(" + ctx.type_variable_declarator.map(visit).mkString(", ") + ")"
+    s"(${ctx.type_variable_declarator.map(visit).mkString(", ")})"
 
 
   /**
@@ -174,27 +153,21 @@ protected trait ExpressionVisitor extends BaseConverter with MessageVisitor {
   }
 
   override def visitPrimary_expression(ctx: Primary_expressionContext): String = {
-    if(ctx.getChildCount == 3 && ctx.getChild(0).getText == "(" && ctx.getChild(2).getText == ")") {
-      "(" + visit(ctx.getChild(1)) + ")"
+    if (ctx.getChildCount == 3 && ctx.getChild(0).getText == "(" && ctx.getChild(2).getText == ")") {
+      return s"(${visit(ctx.getChild(1))})"
     }
 
-    else if (ctx.IDENTIFIER != null) {
-      ctx.IDENTIFIER.getText match {
-        case "YES" => "true"
-        case "NO"  => "false"
-        case other => other
-      }
-    }
-
-    else if(ctx.STRING_LITERAL != null) {
-      ctx.STRING_LITERAL.getText.substring(1)
-    }
-
-    else if(ctx.constant != null) {
-      ctx.constant.getText
-    }
-
-    else {
+    {
+      Option(ctx.IDENTIFIER).map { identifier =>
+        identifier.getText match {
+          case "YES" => "true"
+          case "NO"  => "false"
+          case other => other
+        }
+      } orElse
+      Option(ctx.STRING_LITERAL).map(_.getText.substring(1)) orElse
+      Option(ctx.constant).map(_.getText)
+    }.getOrElse {
       ctx.getText match {
         case x @ ("self" | "super") => x
         case _ => visitChildren(ctx)
@@ -205,11 +178,10 @@ protected trait ExpressionVisitor extends BaseConverter with MessageVisitor {
   override def visitExpression(ctx: ExpressionContext) = concatChildResults(ctx, "")
   override def visitArgument_expression_list(ctx: Argument_expression_listContext) = concatChildResults(ctx, ", ")
   override def visitAssignment_expression(ctx: Assignment_expressionContext): String = {
-    if(isUSSetter(ctx.parent)){
+    if (isUSSetter(ctx.parent))
       concatChildResults(ctx, " ").replaceFirst("_","self.")
-    }else{
+    else
       concatChildResults(ctx, " ")
-    }
   }
 
   override def visitEquality_expression(ctx: Equality_expressionContext)       = visitBinaryExpression(ctx)
@@ -232,13 +204,10 @@ protected trait ExpressionVisitor extends BaseConverter with MessageVisitor {
     ctx.equality_expression().map(visit).mkString(" & ")
 
   override def visitShift_expression(ctx: Shift_expressionContext): String =
-    ctx.children.foldLeft(List.empty[String])((z, c) => {
-      c match {
-        case TerminalText("<<") => " << " :: z
-        case TerminalText(">>") => " >> " :: z
-        case a: Additive_expressionContext => visit(a) :: z
-        case _ => z
-      }
-    }).reverse.mkString
+    ctx.children.collect {
+      case TerminalText("<<") => " << "
+      case TerminalText(">>") => " >> "
+      case a: Additive_expressionContext => visit(a)
+    }.mkString
 
 }

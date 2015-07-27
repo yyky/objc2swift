@@ -31,11 +31,9 @@ protected trait EnumVisitor extends BaseConverter {
     }
 
   def getClassName(ctx: Declaration_specifiersContext): String =
-    Option(ctx.type_specifier()) match {
-      case Some(list) if list.size >= 2 =>
-        Option(list.last.class_name()).map(visit).getOrElse("")
-      case _ => ""
-    }
+    Option(ctx.type_specifier()).filter(_.size >= 2).flatMap { list =>
+      Option(list.last.class_name())
+    }.map(visit).getOrElse("")
 
   /**
    * Get name of enumerator.
@@ -43,16 +41,16 @@ protected trait EnumVisitor extends BaseConverter {
    * @return
    */
   def getEnumName(ctx: Enum_specifierContext): String =
-    Option(ctx.identifier()) match {
-      case Some(id) => visit(id)
-      case None => findDeclarationSpecifiers(ctx).map(getClassName).getOrElse("")
-    }
+    {
+      Option(ctx.identifier()).map(visit) orElse
+      findDeclarationSpecifiers(ctx).map(getClassName)
+    }.getOrElse("")
 
   override def visitEnum_specifier(ctx: Enum_specifierContext): String =
-    getEnumName(ctx) match {
-      case id if !id.isEmpty => visitEnum_specifier(ctx, id)
-      case _ => ""
-    }
+    Some(getEnumName(ctx))
+      .filter(_.nonEmpty)
+      .map(visitEnum_specifier(ctx, _))
+      .getOrElse("")
 
   /**
    * Return translated text of enum_specifier context.

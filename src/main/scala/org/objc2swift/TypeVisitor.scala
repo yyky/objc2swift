@@ -28,9 +28,7 @@ protected trait TypeVisitor extends BaseConverter {
    *
    */
   override def visitType_specifier(ctx: Type_specifierContext): String = {
-    val builder = List.newBuilder[String]
-
-    ctx.children map {
+    ctx.children.map {
       case TerminalText("void")           => "void"
       case TerminalText("id")             => "AnyObject"
       case TerminalText("short")          => "Int8"
@@ -50,9 +48,7 @@ protected trait TypeVisitor extends BaseConverter {
       case _: Class_nameContext           => "AnyObject"
       case c: PointerContext              => visit(c)
       case c                              => c.getText
-    } foreach { builder += _ }
-
-    builder.result().mkString
+    }.mkString
   }
 
   /**
@@ -68,8 +64,8 @@ protected trait TypeVisitor extends BaseConverter {
       case ("Int", "Int")       => "Int64"
       case ("UInt", "Int")      => "UInt64"
       case ("signed", t)        => t
-      case (_, t) if !t.isEmpty => t
-      case (_, _)               => prefix
+      case (_, "")              => prefix
+      case (_, t)               => t
     }
 
   /**
