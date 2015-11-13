@@ -34,12 +34,14 @@ protected trait ClassVisitor extends BaseConverter {
     // TODO collect instance-vars from @intf, @impl and class-ext
 
     // TODO only insert \n\n in between method blocks.
-    builder += Option(ctx.interface_declaration_list()).map(c => s"${visit(c)}\n\n").getOrElse("")
+    Option(ctx.interface_declaration_list()).foreach { c =>
+      builder += s"${visit(c)}\n\n"
+    }
 
-    builder += (for {
+    for {
       clsImpl <- findCorrespondingClassImplementation(ctx)
       dfs <- Option(clsImpl.implementation_definition_list())
-    } yield s"${visit(dfs)}\n").getOrElse("")
+    } builder += s"${visit(dfs)}\n"
 
     builder += "\n}"
 
@@ -57,13 +59,13 @@ protected trait ClassVisitor extends BaseConverter {
 
   def findCorrespondingClassImplementation(classCtx: Class_interfaceContext): Option[Class_implementationContext] = {
     val className = classCtx.class_name.getText
-    for {
-      extDclCtx <- root.external_declaration
-      implCtx <- Option(extDclCtx.class_implementation())
-    } implCtx.class_name().getText match {
-      case `className` => return Some(implCtx)
-      case _ =>
-    }
-    None
+
+    {
+      for {
+        extDclCtx <- root.external_declaration.toStream
+        implCtx <- Option(extDclCtx.class_implementation())
+        if implCtx.class_name.getText == className
+      } yield implCtx
+    }.headOption
   }
 }

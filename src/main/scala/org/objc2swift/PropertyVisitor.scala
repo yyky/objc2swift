@@ -17,16 +17,16 @@ protected trait PropertyVisitor extends BaseConverter {
   object PropertyAttribute {
     def unapply(ctx: Property_attributeContext): Option[String] =
       ctx.getText match {
-        case s if !s.isEmpty => Some(s)
-        case _ => None
+        case "" => None
+        case s  => Some(s)
       }
   }
 
   override def visitProperty_declaration(ctx: Property_declarationContext): String = {
-    var sb = new StringBuilder()
-    var getter_setter_statement = new StringBuilder()
-    var getter_statement = new StringBuilder()
-    var setter_statement = new StringBuilder()
+    val sb = new StringBuilder()
+    val getter_setter_statement = new StringBuilder()
+    val getter_statement = new StringBuilder()
+    val setter_statement = new StringBuilder()
     var weak = ""
     val read_only = new StringBuilder()
     var _isOriginalGetter = false
@@ -36,25 +36,21 @@ protected trait PropertyVisitor extends BaseConverter {
 
     sb.append(indent(ctx))
 
-    Option(ctx.property_attributes_declaration()) match {
-      case None =>
-      case Some(p) =>
-        p.property_attributes_list().property_attribute().foreach {
-          case PropertyAttribute("weak") => weak = "weak "
-          case PropertyAttribute("readonly") =>
-            read_only.append(" { get{} }")
-          case PropertyAttribute(s) if s.split("=")(0) == "getter" =>
-            val t = parseGetterStatement(ctx, s, getter_statement)
-            _isOriginalGetter = t._1
-            _originalGetterStatement = t._2
-            getter_statement = t._3
-          case PropertyAttribute(s) if s.split("=")(0) == "setter" =>
-            val t = parseSetterStatement(ctx, s ,setter_statement)
-            _isOriginalSetter = t._1
-            _originalSetterStatement = t._2
-            setter_statement = t._3
-          case _ =>
-        }
+    Option(ctx.property_attributes_declaration()).foreach { p =>
+      p.property_attributes_list().property_attribute().foreach {
+        case PropertyAttribute("weak") => weak = "weak "
+        case PropertyAttribute("readonly") =>
+          read_only.append(" { get{} }")
+        case PropertyAttribute(s) if s.split("=")(0) == "getter" =>
+          val t = parseGetterStatement(ctx, s, getter_statement)
+          _isOriginalGetter = t._1
+          _originalGetterStatement = t._2
+        case PropertyAttribute(s) if s.split("=")(0) == "setter" =>
+          val t = parseSetterStatement(ctx, s ,setter_statement)
+          _isOriginalSetter = t._1
+          _originalSetterStatement = t._2
+        case _ =>
+      }
     }
 
     if (_isOriginalGetter && _isOriginalSetter) {
@@ -72,65 +68,61 @@ protected trait PropertyVisitor extends BaseConverter {
       getter_setter_statement.append("\n" + indentString + "}")
     }
 
-    Option(ctx.struct_declaration()) match {
-      case None =>
-      case Some(struct_declaration) =>
-        var type_of_variable = ""
-        val specifier_qualifier_list = struct_declaration.specifier_qualifier_list()
-        val struct_declarator_list = struct_declaration.struct_declarator_list()
-        var optional = "?"
+    Option(ctx.struct_declaration()).foreach { struct_declaration =>
+      var type_of_variable = ""
+      val specifier_qualifier_list = struct_declaration.specifier_qualifier_list()
+      val struct_declarator_list = struct_declaration.struct_declarator_list()
+      var optional = "?"
 
-        val t = getTypeSpecifier(specifier_qualifier_list,sb)
-        type_of_variable = t._1
-        sb = t._2
+      type_of_variable = getTypeSpecifier(specifier_qualifier_list, sb)
 
-        Option(ctx.ib_outlet_specifier()).foreach { o =>
-          o.IDENTIFIER().getText match {
-            case "IBOutletCollection" =>
-              sb.append("@IBOutlet ")
-              type_of_variable = "[" + o.class_name().getText + "]"
-              optional = "!"
-            case "IBOutlet" =>
-              sb.append("@IBOutlet ")
-              optional = "!"
-            case _ =>
-          }
+      Option(ctx.ib_outlet_specifier()).foreach { o =>
+        o.IDENTIFIER().getText match {
+          case "IBOutletCollection" =>
+            sb.append("@IBOutlet ")
+            type_of_variable = "[" + o.class_name().getText + "]"
+            optional = "!"
+          case "IBOutlet" =>
+            sb.append("@IBOutlet ")
+            optional = "!"
+          case _ =>
         }
+      }
 
-        for{
-          type_specifier <- specifier_qualifier_list.type_specifier()
-          protocol_reference_list <- Option(type_specifier.protocol_reference_list())
-        }{
-          val protocol_name = protocol_reference_list.protocol_list().protocol_name()
-          weak = "weak "
+      for{
+        type_specifier <- specifier_qualifier_list.type_specifier()
+        protocol_reference_list <- Option(type_specifier.protocol_reference_list())
+      }{
+        val protocol_name = protocol_reference_list.protocol_list().protocol_name()
+        weak = "weak "
 
-          if(protocol_name.length == 1){
-            type_of_variable = visit(protocol_name.head)
-          }else if(protocol_name.length > 1){
-            type_of_variable = setProtocolName(protocol_name)
-            optional = ""
-          }
+        if(protocol_name.length == 1){
+          type_of_variable = visit(protocol_name.head)
+        }else if(protocol_name.length > 1){
+          type_of_variable = setProtocolName(protocol_name)
+          optional = ""
         }
+      }
 
-        for{
-          list <- struct_declarator_list.struct_declarator
-          direct_declarator <- Option(list.declarator.direct_declarator())
-        }{
-          val identifier = direct_declarator.identifier().getText
+      for{
+        list <- struct_declarator_list.struct_declarator
+        direct_declarator <- Option(list.declarator.direct_declarator())
+      }{
+        val identifier = direct_declarator.identifier().getText
 
-          getter_setter_statement = getGetterAndSetterStatement(
-            ctx,
-            direct_declarator,
-            _isOriginalGetter,
-            _isOriginalSetter,
-            read_only,
-            getter_statement,
-            setter_statement,
-            getter_setter_statement
-          )
+        getGetterAndSetterStatement(
+          ctx,
+          direct_declarator,
+          _isOriginalGetter,
+          _isOriginalSetter,
+          read_only,
+          getter_statement,
+          setter_statement,
+          getter_setter_statement
+        )
 
-          sb.append(s"${weak}var $identifier: $type_of_variable$optional$getter_setter_statement")
-        }
+        sb.append(s"${weak}var $identifier: $type_of_variable$optional$getter_setter_statement")
+      }
 
     }
 
@@ -143,21 +135,17 @@ protected trait PropertyVisitor extends BaseConverter {
   }
   override def visitProperty_attribute(ctx: Property_attributeContext) = ctx.getText
 
-  def getTypeSpecifier(ctx:Specifier_qualifier_listContext,sb:StringBuilder):(String,StringBuilder) = {
+  private def getTypeSpecifier(ctx: Specifier_qualifier_listContext, sb: StringBuilder): String = {
     var type_of_variable = ""
-    ctx.type_specifier().foreach { i =>
-      visit(i) match {
-        case s if s == "IBOutlet" =>
-          sb.append("@" + s + " ")
-        case s =>
-          type_of_variable = s
-      }
+    ctx.type_specifier().map(visit).foreach {
+      case "IBOutlet" => sb.append("@IBOutlet ")
+      case s => type_of_variable = s
     }
 
-    (type_of_variable,sb)
+    type_of_variable
   }
 
-  def parseGetterStatement(ctx:ObjCParser.Property_declarationContext,s:String,getter_statement:StringBuilder):(Boolean,String,StringBuilder) = {
+  private def parseGetterStatement(ctx: ObjCParser.Property_declarationContext, s: String, getter_statement: StringBuilder): (Boolean, String) = {
     val getter_method_name = s.split("=")(1).replaceAll(" ","")
     val (isOriginalGetter,originalGetterStatement) = findGetterOrSetterMethod(ctx,getter_method_name)
 
@@ -167,10 +155,10 @@ protected trait PropertyVisitor extends BaseConverter {
         + indentString * 2 + "}"
     )
 
-    (isOriginalGetter,originalGetterStatement,getter_statement)
+    (isOriginalGetter, originalGetterStatement)
   }
 
-  def parseSetterStatement(ctx:ObjCParser.Property_declarationContext,s:String,setter_statement:StringBuilder):(Boolean,String,StringBuilder) = {
+  private def parseSetterStatement(ctx: ObjCParser.Property_declarationContext, s: String, setter_statement: StringBuilder): (Boolean, String) = {
     val setter_method_name = s.split("=")(1).replaceAll(" |:","")
     val (isOriginalSetter,originalSetterStatement) = findGetterOrSetterMethod(ctx,setter_method_name)
 
@@ -180,20 +168,20 @@ protected trait PropertyVisitor extends BaseConverter {
         + indentString * 2 + "}"
     )
 
-    (isOriginalSetter,originalSetterStatement,setter_statement)
+    (isOriginalSetter, originalSetterStatement)
   }
 
-  def setProtocolName(protocol_name: scala.collection.mutable.Buffer[Protocol_nameContext]): String =
+  private def setProtocolName(protocol_name: Seq[Protocol_nameContext]): String =
     s"protocol<${protocol_name.map(visit).mkString(", ")}>"
 
-  def getGetterAndSetterStatement(ctx:ObjCParser.Property_declarationContext,
+  private def getGetterAndSetterStatement(ctx:ObjCParser.Property_declarationContext,
                                   direct_declarator:Direct_declaratorContext,
                                   isOriginalGetter:Boolean,
                                   isOriginalSetter:Boolean,
                                   readOnly:StringBuilder,
                                   getterStatement:StringBuilder,
                                   setterStatement:StringBuilder,
-                                  getterSetterStatement:StringBuilder):StringBuilder = {
+                                  getterSetterStatement:StringBuilder) {
 
     val identifier = direct_declarator.identifier().getText
     val getterStr = " {\n" + indentString * 2 + "get {\n" + indentString * 3 + "return self." + identifier + "\n" + indentString * 2 + "}\n"
@@ -251,14 +239,9 @@ protected trait PropertyVisitor extends BaseConverter {
         getterSetterStatement.append("\n" + indentString + "}")
       }
     }
-
-    getterSetterStatement
   }
 
-  def findGetterOrSetterMethod(declCtx: Property_declarationContext,selector:String):(Boolean,String) = {
-    var _str = ""
-    var _isGetterOrSetterMethod = false
-
+  private def findGetterOrSetterMethod(declCtx: Property_declarationContext,selector:String):(Boolean,String) = {
     val buffer = for {
       extDclCtx <- root.external_declaration
       cl <- Option(extDclCtx.class_implementation)
@@ -266,63 +249,40 @@ protected trait PropertyVisitor extends BaseConverter {
       instanceMethodDefinition = impl.instance_method_definition()
     } yield parseInstanceMethodDefinition(instanceMethodDefinition, selector)
 
-    buffer.foreach(t => {
-      _isGetterOrSetterMethod = t._1
-      _str = t._2
-    })
-
-    (_isGetterOrSetterMethod, _str)
+    buffer.lastOption.getOrElse((false, ""))
   }
 
-  def getSetterSelectorText(ctx:Instance_method_definitionContext):String = {
-    val methodSelector = ctx.method_definition().method_selector
-    var setterSelectorText = ""
-    methodSelector.keyword_declarator().foreach {j =>
-      Option(j.selector.getText) match {
-        case Some(k) => setterSelectorText = k
-        case None =>
-      }
-    }
-
-    setterSelectorText
+  private def getSetterSelectorText(ctx:Instance_method_definitionContext):String = {
+    ctx.method_definition().method_selector.keyword_declarator()
+      .flatMap(i => Option(i.selector.getText))
+      .lastOption
+      .getOrElse("")
   }
 
-  def getCompoundStatement(ctx:Instance_method_definitionContext):Compound_statementContext = {
+  private def getCompoundStatement(ctx:Instance_method_definitionContext):Compound_statementContext = {
     val compound = ctx.method_definition().compound_statement()
-    compound.statement_list().foreach{l =>
-      l.statement().foreach{m =>
-        Option(m.expression()) match {
-          case Some(n) =>
-            if(n.getText.indexOf("_") == 0){
-              setUSSetter(m.expression())
-            }
-          case None =>
-        }
-      }
-    }
+    for {
+      l <- compound.statement_list()
+      m <- l.statement()
+      n <- Option(m.expression())
+      if n.getText.startsWith("_")
+    } setUSSetter(n)
 
     compound
   }
 
-  def parseInstanceMethodDefinition(instanceMethodDefinition:scala.collection.mutable.Buffer[Instance_method_definitionContext],selector:String):(Boolean,String) = {
-    val sb = new StringBuilder()
-    var isGetterOrSetterMethod = false
+  private def parseInstanceMethodDefinition(instanceMethodDefinition: Seq[Instance_method_definitionContext], selector: String): (Boolean, String) = {
+    val getterOrSetterStatements =
+      instanceMethodDefinition.flatMap { i =>
+        val setterSelectorText = getSetterSelectorText(i)
+        val getterSelectorText = i.method_definition().method_selector.getText
 
-    instanceMethodDefinition.foreach{ i =>
-      var setterSelectorText = ""
-      val getterSelectorText = i.method_definition().method_selector.getText
-
-      setterSelectorText = getSetterSelectorText(i)
-
-      if(selector == setterSelectorText || selector == getterSelectorText){
-        val compound = getCompoundStatement(i)
-
-        isGetterOrSetterMethod = true
-
-        sb.append(visit(compound))
+        if (selector == setterSelectorText || selector == getterSelectorText)
+          Some(visit(getCompoundStatement(i)))
+        else
+          None
       }
-    }
 
-    (isGetterOrSetterMethod,sb.toString())
+    (getterOrSetterStatements.nonEmpty, getterOrSetterStatements.mkString)
   }
 }

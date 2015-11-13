@@ -26,20 +26,17 @@ protected trait CategoryVisitor extends BaseConverter {
 
     // extension [CLASS-NAME]
     sb.append("extension " + visit(ctx.class_name))
-    Option(ctx.protocol_reference_list) match {
-      case Some(c) => sb.append(", " + visit(c))
-      case None =>
+    Option(ctx.protocol_reference_list).foreach { c =>
+      sb.append(", " + visit(c))
     }
 
     sb.append(" {\n")
-    Option(ctx.interface_declaration_list) match {
-      case Some(c) => sb.append(visit(c) + "\n\n")
-      case None =>
+    Option(ctx.interface_declaration_list).foreach { c =>
+      sb.append(visit(c) + "\n\n")
     }
 
-    findCorrespondingCategoryImplementation(ctx) match {
-      case Some(c) => sb.append(visit(c.implementation_definition_list()) + "\n")
-      case None =>
+    findCorrespondingCategoryImplementation(ctx).foreach { c =>
+      sb.append(visit(c.implementation_definition_list()) + "\n")
     }
 
     sb.append("}")
@@ -54,13 +51,13 @@ protected trait CategoryVisitor extends BaseConverter {
     val className = catCtx.class_name.getText
     val categoryName = catCtx.category_name.getText
 
-    for {
-      extDclCtx <- root.external_declaration
-      implCtx <- Option(extDclCtx.category_implementation())
-    } (implCtx.class_name.getText, implCtx.category_name.getText) match {
-      case (`className`, `categoryName`) => return Some(implCtx)
-      case _ =>
-    }
-    None
+    {
+      for {
+        extDclCtx <- root.external_declaration.toStream
+        implCtx <- Option(extDclCtx.category_implementation())
+        if implCtx.class_name.getText == className
+        if implCtx.category_name.getText == categoryName
+      } yield implCtx
+    }.headOption
   }
 }

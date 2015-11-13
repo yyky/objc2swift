@@ -40,7 +40,7 @@ class ObjC2SwiftConverter(input: InputStream) extends BaseConverter(input)
   def getParseTree() = {
     val lines = List.newBuilder[String]
     new ParseTreeWalker().walk(new ObjCBaseListener() {
-      override def enterEveryRule(ctx: ParserRuleContext): Unit = {
+      override def enterEveryRule(ctx: ParserRuleContext) {
         lines +=
           (ctx.depth - 1) + "  " * ctx.depth +
             parser.getRuleNames()(ctx.getRuleIndex) + ": " + "'" + ctx.getStart.getText.replace("\n\r\t", " ") + "'"

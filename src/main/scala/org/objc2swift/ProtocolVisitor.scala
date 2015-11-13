@@ -18,18 +18,14 @@ import scala.collection.JavaConversions._
 protected trait ProtocolVisitor extends BaseConverter {
   object ProtocolList {
     def unapply(o: Option[Protocol_reference_listContext]): Option[String] =
-      o match {
-        case Some(c) => Option(visit(c))
-        case None => None
-      }
+      o.map(visit)
   }
 
   object OptionalAnnotation {
     def unapply(node: TerminalNode): Option[Boolean] =
-      node.getSymbol.getText match {
-        case "@optional" => Some(true)
-        case "@required" => Some(false)
-        case _ => None
+      Some(node.getSymbol.getText).collect {
+        case "@optional" => true
+        case "@required" => false
       }
   }
 
@@ -44,21 +40,14 @@ protected trait ProtocolVisitor extends BaseConverter {
   }
 
   def optional(node: ParserRuleContext): String =
-    isProtocolScope(node) && isOptionalProtocol match {
-      case true => "optional "
-      case false => ""
-    }
+    if (isProtocolScope(node) && isOptionalProtocol) "optional "
+    else ""
 
-  def isUSSetter(node: ParseTree) = {
-    Option(usSetters.get(node)) match {
-      case Some(flag) if flag => true
-      case _ => false
-    }
-  }
+  def isUSSetter(node: ParseTree) =
+    Option(usSetters.get(node)).filter(identity).nonEmpty
 
-  def setUSSetter(node: ParseTree) = {
+  def setUSSetter(node: ParseTree) =
     usSetters.put(node, true)
-  }
 
   /**
    * Returns translated text of protocol_declaration context.
@@ -68,10 +57,14 @@ protected trait ProtocolVisitor extends BaseConverter {
   override def visitProtocol_declaration(ctx: Protocol_declarationContext): String = {
     val builder = List.newBuilder[String]
 
-    Option(ctx.protocol_reference_list()) match {
-      case ProtocolList(a) => builder += s"protocol ${visit(ctx.protocol_name)}: $a {\n"
-      case _               => builder += s"protocol ${visit(ctx.protocol_name)} {\n"
+    builder += s"protocol ${visit(ctx.protocol_name)}"
+    builder += {
+      Option(ctx.protocol_reference_list()) match {
+        case ProtocolList(a) => s": $a"
+        case _               => ""
+      }
     }
+    builder += " {\n"
 
     // Support Optional Annotation
     isOptionalProtocol = false
