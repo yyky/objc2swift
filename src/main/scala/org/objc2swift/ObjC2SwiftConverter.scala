@@ -15,6 +15,7 @@ import java.io.{ByteArrayInputStream, InputStream}
 import org.antlr.v4.runtime.{CommonTokenStream, ANTLRInputStream}
 
 class ObjC2SwiftConverter(parser: ObjCParser) extends BaseConverter(parser)
+  with RootVisitor
   with ClassVisitor
   with CategoryVisitor
   with ProtocolVisitor
@@ -27,6 +28,7 @@ class ObjC2SwiftConverter(parser: ObjCParser) extends BaseConverter(parser)
   with OperatorVisitor
   with TypeVisitor
   with EnumVisitor
+  with TerminalNodeVisitor
   with ErrorHandler {
 
   parser.removeErrorListeners()

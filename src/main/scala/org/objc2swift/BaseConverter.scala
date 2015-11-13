@@ -10,10 +10,8 @@
 
 package org.objc2swift
 
-import java.io.{ByteArrayInputStream, InputStream}
-
 import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeProperty}
-import org.antlr.v4.runtime.{CommonTokenStream, ANTLRInputStream, ParserRuleContext, RuleContext}
+import org.antlr.v4.runtime.ParserRuleContext
 
 import org.objc2swift.ObjCParser._
 import scala.collection.JavaConversions._
@@ -91,18 +89,6 @@ protected abstract class BaseConverter(parser: ObjCParser) extends ObjCBaseVisit
   def isVisited(node: ParseTree): Boolean = Option(visited.get(node)).getOrElse(false)
 
   def setVisited(node: ParseTree) = visited.put(node, true)
-
-  override def visitTranslation_unit(ctx: Translation_unitContext): String =
-    ctx.external_declaration().map(visit).filter(_.nonEmpty).mkString("\n\n")
-
-  override def visitExternal_declaration(ctx: External_declarationContext): String =
-    concatChildResults(ctx, "")
-
-  override def visitIdentifier(ctx: IdentifierContext): String = ctx.getText
-
-  override def visitConstant(ctx: ConstantContext): String = ctx.getText
-
-  override def visitSelector(ctx: SelectorContext): String = ctx.getText
 
   def findCorrespondingClassImplementation(classCtx: Class_interfaceContext): Option[Class_implementationContext]
 
