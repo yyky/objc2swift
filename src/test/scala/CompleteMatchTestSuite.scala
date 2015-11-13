@@ -32,8 +32,8 @@ class CompleteMatchTestSuite extends FunSuite {
     val files = filenames.map(getFilePath)
     val fileStreams = files.map(new FileInputStream(_))
     val inputStream = new SequenceInputStream(fileStreams.toIterator)
-
-    val converter = new ObjC2SwiftConverter(inputStream)
+    val parser = ObjC2SwiftConverter.generateParser(inputStream)
+    val converter = new ObjC2SwiftConverter(parser)
     converter.getResult + "\n"
   }
 

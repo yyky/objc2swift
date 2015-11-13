@@ -19,16 +19,10 @@ import org.objc2swift.ObjCParser._
 import scala.collection.JavaConversions._
 import scala.collection.mutable
 
-protected abstract class BaseConverter(input: InputStream) extends ObjCBaseVisitor[String] with UtilObjects {
+protected abstract class BaseConverter(parser: ObjCParser) extends ObjCBaseVisitor[String] with UtilObjects {
+  protected val root = parser.translation_unit()
+
   type TSContexts = mutable.Buffer[Type_specifierContext]
-
-  protected lazy val parser = {
-    val lexer = new ObjCLexer(new ANTLRInputStream(input))
-    val tokens = new CommonTokenStream(lexer)
-    new ObjCParser(tokens)
-  }
-
-  protected lazy val root = parser.translation_unit()
 
   protected val indentString = " " * 4
   private val visited = new ParseTreeProperty[Boolean]

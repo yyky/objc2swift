@@ -28,8 +28,8 @@ class Application extends Controller {
     val form = request.body.asFormUrlEncoded
     val raw = form.flatMap(_.get("raw")).map(_(0) == "1").getOrElse(false)
     val input = form.flatMap(_.get("source")).map(_(0)).getOrElse(defaultInput)
-
-    val converter = new ObjC2SwiftConverter(input)
+    val parser = ObjC2SwiftConverter.generateParser(input)
+    val converter = new ObjC2SwiftConverter(parser)
     val result = converter.getResult
 
     if(!raw)

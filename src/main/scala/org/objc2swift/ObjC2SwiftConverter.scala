@@ -12,10 +12,9 @@ package org.objc2swift
 
 import java.io.{ByteArrayInputStream, InputStream}
 
-import org.antlr.v4.runtime.ParserRuleContext
-import org.antlr.v4.runtime.tree.ParseTreeWalker
+import org.antlr.v4.runtime.{CommonTokenStream, ANTLRInputStream}
 
-class ObjC2SwiftConverter(input: InputStream) extends BaseConverter(input)
+class ObjC2SwiftConverter(parser: ObjCParser) extends BaseConverter(parser)
   with ClassVisitor
   with CategoryVisitor
   with ProtocolVisitor
@@ -32,20 +31,15 @@ class ObjC2SwiftConverter(input: InputStream) extends BaseConverter(input)
 
   parser.removeErrorListeners()
   parser.addErrorListener(this)
+}
 
-  def this(inputString: String) {
-    this(new ByteArrayInputStream(inputString.getBytes))
+object ObjC2SwiftConverter {
+  def generateParser(input: InputStream) = {
+    val lexer = new ObjCLexer(new ANTLRInputStream(input))
+    val tokens = new CommonTokenStream(lexer)
+    new ObjCParser(tokens)
   }
 
-  def getParseTree() = {
-    val lines = List.newBuilder[String]
-    new ParseTreeWalker().walk(new ObjCBaseListener() {
-      override def enterEveryRule(ctx: ParserRuleContext) {
-        lines +=
-          (ctx.depth - 1) + "  " * ctx.depth +
-            parser.getRuleNames()(ctx.getRuleIndex) + ": " + "'" + ctx.getStart.getText.replace("\n\r\t", " ") + "'"
-      }
-    }, root)
-    lines.result().mkString("\n")
-  }
+  def generateParser(input: String) : ObjCParser =
+    generateParser(new ByteArrayInputStream(input.getBytes()))
 }
