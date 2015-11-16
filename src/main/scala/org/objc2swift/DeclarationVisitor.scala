@@ -17,7 +17,9 @@ import scala.collection.JavaConversions._
 /**
  * Implements visit methods for declaration contexts.
  */
-protected trait DeclarationVisitor extends BaseConverter {
+protected trait DeclarationVisitor {
+  this: ObjC2SwiftConverter =>
+
   /**
    * Returns translated text of declaration context.
    *

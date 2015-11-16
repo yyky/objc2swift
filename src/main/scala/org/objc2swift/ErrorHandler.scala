@@ -16,8 +16,28 @@ import java.util
 import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.atn.ATNConfigSet
 import org.antlr.v4.runtime.dfa.DFA
+import org.antlr.v4.runtime.tree.ParseTree
 
-trait ErrorHandler extends BaseConverter with ANTLRErrorListener {
+import scala.collection.mutable
+
+trait ErrorHandler extends ANTLRErrorListener {
+  this: ObjC2SwiftConverter =>
+
+  protected val errors = mutable.Map[Int, (String, String)]()
+
+  def lineError(tree: ParseTree): Option[(String, String)] = tree match {
+    case ctx: ParserRuleContext =>
+      val line = ctx.getStart.getLine
+      if(errors.contains(line)) {
+        val error = errors(line)
+        errors.remove(line)
+        Some(error)
+      } else {
+        None
+      }
+    case _ => None
+  }
+
   override def syntaxError(recognizer: Recognizer[_, _],
                            offendingSymbol: scala.Any,
                            line: Int,

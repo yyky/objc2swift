@@ -12,7 +12,9 @@ package org.objc2swift
 
 import org.objc2swift.ObjCParser._
 
-protected trait OperatorVisitor extends BaseConverter {
+protected trait OperatorVisitor {
+  this: ObjC2SwiftConverter =>
+
   override def visitAssignment_operator(ctx: Assignment_operatorContext) = ctx.getText
   override def visitUnary_operator(ctx: Unary_operatorContext) = ctx.getText
 }

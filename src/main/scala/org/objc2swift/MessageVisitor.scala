@@ -13,7 +13,9 @@ package org.objc2swift
 import org.objc2swift.ObjCParser._
 import scala.collection.JavaConversions._
 
-trait MessageVisitor extends BaseConverter {
+trait MessageVisitor {
+  this: ObjC2SwiftConverter =>
+
   /**
    * Extractor for alloc method expression.
    */

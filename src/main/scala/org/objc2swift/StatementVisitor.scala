@@ -13,7 +13,9 @@ package org.objc2swift
 import org.objc2swift.ObjCParser._
 import scala.collection.JavaConversions._
 
-protected trait StatementVisitor extends BaseConverter {
+protected trait StatementVisitor {
+  this: ObjC2SwiftConverter =>
+
   /**
    * Returns translated text of compound_statement context.
    *

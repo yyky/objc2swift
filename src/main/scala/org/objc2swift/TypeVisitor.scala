@@ -13,11 +13,16 @@ package org.objc2swift
 import org.antlr.v4.runtime.tree.TerminalNode
 import org.objc2swift.ObjCParser._
 import scala.collection.JavaConversions._
+import scala.collection.mutable
 
 /**
  * Implements visit methods for type contexts.
  */
-protected trait TypeVisitor extends BaseConverter {
+protected trait TypeVisitor {
+  this: ObjC2SwiftConverter =>
+
+  type TSContexts = mutable.Buffer[Type_specifierContext]
+
   /**
    * Returns translated text of type_specifier context.
    *

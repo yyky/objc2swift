@@ -20,7 +20,9 @@ import scala.collection.JavaConversions._
 /**
  * Implements visit methods for enum contexts.
  */
-protected trait EnumVisitor extends BaseConverter {
+protected trait EnumVisitor {
+  this: ObjC2SwiftConverter =>
+
   private val identifiers = new ParseTreeProperty[String]()
 
   def findDeclarationSpecifiers(ctx: RuleContext): Option[Declaration_specifiersContext] =

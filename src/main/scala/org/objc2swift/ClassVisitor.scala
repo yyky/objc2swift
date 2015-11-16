@@ -13,7 +13,9 @@ package org.objc2swift
 import org.objc2swift.ObjCParser._
 import scala.collection.JavaConversions._
 
-protected trait ClassVisitor extends BaseConverter {
+protected trait ClassVisitor {
+  this: ObjC2SwiftConverter =>
+
   override def visitClass_name(ctx: Class_nameContext): String = ctx.getText
 
   override def visitSuperclass_name(ctx: Superclass_nameContext): String = ctx.getText

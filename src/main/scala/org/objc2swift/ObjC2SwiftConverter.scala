@@ -12,9 +12,13 @@ package org.objc2swift
 
 import java.io.{ByteArrayInputStream, InputStream}
 
-import org.antlr.v4.runtime.{CommonTokenStream, ANTLRInputStream}
+import org.antlr.v4.runtime.tree.ParseTree
+import org.antlr.v4.runtime.{ParserRuleContext, CommonTokenStream, ANTLRInputStream}
+import org.objc2swift.ObjCParser.Type_specifierContext
 
-class ObjC2SwiftConverter(parser: ObjCParser) extends BaseConverter(parser)
+import scala.collection.mutable
+
+class ObjC2SwiftConverter(parser: ObjCParser) extends ObjCBaseVisitor[String]
   with RootVisitor
   with ClassVisitor
   with CategoryVisitor
@@ -29,10 +33,32 @@ class ObjC2SwiftConverter(parser: ObjCParser) extends BaseConverter(parser)
   with TypeVisitor
   with EnumVisitor
   with TerminalNodeVisitor
+  with UtilMethods
+  with UtilObjects
   with ErrorHandler {
 
   parser.removeErrorListeners()
   parser.addErrorListener(this)
+
+  protected val root = parser.translation_unit()
+  def getResult() = visit(root)
+
+  override def visit(tree: ParseTree): String =
+    if(!isVisited(tree)) {
+      setVisited(tree)
+
+      lineError(tree).map { error =>
+        val ctx = tree.asInstanceOf[ParserRuleContext]
+        val (message, source) = error
+        s"""
+           |${indent(ctx)}// ${message}
+            |${indent(ctx)}// ${source}
+            |
+         """.stripMargin + super.visit(tree)
+      }.getOrElse(super.visit(tree))
+    } else {
+      ""
+    }
 }
 
 object ObjC2SwiftConverter {
