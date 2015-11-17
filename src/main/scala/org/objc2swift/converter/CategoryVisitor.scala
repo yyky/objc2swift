@@ -20,7 +20,7 @@ protected trait CategoryVisitor {
   override def visitCategory_name(ctx: Category_nameContext) = ctx.getText
 
   override def visitCategory_interface(ctx: Category_interfaceContext): String = {
-    // ignore class-extension (unnamed-category).
+    // TODO: convert unnamed-category members as private.
     if(ctx.category_name == null) {
       return ""
     }
