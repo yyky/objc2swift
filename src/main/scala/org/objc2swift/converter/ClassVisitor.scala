@@ -10,6 +10,7 @@
 
 package org.objc2swift.converter
 
+import org.objc2swift.util.antlr._
 import org.objc2swift.converter.ObjCParser._
 import scala.collection.JavaConversions._
 
@@ -21,33 +22,18 @@ protected trait ClassVisitor {
   override def visitSuperclass_name(ctx: Superclass_nameContext): String = ctx.getText
 
   override def visitClass_interface(ctx: Class_interfaceContext): String = {
-    val builder = List.newBuilder[String]
+    val head = List(
+      ctx.class_name.toOption.map(visit).map { s => s"class $s" },
+      ctx.superclass_name.toOption.map(visit).map { s => s": $s" },
+      ctx.protocol_reference_list.toOption.map(visit).map { s => s", $s"}
+    ).flatten.mkString("")
 
-    // class [CLASS-NAME] : [SUPERCLASS], [PROTOCOL1, PROTOCOL2, ...]
-    builder += s"class ${visit(ctx.class_name())}"
-    builder += Option(ctx.superclass_name()).map(c => s": ${visit(c)}").getOrElse("")
-    builder += Option(ctx.protocol_reference_list()).map(c => s", ${visit(c)}").getOrElse("")
+    val body = List(
+      ctx.interface_declaration_list.toOption.map(visit),
+      findCorrespondingClassImplementation(ctx).flatMap(_.implementation_definition_list.toOption).map(visit)
+    ).flatten.mkString("\n")
 
-    // TODO merge class-ext (aka unnamed-category)
-
-    // implementation of class
-    builder += " {\n\n"
-
-    // TODO collect instance-vars from @intf, @impl and class-ext
-
-    // TODO only insert \n\n in between method blocks.
-    Option(ctx.interface_declaration_list()).foreach { c =>
-      builder += s"${visit(c)}\n\n"
-    }
-
-    for {
-      clsImpl <- findCorrespondingClassImplementation(ctx)
-      dfs <- Option(clsImpl.implementation_definition_list())
-    } builder += s"${visit(dfs)}\n"
-
-    builder += "\n}"
-
-    builder.result().mkString
+    s"${head} {\n${body}\n}"
   }
 
   override def visitInterface_declaration_list(ctx: Interface_declaration_listContext): String =
