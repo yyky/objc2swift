@@ -11,6 +11,10 @@ package object antlr {
     def toOption: Option[T] = Option(value)
   }
 
+  implicit class OptionList[T <: Tree](value: List[T]) {
+    def toList: List[T] = if (value != null) value else List()
+  }
+
   implicit class AClass_interfaceContext(ctx: Class_interfaceContext) {
     def correspondingClassImplementation(root: Translation_unitContext): Option[Class_implementationContext] = {
       val className = ctx.class_name.getText

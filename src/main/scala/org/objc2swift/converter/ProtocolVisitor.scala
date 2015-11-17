@@ -13,16 +13,12 @@ package org.objc2swift.converter
 import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeProperty, TerminalNode}
 import org.antlr.v4.runtime.{ParserRuleContext, RuleContext}
 import org.objc2swift.converter.ObjCParser._
+import org.objc2swift.util.antlr._
 
 import scala.collection.JavaConversions._
 
 protected trait ProtocolVisitor {
   this: ObjC2SwiftConverter =>
-
-  object ProtocolList {
-    def unapply(o: Option[Protocol_reference_listContext]): Option[String] =
-      o.map(visit)
-  }
 
   object OptionalAnnotation {
     def unapply(node: TerminalNode): Option[Boolean] =
@@ -58,29 +54,16 @@ protected trait ProtocolVisitor {
    * @param ctx the parse tree
    **/
   override def visitProtocol_declaration(ctx: Protocol_declarationContext): String = {
-    val builder = List.newBuilder[String]
 
-    builder += s"protocol ${visit(ctx.protocol_name)}"
-    builder += {
-      Option(ctx.protocol_reference_list()) match {
-        case ProtocolList(a) => s": $a"
-        case _               => ""
-      }
-    }
-    builder += " {\n"
+    val head = List(
+      ctx.protocol_name.toOption.map(visit).map{s => s"protocol $s"},
+      ctx.protocol_reference_list.toOption.map(visit).map{s => s": $s"}
+    ).flatten.mkString("")
 
-    // Support Optional Annotation
-    isOptionalProtocol = false
+    // TODO: support @optional annotation.
+    val body = ctx.interface_declaration_list.toList.map(visit).mkString("\n")
 
-    ctx.children.foreach {
-      case OptionalAnnotation(b) => isOptionalProtocol = b
-      case c: Interface_declaration_listContext => builder += s"${visit(c)}\n"
-      case _ =>
-    }
-
-    builder += "}"
-
-    builder.result().mkString
+    s"$head {\n$body\n}"
   }
 
   /**
