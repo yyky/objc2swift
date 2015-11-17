@@ -37,12 +37,14 @@ object Main {
 
     val streams = files.map(new FileInputStream(_))
     val seqStream = new SequenceInputStream(streams.toIterator)
-    val converter = new ObjC2SwiftConverter(seqStream)
+    val parser = ObjC2SwiftConverter.generateParser(seqStream)
 
     val result = if(options("-t"))
-      converter.getParseTree()
-    else
+      getParseTree(parser)
+    else {
+      val converter = new ObjC2SwiftConverter(parser)
       converter.getResult()
+    }
 
     printResult(files, result)
   }
@@ -78,6 +80,18 @@ object Main {
       case ValidFile(path) => List(path.toFile)
       case _ => List.empty
     }
+  }
+
+  def getParseTree(parser: ObjCParser) = {
+    val lines = List.newBuilder[String]
+    new ParseTreeWalker().walk(new ObjCBaseListener() {
+      override def enterEveryRule(ctx: ParserRuleContext) {
+        lines +=
+          (ctx.depth - 1) + "  " * ctx.depth +
+            parser.getRuleNames()(ctx.getRuleIndex) + ": " + "'" + ctx.getStart.getText.replace("\n\r\t", " ") + "'"
+      }
+    }, parser.translation_unit())
+    lines.result().mkString("\n")
   }
 
   def printResult(files: List[File], result: String) {

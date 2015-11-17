@@ -15,7 +15,9 @@ import org.objc2swift.ObjCParser._
 import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeProperty, TerminalNode}
 import scala.collection.JavaConversions._
 
-protected trait ProtocolVisitor extends BaseConverter {
+protected trait ProtocolVisitor {
+  this: ObjC2SwiftConverter =>
+
   object ProtocolList {
     def unapply(o: Option[Protocol_reference_listContext]): Option[String] =
       o.map(visit)

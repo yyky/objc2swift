@@ -13,7 +13,9 @@ package org.objc2swift
 import org.objc2swift.ObjCParser._
 import scala.collection.JavaConversions._
 
-protected trait PropertyVisitor extends BaseConverter {
+protected trait PropertyVisitor {
+  this: ObjC2SwiftConverter =>
+
   object PropertyAttribute {
     def unapply(ctx: Property_attributeContext): Option[String] =
       ctx.getText match {

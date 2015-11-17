@@ -12,10 +12,14 @@ package org.objc2swift
 
 import java.io.{ByteArrayInputStream, InputStream}
 
-import org.antlr.v4.runtime.ParserRuleContext
-import org.antlr.v4.runtime.tree.ParseTreeWalker
+import org.antlr.v4.runtime.tree.ParseTree
+import org.antlr.v4.runtime.{ParserRuleContext, CommonTokenStream, ANTLRInputStream}
+import org.objc2swift.ObjCParser.Type_specifierContext
 
-class ObjC2SwiftConverter(input: InputStream) extends BaseConverter(input)
+import scala.collection.mutable
+
+class ObjC2SwiftConverter(parser: ObjCParser) extends ObjCBaseVisitor[String]
+  with RootVisitor
   with ClassVisitor
   with CategoryVisitor
   with ProtocolVisitor
@@ -28,24 +32,42 @@ class ObjC2SwiftConverter(input: InputStream) extends BaseConverter(input)
   with OperatorVisitor
   with TypeVisitor
   with EnumVisitor
+  with TerminalNodeVisitor
+  with UtilMethods
+  with UtilObjects
   with ErrorHandler {
 
   parser.removeErrorListeners()
   parser.addErrorListener(this)
 
-  def this(inputString: String) {
-    this(new ByteArrayInputStream(inputString.getBytes))
+  protected val root = parser.translation_unit()
+  def getResult() = visit(root)
+
+  override def visit(tree: ParseTree): String =
+    if(!isVisited(tree)) {
+      setVisited(tree)
+
+      lineError(tree).map { error =>
+        val ctx = tree.asInstanceOf[ParserRuleContext]
+        val (message, source) = error
+        s"""
+           |${indent(ctx)}// ${message}
+            |${indent(ctx)}// ${source}
+            |
+         """.stripMargin + super.visit(tree)
+      }.getOrElse(super.visit(tree))
+    } else {
+      ""
+    }
+}
+
+object ObjC2SwiftConverter {
+  def generateParser(input: InputStream) = {
+    val lexer = new ObjCLexer(new ANTLRInputStream(input))
+    val tokens = new CommonTokenStream(lexer)
+    new ObjCParser(tokens)
   }
 
-  def getParseTree() = {
-    val lines = List.newBuilder[String]
-    new ParseTreeWalker().walk(new ObjCBaseListener() {
-      override def enterEveryRule(ctx: ParserRuleContext) {
-        lines +=
-          (ctx.depth - 1) + "  " * ctx.depth +
-            parser.getRuleNames()(ctx.getRuleIndex) + ": " + "'" + ctx.getStart.getText.replace("\n\r\t", " ") + "'"
-      }
-    }, root)
-    lines.result().mkString("\n")
-  }
+  def generateParser(input: String) : ObjCParser =
+    generateParser(new ByteArrayInputStream(input.getBytes()))
 }
