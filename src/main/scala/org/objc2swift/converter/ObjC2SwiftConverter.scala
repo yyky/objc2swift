@@ -14,7 +14,6 @@ import java.io.{ByteArrayInputStream, InputStream}
 
 import org.antlr.v4.runtime.tree.ParseTree
 import org.antlr.v4.runtime.{ANTLRInputStream, CommonTokenStream, ParserRuleContext}
-import org.objc2swift.{ObjCBaseVisitor, ObjCLexer, ObjCParser}
 
 class ObjC2SwiftConverter(parser: ObjCParser) extends ObjCBaseVisitor[String]
   with RootVisitor

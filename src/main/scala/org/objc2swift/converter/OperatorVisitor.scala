@@ -10,7 +10,7 @@
 
 package org.objc2swift.converter
 
-import org.objc2swift.ObjCParser._
+import org.objc2swift.converter.ObjCParser._
 
 protected trait OperatorVisitor {
   this: ObjC2SwiftConverter =>

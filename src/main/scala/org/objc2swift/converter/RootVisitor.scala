@@ -1,6 +1,6 @@
 package org.objc2swift.converter
 
-import org.objc2swift.ObjCParser.{External_declarationContext, Translation_unitContext}
+import org.objc2swift.converter.ObjCParser.{External_declarationContext, Translation_unitContext}
 
 import scala.collection.JavaConversions._
 

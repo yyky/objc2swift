@@ -36,8 +36,8 @@ jar {
 }
 
 generateGrammarSource {
-    arguments = ['-visitor', '-package', packageName]
-    outputDirectory = file("${project.buildDir}/generated-src/main/java/org/objc2swift/")
+    arguments = ['-visitor', '-package', packageName + '.converter']
+    outputDirectory = file("${project.buildDir}/generated-src/main/java/org/objc2swift/converter/")
 }
 
 compileJava.dependsOn generateGrammarSource

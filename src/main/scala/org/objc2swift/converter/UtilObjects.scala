@@ -11,7 +11,7 @@
 package org.objc2swift.converter
 
 import org.antlr.v4.runtime.tree.TerminalNode
-import org.objc2swift.ObjCParser._
+import org.objc2swift.converter.ObjCParser._
 
 protected trait UtilObjects {
   object TerminalText {

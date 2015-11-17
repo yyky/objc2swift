@@ -13,12 +13,13 @@ package org.objc2swift
 import java.io._
 import java.nio.file._
 
+import scala.collection.JavaConversions._
 import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree.ParseTreeWalker
 import org.apache.commons.io.FilenameUtils._
 import org.objc2swift.converter.ObjC2SwiftConverter
+import org.objc2swift.converter.{ObjCBaseListener, ObjCParser}
 
-import scala.collection.JavaConversions._
 
 object Main {
   def main(args: Array[String]) {
