@@ -8,15 +8,13 @@
  * file that was distributed with this source code.
  */
 
-package org.objc2swift
+package org.objc2swift.converter
 
 import java.io.{ByteArrayInputStream, InputStream}
 
 import org.antlr.v4.runtime.tree.ParseTree
-import org.antlr.v4.runtime.{ParserRuleContext, CommonTokenStream, ANTLRInputStream}
-import org.objc2swift.ObjCParser.Type_specifierContext
-
-import scala.collection.mutable
+import org.antlr.v4.runtime.{ANTLRInputStream, CommonTokenStream, ParserRuleContext}
+import org.objc2swift.{ObjCBaseVisitor, ObjCLexer, ObjCParser}
 
 class ObjC2SwiftConverter(parser: ObjCParser) extends ObjCBaseVisitor[String]
   with RootVisitor

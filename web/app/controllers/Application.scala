@@ -2,7 +2,7 @@ package controllers
 
 import play.api.mvc._
 
-import org.objc2swift._
+import org.objc2swift.converter.ObjC2SwiftConverter
 
 class Application extends Controller {
 

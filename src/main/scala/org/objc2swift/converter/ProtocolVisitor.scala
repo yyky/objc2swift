@@ -8,11 +8,12 @@
  * file that was distributed with this source code.
  */
 
-package org.objc2swift
+package org.objc2swift.converter
 
+import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeProperty, TerminalNode}
 import org.antlr.v4.runtime.{ParserRuleContext, RuleContext}
 import org.objc2swift.ObjCParser._
-import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeProperty, TerminalNode}
+
 import scala.collection.JavaConversions._
 
 protected trait ProtocolVisitor {

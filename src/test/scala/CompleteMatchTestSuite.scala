@@ -9,6 +9,7 @@
  */
 
 import java.io.{InputStreamReader, SequenceInputStream, FileInputStream, PrintWriter}
+import org.objc2swift.converter.ObjC2SwiftConverter
 import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite

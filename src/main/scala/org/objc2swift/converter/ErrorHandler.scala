@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-package org.objc2swift
+package org.objc2swift.converter
 
-import java.io.{StringReader, BufferedReader}
+import java.io.{BufferedReader, StringReader}
 import java.util
 
 import org.antlr.v4.runtime._

@@ -1,7 +1,7 @@
-package org.objc2swift
+package org.objc2swift.converter
 
 import org.antlr.v4.runtime.ParserRuleContext
-import org.antlr.v4.runtime.tree.{ParseTreeProperty, ParseTree}
+import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeProperty}
 import org.objc2swift.ObjCParser._
 
 /**

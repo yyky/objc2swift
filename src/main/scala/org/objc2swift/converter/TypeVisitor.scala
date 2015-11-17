@@ -8,10 +8,11 @@
  * file that was distributed with this source code.
  */
 
-package org.objc2swift
+package org.objc2swift.converter
 
 import org.antlr.v4.runtime.tree.TerminalNode
 import org.objc2swift.ObjCParser._
+
 import scala.collection.JavaConversions._
 import scala.collection.mutable
 

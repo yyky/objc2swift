@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-package org.objc2swift
+package org.objc2swift.converter
 
 import org.objc2swift.ObjCParser._
 

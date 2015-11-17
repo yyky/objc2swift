@@ -16,6 +16,7 @@ import java.nio.file._
 import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree.ParseTreeWalker
 import org.apache.commons.io.FilenameUtils._
+import org.objc2swift.converter.ObjC2SwiftConverter
 
 import scala.collection.JavaConversions._
 

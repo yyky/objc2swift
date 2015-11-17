@@ -8,13 +8,12 @@
  * file that was distributed with this source code.
  */
 
-package org.objc2swift
-
-import org.objc2swift.ObjCParser._
+package org.objc2swift.converter
 
 import org.antlr.v4.runtime.RuleContext
 import org.antlr.v4.runtime.tree.ParseTreeProperty
 import org.objc2swift.ObjCParser._
+
 import scala.collection.JavaConversions._
 
 /**

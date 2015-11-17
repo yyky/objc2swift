@@ -1,6 +1,6 @@
-package org.objc2swift
+package org.objc2swift.converter
 
-import org.objc2swift.ObjCParser.{SelectorContext, ConstantContext, IdentifierContext}
+import org.objc2swift.ObjCParser.{ConstantContext, IdentifierContext, SelectorContext}
 
 /**
  * Created by takesano on 15/11/13.
