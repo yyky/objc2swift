@@ -10,6 +10,7 @@
 
 package org.objc2swift.converter
 
+import org.antlr.v4.runtime.ParserRuleContext
 import org.objc2swift.converter.ObjCParser._
 import org.objc2swift.util.antlr._
 
@@ -212,5 +213,10 @@ protected trait MethodVisitor {
         case _ => None
       }
     }
+  }
+
+  private def optional(ctx: ParserRuleContext): String = {
+    // TODO: check if the method is declared in a protocol, and marked as @optional
+    ""
   }
 }

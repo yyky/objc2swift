@@ -20,27 +20,7 @@ import scala.collection.JavaConversions._
 protected trait ProtocolVisitor {
   this: ObjC2SwiftConverter =>
 
-  object OptionalAnnotation {
-    def unapply(node: TerminalNode): Option[Boolean] =
-      Some(node.getSymbol.getText).collect {
-        case "@optional" => true
-        case "@required" => false
-      }
-  }
-
   private val usSetters = new ParseTreeProperty[Boolean]()
-  private var isOptionalProtocol = false
-
-  private def isProtocolScope(ctx: RuleContext): Boolean = ctx match {
-    case _: Protocol_declarationContext => true
-    case _: Protocol_declaration_listContext => true
-    case _: External_declarationContext => false
-    case c => isProtocolScope(c.parent)
-  }
-
-  def optional(node: ParserRuleContext): String =
-    if (isProtocolScope(node) && isOptionalProtocol) "optional "
-    else ""
 
   def isUSSetter(node: ParseTree) =
     Option(usSetters.get(node)).filter(identity).nonEmpty
