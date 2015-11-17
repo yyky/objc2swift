@@ -30,7 +30,7 @@ protected trait ClassVisitor {
 
     val body = List(
       ctx.interface_declaration_list.toOption.map(visit),
-      findCorrespondingClassImplementation(ctx).flatMap(_.implementation_definition_list.toOption).map(visit)
+      ctx.correspondingClassImplementation(root).flatMap(_.implementation_definition_list.toOption).map(visit)
     ).flatten.mkString("\n")
 
     s"${head} {\n${body}\n}"
@@ -44,16 +44,4 @@ protected trait ClassVisitor {
 
   // ignore implementation with no corresponding interface.
   override def visitClass_implementation(ctx: Class_implementationContext): String = ""
-
-  def findCorrespondingClassImplementation(classCtx: Class_interfaceContext): Option[Class_implementationContext] = {
-    val className = classCtx.class_name.getText
-
-    {
-      for {
-        extDclCtx <- root.external_declaration.toStream
-        implCtx <- Option(extDclCtx.class_implementation())
-        if implCtx.class_name.getText == className
-      } yield implCtx
-    }.headOption
-  }
 }

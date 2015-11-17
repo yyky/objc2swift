@@ -11,6 +11,7 @@
 package org.objc2swift.converter
 
 import org.objc2swift.converter.ObjCParser._
+import org.objc2swift.util.antlr._
 
 import scala.collection.JavaConversions._
 
@@ -193,7 +194,7 @@ protected trait MethodVisitor {
     {
       declCtx.parent.parent.parent match {
         case classCtx: Class_interfaceContext =>
-          findCorrespondingClassImplementation(classCtx)
+          classCtx.correspondingClassImplementation(root)
             .map(_.implementation_definition_list)
         case catCtx: Category_interfaceContext =>
           findCorrespondingCategoryImplementation(catCtx)
