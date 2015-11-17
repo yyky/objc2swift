@@ -197,7 +197,7 @@ protected trait MethodVisitor {
           classCtx.correspondingClassImplementation(root)
             .map(_.implementation_definition_list)
         case catCtx: Category_interfaceContext =>
-          findCorrespondingCategoryImplementation(catCtx)
+          catCtx.correspondingCategoryImplementation(root)
             .map(_.implementation_definition_list)
         case _ => None
       }

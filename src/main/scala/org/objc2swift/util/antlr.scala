@@ -24,4 +24,20 @@ package object antlr {
       }.headOption
     }
   }
+
+  implicit class ACategory_interfaceContext(ctx: Category_interfaceContext) {
+    def correspondingCategoryImplementation(root: Translation_unitContext): Option[Category_implementationContext] = {
+      val className = ctx.class_name.getText
+      val categoryName = ctx.category_name.getText
+
+      {
+        for {
+          extDclCtx <- root.external_declaration.toStream
+          implCtx <- Option(extDclCtx.category_implementation())
+          if implCtx.class_name.getText == className
+          if implCtx.category_name.getText == categoryName
+        } yield implCtx
+      }.headOption
+    }
+  }
 }

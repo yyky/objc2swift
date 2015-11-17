@@ -11,6 +11,7 @@
 package org.objc2swift.converter
 
 import org.objc2swift.converter.ObjCParser._
+import org.objc2swift.util.antlr._
 import scala.collection.JavaConversions._
 
 protected trait CategoryVisitor {
@@ -24,42 +25,19 @@ protected trait CategoryVisitor {
       return ""
     }
 
-    val sb = new StringBuilder()
+    val head = List(
+      ctx.class_name.toOption.map(visit).map{s => s"extension $s"},
+      ctx.protocol_reference_list.toOption.map(visit).map{s => s": $s"}
+    ).flatten.mkString("")
 
-    // extension [CLASS-NAME]
-    sb.append("extension " + visit(ctx.class_name))
-    Option(ctx.protocol_reference_list).foreach { c =>
-      sb.append(", " + visit(c))
-    }
+    val body = List(
+      ctx.interface_declaration_list.toOption.map(visit),
+      ctx.correspondingCategoryImplementation(root).map(visit)
+    ).flatten.mkString("\n\n")
 
-    sb.append(" {\n")
-    Option(ctx.interface_declaration_list).foreach { c =>
-      sb.append(visit(c) + "\n\n")
-    }
-
-    findCorrespondingCategoryImplementation(ctx).foreach { c =>
-      sb.append(visit(c.implementation_definition_list()) + "\n")
-    }
-
-    sb.append("}")
-
-    sb.toString()
+    s"$head {\n$body\n}"
   }
 
   // ignore category implementation with no corresponding interface.
   override def visitCategory_implementation(ctx: Category_implementationContext): String = ""
-
-  def findCorrespondingCategoryImplementation(catCtx: Category_interfaceContext): Option[Category_implementationContext] = {
-    val className = catCtx.class_name.getText
-    val categoryName = catCtx.category_name.getText
-
-    {
-      for {
-        extDclCtx <- root.external_declaration.toStream
-        implCtx <- Option(extDclCtx.category_implementation())
-        if implCtx.class_name.getText == className
-        if implCtx.category_name.getText == categoryName
-      } yield implCtx
-    }.headOption
-  }
 }
