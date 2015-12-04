@@ -35,12 +35,12 @@ jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
 }
 
-generateGrammarSource {
-    arguments = ['-visitor', '-package', packageName + '.converter']
-    outputDirectory = file("${project.buildDir}/generated-src/main/java/org/objc2swift/converter/")
-}
-
-compileJava.dependsOn generateGrammarSource
+//generateGrammarSource {
+//    arguments = ['-visitor', '-package', packageName + '.converter']
+//    outputDirectory = file("${project.buildDir}/generated-src/main/java/org/objc2swift/converter/")
+//}
+//
+//compileJava.dependsOn generateGrammarSource
 
 compileJava {
     source = ['build/generated-src/main/java', 'src/main/java']
@@ -48,4 +48,5 @@ compileJava {
 
 tasks.withType(ScalaCompile) {
     scalaCompileOptions.useAnt = false
+//    scalaCompileOptions.deprecation = false
 }
