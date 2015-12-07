@@ -250,7 +250,7 @@ object ObjCLexer {
 
 	val VOCABULARY: Vocabulary = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES)
 
-	@deprecated
+	@deprecated("Use VOCABULARY instead.", "")
 	final val tokenNames = (0 until _SYMBOLIC_NAMES.length).map {
 		i => scala.List(
 			Option(VOCABULARY.getLiteralName(i)),

@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'scala'
+apply plugin: 'antlr'
 
 version = '1.0'
 def packageName = 'org.objc2swift'
@@ -12,8 +13,6 @@ ext {
     scalaVersion = '2.11'
     scalaVersionRevision = '6'
 }
-
-apply plugin: 'antlr'
 
 dependencies {
     compile "org.scala-lang:scala-compiler:$scalaVersion.$scalaVersionRevision"
@@ -49,4 +48,5 @@ compileJava {
 tasks.withType(ScalaCompile) {
     scalaCompileOptions.useAnt = false
 //    scalaCompileOptions.deprecation = false
+    scalaCompileOptions.forkOptions.jvmArgs = ['-Xss20M']
 }
