@@ -20,7 +20,12 @@ import scala.collection.JavaConversions._
  * Implements visit methods for method-contexts.
  */
 trait MethodVisitor {
-  this: ObjC2SwiftConverter =>
+  this: ObjC2SwiftBaseConverter
+    with RootVisitor
+    with ClassVisitor
+    with TypeVisitor
+    with TerminalNodeVisitor
+    with UtilMethods =>
 
   import org.objc2swift.converter.util._
 
@@ -99,9 +104,11 @@ trait MethodVisitor {
     val slct = ctx.methodSelector()
     val tp = Option(ctx.methodType())
     val hd = createMethodHeader(slct, tp)
+    val body = Option(ctx.compoundStatement()).map(visit).getOrElse("")
 
     s"""|$hd {
-        |${visit(ctx.compoundStatement())}${indent(ctx)}}""".stripMargin
+        |$body
+        |${indent(ctx)}}""".stripMargin
   }
 
   /**

@@ -7,8 +7,10 @@ import org.objc2swift.converter.ObjCParser._
 /**
  * Created by takesano on 15/11/16.
  */
+
+// TODO remove this trait
 trait UtilMethods {
-  this: ObjC2SwiftConverter =>
+  this: ObjC2SwiftBaseConverter =>
 
   protected val indentString = " " * 4
 

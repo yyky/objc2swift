@@ -5,8 +5,8 @@ import org.objc2swift.converter.ObjCParser.{ConstantContext, IdentifierContext, 
 /**
  * Created by takesano on 15/11/13.
  */
-protected trait TerminalNodeVisitor {
-  this: ObjC2SwiftConverter =>
+trait TerminalNodeVisitor {
+  this: ObjC2SwiftBaseConverter =>
 
   override def visitIdentifier(ctx: IdentifierContext): String = ctx.getText
 
