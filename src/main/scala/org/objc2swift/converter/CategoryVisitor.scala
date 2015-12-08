@@ -17,21 +17,21 @@ import scala.collection.JavaConversions._
 protected trait CategoryVisitor {
   this: ObjC2SwiftConverter =>
 
-  override def visitCategory_name(ctx: Category_nameContext) = ctx.getText
+  override def visitCategoryName(ctx: CategoryNameContext) = ctx.getText
 
-  override def visitCategory_interface(ctx: Category_interfaceContext): String = {
+  override def visitCategoryInterface(ctx: CategoryInterfaceContext): String = {
     // TODO: convert unnamed-category members as private.
-    if(ctx.category_name == null) {
+    if(ctx.categoryName == null) {
       return ""
     }
 
     val head = List(
-      ctx.class_name.toOption.map(visit).map{s => s"extension $s"},
-      ctx.protocol_reference_list.toOption.map(visit).map{s => s": $s"}
+      ctx.className.toOption.map(visit).map{s => s"extension $s"},
+      ctx.protocolReferenceList.toOption.map(visit).map{s => s": $s"}
     ).flatten.mkString("")
 
     val body = List(
-      ctx.interface_declaration_list.toOption.map(visit),
+      ctx.interfaceDeclarationList.toOption.map(visit),
       ctx.correspondingCategoryImplementation(root).map(visit)
     ).flatten.mkString("\n\n")
 
@@ -39,5 +39,5 @@ protected trait CategoryVisitor {
   }
 
   // ignore category implementation with no corresponding interface.
-  override def visitCategory_implementation(ctx: Category_implementationContext): String = ""
+  override def visitCategoryImplementation(ctx: CategoryImplementationContext): String = ""
 }

@@ -15,6 +15,6 @@ import org.objc2swift.converter.ObjCParser._
 protected trait OperatorVisitor {
   this: ObjC2SwiftConverter =>
 
-  override def visitAssignment_operator(ctx: Assignment_operatorContext) = ctx.getText
-  override def visitUnary_operator(ctx: Unary_operatorContext) = ctx.getText
+  override def visitAssignmentOperator(ctx: AssignmentOperatorContext) = ctx.getText
+  override def visitUnaryOperator(ctx: UnaryOperatorContext) = ctx.getText
 }

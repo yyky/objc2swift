@@ -11,342 +11,342 @@ trait ObjCListener extends ParseTreeListener {
 	 * Enter a parse tree produced by {@link ObjCParser.translation_unit}.
 	 * @param ctx the parse tree
 	 */
-	def enterTranslation_unit(ctx: ObjCParser.Translation_unitContext): Unit
+	def enterTranslationUnit(ctx: ObjCParser.TranslationUnitContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.translation_unit}.
 	 * @param ctx the parse tree
 	 */
-	def exitTranslation_unit(ctx: ObjCParser.Translation_unitContext): Unit
+	def exitTranslationUnit(ctx: ObjCParser.TranslationUnitContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.external_declaration}.
 	 * @param ctx the parse tree
 	 */
-	def enterExternal_declaration(ctx: ObjCParser.External_declarationContext): Unit
+	def enterExternalDeclaration(ctx: ObjCParser.ExternalDeclarationContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.external_declaration}.
 	 * @param ctx the parse tree
 	 */
-	def exitExternal_declaration(ctx: ObjCParser.External_declarationContext): Unit
+	def exitExternalDeclaration(ctx: ObjCParser.ExternalDeclarationContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.preprocessor_declaration}.
 	 * @param ctx the parse tree
 	 */
-	def enterPreprocessor_declaration(ctx: ObjCParser.Preprocessor_declarationContext): Unit
+	def enterPreprocessorDeclaration(ctx: ObjCParser.PreprocessorDeclarationContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.preprocessor_declaration}.
 	 * @param ctx the parse tree
 	 */
-	def exitPreprocessor_declaration(ctx: ObjCParser.Preprocessor_declarationContext): Unit
+	def exitPreprocessorDeclaration(ctx: ObjCParser.PreprocessorDeclarationContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.class_interface}.
 	 * @param ctx the parse tree
 	 */
-	def enterClass_interface(ctx: ObjCParser.Class_interfaceContext): Unit
+	def enterClassInterface(ctx: ObjCParser.ClassInterfaceContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.class_interface}.
 	 * @param ctx the parse tree
 	 */
-	def exitClass_interface(ctx: ObjCParser.Class_interfaceContext): Unit
+	def exitClassInterface(ctx: ObjCParser.ClassInterfaceContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.category_interface}.
 	 * @param ctx the parse tree
 	 */
-	def enterCategory_interface(ctx: ObjCParser.Category_interfaceContext): Unit
+	def enterCategoryInterface(ctx: ObjCParser.CategoryInterfaceContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.category_interface}.
 	 * @param ctx the parse tree
 	 */
-	def exitCategory_interface(ctx: ObjCParser.Category_interfaceContext): Unit
+	def exitCategoryInterface(ctx: ObjCParser.CategoryInterfaceContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.class_implementation}.
 	 * @param ctx the parse tree
 	 */
-	def enterClass_implementation(ctx: ObjCParser.Class_implementationContext): Unit
+	def enterClassImplementation(ctx: ObjCParser.ClassImplementationContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.class_implementation}.
 	 * @param ctx the parse tree
 	 */
-	def exitClass_implementation(ctx: ObjCParser.Class_implementationContext): Unit
+	def exitClassImplementation(ctx: ObjCParser.ClassImplementationContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.category_implementation}.
 	 * @param ctx the parse tree
 	 */
-	def enterCategory_implementation(ctx: ObjCParser.Category_implementationContext): Unit
+	def enterCategoryImplementation(ctx: ObjCParser.CategoryImplementationContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.category_implementation}.
 	 * @param ctx the parse tree
 	 */
-	def exitCategory_implementation(ctx: ObjCParser.Category_implementationContext): Unit
+	def exitCategoryImplementation(ctx: ObjCParser.CategoryImplementationContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.protocol_declaration}.
 	 * @param ctx the parse tree
 	 */
-	def enterProtocol_declaration(ctx: ObjCParser.Protocol_declarationContext): Unit
+	def enterProtocolDeclaration(ctx: ObjCParser.ProtocolDeclarationContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.protocol_declaration}.
 	 * @param ctx the parse tree
 	 */
-	def exitProtocol_declaration(ctx: ObjCParser.Protocol_declarationContext): Unit
+	def exitProtocolDeclaration(ctx: ObjCParser.ProtocolDeclarationContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.protocol_declaration_list}.
 	 * @param ctx the parse tree
 	 */
-	def enterProtocol_declaration_list(ctx: ObjCParser.Protocol_declaration_listContext): Unit
+	def enterProtocolDeclarationList(ctx: ObjCParser.ProtocolDeclarationListContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.protocol_declaration_list}.
 	 * @param ctx the parse tree
 	 */
-	def exitProtocol_declaration_list(ctx: ObjCParser.Protocol_declaration_listContext): Unit
+	def exitProtocolDeclarationList(ctx: ObjCParser.ProtocolDeclarationListContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.class_declaration_list}.
 	 * @param ctx the parse tree
 	 */
-	def enterClass_declaration_list(ctx: ObjCParser.Class_declaration_listContext): Unit
+	def enterClassDeclarationList(ctx: ObjCParser.ClassDeclarationListContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.class_declaration_list}.
 	 * @param ctx the parse tree
 	 */
-	def exitClass_declaration_list(ctx: ObjCParser.Class_declaration_listContext): Unit
+	def exitClassDeclarationList(ctx: ObjCParser.ClassDeclarationListContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.class_list}.
 	 * @param ctx the parse tree
 	 */
-	def enterClass_list(ctx: ObjCParser.Class_listContext): Unit
+	def enterClassList(ctx: ObjCParser.ClassListContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.class_list}.
 	 * @param ctx the parse tree
 	 */
-	def exitClass_list(ctx: ObjCParser.Class_listContext): Unit
+	def exitClassList(ctx: ObjCParser.ClassListContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.protocol_reference_list}.
 	 * @param ctx the parse tree
 	 */
-	def enterProtocol_reference_list(ctx: ObjCParser.Protocol_reference_listContext): Unit
+	def enterProtocolReferenceList(ctx: ObjCParser.ProtocolReferenceListContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.protocol_reference_list}.
 	 * @param ctx the parse tree
 	 */
-	def exitProtocol_reference_list(ctx: ObjCParser.Protocol_reference_listContext): Unit
+	def exitProtocolReferenceList(ctx: ObjCParser.ProtocolReferenceListContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.protocol_list}.
 	 * @param ctx the parse tree
 	 */
-	def enterProtocol_list(ctx: ObjCParser.Protocol_listContext): Unit
+	def enterProtocolList(ctx: ObjCParser.ProtocolListContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.protocol_list}.
 	 * @param ctx the parse tree
 	 */
-	def exitProtocol_list(ctx: ObjCParser.Protocol_listContext): Unit
+	def exitProtocolList(ctx: ObjCParser.ProtocolListContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.property_declaration}.
 	 * @param ctx the parse tree
 	 */
-	def enterProperty_declaration(ctx: ObjCParser.Property_declarationContext): Unit
+	def enterPropertyDeclaration(ctx: ObjCParser.PropertyDeclarationContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.property_declaration}.
 	 * @param ctx the parse tree
 	 */
-	def exitProperty_declaration(ctx: ObjCParser.Property_declarationContext): Unit
+	def exitPropertyDeclaration(ctx: ObjCParser.PropertyDeclarationContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.property_attributes_declaration}.
 	 * @param ctx the parse tree
 	 */
-	def enterProperty_attributes_declaration(ctx: ObjCParser.Property_attributes_declarationContext): Unit
+	def enterPropertyAttributesDeclaration(ctx: ObjCParser.PropertyAttributesDeclarationContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.property_attributes_declaration}.
 	 * @param ctx the parse tree
 	 */
-	def exitProperty_attributes_declaration(ctx: ObjCParser.Property_attributes_declarationContext): Unit
+	def exitPropertyAttributesDeclaration(ctx: ObjCParser.PropertyAttributesDeclarationContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.property_attributes_list}.
 	 * @param ctx the parse tree
 	 */
-	def enterProperty_attributes_list(ctx: ObjCParser.Property_attributes_listContext): Unit
+	def enterPropertyAttributesList(ctx: ObjCParser.PropertyAttributesListContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.property_attributes_list}.
 	 * @param ctx the parse tree
 	 */
-	def exitProperty_attributes_list(ctx: ObjCParser.Property_attributes_listContext): Unit
+	def exitPropertyAttributesList(ctx: ObjCParser.PropertyAttributesListContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.property_attribute}.
 	 * @param ctx the parse tree
 	 */
-	def enterProperty_attribute(ctx: ObjCParser.Property_attributeContext): Unit
+	def enterPropertyAttribute(ctx: ObjCParser.PropertyAttributeContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.property_attribute}.
 	 * @param ctx the parse tree
 	 */
-	def exitProperty_attribute(ctx: ObjCParser.Property_attributeContext): Unit
+	def exitPropertyAttribute(ctx: ObjCParser.PropertyAttributeContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.ib_outlet_specifier}.
 	 * @param ctx the parse tree
 	 */
-	def enterIb_outlet_specifier(ctx: ObjCParser.Ib_outlet_specifierContext): Unit
+	def enterIbOutletSpecifier(ctx: ObjCParser.IbOutletSpecifierContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.ib_outlet_specifier}.
 	 * @param ctx the parse tree
 	 */
-	def exitIb_outlet_specifier(ctx: ObjCParser.Ib_outlet_specifierContext): Unit
+	def exitIbOutletSpecifier(ctx: ObjCParser.IbOutletSpecifierContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.class_name}.
 	 * @param ctx the parse tree
 	 */
-	def enterClass_name(ctx: ObjCParser.Class_nameContext): Unit
+	def enterClassName(ctx: ObjCParser.ClassNameContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.class_name}.
 	 * @param ctx the parse tree
 	 */
-	def exitClass_name(ctx: ObjCParser.Class_nameContext): Unit
+	def exitClassName(ctx: ObjCParser.ClassNameContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.superclass_name}.
 	 * @param ctx the parse tree
 	 */
-	def enterSuperclass_name(ctx: ObjCParser.Superclass_nameContext): Unit
+	def enterSuperclassName(ctx: ObjCParser.SuperclassNameContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.superclass_name}.
 	 * @param ctx the parse tree
 	 */
-	def exitSuperclass_name(ctx: ObjCParser.Superclass_nameContext): Unit
+	def exitSuperclassName(ctx: ObjCParser.SuperclassNameContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.category_name}.
 	 * @param ctx the parse tree
 	 */
-	def enterCategory_name(ctx: ObjCParser.Category_nameContext): Unit
+	def enterCategoryName(ctx: ObjCParser.CategoryNameContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.category_name}.
 	 * @param ctx the parse tree
 	 */
-	def exitCategory_name(ctx: ObjCParser.Category_nameContext): Unit
+	def exitCategoryName(ctx: ObjCParser.CategoryNameContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.protocol_name}.
 	 * @param ctx the parse tree
 	 */
-	def enterProtocol_name(ctx: ObjCParser.Protocol_nameContext): Unit
+	def enterProtocolName(ctx: ObjCParser.ProtocolNameContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.protocol_name}.
 	 * @param ctx the parse tree
 	 */
-	def exitProtocol_name(ctx: ObjCParser.Protocol_nameContext): Unit
+	def exitProtocolName(ctx: ObjCParser.ProtocolNameContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.instance_variables}.
 	 * @param ctx the parse tree
 	 */
-	def enterInstance_variables(ctx: ObjCParser.Instance_variablesContext): Unit
+	def enterInstanceVariables(ctx: ObjCParser.InstanceVariablesContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.instance_variables}.
 	 * @param ctx the parse tree
 	 */
-	def exitInstance_variables(ctx: ObjCParser.Instance_variablesContext): Unit
+	def exitInstanceVariables(ctx: ObjCParser.InstanceVariablesContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.visibility_specification}.
 	 * @param ctx the parse tree
 	 */
-	def enterVisibility_specification(ctx: ObjCParser.Visibility_specificationContext): Unit
+	def enterVisibilitySpecification(ctx: ObjCParser.VisibilitySpecificationContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.visibility_specification}.
 	 * @param ctx the parse tree
 	 */
-	def exitVisibility_specification(ctx: ObjCParser.Visibility_specificationContext): Unit
+	def exitVisibilitySpecification(ctx: ObjCParser.VisibilitySpecificationContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.interface_declaration_list}.
 	 * @param ctx the parse tree
 	 */
-	def enterInterface_declaration_list(ctx: ObjCParser.Interface_declaration_listContext): Unit
+	def enterInterfaceDeclarationList(ctx: ObjCParser.InterfaceDeclarationListContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.interface_declaration_list}.
 	 * @param ctx the parse tree
 	 */
-	def exitInterface_declaration_list(ctx: ObjCParser.Interface_declaration_listContext): Unit
+	def exitInterfaceDeclarationList(ctx: ObjCParser.InterfaceDeclarationListContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.class_method_declaration}.
 	 * @param ctx the parse tree
 	 */
-	def enterClass_method_declaration(ctx: ObjCParser.Class_method_declarationContext): Unit
+	def enterClassMethodDeclaration(ctx: ObjCParser.ClassMethodDeclarationContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.class_method_declaration}.
 	 * @param ctx the parse tree
 	 */
-	def exitClass_method_declaration(ctx: ObjCParser.Class_method_declarationContext): Unit
+	def exitClassMethodDeclaration(ctx: ObjCParser.ClassMethodDeclarationContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.instance_method_declaration}.
 	 * @param ctx the parse tree
 	 */
-	def enterInstance_method_declaration(ctx: ObjCParser.Instance_method_declarationContext): Unit
+	def enterInstanceMethodDeclaration(ctx: ObjCParser.InstanceMethodDeclarationContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.instance_method_declaration}.
 	 * @param ctx the parse tree
 	 */
-	def exitInstance_method_declaration(ctx: ObjCParser.Instance_method_declarationContext): Unit
+	def exitInstanceMethodDeclaration(ctx: ObjCParser.InstanceMethodDeclarationContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.method_declaration}.
 	 * @param ctx the parse tree
 	 */
-	def enterMethod_declaration(ctx: ObjCParser.Method_declarationContext): Unit
+	def enterMethodDeclaration(ctx: ObjCParser.MethodDeclarationContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.method_declaration}.
 	 * @param ctx the parse tree
 	 */
-	def exitMethod_declaration(ctx: ObjCParser.Method_declarationContext): Unit
+	def exitMethodDeclaration(ctx: ObjCParser.MethodDeclarationContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.implementation_definition_list}.
 	 * @param ctx the parse tree
 	 */
-	def enterImplementation_definition_list(ctx: ObjCParser.Implementation_definition_listContext): Unit
+	def enterImplementationDefinitionList(ctx: ObjCParser.ImplementationDefinitionListContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.implementation_definition_list}.
 	 * @param ctx the parse tree
 	 */
-	def exitImplementation_definition_list(ctx: ObjCParser.Implementation_definition_listContext): Unit
+	def exitImplementationDefinitionList(ctx: ObjCParser.ImplementationDefinitionListContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.class_method_definition}.
 	 * @param ctx the parse tree
 	 */
-	def enterClass_method_definition(ctx: ObjCParser.Class_method_definitionContext): Unit
+	def enterClassMethodDefinition(ctx: ObjCParser.ClassMethodDefinitionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.class_method_definition}.
 	 * @param ctx the parse tree
 	 */
-	def exitClass_method_definition(ctx: ObjCParser.Class_method_definitionContext): Unit
+	def exitClassMethodDefinition(ctx: ObjCParser.ClassMethodDefinitionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.instance_method_definition}.
 	 * @param ctx the parse tree
 	 */
-	def enterInstance_method_definition(ctx: ObjCParser.Instance_method_definitionContext): Unit
+	def enterInstanceMethodDefinition(ctx: ObjCParser.InstanceMethodDefinitionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.instance_method_definition}.
 	 * @param ctx the parse tree
 	 */
-	def exitInstance_method_definition(ctx: ObjCParser.Instance_method_definitionContext): Unit
+	def exitInstanceMethodDefinition(ctx: ObjCParser.InstanceMethodDefinitionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.method_definition}.
 	 * @param ctx the parse tree
 	 */
-	def enterMethod_definition(ctx: ObjCParser.Method_definitionContext): Unit
+	def enterMethodDefinition(ctx: ObjCParser.MethodDefinitionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.method_definition}.
 	 * @param ctx the parse tree
 	 */
-	def exitMethod_definition(ctx: ObjCParser.Method_definitionContext): Unit
+	def exitMethodDefinition(ctx: ObjCParser.MethodDefinitionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.method_selector}.
 	 * @param ctx the parse tree
 	 */
-	def enterMethod_selector(ctx: ObjCParser.Method_selectorContext): Unit
+	def enterMethodSelector(ctx: ObjCParser.MethodSelectorContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.method_selector}.
 	 * @param ctx the parse tree
 	 */
-	def exitMethod_selector(ctx: ObjCParser.Method_selectorContext): Unit
+	def exitMethodSelector(ctx: ObjCParser.MethodSelectorContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.keyword_declarator}.
 	 * @param ctx the parse tree
 	 */
-	def enterKeyword_declarator(ctx: ObjCParser.Keyword_declaratorContext): Unit
+	def enterKeywordDeclarator(ctx: ObjCParser.KeywordDeclaratorContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.keyword_declarator}.
 	 * @param ctx the parse tree
 	 */
-	def exitKeyword_declarator(ctx: ObjCParser.Keyword_declaratorContext): Unit
+	def exitKeywordDeclarator(ctx: ObjCParser.KeywordDeclaratorContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.selector}.
 	 * @param ctx the parse tree
@@ -361,162 +361,162 @@ trait ObjCListener extends ParseTreeListener {
 	 * Enter a parse tree produced by {@link ObjCParser.method_type}.
 	 * @param ctx the parse tree
 	 */
-	def enterMethod_type(ctx: ObjCParser.Method_typeContext): Unit
+	def enterMethodType(ctx: ObjCParser.MethodTypeContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.method_type}.
 	 * @param ctx the parse tree
 	 */
-	def exitMethod_type(ctx: ObjCParser.Method_typeContext): Unit
+	def exitMethodType(ctx: ObjCParser.MethodTypeContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.property_implementation}.
 	 * @param ctx the parse tree
 	 */
-	def enterProperty_implementation(ctx: ObjCParser.Property_implementationContext): Unit
+	def enterPropertyImplementation(ctx: ObjCParser.PropertyImplementationContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.property_implementation}.
 	 * @param ctx the parse tree
 	 */
-	def exitProperty_implementation(ctx: ObjCParser.Property_implementationContext): Unit
+	def exitPropertyImplementation(ctx: ObjCParser.PropertyImplementationContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.property_synthesize_list}.
 	 * @param ctx the parse tree
 	 */
-	def enterProperty_synthesize_list(ctx: ObjCParser.Property_synthesize_listContext): Unit
+	def enterPropertySynthesizeList(ctx: ObjCParser.PropertySynthesizeListContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.property_synthesize_list}.
 	 * @param ctx the parse tree
 	 */
-	def exitProperty_synthesize_list(ctx: ObjCParser.Property_synthesize_listContext): Unit
+	def exitPropertySynthesizeList(ctx: ObjCParser.PropertySynthesizeListContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.property_synthesize_item}.
 	 * @param ctx the parse tree
 	 */
-	def enterProperty_synthesize_item(ctx: ObjCParser.Property_synthesize_itemContext): Unit
+	def enterPropertySynthesizeItem(ctx: ObjCParser.PropertySynthesizeItemContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.property_synthesize_item}.
 	 * @param ctx the parse tree
 	 */
-	def exitProperty_synthesize_item(ctx: ObjCParser.Property_synthesize_itemContext): Unit
+	def exitPropertySynthesizeItem(ctx: ObjCParser.PropertySynthesizeItemContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.block_type}.
 	 * @param ctx the parse tree
 	 */
-	def enterBlock_type(ctx: ObjCParser.Block_typeContext): Unit
+	def enterBlockType(ctx: ObjCParser.BlockTypeContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.block_type}.
 	 * @param ctx the parse tree
 	 */
-	def exitBlock_type(ctx: ObjCParser.Block_typeContext): Unit
+	def exitBlockType(ctx: ObjCParser.BlockTypeContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.type_specifier}.
 	 * @param ctx the parse tree
 	 */
-	def enterType_specifier(ctx: ObjCParser.Type_specifierContext): Unit
+	def enterTypeSpecifier(ctx: ObjCParser.TypeSpecifierContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.type_specifier}.
 	 * @param ctx the parse tree
 	 */
-	def exitType_specifier(ctx: ObjCParser.Type_specifierContext): Unit
+	def exitTypeSpecifier(ctx: ObjCParser.TypeSpecifierContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.type_qualifier}.
 	 * @param ctx the parse tree
 	 */
-	def enterType_qualifier(ctx: ObjCParser.Type_qualifierContext): Unit
+	def enterTypeQualifier(ctx: ObjCParser.TypeQualifierContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.type_qualifier}.
 	 * @param ctx the parse tree
 	 */
-	def exitType_qualifier(ctx: ObjCParser.Type_qualifierContext): Unit
+	def exitTypeQualifier(ctx: ObjCParser.TypeQualifierContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.protocol_qualifier}.
 	 * @param ctx the parse tree
 	 */
-	def enterProtocol_qualifier(ctx: ObjCParser.Protocol_qualifierContext): Unit
+	def enterProtocolQualifier(ctx: ObjCParser.ProtocolQualifierContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.protocol_qualifier}.
 	 * @param ctx the parse tree
 	 */
-	def exitProtocol_qualifier(ctx: ObjCParser.Protocol_qualifierContext): Unit
+	def exitProtocolQualifier(ctx: ObjCParser.ProtocolQualifierContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.primary_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterPrimary_expression(ctx: ObjCParser.Primary_expressionContext): Unit
+	def enterPrimaryExpression(ctx: ObjCParser.PrimaryExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.primary_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitPrimary_expression(ctx: ObjCParser.Primary_expressionContext): Unit
+	def exitPrimaryExpression(ctx: ObjCParser.PrimaryExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.dictionary_pair}.
 	 * @param ctx the parse tree
 	 */
-	def enterDictionary_pair(ctx: ObjCParser.Dictionary_pairContext): Unit
+	def enterDictionaryPair(ctx: ObjCParser.DictionaryPairContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.dictionary_pair}.
 	 * @param ctx the parse tree
 	 */
-	def exitDictionary_pair(ctx: ObjCParser.Dictionary_pairContext): Unit
+	def exitDictionaryPair(ctx: ObjCParser.DictionaryPairContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.dictionary_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterDictionary_expression(ctx: ObjCParser.Dictionary_expressionContext): Unit
+	def enterDictionaryExpression(ctx: ObjCParser.DictionaryExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.dictionary_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitDictionary_expression(ctx: ObjCParser.Dictionary_expressionContext): Unit
+	def exitDictionaryExpression(ctx: ObjCParser.DictionaryExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.array_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterArray_expression(ctx: ObjCParser.Array_expressionContext): Unit
+	def enterArrayExpression(ctx: ObjCParser.ArrayExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.array_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitArray_expression(ctx: ObjCParser.Array_expressionContext): Unit
+	def exitArrayExpression(ctx: ObjCParser.ArrayExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.box_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterBox_expression(ctx: ObjCParser.Box_expressionContext): Unit
+	def enterBoxExpression(ctx: ObjCParser.BoxExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.box_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitBox_expression(ctx: ObjCParser.Box_expressionContext): Unit
+	def exitBoxExpression(ctx: ObjCParser.BoxExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.block_parameters}.
 	 * @param ctx the parse tree
 	 */
-	def enterBlock_parameters(ctx: ObjCParser.Block_parametersContext): Unit
+	def enterBlockParameters(ctx: ObjCParser.BlockParametersContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.block_parameters}.
 	 * @param ctx the parse tree
 	 */
-	def exitBlock_parameters(ctx: ObjCParser.Block_parametersContext): Unit
+	def exitBlockParameters(ctx: ObjCParser.BlockParametersContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.block_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterBlock_expression(ctx: ObjCParser.Block_expressionContext): Unit
+	def enterBlockExpression(ctx: ObjCParser.BlockExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.block_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitBlock_expression(ctx: ObjCParser.Block_expressionContext): Unit
+	def exitBlockExpression(ctx: ObjCParser.BlockExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.message_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterMessage_expression(ctx: ObjCParser.Message_expressionContext): Unit
+	def enterMessageExpression(ctx: ObjCParser.MessageExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.message_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitMessage_expression(ctx: ObjCParser.Message_expressionContext): Unit
+	def exitMessageExpression(ctx: ObjCParser.MessageExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.receiver}.
 	 * @param ctx the parse tree
@@ -531,152 +531,152 @@ trait ObjCListener extends ParseTreeListener {
 	 * Enter a parse tree produced by {@link ObjCParser.message_selector}.
 	 * @param ctx the parse tree
 	 */
-	def enterMessage_selector(ctx: ObjCParser.Message_selectorContext): Unit
+	def enterMessageSelector(ctx: ObjCParser.MessageSelectorContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.message_selector}.
 	 * @param ctx the parse tree
 	 */
-	def exitMessage_selector(ctx: ObjCParser.Message_selectorContext): Unit
+	def exitMessageSelector(ctx: ObjCParser.MessageSelectorContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.keyword_argument}.
 	 * @param ctx the parse tree
 	 */
-	def enterKeyword_argument(ctx: ObjCParser.Keyword_argumentContext): Unit
+	def enterKeywordArgument(ctx: ObjCParser.KeywordArgumentContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.keyword_argument}.
 	 * @param ctx the parse tree
 	 */
-	def exitKeyword_argument(ctx: ObjCParser.Keyword_argumentContext): Unit
+	def exitKeywordArgument(ctx: ObjCParser.KeywordArgumentContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.selector_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterSelector_expression(ctx: ObjCParser.Selector_expressionContext): Unit
+	def enterSelectorExpression(ctx: ObjCParser.SelectorExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.selector_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitSelector_expression(ctx: ObjCParser.Selector_expressionContext): Unit
+	def exitSelectorExpression(ctx: ObjCParser.SelectorExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.selector_name}.
 	 * @param ctx the parse tree
 	 */
-	def enterSelector_name(ctx: ObjCParser.Selector_nameContext): Unit
+	def enterSelectorName(ctx: ObjCParser.SelectorNameContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.selector_name}.
 	 * @param ctx the parse tree
 	 */
-	def exitSelector_name(ctx: ObjCParser.Selector_nameContext): Unit
+	def exitSelectorName(ctx: ObjCParser.SelectorNameContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.protocol_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterProtocol_expression(ctx: ObjCParser.Protocol_expressionContext): Unit
+	def enterProtocolExpression(ctx: ObjCParser.ProtocolExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.protocol_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitProtocol_expression(ctx: ObjCParser.Protocol_expressionContext): Unit
+	def exitProtocolExpression(ctx: ObjCParser.ProtocolExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.encode_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterEncode_expression(ctx: ObjCParser.Encode_expressionContext): Unit
+	def enterEncodeExpression(ctx: ObjCParser.EncodeExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.encode_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitEncode_expression(ctx: ObjCParser.Encode_expressionContext): Unit
+	def exitEncodeExpression(ctx: ObjCParser.EncodeExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.type_variable_declarator}.
 	 * @param ctx the parse tree
 	 */
-	def enterType_variable_declarator(ctx: ObjCParser.Type_variable_declaratorContext): Unit
+	def enterTypeVariableDeclarator(ctx: ObjCParser.TypeVariableDeclaratorContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.type_variable_declarator}.
 	 * @param ctx the parse tree
 	 */
-	def exitType_variable_declarator(ctx: ObjCParser.Type_variable_declaratorContext): Unit
+	def exitTypeVariableDeclarator(ctx: ObjCParser.TypeVariableDeclaratorContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.try_statement}.
 	 * @param ctx the parse tree
 	 */
-	def enterTry_statement(ctx: ObjCParser.Try_statementContext): Unit
+	def enterTryStatement(ctx: ObjCParser.TryStatementContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.try_statement}.
 	 * @param ctx the parse tree
 	 */
-	def exitTry_statement(ctx: ObjCParser.Try_statementContext): Unit
+	def exitTryStatement(ctx: ObjCParser.TryStatementContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.catch_statement}.
 	 * @param ctx the parse tree
 	 */
-	def enterCatch_statement(ctx: ObjCParser.Catch_statementContext): Unit
+	def enterCatchStatement(ctx: ObjCParser.CatchStatementContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.catch_statement}.
 	 * @param ctx the parse tree
 	 */
-	def exitCatch_statement(ctx: ObjCParser.Catch_statementContext): Unit
+	def exitCatchStatement(ctx: ObjCParser.CatchStatementContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.finally_statement}.
 	 * @param ctx the parse tree
 	 */
-	def enterFinally_statement(ctx: ObjCParser.Finally_statementContext): Unit
+	def enterFinallyStatement(ctx: ObjCParser.FinallyStatementContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.finally_statement}.
 	 * @param ctx the parse tree
 	 */
-	def exitFinally_statement(ctx: ObjCParser.Finally_statementContext): Unit
+	def exitFinallyStatement(ctx: ObjCParser.FinallyStatementContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.throw_statement}.
 	 * @param ctx the parse tree
 	 */
-	def enterThrow_statement(ctx: ObjCParser.Throw_statementContext): Unit
+	def enterThrowStatement(ctx: ObjCParser.ThrowStatementContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.throw_statement}.
 	 * @param ctx the parse tree
 	 */
-	def exitThrow_statement(ctx: ObjCParser.Throw_statementContext): Unit
+	def exitThrowStatement(ctx: ObjCParser.ThrowStatementContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.try_block}.
 	 * @param ctx the parse tree
 	 */
-	def enterTry_block(ctx: ObjCParser.Try_blockContext): Unit
+	def enterTryBlock(ctx: ObjCParser.TryBlockContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.try_block}.
 	 * @param ctx the parse tree
 	 */
-	def exitTry_block(ctx: ObjCParser.Try_blockContext): Unit
+	def exitTryBlock(ctx: ObjCParser.TryBlockContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.synchronized_statement}.
 	 * @param ctx the parse tree
 	 */
-	def enterSynchronized_statement(ctx: ObjCParser.Synchronized_statementContext): Unit
+	def enterSynchronizedStatement(ctx: ObjCParser.SynchronizedStatementContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.synchronized_statement}.
 	 * @param ctx the parse tree
 	 */
-	def exitSynchronized_statement(ctx: ObjCParser.Synchronized_statementContext): Unit
+	def exitSynchronizedStatement(ctx: ObjCParser.SynchronizedStatementContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.autorelease_statement}.
 	 * @param ctx the parse tree
 	 */
-	def enterAutorelease_statement(ctx: ObjCParser.Autorelease_statementContext): Unit
+	def enterAutoreleaseStatement(ctx: ObjCParser.AutoreleaseStatementContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.autorelease_statement}.
 	 * @param ctx the parse tree
 	 */
-	def exitAutorelease_statement(ctx: ObjCParser.Autorelease_statementContext): Unit
+	def exitAutoreleaseStatement(ctx: ObjCParser.AutoreleaseStatementContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.function_definition}.
 	 * @param ctx the parse tree
 	 */
-	def enterFunction_definition(ctx: ObjCParser.Function_definitionContext): Unit
+	def enterFunctionDefinition(ctx: ObjCParser.FunctionDefinitionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.function_definition}.
 	 * @param ctx the parse tree
 	 */
-	def exitFunction_definition(ctx: ObjCParser.Function_definitionContext): Unit
+	def exitFunctionDefinition(ctx: ObjCParser.FunctionDefinitionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.declaration}.
 	 * @param ctx the parse tree
@@ -691,122 +691,122 @@ trait ObjCListener extends ParseTreeListener {
 	 * Enter a parse tree produced by {@link ObjCParser.declaration_specifiers}.
 	 * @param ctx the parse tree
 	 */
-	def enterDeclaration_specifiers(ctx: ObjCParser.Declaration_specifiersContext): Unit
+	def enterDeclarationSpecifiers(ctx: ObjCParser.DeclarationSpecifiersContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.declaration_specifiers}.
 	 * @param ctx the parse tree
 	 */
-	def exitDeclaration_specifiers(ctx: ObjCParser.Declaration_specifiersContext): Unit
+	def exitDeclarationSpecifiers(ctx: ObjCParser.DeclarationSpecifiersContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.arc_behaviour_specifier}.
 	 * @param ctx the parse tree
 	 */
-	def enterArc_behaviour_specifier(ctx: ObjCParser.Arc_behaviour_specifierContext): Unit
+	def enterArcBehaviourSpecifier(ctx: ObjCParser.ArcBehaviourSpecifierContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.arc_behaviour_specifier}.
 	 * @param ctx the parse tree
 	 */
-	def exitArc_behaviour_specifier(ctx: ObjCParser.Arc_behaviour_specifierContext): Unit
+	def exitArcBehaviourSpecifier(ctx: ObjCParser.ArcBehaviourSpecifierContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.storage_class_specifier}.
 	 * @param ctx the parse tree
 	 */
-	def enterStorage_class_specifier(ctx: ObjCParser.Storage_class_specifierContext): Unit
+	def enterStorageClassSpecifier(ctx: ObjCParser.StorageClassSpecifierContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.storage_class_specifier}.
 	 * @param ctx the parse tree
 	 */
-	def exitStorage_class_specifier(ctx: ObjCParser.Storage_class_specifierContext): Unit
+	def exitStorageClassSpecifier(ctx: ObjCParser.StorageClassSpecifierContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.init_declarator_list}.
 	 * @param ctx the parse tree
 	 */
-	def enterInit_declarator_list(ctx: ObjCParser.Init_declarator_listContext): Unit
+	def enterInitDeclaratorList(ctx: ObjCParser.InitDeclaratorListContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.init_declarator_list}.
 	 * @param ctx the parse tree
 	 */
-	def exitInit_declarator_list(ctx: ObjCParser.Init_declarator_listContext): Unit
+	def exitInitDeclaratorList(ctx: ObjCParser.InitDeclaratorListContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.init_declarator}.
 	 * @param ctx the parse tree
 	 */
-	def enterInit_declarator(ctx: ObjCParser.Init_declaratorContext): Unit
+	def enterInitDeclarator(ctx: ObjCParser.InitDeclaratorContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.init_declarator}.
 	 * @param ctx the parse tree
 	 */
-	def exitInit_declarator(ctx: ObjCParser.Init_declaratorContext): Unit
+	def exitInitDeclarator(ctx: ObjCParser.InitDeclaratorContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.struct_or_union_specifier}.
 	 * @param ctx the parse tree
 	 */
-	def enterStruct_or_union_specifier(ctx: ObjCParser.Struct_or_union_specifierContext): Unit
+	def enterStructOrUnionSpecifier(ctx: ObjCParser.StructOrUnionSpecifierContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.struct_or_union_specifier}.
 	 * @param ctx the parse tree
 	 */
-	def exitStruct_or_union_specifier(ctx: ObjCParser.Struct_or_union_specifierContext): Unit
+	def exitStructOrUnionSpecifier(ctx: ObjCParser.StructOrUnionSpecifierContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.struct_declaration}.
 	 * @param ctx the parse tree
 	 */
-	def enterStruct_declaration(ctx: ObjCParser.Struct_declarationContext): Unit
+	def enterStructDeclaration(ctx: ObjCParser.StructDeclarationContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.struct_declaration}.
 	 * @param ctx the parse tree
 	 */
-	def exitStruct_declaration(ctx: ObjCParser.Struct_declarationContext): Unit
+	def exitStructDeclaration(ctx: ObjCParser.StructDeclarationContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.specifier_qualifier_list}.
 	 * @param ctx the parse tree
 	 */
-	def enterSpecifier_qualifier_list(ctx: ObjCParser.Specifier_qualifier_listContext): Unit
+	def enterSpecifierQualifierList(ctx: ObjCParser.SpecifierQualifierListContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.specifier_qualifier_list}.
 	 * @param ctx the parse tree
 	 */
-	def exitSpecifier_qualifier_list(ctx: ObjCParser.Specifier_qualifier_listContext): Unit
+	def exitSpecifierQualifierList(ctx: ObjCParser.SpecifierQualifierListContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.struct_declarator_list}.
 	 * @param ctx the parse tree
 	 */
-	def enterStruct_declarator_list(ctx: ObjCParser.Struct_declarator_listContext): Unit
+	def enterStructDeclaratorList(ctx: ObjCParser.StructDeclaratorListContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.struct_declarator_list}.
 	 * @param ctx the parse tree
 	 */
-	def exitStruct_declarator_list(ctx: ObjCParser.Struct_declarator_listContext): Unit
+	def exitStructDeclaratorList(ctx: ObjCParser.StructDeclaratorListContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.struct_declarator}.
 	 * @param ctx the parse tree
 	 */
-	def enterStruct_declarator(ctx: ObjCParser.Struct_declaratorContext): Unit
+	def enterStructDeclarator(ctx: ObjCParser.StructDeclaratorContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.struct_declarator}.
 	 * @param ctx the parse tree
 	 */
-	def exitStruct_declarator(ctx: ObjCParser.Struct_declaratorContext): Unit
+	def exitStructDeclarator(ctx: ObjCParser.StructDeclaratorContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.enum_specifier}.
 	 * @param ctx the parse tree
 	 */
-	def enterEnum_specifier(ctx: ObjCParser.Enum_specifierContext): Unit
+	def enterEnumSpecifier(ctx: ObjCParser.EnumSpecifierContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.enum_specifier}.
 	 * @param ctx the parse tree
 	 */
-	def exitEnum_specifier(ctx: ObjCParser.Enum_specifierContext): Unit
+	def exitEnumSpecifier(ctx: ObjCParser.EnumSpecifierContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.enumerator_list}.
 	 * @param ctx the parse tree
 	 */
-	def enterEnumerator_list(ctx: ObjCParser.Enumerator_listContext): Unit
+	def enterEnumeratorList(ctx: ObjCParser.EnumeratorListContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.enumerator_list}.
 	 * @param ctx the parse tree
 	 */
-	def exitEnumerator_list(ctx: ObjCParser.Enumerator_listContext): Unit
+	def exitEnumeratorList(ctx: ObjCParser.EnumeratorListContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.enumerator}.
 	 * @param ctx the parse tree
@@ -841,42 +841,42 @@ trait ObjCListener extends ParseTreeListener {
 	 * Enter a parse tree produced by {@link ObjCParser.direct_declarator}.
 	 * @param ctx the parse tree
 	 */
-	def enterDirect_declarator(ctx: ObjCParser.Direct_declaratorContext): Unit
+	def enterDirectDeclarator(ctx: ObjCParser.DirectDeclaratorContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.direct_declarator}.
 	 * @param ctx the parse tree
 	 */
-	def exitDirect_declarator(ctx: ObjCParser.Direct_declaratorContext): Unit
+	def exitDirectDeclarator(ctx: ObjCParser.DirectDeclaratorContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.declarator_suffix}.
 	 * @param ctx the parse tree
 	 */
-	def enterDeclarator_suffix(ctx: ObjCParser.Declarator_suffixContext): Unit
+	def enterDeclaratorSuffix(ctx: ObjCParser.DeclaratorSuffixContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.declarator_suffix}.
 	 * @param ctx the parse tree
 	 */
-	def exitDeclarator_suffix(ctx: ObjCParser.Declarator_suffixContext): Unit
+	def exitDeclaratorSuffix(ctx: ObjCParser.DeclaratorSuffixContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.parameter_list}.
 	 * @param ctx the parse tree
 	 */
-	def enterParameter_list(ctx: ObjCParser.Parameter_listContext): Unit
+	def enterParameterList(ctx: ObjCParser.ParameterListContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.parameter_list}.
 	 * @param ctx the parse tree
 	 */
-	def exitParameter_list(ctx: ObjCParser.Parameter_listContext): Unit
+	def exitParameterList(ctx: ObjCParser.ParameterListContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.parameter_declaration}.
 	 * @param ctx the parse tree
 	 */
-	def enterParameter_declaration(ctx: ObjCParser.Parameter_declarationContext): Unit
+	def enterParameterDeclaration(ctx: ObjCParser.ParameterDeclarationContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.parameter_declaration}.
 	 * @param ctx the parse tree
 	 */
-	def exitParameter_declaration(ctx: ObjCParser.Parameter_declarationContext): Unit
+	def exitParameterDeclaration(ctx: ObjCParser.ParameterDeclarationContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.initializer}.
 	 * @param ctx the parse tree
@@ -891,52 +891,52 @@ trait ObjCListener extends ParseTreeListener {
 	 * Enter a parse tree produced by {@link ObjCParser.type_name}.
 	 * @param ctx the parse tree
 	 */
-	def enterType_name(ctx: ObjCParser.Type_nameContext): Unit
+	def enterTypeName(ctx: ObjCParser.TypeNameContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.type_name}.
 	 * @param ctx the parse tree
 	 */
-	def exitType_name(ctx: ObjCParser.Type_nameContext): Unit
+	def exitTypeName(ctx: ObjCParser.TypeNameContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.abstract_declarator}.
 	 * @param ctx the parse tree
 	 */
-	def enterAbstract_declarator(ctx: ObjCParser.Abstract_declaratorContext): Unit
+	def enterAbstractDeclarator(ctx: ObjCParser.AbstractDeclaratorContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.abstract_declarator}.
 	 * @param ctx the parse tree
 	 */
-	def exitAbstract_declarator(ctx: ObjCParser.Abstract_declaratorContext): Unit
+	def exitAbstractDeclarator(ctx: ObjCParser.AbstractDeclaratorContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.abstract_declarator_suffix}.
 	 * @param ctx the parse tree
 	 */
-	def enterAbstract_declarator_suffix(ctx: ObjCParser.Abstract_declarator_suffixContext): Unit
+	def enterAbstractDeclaratorSuffix(ctx: ObjCParser.AbstractDeclaratorSuffixContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.abstract_declarator_suffix}.
 	 * @param ctx the parse tree
 	 */
-	def exitAbstract_declarator_suffix(ctx: ObjCParser.Abstract_declarator_suffixContext): Unit
+	def exitAbstractDeclaratorSuffix(ctx: ObjCParser.AbstractDeclaratorSuffixContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.parameter_declaration_list}.
 	 * @param ctx the parse tree
 	 */
-	def enterParameter_declaration_list(ctx: ObjCParser.Parameter_declaration_listContext): Unit
+	def enterParameterDeclarationList(ctx: ObjCParser.ParameterDeclarationListContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.parameter_declaration_list}.
 	 * @param ctx the parse tree
 	 */
-	def exitParameter_declaration_list(ctx: ObjCParser.Parameter_declaration_listContext): Unit
+	def exitParameterDeclarationList(ctx: ObjCParser.ParameterDeclarationListContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.statement_list}.
 	 * @param ctx the parse tree
 	 */
-	def enterStatement_list(ctx: ObjCParser.Statement_listContext): Unit
+	def enterStatementList(ctx: ObjCParser.StatementListContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.statement_list}.
 	 * @param ctx the parse tree
 	 */
-	def exitStatement_list(ctx: ObjCParser.Statement_listContext): Unit
+	def exitStatementList(ctx: ObjCParser.StatementListContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.statement}.
 	 * @param ctx the parse tree
@@ -951,92 +951,92 @@ trait ObjCListener extends ParseTreeListener {
 	 * Enter a parse tree produced by {@link ObjCParser.labeled_statement}.
 	 * @param ctx the parse tree
 	 */
-	def enterLabeled_statement(ctx: ObjCParser.Labeled_statementContext): Unit
+	def enterLabeledStatement(ctx: ObjCParser.LabeledStatementContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.labeled_statement}.
 	 * @param ctx the parse tree
 	 */
-	def exitLabeled_statement(ctx: ObjCParser.Labeled_statementContext): Unit
+	def exitLabeledStatement(ctx: ObjCParser.LabeledStatementContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.compound_statement}.
 	 * @param ctx the parse tree
 	 */
-	def enterCompound_statement(ctx: ObjCParser.Compound_statementContext): Unit
+	def enterCompoundStatement(ctx: ObjCParser.CompoundStatementContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.compound_statement}.
 	 * @param ctx the parse tree
 	 */
-	def exitCompound_statement(ctx: ObjCParser.Compound_statementContext): Unit
+	def exitCompoundStatement(ctx: ObjCParser.CompoundStatementContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.selection_statement}.
 	 * @param ctx the parse tree
 	 */
-	def enterSelection_statement(ctx: ObjCParser.Selection_statementContext): Unit
+	def enterSelectionStatement(ctx: ObjCParser.SelectionStatementContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.selection_statement}.
 	 * @param ctx the parse tree
 	 */
-	def exitSelection_statement(ctx: ObjCParser.Selection_statementContext): Unit
+	def exitSelectionStatement(ctx: ObjCParser.SelectionStatementContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.for_in_statement}.
 	 * @param ctx the parse tree
 	 */
-	def enterFor_in_statement(ctx: ObjCParser.For_in_statementContext): Unit
+	def enterForInStatement(ctx: ObjCParser.ForInStatementContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.for_in_statement}.
 	 * @param ctx the parse tree
 	 */
-	def exitFor_in_statement(ctx: ObjCParser.For_in_statementContext): Unit
+	def exitForInStatement(ctx: ObjCParser.ForInStatementContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.for_statement}.
 	 * @param ctx the parse tree
 	 */
-	def enterFor_statement(ctx: ObjCParser.For_statementContext): Unit
+	def enterForStatement(ctx: ObjCParser.ForStatementContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.for_statement}.
 	 * @param ctx the parse tree
 	 */
-	def exitFor_statement(ctx: ObjCParser.For_statementContext): Unit
+	def exitForStatement(ctx: ObjCParser.ForStatementContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.while_statement}.
 	 * @param ctx the parse tree
 	 */
-	def enterWhile_statement(ctx: ObjCParser.While_statementContext): Unit
+	def enterWhileStatement(ctx: ObjCParser.WhileStatementContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.while_statement}.
 	 * @param ctx the parse tree
 	 */
-	def exitWhile_statement(ctx: ObjCParser.While_statementContext): Unit
+	def exitWhileStatement(ctx: ObjCParser.WhileStatementContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.do_statement}.
 	 * @param ctx the parse tree
 	 */
-	def enterDo_statement(ctx: ObjCParser.Do_statementContext): Unit
+	def enterDoStatement(ctx: ObjCParser.DoStatementContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.do_statement}.
 	 * @param ctx the parse tree
 	 */
-	def exitDo_statement(ctx: ObjCParser.Do_statementContext): Unit
+	def exitDoStatement(ctx: ObjCParser.DoStatementContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.iteration_statement}.
 	 * @param ctx the parse tree
 	 */
-	def enterIteration_statement(ctx: ObjCParser.Iteration_statementContext): Unit
+	def enterIterationStatement(ctx: ObjCParser.IterationStatementContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.iteration_statement}.
 	 * @param ctx the parse tree
 	 */
-	def exitIteration_statement(ctx: ObjCParser.Iteration_statementContext): Unit
+	def exitIterationStatement(ctx: ObjCParser.IterationStatementContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.jump_statement}.
 	 * @param ctx the parse tree
 	 */
-	def enterJump_statement(ctx: ObjCParser.Jump_statementContext): Unit
+	def enterJumpStatement(ctx: ObjCParser.JumpStatementContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.jump_statement}.
 	 * @param ctx the parse tree
 	 */
-	def exitJump_statement(ctx: ObjCParser.Jump_statementContext): Unit
+	def exitJumpStatement(ctx: ObjCParser.JumpStatementContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.expression}.
 	 * @param ctx the parse tree
@@ -1051,192 +1051,192 @@ trait ObjCListener extends ParseTreeListener {
 	 * Enter a parse tree produced by {@link ObjCParser.assignment_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterAssignment_expression(ctx: ObjCParser.Assignment_expressionContext): Unit
+	def enterAssignmentExpression(ctx: ObjCParser.AssignmentExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.assignment_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitAssignment_expression(ctx: ObjCParser.Assignment_expressionContext): Unit
+	def exitAssignmentExpression(ctx: ObjCParser.AssignmentExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.assignment_operator}.
 	 * @param ctx the parse tree
 	 */
-	def enterAssignment_operator(ctx: ObjCParser.Assignment_operatorContext): Unit
+	def enterAssignmentOperator(ctx: ObjCParser.AssignmentOperatorContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.assignment_operator}.
 	 * @param ctx the parse tree
 	 */
-	def exitAssignment_operator(ctx: ObjCParser.Assignment_operatorContext): Unit
+	def exitAssignmentOperator(ctx: ObjCParser.AssignmentOperatorContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.conditional_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterConditional_expression(ctx: ObjCParser.Conditional_expressionContext): Unit
+	def enterConditionalExpression(ctx: ObjCParser.ConditionalExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.conditional_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitConditional_expression(ctx: ObjCParser.Conditional_expressionContext): Unit
+	def exitConditionalExpression(ctx: ObjCParser.ConditionalExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.constant_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterConstant_expression(ctx: ObjCParser.Constant_expressionContext): Unit
+	def enterConstantExpression(ctx: ObjCParser.ConstantExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.constant_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitConstant_expression(ctx: ObjCParser.Constant_expressionContext): Unit
+	def exitConstantExpression(ctx: ObjCParser.ConstantExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.logical_or_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterLogical_or_expression(ctx: ObjCParser.Logical_or_expressionContext): Unit
+	def enterLogicalOrExpression(ctx: ObjCParser.LogicalOrExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.logical_or_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitLogical_or_expression(ctx: ObjCParser.Logical_or_expressionContext): Unit
+	def exitLogicalOrExpression(ctx: ObjCParser.LogicalOrExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.logical_and_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterLogical_and_expression(ctx: ObjCParser.Logical_and_expressionContext): Unit
+	def enterLogicalAndExpression(ctx: ObjCParser.LogicalAndExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.logical_and_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitLogical_and_expression(ctx: ObjCParser.Logical_and_expressionContext): Unit
+	def exitLogicalAndExpression(ctx: ObjCParser.LogicalAndExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.inclusive_or_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterInclusive_or_expression(ctx: ObjCParser.Inclusive_or_expressionContext): Unit
+	def enterInclusiveOrExpression(ctx: ObjCParser.InclusiveOrExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.inclusive_or_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitInclusive_or_expression(ctx: ObjCParser.Inclusive_or_expressionContext): Unit
+	def exitInclusiveOrExpression(ctx: ObjCParser.InclusiveOrExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.exclusive_or_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterExclusive_or_expression(ctx: ObjCParser.Exclusive_or_expressionContext): Unit
+	def enterExclusiveOrExpression(ctx: ObjCParser.ExclusiveOrExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.exclusive_or_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitExclusive_or_expression(ctx: ObjCParser.Exclusive_or_expressionContext): Unit
+	def exitExclusiveOrExpression(ctx: ObjCParser.ExclusiveOrExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.and_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterAnd_expression(ctx: ObjCParser.And_expressionContext): Unit
+	def enterAndExpression(ctx: ObjCParser.AndExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.and_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitAnd_expression(ctx: ObjCParser.And_expressionContext): Unit
+	def exitAndExpression(ctx: ObjCParser.AndExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.equality_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterEquality_expression(ctx: ObjCParser.Equality_expressionContext): Unit
+	def enterEqualityExpression(ctx: ObjCParser.EqualityExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.equality_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitEquality_expression(ctx: ObjCParser.Equality_expressionContext): Unit
+	def exitEqualityExpression(ctx: ObjCParser.EqualityExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.relational_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterRelational_expression(ctx: ObjCParser.Relational_expressionContext): Unit
+	def enterRelationalExpression(ctx: ObjCParser.RelationalExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.relational_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitRelational_expression(ctx: ObjCParser.Relational_expressionContext): Unit
+	def exitRelationalExpression(ctx: ObjCParser.RelationalExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.shift_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterShift_expression(ctx: ObjCParser.Shift_expressionContext): Unit
+	def enterShiftExpression(ctx: ObjCParser.ShiftExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.shift_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitShift_expression(ctx: ObjCParser.Shift_expressionContext): Unit
+	def exitShiftExpression(ctx: ObjCParser.ShiftExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.additive_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterAdditive_expression(ctx: ObjCParser.Additive_expressionContext): Unit
+	def enterAdditiveExpression(ctx: ObjCParser.AdditiveExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.additive_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitAdditive_expression(ctx: ObjCParser.Additive_expressionContext): Unit
+	def exitAdditiveExpression(ctx: ObjCParser.AdditiveExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.multiplicative_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterMultiplicative_expression(ctx: ObjCParser.Multiplicative_expressionContext): Unit
+	def enterMultiplicativeExpression(ctx: ObjCParser.MultiplicativeExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.multiplicative_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitMultiplicative_expression(ctx: ObjCParser.Multiplicative_expressionContext): Unit
+	def exitMultiplicativeExpression(ctx: ObjCParser.MultiplicativeExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.cast_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterCast_expression(ctx: ObjCParser.Cast_expressionContext): Unit
+	def enterCastExpression(ctx: ObjCParser.CastExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.cast_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitCast_expression(ctx: ObjCParser.Cast_expressionContext): Unit
+	def exitCastExpression(ctx: ObjCParser.CastExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.unary_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterUnary_expression(ctx: ObjCParser.Unary_expressionContext): Unit
+	def enterUnaryExpression(ctx: ObjCParser.UnaryExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.unary_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitUnary_expression(ctx: ObjCParser.Unary_expressionContext): Unit
+	def exitUnaryExpression(ctx: ObjCParser.UnaryExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.unary_operator}.
 	 * @param ctx the parse tree
 	 */
-	def enterUnary_operator(ctx: ObjCParser.Unary_operatorContext): Unit
+	def enterUnaryOperator(ctx: ObjCParser.UnaryOperatorContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.unary_operator}.
 	 * @param ctx the parse tree
 	 */
-	def exitUnary_operator(ctx: ObjCParser.Unary_operatorContext): Unit
+	def exitUnaryOperator(ctx: ObjCParser.UnaryOperatorContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.postfix_expression}.
 	 * @param ctx the parse tree
 	 */
-	def enterPostfix_expression(ctx: ObjCParser.Postfix_expressionContext): Unit
+	def enterPostfixExpression(ctx: ObjCParser.PostfixExpressionContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.postfix_expression}.
 	 * @param ctx the parse tree
 	 */
-	def exitPostfix_expression(ctx: ObjCParser.Postfix_expressionContext): Unit
+	def exitPostfixExpression(ctx: ObjCParser.PostfixExpressionContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.argument_expression_list}.
 	 * @param ctx the parse tree
 	 */
-	def enterArgument_expression_list(ctx: ObjCParser.Argument_expression_listContext): Unit
+	def enterArgumentExpressionList(ctx: ObjCParser.ArgumentExpressionListContext): Unit
 	/**
 	 * Exit a parse tree produced by {@link ObjCParser.argument_expression_list}.
 	 * @param ctx the parse tree
 	 */
-	def exitArgument_expression_list(ctx: ObjCParser.Argument_expression_listContext): Unit
+	def exitArgumentExpressionList(ctx: ObjCParser.ArgumentExpressionListContext): Unit
 	/**
 	 * Enter a parse tree produced by {@link ObjCParser.identifier}.
 	 * @param ctx the parse tree

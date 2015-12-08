@@ -29,25 +29,25 @@ protected trait DeclarationVisitor {
   override def visitDeclaration(ctx: DeclarationContext): String = {
     val builder = List.newBuilder[String]
     val specifiers = List.newBuilder[String]
-    val ds = ctx.declaration_specifiers()
+    val ds = ctx.declarationSpecifiers()
 
     // prefixes: static, const, etc..
     specifiers += visit(ds)
     val prefixes = specifiers.result().filter(_.nonEmpty)
 
     // Type
-    Option(ds.type_specifier()).foreach { ls =>
+    Option(ds.typeSpecifier()).foreach { ls =>
       // Support Enumeration
-      Option(ls(0).enum_specifier()).foreach { e =>
+      Option(ls(0).enumSpecifier()).foreach { e =>
         builder += visit(e)
       }
 
-      Option(ctx.init_declarator_list()) match {
+      Option(ctx.initDeclaratorList()) match {
         case Some(c) =>
           // Single declaration with initializer, or list of declarations.
           val currentType = concatType(ls)
-          c.init_declarator().foreach {
-            builder += visitInit_declarator(_, currentType, prefixes)
+          c.initDeclarator().foreach {
+            builder += visitInitDeclarator(_, currentType, prefixes)
           }
         case None =>
           // Short style declaration
@@ -58,13 +58,13 @@ protected trait DeclarationVisitor {
     builder.result().filter(_.nonEmpty).mkString("\n") + "\n"
   }
 
-  private def visitInit_declarator(ctx: Init_declaratorContext, typeName: String, prefixes: List[String]): String = {
+  private def visitInitDeclarator(ctx: InitDeclaratorContext, typeName: String, prefixes: List[String]): String = {
     {
-      Option(ctx.declarator().direct_declarator().identifier()).map { _ =>
+      Option(ctx.declarator().directDeclarator().identifier()).map { _ =>
         buildInitDeclaration(ctx, typeName, prefixes).map(indent(ctx) + _).getOrElse("")
       } orElse
       // not variables declaration? ex) NSLog(foo)
-      Option(ctx.declarator().direct_declarator().declarator()).map { s =>
+      Option(ctx.declarator().directDeclarator().declarator()).map { s =>
         s"$indentString$typeName(${visit(s)})"
       }
     }.getOrElse("")
@@ -80,7 +80,7 @@ protected trait DeclarationVisitor {
    * @return translated text
    */
   private def buildShortDeclaration(ctxs: TSContexts, prefixes: List[String]): Option[String] = {
-    Option(ctxs.last.class_name()).map(visit).filter(_.nonEmpty).map { name =>
+    Option(ctxs.last.className()).map(visit).filter(_.nonEmpty).map { name =>
       List(
         prefixes.mkString(" "),
         if (prefixes.mkString(" ").split(" ").contains("let")) "" else "var",
@@ -96,7 +96,7 @@ protected trait DeclarationVisitor {
    * @param prefixes Prefix specifiers
    * @return translated text
    */
-  private def buildInitDeclaration(ctx: Init_declaratorContext, tp: String, prefixes: List[String]): Option[String] = {
+  private def buildInitDeclaration(ctx: InitDeclaratorContext, tp: String, prefixes: List[String]): Option[String] = {
     ctx.children.map {
       case TerminalText("=") => "" // NOOP
       case c: DeclaratorContext  => {
@@ -122,7 +122,7 @@ protected trait DeclarationVisitor {
    **/
   override def visitDeclarator(ctx: DeclaratorContext): String = {
     ctx.children.collect {
-      case c: Direct_declaratorContext => visit(c)
+      case c: DirectDeclaratorContext => visit(c)
       case c: PointerContext           => visit(c)
     }.filter(_.nonEmpty).mkString(" ")
   }
@@ -132,7 +132,7 @@ protected trait DeclarationVisitor {
    *
    * @param ctx the parse tree
    **/
-  override def visitDirect_declarator(ctx: Direct_declaratorContext): String = {
+  override def visitDirectDeclarator(ctx: DirectDeclaratorContext): String = {
     ctx.children.map {
       case TerminalText("(") => "("
       case TerminalText(")") => ")"
@@ -148,9 +148,9 @@ protected trait DeclarationVisitor {
    **/
   override def visitInitializer(ctx: InitializerContext): String = concatChildResults(ctx, "")
 
-  override def visitType_variable_declarator(ctx: Type_variable_declaratorContext): String =
-    Option(ctx.declaration_specifiers().type_specifier()).flatMap { ls =>
-      Option(ctx.declarator().direct_declarator().identifier())
+  override def visitTypeVariableDeclarator(ctx: TypeVariableDeclaratorContext): String =
+    Option(ctx.declarationSpecifiers().typeSpecifier()).flatMap { ls =>
+      Option(ctx.declarator().directDeclarator().identifier())
         .map(visit).map(_ + ": " + concatType(ls))
     }.getOrElse("")
 
@@ -162,7 +162,7 @@ protected trait DeclarationVisitor {
   override def visitPointer(ctx: PointerContext): String = {
     ctx.children.map {
       case TerminalText("*") => "" // NOOP
-      case c: Declaration_specifiersContext => visit(c)
+      case c: DeclarationSpecifiersContext => visit(c)
       case c: PointerContext => "" // TODO: Do something if you need
     }.mkString
   }
@@ -172,10 +172,10 @@ protected trait DeclarationVisitor {
    *
    * @param ctx the parse tree
    **/
-  override def visitDeclaration_specifiers(ctx: Declaration_specifiersContext): String = {
+  override def visitDeclarationSpecifiers(ctx: DeclarationSpecifiersContext): String = {
     ctx.children.map {
-      case c: Type_qualifierContext          => visit(c)
-      case c: Storage_class_specifierContext => visit(c)
+      case c: TypeQualifierContext          => visit(c)
+      case c: StorageClassSpecifierContext => visit(c)
       case _ => "" // TODO: Do something if you need
     }.filter(_.nonEmpty).mkString(" ")
   }
@@ -188,7 +188,7 @@ protected trait DeclarationVisitor {
    *
    * @param ctx the parse tree
    **/
-  override def visitType_qualifier(ctx: Type_qualifierContext): String = {
+  override def visitTypeQualifier(ctx: TypeQualifierContext): String = {
     ctx.children.map {
       case TerminalText("const") => "let"
       case _ => "" // TODO: Do something if you need
@@ -203,7 +203,7 @@ protected trait DeclarationVisitor {
    *
    * @param ctx the parse tree
    **/
-  override def visitStorage_class_specifier(ctx: Storage_class_specifierContext): String = {
+  override def visitStorageClassSpecifier(ctx: StorageClassSpecifierContext): String = {
     ctx.getText match {
       case s @ "static" => s
       case _ => "" // TODO: Do something if you need

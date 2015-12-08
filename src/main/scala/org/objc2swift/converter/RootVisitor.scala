@@ -1,6 +1,6 @@
 package org.objc2swift.converter
 
-import org.objc2swift.converter.ObjCParser.{External_declarationContext, Translation_unitContext}
+import org.objc2swift.converter.ObjCParser.{ExternalDeclarationContext, TranslationUnitContext}
 
 import scala.collection.JavaConversions._
 
@@ -10,9 +10,9 @@ import scala.collection.JavaConversions._
 trait RootVisitor {
   this: ObjC2SwiftConverter =>
 
-  override def visitTranslation_unit(ctx: Translation_unitContext): String =
-    ctx.external_declaration().map(visit).filter(_.nonEmpty).mkString("\n\n")
+  override def visitTranslationUnit(ctx: TranslationUnitContext): String =
+    ctx.externalDeclaration().map(visit).filter(_.nonEmpty).mkString("\n\n")
 
-  override def visitExternal_declaration(ctx: External_declarationContext): String =
+  override def visitExternalDeclaration(ctx: ExternalDeclarationContext): String =
     concatChildResults(ctx, "")
 }

@@ -21,20 +21,20 @@ trait MessageVisitor {
    * Extractor for alloc method expression.
    */
   object AllocMessageExpression {
-    def unapply(ctx: Message_expressionContext): Option[String] =
-      Option(ctx.message_selector.selector)
+    def unapply(ctx: MessageExpressionContext): Option[String] =
+      Option(ctx.messageSelector.selector)
         .filter(_.getText == "alloc")
         .map(_ => visit(ctx.receiver))
   }
 
   object InitMessageExpression {
-    def unapply(ctx: Message_expressionContext): Option[String] = {
-      Option(ctx.message_selector().selector()) match {
+    def unapply(ctx: MessageExpressionContext): Option[String] = {
+      Option(ctx.messageSelector().selector()) match {
         case Some(s) =>
           if (s.getText == "init") Some(s"${visit(ctx.receiver)}()")
           else None
         case None =>
-          val params = ctx.message_selector().keyword_argument
+          val params = ctx.messageSelector().keywordArgument
           Some(params.head.selector.getText).filter(_.startsWith("initWith")).map { _ =>
             val builder = List.newBuilder[String]
             val head :: tail = params.toList
@@ -57,17 +57,17 @@ trait MessageVisitor {
    * Extractor for stringWithFormat message expression.
    */
   object StringWithFormatMessageExpression {
-    def unapply(ctx: Message_expressionContext): Option[String] = {
-      Option(ctx.message_selector().keyword_argument()).filter(_.nonEmpty).flatMap { a =>
+    def unapply(ctx: MessageExpressionContext): Option[String] = {
+      Option(ctx.messageSelector().keywordArgument()).filter(_.nonEmpty).flatMap { a =>
         visit(a.head.selector()) match {
           case "stringWithFormat" =>
-            val exps = a.head.expression().assignment_expression()
+            val exps = a.head.expression().assignmentExpression()
             Some(exps.head.getText).filter(_.matches("^@\".*\"$")).flatMap { _ =>
               convertComplexFormat(exps).filter(_.nonEmpty) orElse
               convertSimpleFormat(exps).filter(_.nonEmpty)
             }
           case "initWithFormat" =>
-            val exps = a.head.expression().assignment_expression()
+            val exps = a.head.expression().assignmentExpression()
             Some(s"String(format: ${exps.map(visit).mkString(", ")})")
           case _ => None
         }
@@ -75,7 +75,7 @@ trait MessageVisitor {
     }
   }
 
-  type AEContexts = scala.collection.mutable.Buffer[Assignment_expressionContext]
+  type AEContexts = scala.collection.mutable.Buffer[AssignmentExpressionContext]
 
   private[this] def convertSimpleFormat(exps: AEContexts): Option[String] = {
     val r = """(%[a-z@]+)""".r

@@ -16,409 +16,409 @@ class ObjCBaseListener extends ObjCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterTranslation_unit(ctx: ObjCParser.Translation_unitContext) = ()
+	override def enterTranslationUnit(ctx: ObjCParser.TranslationUnitContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitTranslation_unit(ctx: ObjCParser.Translation_unitContext) = ()
+	override def exitTranslationUnit(ctx: ObjCParser.TranslationUnitContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterExternal_declaration(ctx: ObjCParser.External_declarationContext) = ()
+	override def enterExternalDeclaration(ctx: ObjCParser.ExternalDeclarationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitExternal_declaration(ctx: ObjCParser.External_declarationContext) = ()
+	override def exitExternalDeclaration(ctx: ObjCParser.ExternalDeclarationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterPreprocessor_declaration(ctx: ObjCParser.Preprocessor_declarationContext) = ()
+	override def enterPreprocessorDeclaration(ctx: ObjCParser.PreprocessorDeclarationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitPreprocessor_declaration(ctx: ObjCParser.Preprocessor_declarationContext) = ()
+	override def exitPreprocessorDeclaration(ctx: ObjCParser.PreprocessorDeclarationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterClass_interface(ctx: ObjCParser.Class_interfaceContext) = ()
+	override def enterClassInterface(ctx: ObjCParser.ClassInterfaceContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitClass_interface(ctx: ObjCParser.Class_interfaceContext) = ()
+	override def exitClassInterface(ctx: ObjCParser.ClassInterfaceContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterCategory_interface(ctx: ObjCParser.Category_interfaceContext) = ()
+	override def enterCategoryInterface(ctx: ObjCParser.CategoryInterfaceContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitCategory_interface(ctx: ObjCParser.Category_interfaceContext) = ()
+	override def exitCategoryInterface(ctx: ObjCParser.CategoryInterfaceContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterClass_implementation(ctx: ObjCParser.Class_implementationContext) = ()
+	override def enterClassImplementation(ctx: ObjCParser.ClassImplementationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitClass_implementation(ctx: ObjCParser.Class_implementationContext) = ()
+	override def exitClassImplementation(ctx: ObjCParser.ClassImplementationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterCategory_implementation(ctx: ObjCParser.Category_implementationContext) = ()
+	override def enterCategoryImplementation(ctx: ObjCParser.CategoryImplementationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitCategory_implementation(ctx: ObjCParser.Category_implementationContext) = ()
+	override def exitCategoryImplementation(ctx: ObjCParser.CategoryImplementationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterProtocol_declaration(ctx: ObjCParser.Protocol_declarationContext) = ()
+	override def enterProtocolDeclaration(ctx: ObjCParser.ProtocolDeclarationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitProtocol_declaration(ctx: ObjCParser.Protocol_declarationContext) = ()
+	override def exitProtocolDeclaration(ctx: ObjCParser.ProtocolDeclarationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterProtocol_declaration_list(ctx: ObjCParser.Protocol_declaration_listContext) = ()
+	override def enterProtocolDeclarationList(ctx: ObjCParser.ProtocolDeclarationListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitProtocol_declaration_list(ctx: ObjCParser.Protocol_declaration_listContext) = ()
+	override def exitProtocolDeclarationList(ctx: ObjCParser.ProtocolDeclarationListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterClass_declaration_list(ctx: ObjCParser.Class_declaration_listContext) = ()
+	override def enterClassDeclarationList(ctx: ObjCParser.ClassDeclarationListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitClass_declaration_list(ctx: ObjCParser.Class_declaration_listContext) = ()
+	override def exitClassDeclarationList(ctx: ObjCParser.ClassDeclarationListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterClass_list(ctx: ObjCParser.Class_listContext) = ()
+	override def enterClassList(ctx: ObjCParser.ClassListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitClass_list(ctx: ObjCParser.Class_listContext) = ()
+	override def exitClassList(ctx: ObjCParser.ClassListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterProtocol_reference_list(ctx: ObjCParser.Protocol_reference_listContext) = ()
+	override def enterProtocolReferenceList(ctx: ObjCParser.ProtocolReferenceListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitProtocol_reference_list(ctx: ObjCParser.Protocol_reference_listContext) = ()
+	override def exitProtocolReferenceList(ctx: ObjCParser.ProtocolReferenceListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterProtocol_list(ctx: ObjCParser.Protocol_listContext) = ()
+	override def enterProtocolList(ctx: ObjCParser.ProtocolListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitProtocol_list(ctx: ObjCParser.Protocol_listContext) = ()
+	override def exitProtocolList(ctx: ObjCParser.ProtocolListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterProperty_declaration(ctx: ObjCParser.Property_declarationContext) = ()
+	override def enterPropertyDeclaration(ctx: ObjCParser.PropertyDeclarationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitProperty_declaration(ctx: ObjCParser.Property_declarationContext) = ()
+	override def exitPropertyDeclaration(ctx: ObjCParser.PropertyDeclarationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterProperty_attributes_declaration(ctx: ObjCParser.Property_attributes_declarationContext) = ()
+	override def enterPropertyAttributesDeclaration(ctx: ObjCParser.PropertyAttributesDeclarationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitProperty_attributes_declaration(ctx: ObjCParser.Property_attributes_declarationContext) = ()
+	override def exitPropertyAttributesDeclaration(ctx: ObjCParser.PropertyAttributesDeclarationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterProperty_attributes_list(ctx: ObjCParser.Property_attributes_listContext) = ()
+	override def enterPropertyAttributesList(ctx: ObjCParser.PropertyAttributesListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitProperty_attributes_list(ctx: ObjCParser.Property_attributes_listContext) = ()
+	override def exitPropertyAttributesList(ctx: ObjCParser.PropertyAttributesListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterProperty_attribute(ctx: ObjCParser.Property_attributeContext) = ()
+	override def enterPropertyAttribute(ctx: ObjCParser.PropertyAttributeContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitProperty_attribute(ctx: ObjCParser.Property_attributeContext) = ()
+	override def exitPropertyAttribute(ctx: ObjCParser.PropertyAttributeContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterIb_outlet_specifier(ctx: ObjCParser.Ib_outlet_specifierContext) = ()
+	override def enterIbOutletSpecifier(ctx: ObjCParser.IbOutletSpecifierContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitIb_outlet_specifier(ctx: ObjCParser.Ib_outlet_specifierContext) = ()
+	override def exitIbOutletSpecifier(ctx: ObjCParser.IbOutletSpecifierContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterClass_name(ctx: ObjCParser.Class_nameContext) = ()
+	override def enterClassName(ctx: ObjCParser.ClassNameContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitClass_name(ctx: ObjCParser.Class_nameContext) = ()
+	override def exitClassName(ctx: ObjCParser.ClassNameContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterSuperclass_name(ctx: ObjCParser.Superclass_nameContext) = ()
+	override def enterSuperclassName(ctx: ObjCParser.SuperclassNameContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitSuperclass_name(ctx: ObjCParser.Superclass_nameContext) = ()
+	override def exitSuperclassName(ctx: ObjCParser.SuperclassNameContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterCategory_name(ctx: ObjCParser.Category_nameContext) = ()
+	override def enterCategoryName(ctx: ObjCParser.CategoryNameContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitCategory_name(ctx: ObjCParser.Category_nameContext) = ()
+	override def exitCategoryName(ctx: ObjCParser.CategoryNameContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterProtocol_name(ctx: ObjCParser.Protocol_nameContext) = ()
+	override def enterProtocolName(ctx: ObjCParser.ProtocolNameContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitProtocol_name(ctx: ObjCParser.Protocol_nameContext) = ()
+	override def exitProtocolName(ctx: ObjCParser.ProtocolNameContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterInstance_variables(ctx: ObjCParser.Instance_variablesContext) = ()
+	override def enterInstanceVariables(ctx: ObjCParser.InstanceVariablesContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitInstance_variables(ctx: ObjCParser.Instance_variablesContext) = ()
+	override def exitInstanceVariables(ctx: ObjCParser.InstanceVariablesContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterVisibility_specification(ctx: ObjCParser.Visibility_specificationContext) = ()
+	override def enterVisibilitySpecification(ctx: ObjCParser.VisibilitySpecificationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitVisibility_specification(ctx: ObjCParser.Visibility_specificationContext) = ()
+	override def exitVisibilitySpecification(ctx: ObjCParser.VisibilitySpecificationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterInterface_declaration_list(ctx: ObjCParser.Interface_declaration_listContext) = ()
+	override def enterInterfaceDeclarationList(ctx: ObjCParser.InterfaceDeclarationListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitInterface_declaration_list(ctx: ObjCParser.Interface_declaration_listContext) = ()
+	override def exitInterfaceDeclarationList(ctx: ObjCParser.InterfaceDeclarationListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterClass_method_declaration(ctx: ObjCParser.Class_method_declarationContext) = ()
+	override def enterClassMethodDeclaration(ctx: ObjCParser.ClassMethodDeclarationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitClass_method_declaration(ctx: ObjCParser.Class_method_declarationContext) = ()
+	override def exitClassMethodDeclaration(ctx: ObjCParser.ClassMethodDeclarationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterInstance_method_declaration(ctx: ObjCParser.Instance_method_declarationContext) = ()
+	override def enterInstanceMethodDeclaration(ctx: ObjCParser.InstanceMethodDeclarationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitInstance_method_declaration(ctx: ObjCParser.Instance_method_declarationContext) = ()
+	override def exitInstanceMethodDeclaration(ctx: ObjCParser.InstanceMethodDeclarationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterMethod_declaration(ctx: ObjCParser.Method_declarationContext) = ()
+	override def enterMethodDeclaration(ctx: ObjCParser.MethodDeclarationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitMethod_declaration(ctx: ObjCParser.Method_declarationContext) = ()
+	override def exitMethodDeclaration(ctx: ObjCParser.MethodDeclarationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterImplementation_definition_list(ctx: ObjCParser.Implementation_definition_listContext) = ()
+	override def enterImplementationDefinitionList(ctx: ObjCParser.ImplementationDefinitionListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitImplementation_definition_list(ctx: ObjCParser.Implementation_definition_listContext) = ()
+	override def exitImplementationDefinitionList(ctx: ObjCParser.ImplementationDefinitionListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterClass_method_definition(ctx: ObjCParser.Class_method_definitionContext) = ()
+	override def enterClassMethodDefinition(ctx: ObjCParser.ClassMethodDefinitionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitClass_method_definition(ctx: ObjCParser.Class_method_definitionContext) = ()
+	override def exitClassMethodDefinition(ctx: ObjCParser.ClassMethodDefinitionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterInstance_method_definition(ctx: ObjCParser.Instance_method_definitionContext) = ()
+	override def enterInstanceMethodDefinition(ctx: ObjCParser.InstanceMethodDefinitionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitInstance_method_definition(ctx: ObjCParser.Instance_method_definitionContext) = ()
+	override def exitInstanceMethodDefinition(ctx: ObjCParser.InstanceMethodDefinitionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterMethod_definition(ctx: ObjCParser.Method_definitionContext) = ()
+	override def enterMethodDefinition(ctx: ObjCParser.MethodDefinitionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitMethod_definition(ctx: ObjCParser.Method_definitionContext) = ()
+	override def exitMethodDefinition(ctx: ObjCParser.MethodDefinitionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterMethod_selector(ctx: ObjCParser.Method_selectorContext) = ()
+	override def enterMethodSelector(ctx: ObjCParser.MethodSelectorContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitMethod_selector(ctx: ObjCParser.Method_selectorContext) = ()
+	override def exitMethodSelector(ctx: ObjCParser.MethodSelectorContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterKeyword_declarator(ctx: ObjCParser.Keyword_declaratorContext) = ()
+	override def enterKeywordDeclarator(ctx: ObjCParser.KeywordDeclaratorContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitKeyword_declarator(ctx: ObjCParser.Keyword_declaratorContext) = ()
+	override def exitKeywordDeclarator(ctx: ObjCParser.KeywordDeclaratorContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
@@ -436,193 +436,193 @@ class ObjCBaseListener extends ObjCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterMethod_type(ctx: ObjCParser.Method_typeContext) = ()
+	override def enterMethodType(ctx: ObjCParser.MethodTypeContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitMethod_type(ctx: ObjCParser.Method_typeContext) = ()
+	override def exitMethodType(ctx: ObjCParser.MethodTypeContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterProperty_implementation(ctx: ObjCParser.Property_implementationContext) = ()
+	override def enterPropertyImplementation(ctx: ObjCParser.PropertyImplementationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitProperty_implementation(ctx: ObjCParser.Property_implementationContext) = ()
+	override def exitPropertyImplementation(ctx: ObjCParser.PropertyImplementationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterProperty_synthesize_list(ctx: ObjCParser.Property_synthesize_listContext) = ()
+	override def enterPropertySynthesizeList(ctx: ObjCParser.PropertySynthesizeListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitProperty_synthesize_list(ctx: ObjCParser.Property_synthesize_listContext) = ()
+	override def exitPropertySynthesizeList(ctx: ObjCParser.PropertySynthesizeListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterProperty_synthesize_item(ctx: ObjCParser.Property_synthesize_itemContext) = ()
+	override def enterPropertySynthesizeItem(ctx: ObjCParser.PropertySynthesizeItemContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitProperty_synthesize_item(ctx: ObjCParser.Property_synthesize_itemContext) = ()
+	override def exitPropertySynthesizeItem(ctx: ObjCParser.PropertySynthesizeItemContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterBlock_type(ctx: ObjCParser.Block_typeContext) = ()
+	override def enterBlockType(ctx: ObjCParser.BlockTypeContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitBlock_type(ctx: ObjCParser.Block_typeContext) = ()
+	override def exitBlockType(ctx: ObjCParser.BlockTypeContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterType_specifier(ctx: ObjCParser.Type_specifierContext) = ()
+	override def enterTypeSpecifier(ctx: ObjCParser.TypeSpecifierContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitType_specifier(ctx: ObjCParser.Type_specifierContext) = ()
+	override def exitTypeSpecifier(ctx: ObjCParser.TypeSpecifierContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterType_qualifier(ctx: ObjCParser.Type_qualifierContext) = ()
+	override def enterTypeQualifier(ctx: ObjCParser.TypeQualifierContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitType_qualifier(ctx: ObjCParser.Type_qualifierContext) = ()
+	override def exitTypeQualifier(ctx: ObjCParser.TypeQualifierContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterProtocol_qualifier(ctx: ObjCParser.Protocol_qualifierContext) = ()
+	override def enterProtocolQualifier(ctx: ObjCParser.ProtocolQualifierContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitProtocol_qualifier(ctx: ObjCParser.Protocol_qualifierContext) = ()
+	override def exitProtocolQualifier(ctx: ObjCParser.ProtocolQualifierContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterPrimary_expression(ctx: ObjCParser.Primary_expressionContext) = ()
+	override def enterPrimaryExpression(ctx: ObjCParser.PrimaryExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitPrimary_expression(ctx: ObjCParser.Primary_expressionContext) = ()
+	override def exitPrimaryExpression(ctx: ObjCParser.PrimaryExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterDictionary_pair(ctx: ObjCParser.Dictionary_pairContext) = ()
+	override def enterDictionaryPair(ctx: ObjCParser.DictionaryPairContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitDictionary_pair(ctx: ObjCParser.Dictionary_pairContext) = ()
+	override def exitDictionaryPair(ctx: ObjCParser.DictionaryPairContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterDictionary_expression(ctx: ObjCParser.Dictionary_expressionContext) = ()
+	override def enterDictionaryExpression(ctx: ObjCParser.DictionaryExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitDictionary_expression(ctx: ObjCParser.Dictionary_expressionContext) = ()
+	override def exitDictionaryExpression(ctx: ObjCParser.DictionaryExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterArray_expression(ctx: ObjCParser.Array_expressionContext) = ()
+	override def enterArrayExpression(ctx: ObjCParser.ArrayExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitArray_expression(ctx: ObjCParser.Array_expressionContext) = ()
+	override def exitArrayExpression(ctx: ObjCParser.ArrayExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterBox_expression(ctx: ObjCParser.Box_expressionContext) = ()
+	override def enterBoxExpression(ctx: ObjCParser.BoxExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitBox_expression(ctx: ObjCParser.Box_expressionContext) = ()
+	override def exitBoxExpression(ctx: ObjCParser.BoxExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterBlock_parameters(ctx: ObjCParser.Block_parametersContext) = ()
+	override def enterBlockParameters(ctx: ObjCParser.BlockParametersContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitBlock_parameters(ctx: ObjCParser.Block_parametersContext) = ()
+	override def exitBlockParameters(ctx: ObjCParser.BlockParametersContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterBlock_expression(ctx: ObjCParser.Block_expressionContext) = ()
+	override def enterBlockExpression(ctx: ObjCParser.BlockExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitBlock_expression(ctx: ObjCParser.Block_expressionContext) = ()
+	override def exitBlockExpression(ctx: ObjCParser.BlockExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterMessage_expression(ctx: ObjCParser.Message_expressionContext) = ()
+	override def enterMessageExpression(ctx: ObjCParser.MessageExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitMessage_expression(ctx: ObjCParser.Message_expressionContext) = ()
+	override def exitMessageExpression(ctx: ObjCParser.MessageExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
@@ -640,181 +640,181 @@ class ObjCBaseListener extends ObjCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterMessage_selector(ctx: ObjCParser.Message_selectorContext) = ()
+	override def enterMessageSelector(ctx: ObjCParser.MessageSelectorContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitMessage_selector(ctx: ObjCParser.Message_selectorContext) = ()
+	override def exitMessageSelector(ctx: ObjCParser.MessageSelectorContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterKeyword_argument(ctx: ObjCParser.Keyword_argumentContext) = ()
+	override def enterKeywordArgument(ctx: ObjCParser.KeywordArgumentContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitKeyword_argument(ctx: ObjCParser.Keyword_argumentContext) = ()
+	override def exitKeywordArgument(ctx: ObjCParser.KeywordArgumentContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterSelector_expression(ctx: ObjCParser.Selector_expressionContext) = ()
+	override def enterSelectorExpression(ctx: ObjCParser.SelectorExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitSelector_expression(ctx: ObjCParser.Selector_expressionContext) = ()
+	override def exitSelectorExpression(ctx: ObjCParser.SelectorExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterSelector_name(ctx: ObjCParser.Selector_nameContext) = ()
+	override def enterSelectorName(ctx: ObjCParser.SelectorNameContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitSelector_name(ctx: ObjCParser.Selector_nameContext) = ()
+	override def exitSelectorName(ctx: ObjCParser.SelectorNameContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterProtocol_expression(ctx: ObjCParser.Protocol_expressionContext) = ()
+	override def enterProtocolExpression(ctx: ObjCParser.ProtocolExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitProtocol_expression(ctx: ObjCParser.Protocol_expressionContext) = ()
+	override def exitProtocolExpression(ctx: ObjCParser.ProtocolExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterEncode_expression(ctx: ObjCParser.Encode_expressionContext) = ()
+	override def enterEncodeExpression(ctx: ObjCParser.EncodeExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitEncode_expression(ctx: ObjCParser.Encode_expressionContext) = ()
+	override def exitEncodeExpression(ctx: ObjCParser.EncodeExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterType_variable_declarator(ctx: ObjCParser.Type_variable_declaratorContext) = ()
+	override def enterTypeVariableDeclarator(ctx: ObjCParser.TypeVariableDeclaratorContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitType_variable_declarator(ctx: ObjCParser.Type_variable_declaratorContext) = ()
+	override def exitTypeVariableDeclarator(ctx: ObjCParser.TypeVariableDeclaratorContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterTry_statement(ctx: ObjCParser.Try_statementContext) = ()
+	override def enterTryStatement(ctx: ObjCParser.TryStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitTry_statement(ctx: ObjCParser.Try_statementContext) = ()
+	override def exitTryStatement(ctx: ObjCParser.TryStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterCatch_statement(ctx: ObjCParser.Catch_statementContext) = ()
+	override def enterCatchStatement(ctx: ObjCParser.CatchStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitCatch_statement(ctx: ObjCParser.Catch_statementContext) = ()
+	override def exitCatchStatement(ctx: ObjCParser.CatchStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterFinally_statement(ctx: ObjCParser.Finally_statementContext) = ()
+	override def enterFinallyStatement(ctx: ObjCParser.FinallyStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitFinally_statement(ctx: ObjCParser.Finally_statementContext) = ()
+	override def exitFinallyStatement(ctx: ObjCParser.FinallyStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterThrow_statement(ctx: ObjCParser.Throw_statementContext) = ()
+	override def enterThrowStatement(ctx: ObjCParser.ThrowStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitThrow_statement(ctx: ObjCParser.Throw_statementContext) = ()
+	override def exitThrowStatement(ctx: ObjCParser.ThrowStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterTry_block(ctx: ObjCParser.Try_blockContext) = ()
+	override def enterTryBlock(ctx: ObjCParser.TryBlockContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitTry_block(ctx: ObjCParser.Try_blockContext) = ()
+	override def exitTryBlock(ctx: ObjCParser.TryBlockContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterSynchronized_statement(ctx: ObjCParser.Synchronized_statementContext) = ()
+	override def enterSynchronizedStatement(ctx: ObjCParser.SynchronizedStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitSynchronized_statement(ctx: ObjCParser.Synchronized_statementContext) = ()
+	override def exitSynchronizedStatement(ctx: ObjCParser.SynchronizedStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterAutorelease_statement(ctx: ObjCParser.Autorelease_statementContext) = ()
+	override def enterAutoreleaseStatement(ctx: ObjCParser.AutoreleaseStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitAutorelease_statement(ctx: ObjCParser.Autorelease_statementContext) = ()
+	override def exitAutoreleaseStatement(ctx: ObjCParser.AutoreleaseStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterFunction_definition(ctx: ObjCParser.Function_definitionContext) = ()
+	override def enterFunctionDefinition(ctx: ObjCParser.FunctionDefinitionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitFunction_definition(ctx: ObjCParser.Function_definitionContext) = ()
+	override def exitFunctionDefinition(ctx: ObjCParser.FunctionDefinitionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
@@ -832,145 +832,145 @@ class ObjCBaseListener extends ObjCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterDeclaration_specifiers(ctx: ObjCParser.Declaration_specifiersContext) = ()
+	override def enterDeclarationSpecifiers(ctx: ObjCParser.DeclarationSpecifiersContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitDeclaration_specifiers(ctx: ObjCParser.Declaration_specifiersContext) = ()
+	override def exitDeclarationSpecifiers(ctx: ObjCParser.DeclarationSpecifiersContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterArc_behaviour_specifier(ctx: ObjCParser.Arc_behaviour_specifierContext) = ()
+	override def enterArcBehaviourSpecifier(ctx: ObjCParser.ArcBehaviourSpecifierContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitArc_behaviour_specifier(ctx: ObjCParser.Arc_behaviour_specifierContext) = ()
+	override def exitArcBehaviourSpecifier(ctx: ObjCParser.ArcBehaviourSpecifierContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterStorage_class_specifier(ctx: ObjCParser.Storage_class_specifierContext) = ()
+	override def enterStorageClassSpecifier(ctx: ObjCParser.StorageClassSpecifierContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitStorage_class_specifier(ctx: ObjCParser.Storage_class_specifierContext) = ()
+	override def exitStorageClassSpecifier(ctx: ObjCParser.StorageClassSpecifierContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterInit_declarator_list(ctx: ObjCParser.Init_declarator_listContext) = ()
+	override def enterInitDeclaratorList(ctx: ObjCParser.InitDeclaratorListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitInit_declarator_list(ctx: ObjCParser.Init_declarator_listContext) = ()
+	override def exitInitDeclaratorList(ctx: ObjCParser.InitDeclaratorListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterInit_declarator(ctx: ObjCParser.Init_declaratorContext) = ()
+	override def enterInitDeclarator(ctx: ObjCParser.InitDeclaratorContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitInit_declarator(ctx: ObjCParser.Init_declaratorContext) = ()
+	override def exitInitDeclarator(ctx: ObjCParser.InitDeclaratorContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterStruct_or_union_specifier(ctx: ObjCParser.Struct_or_union_specifierContext) = ()
+	override def enterStructOrUnionSpecifier(ctx: ObjCParser.StructOrUnionSpecifierContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitStruct_or_union_specifier(ctx: ObjCParser.Struct_or_union_specifierContext) = ()
+	override def exitStructOrUnionSpecifier(ctx: ObjCParser.StructOrUnionSpecifierContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterStruct_declaration(ctx: ObjCParser.Struct_declarationContext) = ()
+	override def enterStructDeclaration(ctx: ObjCParser.StructDeclarationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitStruct_declaration(ctx: ObjCParser.Struct_declarationContext) = ()
+	override def exitStructDeclaration(ctx: ObjCParser.StructDeclarationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterSpecifier_qualifier_list(ctx: ObjCParser.Specifier_qualifier_listContext) = ()
+	override def enterSpecifierQualifierList(ctx: ObjCParser.SpecifierQualifierListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitSpecifier_qualifier_list(ctx: ObjCParser.Specifier_qualifier_listContext) = ()
+	override def exitSpecifierQualifierList(ctx: ObjCParser.SpecifierQualifierListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterStruct_declarator_list(ctx: ObjCParser.Struct_declarator_listContext) = ()
+	override def enterStructDeclaratorList(ctx: ObjCParser.StructDeclaratorListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitStruct_declarator_list(ctx: ObjCParser.Struct_declarator_listContext) = ()
+	override def exitStructDeclaratorList(ctx: ObjCParser.StructDeclaratorListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterStruct_declarator(ctx: ObjCParser.Struct_declaratorContext) = ()
+	override def enterStructDeclarator(ctx: ObjCParser.StructDeclaratorContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitStruct_declarator(ctx: ObjCParser.Struct_declaratorContext) = ()
+	override def exitStructDeclarator(ctx: ObjCParser.StructDeclaratorContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterEnum_specifier(ctx: ObjCParser.Enum_specifierContext) = ()
+	override def enterEnumSpecifier(ctx: ObjCParser.EnumSpecifierContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitEnum_specifier(ctx: ObjCParser.Enum_specifierContext) = ()
+	override def exitEnumSpecifier(ctx: ObjCParser.EnumSpecifierContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterEnumerator_list(ctx: ObjCParser.Enumerator_listContext) = ()
+	override def enterEnumeratorList(ctx: ObjCParser.EnumeratorListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitEnumerator_list(ctx: ObjCParser.Enumerator_listContext) = ()
+	override def exitEnumeratorList(ctx: ObjCParser.EnumeratorListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1012,49 +1012,49 @@ class ObjCBaseListener extends ObjCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterDirect_declarator(ctx: ObjCParser.Direct_declaratorContext) = ()
+	override def enterDirectDeclarator(ctx: ObjCParser.DirectDeclaratorContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitDirect_declarator(ctx: ObjCParser.Direct_declaratorContext) = ()
+	override def exitDirectDeclarator(ctx: ObjCParser.DirectDeclaratorContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterDeclarator_suffix(ctx: ObjCParser.Declarator_suffixContext) = ()
+	override def enterDeclaratorSuffix(ctx: ObjCParser.DeclaratorSuffixContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitDeclarator_suffix(ctx: ObjCParser.Declarator_suffixContext) = ()
+	override def exitDeclaratorSuffix(ctx: ObjCParser.DeclaratorSuffixContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterParameter_list(ctx: ObjCParser.Parameter_listContext) = ()
+	override def enterParameterList(ctx: ObjCParser.ParameterListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitParameter_list(ctx: ObjCParser.Parameter_listContext) = ()
+	override def exitParameterList(ctx: ObjCParser.ParameterListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterParameter_declaration(ctx: ObjCParser.Parameter_declarationContext) = ()
+	override def enterParameterDeclaration(ctx: ObjCParser.ParameterDeclarationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitParameter_declaration(ctx: ObjCParser.Parameter_declarationContext) = ()
+	override def exitParameterDeclaration(ctx: ObjCParser.ParameterDeclarationContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1072,61 +1072,61 @@ class ObjCBaseListener extends ObjCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterType_name(ctx: ObjCParser.Type_nameContext) = ()
+	override def enterTypeName(ctx: ObjCParser.TypeNameContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitType_name(ctx: ObjCParser.Type_nameContext) = ()
+	override def exitTypeName(ctx: ObjCParser.TypeNameContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterAbstract_declarator(ctx: ObjCParser.Abstract_declaratorContext) = ()
+	override def enterAbstractDeclarator(ctx: ObjCParser.AbstractDeclaratorContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitAbstract_declarator(ctx: ObjCParser.Abstract_declaratorContext) = ()
+	override def exitAbstractDeclarator(ctx: ObjCParser.AbstractDeclaratorContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterAbstract_declarator_suffix(ctx: ObjCParser.Abstract_declarator_suffixContext) = ()
+	override def enterAbstractDeclaratorSuffix(ctx: ObjCParser.AbstractDeclaratorSuffixContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitAbstract_declarator_suffix(ctx: ObjCParser.Abstract_declarator_suffixContext) = ()
+	override def exitAbstractDeclaratorSuffix(ctx: ObjCParser.AbstractDeclaratorSuffixContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterParameter_declaration_list(ctx: ObjCParser.Parameter_declaration_listContext) = ()
+	override def enterParameterDeclarationList(ctx: ObjCParser.ParameterDeclarationListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitParameter_declaration_list(ctx: ObjCParser.Parameter_declaration_listContext) = ()
+	override def exitParameterDeclarationList(ctx: ObjCParser.ParameterDeclarationListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterStatement_list(ctx: ObjCParser.Statement_listContext) = ()
+	override def enterStatementList(ctx: ObjCParser.StatementListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitStatement_list(ctx: ObjCParser.Statement_listContext) = ()
+	override def exitStatementList(ctx: ObjCParser.StatementListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1144,109 +1144,109 @@ class ObjCBaseListener extends ObjCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterLabeled_statement(ctx: ObjCParser.Labeled_statementContext) = ()
+	override def enterLabeledStatement(ctx: ObjCParser.LabeledStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitLabeled_statement(ctx: ObjCParser.Labeled_statementContext) = ()
+	override def exitLabeledStatement(ctx: ObjCParser.LabeledStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterCompound_statement(ctx: ObjCParser.Compound_statementContext) = ()
+	override def enterCompoundStatement(ctx: ObjCParser.CompoundStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitCompound_statement(ctx: ObjCParser.Compound_statementContext) = ()
+	override def exitCompoundStatement(ctx: ObjCParser.CompoundStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterSelection_statement(ctx: ObjCParser.Selection_statementContext) = ()
+	override def enterSelectionStatement(ctx: ObjCParser.SelectionStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitSelection_statement(ctx: ObjCParser.Selection_statementContext) = ()
+	override def exitSelectionStatement(ctx: ObjCParser.SelectionStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterFor_in_statement(ctx: ObjCParser.For_in_statementContext) = ()
+	override def enterForInStatement(ctx: ObjCParser.ForInStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitFor_in_statement(ctx: ObjCParser.For_in_statementContext) = ()
+	override def exitForInStatement(ctx: ObjCParser.ForInStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterFor_statement(ctx: ObjCParser.For_statementContext) = ()
+	override def enterForStatement(ctx: ObjCParser.ForStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitFor_statement(ctx: ObjCParser.For_statementContext) = ()
+	override def exitForStatement(ctx: ObjCParser.ForStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterWhile_statement(ctx: ObjCParser.While_statementContext) = ()
+	override def enterWhileStatement(ctx: ObjCParser.WhileStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitWhile_statement(ctx: ObjCParser.While_statementContext) = ()
+	override def exitWhileStatement(ctx: ObjCParser.WhileStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterDo_statement(ctx: ObjCParser.Do_statementContext) = ()
+	override def enterDoStatement(ctx: ObjCParser.DoStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitDo_statement(ctx: ObjCParser.Do_statementContext) = ()
+	override def exitDoStatement(ctx: ObjCParser.DoStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterIteration_statement(ctx: ObjCParser.Iteration_statementContext) = ()
+	override def enterIterationStatement(ctx: ObjCParser.IterationStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitIteration_statement(ctx: ObjCParser.Iteration_statementContext) = ()
+	override def exitIterationStatement(ctx: ObjCParser.IterationStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterJump_statement(ctx: ObjCParser.Jump_statementContext) = ()
+	override def enterJumpStatement(ctx: ObjCParser.JumpStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitJump_statement(ctx: ObjCParser.Jump_statementContext) = ()
+	override def exitJumpStatement(ctx: ObjCParser.JumpStatementContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1264,229 +1264,229 @@ class ObjCBaseListener extends ObjCListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterAssignment_expression(ctx: ObjCParser.Assignment_expressionContext) = ()
+	override def enterAssignmentExpression(ctx: ObjCParser.AssignmentExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitAssignment_expression(ctx: ObjCParser.Assignment_expressionContext) = ()
+	override def exitAssignmentExpression(ctx: ObjCParser.AssignmentExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterAssignment_operator(ctx: ObjCParser.Assignment_operatorContext) = ()
+	override def enterAssignmentOperator(ctx: ObjCParser.AssignmentOperatorContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitAssignment_operator(ctx: ObjCParser.Assignment_operatorContext) = ()
+	override def exitAssignmentOperator(ctx: ObjCParser.AssignmentOperatorContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterConditional_expression(ctx: ObjCParser.Conditional_expressionContext) = ()
+	override def enterConditionalExpression(ctx: ObjCParser.ConditionalExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitConditional_expression(ctx: ObjCParser.Conditional_expressionContext) = ()
+	override def exitConditionalExpression(ctx: ObjCParser.ConditionalExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterConstant_expression(ctx: ObjCParser.Constant_expressionContext) = ()
+	override def enterConstantExpression(ctx: ObjCParser.ConstantExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitConstant_expression(ctx: ObjCParser.Constant_expressionContext) = ()
+	override def exitConstantExpression(ctx: ObjCParser.ConstantExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterLogical_or_expression(ctx: ObjCParser.Logical_or_expressionContext) = ()
+	override def enterLogicalOrExpression(ctx: ObjCParser.LogicalOrExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitLogical_or_expression(ctx: ObjCParser.Logical_or_expressionContext) = ()
+	override def exitLogicalOrExpression(ctx: ObjCParser.LogicalOrExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterLogical_and_expression(ctx: ObjCParser.Logical_and_expressionContext) = ()
+	override def enterLogicalAndExpression(ctx: ObjCParser.LogicalAndExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitLogical_and_expression(ctx: ObjCParser.Logical_and_expressionContext) = ()
+	override def exitLogicalAndExpression(ctx: ObjCParser.LogicalAndExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterInclusive_or_expression(ctx: ObjCParser.Inclusive_or_expressionContext) = ()
+	override def enterInclusiveOrExpression(ctx: ObjCParser.InclusiveOrExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitInclusive_or_expression(ctx: ObjCParser.Inclusive_or_expressionContext) = ()
+	override def exitInclusiveOrExpression(ctx: ObjCParser.InclusiveOrExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterExclusive_or_expression(ctx: ObjCParser.Exclusive_or_expressionContext) = ()
+	override def enterExclusiveOrExpression(ctx: ObjCParser.ExclusiveOrExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitExclusive_or_expression(ctx: ObjCParser.Exclusive_or_expressionContext) = ()
+	override def exitExclusiveOrExpression(ctx: ObjCParser.ExclusiveOrExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterAnd_expression(ctx: ObjCParser.And_expressionContext) = ()
+	override def enterAndExpression(ctx: ObjCParser.AndExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitAnd_expression(ctx: ObjCParser.And_expressionContext) = ()
+	override def exitAndExpression(ctx: ObjCParser.AndExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterEquality_expression(ctx: ObjCParser.Equality_expressionContext) = ()
+	override def enterEqualityExpression(ctx: ObjCParser.EqualityExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitEquality_expression(ctx: ObjCParser.Equality_expressionContext) = ()
+	override def exitEqualityExpression(ctx: ObjCParser.EqualityExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterRelational_expression(ctx: ObjCParser.Relational_expressionContext) = ()
+	override def enterRelationalExpression(ctx: ObjCParser.RelationalExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitRelational_expression(ctx: ObjCParser.Relational_expressionContext) = ()
+	override def exitRelationalExpression(ctx: ObjCParser.RelationalExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterShift_expression(ctx: ObjCParser.Shift_expressionContext) = ()
+	override def enterShiftExpression(ctx: ObjCParser.ShiftExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitShift_expression(ctx: ObjCParser.Shift_expressionContext) = ()
+	override def exitShiftExpression(ctx: ObjCParser.ShiftExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterAdditive_expression(ctx: ObjCParser.Additive_expressionContext) = ()
+	override def enterAdditiveExpression(ctx: ObjCParser.AdditiveExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitAdditive_expression(ctx: ObjCParser.Additive_expressionContext) = ()
+	override def exitAdditiveExpression(ctx: ObjCParser.AdditiveExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterMultiplicative_expression(ctx: ObjCParser.Multiplicative_expressionContext) = ()
+	override def enterMultiplicativeExpression(ctx: ObjCParser.MultiplicativeExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitMultiplicative_expression(ctx: ObjCParser.Multiplicative_expressionContext) = ()
+	override def exitMultiplicativeExpression(ctx: ObjCParser.MultiplicativeExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterCast_expression(ctx: ObjCParser.Cast_expressionContext) = ()
+	override def enterCastExpression(ctx: ObjCParser.CastExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitCast_expression(ctx: ObjCParser.Cast_expressionContext) = ()
+	override def exitCastExpression(ctx: ObjCParser.CastExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterUnary_expression(ctx: ObjCParser.Unary_expressionContext) = ()
+	override def enterUnaryExpression(ctx: ObjCParser.UnaryExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitUnary_expression(ctx: ObjCParser.Unary_expressionContext) = ()
+	override def exitUnaryExpression(ctx: ObjCParser.UnaryExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterUnary_operator(ctx: ObjCParser.Unary_operatorContext) = ()
+	override def enterUnaryOperator(ctx: ObjCParser.UnaryOperatorContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitUnary_operator(ctx: ObjCParser.Unary_operatorContext) = ()
+	override def exitUnaryOperator(ctx: ObjCParser.UnaryOperatorContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterPostfix_expression(ctx: ObjCParser.Postfix_expressionContext) = ()
+	override def enterPostfixExpression(ctx: ObjCParser.PostfixExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitPostfix_expression(ctx: ObjCParser.Postfix_expressionContext) = ()
+	override def exitPostfixExpression(ctx: ObjCParser.PostfixExpressionContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def enterArgument_expression_list(ctx: ObjCParser.Argument_expression_listContext) = ()
+	override def enterArgumentExpressionList(ctx: ObjCParser.ArgumentExpressionListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	override def exitArgument_expression_list(ctx: ObjCParser.Argument_expression_listContext) = ()
+	override def exitArgumentExpressionList(ctx: ObjCParser.ArgumentExpressionListContext) = ()
 	/**
 	 * {@inheritDoc}
 	 *

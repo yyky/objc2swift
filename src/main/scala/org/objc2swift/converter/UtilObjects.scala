@@ -19,18 +19,18 @@ protected trait UtilObjects {
   }
 
   object ClassNameText {
-    def unapply(node: Class_nameContext): Option[String] = Option(node.getText)
+    def unapply(node: ClassNameContext): Option[String] = Option(node.getText)
   }
 
   object ConstantBox {
-    def unapply(ctx: Box_expressionContext): Option[ConstantContext] = Option(ctx.constant())
+    def unapply(ctx: BoxExpressionContext): Option[ConstantContext] = Option(ctx.constant())
   }
 
   object ExpressionBox {
-    def unapply(ctx: Box_expressionContext): Option[ExpressionContext] = Option(ctx.expression())
+    def unapply(ctx: BoxExpressionContext): Option[ExpressionContext] = Option(ctx.expression())
   }
 
   object PostfixExpressionBox {
-    def unapply(ctx: Box_expressionContext): Option[Postfix_expressionContext] = Option(ctx.postfix_expression())
+    def unapply(ctx: BoxExpressionContext): Option[PostfixExpressionContext] = Option(ctx.postfixExpression())
   }
 }

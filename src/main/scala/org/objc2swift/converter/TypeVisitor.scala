@@ -22,10 +22,10 @@ import scala.collection.mutable
 protected trait TypeVisitor {
   this: ObjC2SwiftConverter =>
 
-  type TSContexts = mutable.Buffer[Type_specifierContext]
+  type TSContexts = mutable.Buffer[TypeSpecifierContext]
 
   /**
-   * Returns translated text of type_specifier context.
+   * Returns translated text of typeSpecifier context.
    *
    * @param ctx the parse tree
    * @return Swift type strings
@@ -33,7 +33,7 @@ protected trait TypeVisitor {
    * TODO: Implement other types
    *
    */
-  override def visitType_specifier(ctx: Type_specifierContext): String = {
+  override def visitTypeSpecifier(ctx: TypeSpecifierContext): String = {
     ctx.children.map {
       case TerminalText("void")           => "void"
       case TerminalText("id")             => "AnyObject"
@@ -51,7 +51,7 @@ protected trait TypeVisitor {
       case ClassNameText("SEL")           => "Selector"
       case ClassNameText("BOOL")          => "Bool"
       case ClassNameText(s) if !s.isEmpty => s
-      case _: Class_nameContext           => "AnyObject"
+      case _: ClassNameContext           => "AnyObject"
       case c: PointerContext              => visit(c)
       case c                              => c.getText
     }.mkString
@@ -60,10 +60,10 @@ protected trait TypeVisitor {
   /**
    * Returns concatenated number type text.
    * @param prefix Prefix text of current types.
-   * @param ctx Current type_specifier context
+   * @param ctx Current typeSpecifier context
    * @return Concatenated and translated number type text
    */
-  private def concatNumberType(prefix: String, ctx: Type_specifierContext): String =
+  private def concatNumberType(prefix: String, ctx: TypeSpecifierContext): String =
     (prefix, visit(ctx)) match {
       case ("unsigned", "Int8") => "UInt8"
       case ("unsigned", "Int")  => "UInt"
@@ -76,7 +76,7 @@ protected trait TypeVisitor {
 
   /**
    * Return concatenated type text.
-   * @param types List of type_specifier context
+   * @param types List of typeSpecifier context
    * @return Concatenated and translated type text
    */
   def concatType(types: TSContexts): String =

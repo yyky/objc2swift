@@ -17,238 +17,238 @@ class ObjCBaseVisitor[T] extends AbstractParseTreeVisitor[T] with ObjCVisitor[T]
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitTranslation_unit(ctx: ObjCParser.Translation_unitContext) = visitChildren(ctx) 
+	override def visitTranslationUnit(ctx: ObjCParser.TranslationUnitContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitExternal_declaration(ctx: ObjCParser.External_declarationContext) = visitChildren(ctx) 
+	override def visitExternalDeclaration(ctx: ObjCParser.ExternalDeclarationContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitPreprocessor_declaration(ctx: ObjCParser.Preprocessor_declarationContext) = visitChildren(ctx) 
+	override def visitPreprocessorDeclaration(ctx: ObjCParser.PreprocessorDeclarationContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitClass_interface(ctx: ObjCParser.Class_interfaceContext) = visitChildren(ctx) 
+	override def visitClassInterface(ctx: ObjCParser.ClassInterfaceContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitCategory_interface(ctx: ObjCParser.Category_interfaceContext) = visitChildren(ctx) 
+	override def visitCategoryInterface(ctx: ObjCParser.CategoryInterfaceContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitClass_implementation(ctx: ObjCParser.Class_implementationContext) = visitChildren(ctx) 
+	override def visitClassImplementation(ctx: ObjCParser.ClassImplementationContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitCategory_implementation(ctx: ObjCParser.Category_implementationContext) = visitChildren(ctx) 
+	override def visitCategoryImplementation(ctx: ObjCParser.CategoryImplementationContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitProtocol_declaration(ctx: ObjCParser.Protocol_declarationContext) = visitChildren(ctx) 
+	override def visitProtocolDeclaration(ctx: ObjCParser.ProtocolDeclarationContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitProtocol_declaration_list(ctx: ObjCParser.Protocol_declaration_listContext) = visitChildren(ctx) 
+	override def visitProtocolDeclarationList(ctx: ObjCParser.ProtocolDeclarationListContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitClass_declaration_list(ctx: ObjCParser.Class_declaration_listContext) = visitChildren(ctx) 
+	override def visitClassDeclarationList(ctx: ObjCParser.ClassDeclarationListContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitClass_list(ctx: ObjCParser.Class_listContext) = visitChildren(ctx) 
+	override def visitClassList(ctx: ObjCParser.ClassListContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitProtocol_reference_list(ctx: ObjCParser.Protocol_reference_listContext) = visitChildren(ctx) 
+	override def visitProtocolReferenceList(ctx: ObjCParser.ProtocolReferenceListContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitProtocol_list(ctx: ObjCParser.Protocol_listContext) = visitChildren(ctx) 
+	override def visitProtocolList(ctx: ObjCParser.ProtocolListContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitProperty_declaration(ctx: ObjCParser.Property_declarationContext) = visitChildren(ctx) 
+	override def visitPropertyDeclaration(ctx: ObjCParser.PropertyDeclarationContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitProperty_attributes_declaration(ctx: ObjCParser.Property_attributes_declarationContext) = visitChildren(ctx) 
+	override def visitPropertyAttributesDeclaration(ctx: ObjCParser.PropertyAttributesDeclarationContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitProperty_attributes_list(ctx: ObjCParser.Property_attributes_listContext) = visitChildren(ctx) 
+	override def visitPropertyAttributesList(ctx: ObjCParser.PropertyAttributesListContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitProperty_attribute(ctx: ObjCParser.Property_attributeContext) = visitChildren(ctx) 
+	override def visitPropertyAttribute(ctx: ObjCParser.PropertyAttributeContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitIb_outlet_specifier(ctx: ObjCParser.Ib_outlet_specifierContext) = visitChildren(ctx) 
+	override def visitIbOutletSpecifier(ctx: ObjCParser.IbOutletSpecifierContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitClass_name(ctx: ObjCParser.Class_nameContext) = visitChildren(ctx) 
+	override def visitClassName(ctx: ObjCParser.ClassNameContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitSuperclass_name(ctx: ObjCParser.Superclass_nameContext) = visitChildren(ctx) 
+	override def visitSuperclassName(ctx: ObjCParser.SuperclassNameContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitCategory_name(ctx: ObjCParser.Category_nameContext) = visitChildren(ctx) 
+	override def visitCategoryName(ctx: ObjCParser.CategoryNameContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitProtocol_name(ctx: ObjCParser.Protocol_nameContext) = visitChildren(ctx) 
+	override def visitProtocolName(ctx: ObjCParser.ProtocolNameContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitInstance_variables(ctx: ObjCParser.Instance_variablesContext) = visitChildren(ctx) 
+	override def visitInstanceVariables(ctx: ObjCParser.InstanceVariablesContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitVisibility_specification(ctx: ObjCParser.Visibility_specificationContext) = visitChildren(ctx) 
+	override def visitVisibilitySpecification(ctx: ObjCParser.VisibilitySpecificationContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitInterface_declaration_list(ctx: ObjCParser.Interface_declaration_listContext) = visitChildren(ctx) 
+	override def visitInterfaceDeclarationList(ctx: ObjCParser.InterfaceDeclarationListContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitClass_method_declaration(ctx: ObjCParser.Class_method_declarationContext) = visitChildren(ctx) 
+	override def visitClassMethodDeclaration(ctx: ObjCParser.ClassMethodDeclarationContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitInstance_method_declaration(ctx: ObjCParser.Instance_method_declarationContext) = visitChildren(ctx) 
+	override def visitInstanceMethodDeclaration(ctx: ObjCParser.InstanceMethodDeclarationContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitMethod_declaration(ctx: ObjCParser.Method_declarationContext) = visitChildren(ctx) 
+	override def visitMethodDeclaration(ctx: ObjCParser.MethodDeclarationContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitImplementation_definition_list(ctx: ObjCParser.Implementation_definition_listContext) = visitChildren(ctx) 
+	override def visitImplementationDefinitionList(ctx: ObjCParser.ImplementationDefinitionListContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitClass_method_definition(ctx: ObjCParser.Class_method_definitionContext) = visitChildren(ctx) 
+	override def visitClassMethodDefinition(ctx: ObjCParser.ClassMethodDefinitionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitInstance_method_definition(ctx: ObjCParser.Instance_method_definitionContext) = visitChildren(ctx) 
+	override def visitInstanceMethodDefinition(ctx: ObjCParser.InstanceMethodDefinitionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitMethod_definition(ctx: ObjCParser.Method_definitionContext) = visitChildren(ctx) 
+	override def visitMethodDefinition(ctx: ObjCParser.MethodDefinitionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitMethod_selector(ctx: ObjCParser.Method_selectorContext) = visitChildren(ctx) 
+	override def visitMethodSelector(ctx: ObjCParser.MethodSelectorContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitKeyword_declarator(ctx: ObjCParser.Keyword_declaratorContext) = visitChildren(ctx) 
+	override def visitKeywordDeclarator(ctx: ObjCParser.KeywordDeclaratorContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
@@ -262,112 +262,112 @@ class ObjCBaseVisitor[T] extends AbstractParseTreeVisitor[T] with ObjCVisitor[T]
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitMethod_type(ctx: ObjCParser.Method_typeContext) = visitChildren(ctx) 
+	override def visitMethodType(ctx: ObjCParser.MethodTypeContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitProperty_implementation(ctx: ObjCParser.Property_implementationContext) = visitChildren(ctx) 
+	override def visitPropertyImplementation(ctx: ObjCParser.PropertyImplementationContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitProperty_synthesize_list(ctx: ObjCParser.Property_synthesize_listContext) = visitChildren(ctx) 
+	override def visitPropertySynthesizeList(ctx: ObjCParser.PropertySynthesizeListContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitProperty_synthesize_item(ctx: ObjCParser.Property_synthesize_itemContext) = visitChildren(ctx) 
+	override def visitPropertySynthesizeItem(ctx: ObjCParser.PropertySynthesizeItemContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitBlock_type(ctx: ObjCParser.Block_typeContext) = visitChildren(ctx) 
+	override def visitBlockType(ctx: ObjCParser.BlockTypeContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitType_specifier(ctx: ObjCParser.Type_specifierContext) = visitChildren(ctx) 
+	override def visitTypeSpecifier(ctx: ObjCParser.TypeSpecifierContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitType_qualifier(ctx: ObjCParser.Type_qualifierContext) = visitChildren(ctx) 
+	override def visitTypeQualifier(ctx: ObjCParser.TypeQualifierContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitProtocol_qualifier(ctx: ObjCParser.Protocol_qualifierContext) = visitChildren(ctx) 
+	override def visitProtocolQualifier(ctx: ObjCParser.ProtocolQualifierContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitPrimary_expression(ctx: ObjCParser.Primary_expressionContext) = visitChildren(ctx) 
+	override def visitPrimaryExpression(ctx: ObjCParser.PrimaryExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitDictionary_pair(ctx: ObjCParser.Dictionary_pairContext) = visitChildren(ctx) 
+	override def visitDictionaryPair(ctx: ObjCParser.DictionaryPairContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitDictionary_expression(ctx: ObjCParser.Dictionary_expressionContext) = visitChildren(ctx) 
+	override def visitDictionaryExpression(ctx: ObjCParser.DictionaryExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitArray_expression(ctx: ObjCParser.Array_expressionContext) = visitChildren(ctx) 
+	override def visitArrayExpression(ctx: ObjCParser.ArrayExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitBox_expression(ctx: ObjCParser.Box_expressionContext) = visitChildren(ctx) 
+	override def visitBoxExpression(ctx: ObjCParser.BoxExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitBlock_parameters(ctx: ObjCParser.Block_parametersContext) = visitChildren(ctx) 
+	override def visitBlockParameters(ctx: ObjCParser.BlockParametersContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitBlock_expression(ctx: ObjCParser.Block_expressionContext) = visitChildren(ctx) 
+	override def visitBlockExpression(ctx: ObjCParser.BlockExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitMessage_expression(ctx: ObjCParser.Message_expressionContext) = visitChildren(ctx) 
+	override def visitMessageExpression(ctx: ObjCParser.MessageExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
@@ -381,105 +381,105 @@ class ObjCBaseVisitor[T] extends AbstractParseTreeVisitor[T] with ObjCVisitor[T]
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitMessage_selector(ctx: ObjCParser.Message_selectorContext) = visitChildren(ctx) 
+	override def visitMessageSelector(ctx: ObjCParser.MessageSelectorContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitKeyword_argument(ctx: ObjCParser.Keyword_argumentContext) = visitChildren(ctx) 
+	override def visitKeywordArgument(ctx: ObjCParser.KeywordArgumentContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitSelector_expression(ctx: ObjCParser.Selector_expressionContext) = visitChildren(ctx) 
+	override def visitSelectorExpression(ctx: ObjCParser.SelectorExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitSelector_name(ctx: ObjCParser.Selector_nameContext) = visitChildren(ctx) 
+	override def visitSelectorName(ctx: ObjCParser.SelectorNameContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitProtocol_expression(ctx: ObjCParser.Protocol_expressionContext) = visitChildren(ctx) 
+	override def visitProtocolExpression(ctx: ObjCParser.ProtocolExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitEncode_expression(ctx: ObjCParser.Encode_expressionContext) = visitChildren(ctx) 
+	override def visitEncodeExpression(ctx: ObjCParser.EncodeExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitType_variable_declarator(ctx: ObjCParser.Type_variable_declaratorContext) = visitChildren(ctx) 
+	override def visitTypeVariableDeclarator(ctx: ObjCParser.TypeVariableDeclaratorContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitTry_statement(ctx: ObjCParser.Try_statementContext) = visitChildren(ctx) 
+	override def visitTryStatement(ctx: ObjCParser.TryStatementContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitCatch_statement(ctx: ObjCParser.Catch_statementContext) = visitChildren(ctx) 
+	override def visitCatchStatement(ctx: ObjCParser.CatchStatementContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitFinally_statement(ctx: ObjCParser.Finally_statementContext) = visitChildren(ctx) 
+	override def visitFinallyStatement(ctx: ObjCParser.FinallyStatementContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitThrow_statement(ctx: ObjCParser.Throw_statementContext) = visitChildren(ctx) 
+	override def visitThrowStatement(ctx: ObjCParser.ThrowStatementContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitTry_block(ctx: ObjCParser.Try_blockContext) = visitChildren(ctx) 
+	override def visitTryBlock(ctx: ObjCParser.TryBlockContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitSynchronized_statement(ctx: ObjCParser.Synchronized_statementContext) = visitChildren(ctx) 
+	override def visitSynchronizedStatement(ctx: ObjCParser.SynchronizedStatementContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitAutorelease_statement(ctx: ObjCParser.Autorelease_statementContext) = visitChildren(ctx) 
+	override def visitAutoreleaseStatement(ctx: ObjCParser.AutoreleaseStatementContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitFunction_definition(ctx: ObjCParser.Function_definitionContext) = visitChildren(ctx) 
+	override def visitFunctionDefinition(ctx: ObjCParser.FunctionDefinitionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
@@ -493,84 +493,84 @@ class ObjCBaseVisitor[T] extends AbstractParseTreeVisitor[T] with ObjCVisitor[T]
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitDeclaration_specifiers(ctx: ObjCParser.Declaration_specifiersContext) = visitChildren(ctx) 
+	override def visitDeclarationSpecifiers(ctx: ObjCParser.DeclarationSpecifiersContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitArc_behaviour_specifier(ctx: ObjCParser.Arc_behaviour_specifierContext) = visitChildren(ctx) 
+	override def visitArcBehaviourSpecifier(ctx: ObjCParser.ArcBehaviourSpecifierContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitStorage_class_specifier(ctx: ObjCParser.Storage_class_specifierContext) = visitChildren(ctx) 
+	override def visitStorageClassSpecifier(ctx: ObjCParser.StorageClassSpecifierContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitInit_declarator_list(ctx: ObjCParser.Init_declarator_listContext) = visitChildren(ctx) 
+	override def visitInitDeclaratorList(ctx: ObjCParser.InitDeclaratorListContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitInit_declarator(ctx: ObjCParser.Init_declaratorContext) = visitChildren(ctx) 
+	override def visitInitDeclarator(ctx: ObjCParser.InitDeclaratorContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitStruct_or_union_specifier(ctx: ObjCParser.Struct_or_union_specifierContext) = visitChildren(ctx) 
+	override def visitStructOrUnionSpecifier(ctx: ObjCParser.StructOrUnionSpecifierContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitStruct_declaration(ctx: ObjCParser.Struct_declarationContext) = visitChildren(ctx) 
+	override def visitStructDeclaration(ctx: ObjCParser.StructDeclarationContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitSpecifier_qualifier_list(ctx: ObjCParser.Specifier_qualifier_listContext) = visitChildren(ctx) 
+	override def visitSpecifierQualifierList(ctx: ObjCParser.SpecifierQualifierListContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitStruct_declarator_list(ctx: ObjCParser.Struct_declarator_listContext) = visitChildren(ctx) 
+	override def visitStructDeclaratorList(ctx: ObjCParser.StructDeclaratorListContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitStruct_declarator(ctx: ObjCParser.Struct_declaratorContext) = visitChildren(ctx) 
+	override def visitStructDeclarator(ctx: ObjCParser.StructDeclaratorContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitEnum_specifier(ctx: ObjCParser.Enum_specifierContext) = visitChildren(ctx) 
+	override def visitEnumSpecifier(ctx: ObjCParser.EnumSpecifierContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitEnumerator_list(ctx: ObjCParser.Enumerator_listContext) = visitChildren(ctx) 
+	override def visitEnumeratorList(ctx: ObjCParser.EnumeratorListContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
@@ -598,28 +598,28 @@ class ObjCBaseVisitor[T] extends AbstractParseTreeVisitor[T] with ObjCVisitor[T]
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitDirect_declarator(ctx: ObjCParser.Direct_declaratorContext) = visitChildren(ctx) 
+	override def visitDirectDeclarator(ctx: ObjCParser.DirectDeclaratorContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitDeclarator_suffix(ctx: ObjCParser.Declarator_suffixContext) = visitChildren(ctx) 
+	override def visitDeclaratorSuffix(ctx: ObjCParser.DeclaratorSuffixContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitParameter_list(ctx: ObjCParser.Parameter_listContext) = visitChildren(ctx) 
+	override def visitParameterList(ctx: ObjCParser.ParameterListContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitParameter_declaration(ctx: ObjCParser.Parameter_declarationContext) = visitChildren(ctx) 
+	override def visitParameterDeclaration(ctx: ObjCParser.ParameterDeclarationContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
@@ -633,35 +633,35 @@ class ObjCBaseVisitor[T] extends AbstractParseTreeVisitor[T] with ObjCVisitor[T]
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitType_name(ctx: ObjCParser.Type_nameContext) = visitChildren(ctx) 
+	override def visitTypeName(ctx: ObjCParser.TypeNameContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitAbstract_declarator(ctx: ObjCParser.Abstract_declaratorContext) = visitChildren(ctx) 
+	override def visitAbstractDeclarator(ctx: ObjCParser.AbstractDeclaratorContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitAbstract_declarator_suffix(ctx: ObjCParser.Abstract_declarator_suffixContext) = visitChildren(ctx) 
+	override def visitAbstractDeclaratorSuffix(ctx: ObjCParser.AbstractDeclaratorSuffixContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitParameter_declaration_list(ctx: ObjCParser.Parameter_declaration_listContext) = visitChildren(ctx) 
+	override def visitParameterDeclarationList(ctx: ObjCParser.ParameterDeclarationListContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitStatement_list(ctx: ObjCParser.Statement_listContext) = visitChildren(ctx) 
+	override def visitStatementList(ctx: ObjCParser.StatementListContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
@@ -675,63 +675,63 @@ class ObjCBaseVisitor[T] extends AbstractParseTreeVisitor[T] with ObjCVisitor[T]
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitLabeled_statement(ctx: ObjCParser.Labeled_statementContext) = visitChildren(ctx) 
+	override def visitLabeledStatement(ctx: ObjCParser.LabeledStatementContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitCompound_statement(ctx: ObjCParser.Compound_statementContext) = visitChildren(ctx) 
+	override def visitCompoundStatement(ctx: ObjCParser.CompoundStatementContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitSelection_statement(ctx: ObjCParser.Selection_statementContext) = visitChildren(ctx) 
+	override def visitSelectionStatement(ctx: ObjCParser.SelectionStatementContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitFor_in_statement(ctx: ObjCParser.For_in_statementContext) = visitChildren(ctx) 
+	override def visitForInStatement(ctx: ObjCParser.ForInStatementContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitFor_statement(ctx: ObjCParser.For_statementContext) = visitChildren(ctx) 
+	override def visitForStatement(ctx: ObjCParser.ForStatementContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitWhile_statement(ctx: ObjCParser.While_statementContext) = visitChildren(ctx) 
+	override def visitWhileStatement(ctx: ObjCParser.WhileStatementContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitDo_statement(ctx: ObjCParser.Do_statementContext) = visitChildren(ctx) 
+	override def visitDoStatement(ctx: ObjCParser.DoStatementContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitIteration_statement(ctx: ObjCParser.Iteration_statementContext) = visitChildren(ctx) 
+	override def visitIterationStatement(ctx: ObjCParser.IterationStatementContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitJump_statement(ctx: ObjCParser.Jump_statementContext) = visitChildren(ctx) 
+	override def visitJumpStatement(ctx: ObjCParser.JumpStatementContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
@@ -745,133 +745,133 @@ class ObjCBaseVisitor[T] extends AbstractParseTreeVisitor[T] with ObjCVisitor[T]
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitAssignment_expression(ctx: ObjCParser.Assignment_expressionContext) = visitChildren(ctx) 
+	override def visitAssignmentExpression(ctx: ObjCParser.AssignmentExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitAssignment_operator(ctx: ObjCParser.Assignment_operatorContext) = visitChildren(ctx) 
+	override def visitAssignmentOperator(ctx: ObjCParser.AssignmentOperatorContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitConditional_expression(ctx: ObjCParser.Conditional_expressionContext) = visitChildren(ctx) 
+	override def visitConditionalExpression(ctx: ObjCParser.ConditionalExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitConstant_expression(ctx: ObjCParser.Constant_expressionContext) = visitChildren(ctx) 
+	override def visitConstantExpression(ctx: ObjCParser.ConstantExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitLogical_or_expression(ctx: ObjCParser.Logical_or_expressionContext) = visitChildren(ctx) 
+	override def visitLogicalOrExpression(ctx: ObjCParser.LogicalOrExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitLogical_and_expression(ctx: ObjCParser.Logical_and_expressionContext) = visitChildren(ctx) 
+	override def visitLogicalAndExpression(ctx: ObjCParser.LogicalAndExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitInclusive_or_expression(ctx: ObjCParser.Inclusive_or_expressionContext) = visitChildren(ctx) 
+	override def visitInclusiveOrExpression(ctx: ObjCParser.InclusiveOrExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitExclusive_or_expression(ctx: ObjCParser.Exclusive_or_expressionContext) = visitChildren(ctx) 
+	override def visitExclusiveOrExpression(ctx: ObjCParser.ExclusiveOrExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitAnd_expression(ctx: ObjCParser.And_expressionContext) = visitChildren(ctx) 
+	override def visitAndExpression(ctx: ObjCParser.AndExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitEquality_expression(ctx: ObjCParser.Equality_expressionContext) = visitChildren(ctx) 
+	override def visitEqualityExpression(ctx: ObjCParser.EqualityExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitRelational_expression(ctx: ObjCParser.Relational_expressionContext) = visitChildren(ctx) 
+	override def visitRelationalExpression(ctx: ObjCParser.RelationalExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitShift_expression(ctx: ObjCParser.Shift_expressionContext) = visitChildren(ctx) 
+	override def visitShiftExpression(ctx: ObjCParser.ShiftExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitAdditive_expression(ctx: ObjCParser.Additive_expressionContext) = visitChildren(ctx) 
+	override def visitAdditiveExpression(ctx: ObjCParser.AdditiveExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitMultiplicative_expression(ctx: ObjCParser.Multiplicative_expressionContext) = visitChildren(ctx) 
+	override def visitMultiplicativeExpression(ctx: ObjCParser.MultiplicativeExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitCast_expression(ctx: ObjCParser.Cast_expressionContext) = visitChildren(ctx) 
+	override def visitCastExpression(ctx: ObjCParser.CastExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitUnary_expression(ctx: ObjCParser.Unary_expressionContext) = visitChildren(ctx) 
+	override def visitUnaryExpression(ctx: ObjCParser.UnaryExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitUnary_operator(ctx: ObjCParser.Unary_operatorContext) = visitChildren(ctx) 
+	override def visitUnaryOperator(ctx: ObjCParser.UnaryOperatorContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitPostfix_expression(ctx: ObjCParser.Postfix_expressionContext) = visitChildren(ctx) 
+	override def visitPostfixExpression(ctx: ObjCParser.PostfixExpressionContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	override def visitArgument_expression_list(ctx: ObjCParser.Argument_expression_listContext) = visitChildren(ctx) 
+	override def visitArgumentExpressionList(ctx: ObjCParser.ArgumentExpressionListContext) = visitChildren(ctx) 
 	/**
 	 * {@inheritDoc}
 	 *

@@ -24,16 +24,16 @@ protected trait EnumVisitor {
 
   private val identifiers = new ParseTreeProperty[String]()
 
-  def findDeclarationSpecifiers(ctx: RuleContext): Option[Declaration_specifiersContext] =
+  def findDeclarationSpecifiers(ctx: RuleContext): Option[DeclarationSpecifiersContext] =
     ctx match {
-      case c: Declaration_specifiersContext => Some(c)
-      case c: Translation_unitContext => None
+      case c: DeclarationSpecifiersContext => Some(c)
+      case c: TranslationUnitContext => None
       case _ => findDeclarationSpecifiers(ctx.parent)
     }
 
-  def getClassName(ctx: Declaration_specifiersContext): String =
-    Option(ctx.type_specifier()).filter(_.size >= 2).flatMap { list =>
-      Option(list.last.class_name())
+  def getClassName(ctx: DeclarationSpecifiersContext): String =
+    Option(ctx.typeSpecifier()).filter(_.size >= 2).flatMap { list =>
+      Option(list.last.className())
     }.map(visit).getOrElse("")
 
   /**
@@ -41,16 +41,16 @@ protected trait EnumVisitor {
    * @param ctx parse tree
    * @return
    */
-  def getEnumName(ctx: Enum_specifierContext): String =
+  def getEnumName(ctx: EnumSpecifierContext): String =
     {
       Option(ctx.identifier()).map(visit) orElse
       findDeclarationSpecifiers(ctx).map(getClassName)
     }.getOrElse("")
 
-  override def visitEnum_specifier(ctx: Enum_specifierContext): String =
+  override def visitEnumSpecifier(ctx: EnumSpecifierContext): String =
     Some(getEnumName(ctx))
       .filter(_.nonEmpty)
-      .map(visitEnum_specifier(ctx, _))
+      .map(visitEnumSpecifier(ctx, _))
       .getOrElse("")
 
   /**
@@ -60,19 +60,19 @@ protected trait EnumVisitor {
    * @param identifier enum id
    * @return translated text
    */
-  def visitEnum_specifier(ctx: Enum_specifierContext, identifier: String): String = {
+  def visitEnumSpecifier(ctx: EnumSpecifierContext, identifier: String): String = {
     val builder = List.newBuilder[String]
     val typeStr = for {
-      c1 <- Option(ctx.type_name())
-      c2 <- Option(c1.specifier_qualifier_list())
-      c3 <- Option(c2.type_specifier())
+      c1 <- Option(ctx.typeName())
+      c2 <- Option(c1.specifierQualifierList())
+      c3 <- Option(c2.typeSpecifier())
     } yield concatType(c3)
 
     // save this enum id
     identifiers.put(ctx, identifier)
 
     builder += s"enum $identifier : ${typeStr.getOrElse("Int")}"
-    builder += Option(ctx.enumerator_list()).map(visit).getOrElse("")
+    builder += Option(ctx.enumeratorList()).map(visit).getOrElse("")
 
     builder.result().mkString
   }
@@ -82,7 +82,7 @@ protected trait EnumVisitor {
    *
    * @param ctx the parse tree
    **/
-  override def visitEnumerator_list(ctx: Enumerator_listContext): String =
+  override def visitEnumeratorList(ctx: EnumeratorListContext): String =
     s" {\n${ctx.enumerator().map(visit).mkString("\n")}\n}"
 
   /**
@@ -118,5 +118,5 @@ protected trait EnumVisitor {
    * @return translated text
    */
   private def getEnumConstant(ctx: EnumeratorContext): String =
-    Option(ctx.constant_expression()).map(c => s" = ${visit(c)}").getOrElse("")
+    Option(ctx.constantExpression()).map(c => s" = ${visit(c)}").getOrElse("")
 }

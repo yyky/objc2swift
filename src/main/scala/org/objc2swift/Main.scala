@@ -92,7 +92,7 @@ object Main {
           (ctx.depth - 1) + "  " * ctx.depth +
             parser.getRuleNames()(ctx.getRuleIndex) + ": " + "'" + ctx.getStart.getText.replace("\n\r\t", " ") + "'"
       }
-    }, parser.translation_unit())
+    }, parser.translationUnit())
     lines.result().mkString("\n")
   }
 

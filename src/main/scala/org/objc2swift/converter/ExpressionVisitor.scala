@@ -27,7 +27,7 @@ protected trait ExpressionVisitor {
    * @param ctx parse tree
    * @return translated text
    */
-  def visitBinaryExpression(ctx: ParserRuleContext): String = {
+  def processBinaryExpression(ctx: ParserRuleContext): String = {
     ctx.children.map {
       case TerminalText(s) => s" $s "
       case c               => visit(c)
@@ -40,7 +40,7 @@ protected trait ExpressionVisitor {
    * @param ctx parse tree
    * @return translated text
    */
-  def visitUnaryExpression(ctx: ParserRuleContext): String = {
+  def processUnaryExpression(ctx: ParserRuleContext): String = {
     ctx.children.map {
       case TerminalText(s) => s
       case c               => visit(c)
@@ -48,21 +48,21 @@ protected trait ExpressionVisitor {
   }
 
   /**
-   * Returns translated text of message_expression context.
+   * Returns translated text of messageExpression context.
    *
    * @param ctx the parse tree
    **/
-  override def visitMessage_expression(ctx: Message_expressionContext): String =
+  override def visitMessageExpression(ctx: MessageExpressionContext): String =
     ctx match {
       case StringWithFormatMessageExpression(s) => s
       case AllocMessageExpression(s)            => s
       case InitMessageExpression(s)             => s
       case _ => {
-        val sel = ctx.message_selector()
+        val sel = ctx.messageSelector()
         val method = Option(sel.selector()) match {
           case Some(s) => s"${s.getText}()" // no argument
           case None => {
-            val head :: tail = sel.keyword_argument.toList
+            val head :: tail = sel.keywordArgument.toList
             val firstArg = s"${head.selector.getText}(${visit(head.expression)}"
             val restArgs = tail.map { c => s", ${c.selector.getText}: ${visit(c.expression)}" }
             s"$firstArg${restArgs.mkString})"
@@ -74,54 +74,54 @@ protected trait ExpressionVisitor {
     }
 
   /**
-   * Returns translated text of selector_expression context.
+   * Returns translated text of selectorExpression context.
    *
    * @param ctx the parse tree
    **/
-  override def visitSelector_expression(ctx: Selector_expressionContext): String =
-    s""""${visit(ctx.selector_name())}""""
+  override def visitSelectorExpression(ctx: SelectorExpressionContext): String =
+    s""""${visit(ctx.selectorName())}""""
 
   /**
-   * Returns translated text of selector_name context.
+   * Returns translated text of selectorName context.
    *
    * @param ctx the parse tree
    **/
-  override def visitSelector_name(ctx: Selector_nameContext): String = ctx.getText
+  override def visitSelectorName(ctx: SelectorNameContext): String = ctx.getText
 
-  override def visitArray_expression(ctx: Array_expressionContext) = {
-    s"[${ctx.postfix_expression.map(visit).mkString(", ")}]"
+  override def visitArrayExpression(ctx: ArrayExpressionContext) = {
+    s"[${ctx.postfixExpression.map(visit).mkString(", ")}]"
   }
 
 
-  override def visitDictionary_expression(ctx: Dictionary_expressionContext) = {
-    s"[${ctx.dictionary_pair.map(visit).mkString(", ")}]"
+  override def visitDictionaryExpression(ctx: DictionaryExpressionContext) = {
+    s"[${ctx.dictionaryPair.map(visit).mkString(", ")}]"
   }
 
   /**
-   * Returns translated text of dictionary_pair context.
+   * Returns translated text of dictionaryPair context.
    *
    * @param ctx the parse tree
    **/
-  override def visitDictionary_pair(ctx: Dictionary_pairContext): String =
+  override def visitDictionaryPair(ctx: DictionaryPairContext): String =
     Option(ctx.expression()) match {
-      case Some(s) => s"${visit(ctx.postfix_expression(0))}: ${visit(ctx.expression())}"
-      case None    => s"${visit(ctx.postfix_expression(0))}: ${visit(ctx.postfix_expression(1))}"
+      case Some(s) => s"${visit(ctx.postfixExpression(0))}: ${visit(ctx.expression())}"
+      case None    => s"${visit(ctx.postfixExpression(0))}: ${visit(ctx.postfixExpression(1))}"
     }
 
   /**
-   * Returns translated text of box_expression context.
+   * Returns translated text of boxExpression context.
    *
    * @param ctx the parse tree
    **/
-  override def visitBox_expression(ctx: Box_expressionContext): String =
+  override def visitBoxExpression(ctx: BoxExpressionContext): String =
     ctx match {
       case ConstantBox(c) => visit(c)
       case ExpressionBox(c) => visit(c)
       case PostfixExpressionBox(c) => visit(c)
     }
 
-  override def visitBlock_expression(ctx: Block_expressionContext): String = {
-    val blockType = (ctx.block_parameters, ctx.type_specifier) match {
+  override def visitBlockExpression(ctx: BlockExpressionContext): String = {
+    val blockType = (ctx.blockParameters, ctx.typeSpecifier) match {
       case (null, null) => ""
       case (null, t) =>
         s"() -> ${visit(t)} in"
@@ -132,22 +132,22 @@ protected trait ExpressionVisitor {
     }
 
     s"""|{$blockType
-        |${visit(ctx.compound_statement)}
+        |${visit(ctx.compoundStatement)}
         |${indent(ctx)}}""".stripMargin
   }
 
-  override def visitBlock_parameters(ctx: Block_parametersContext): String =
-    s"(${ctx.type_variable_declarator.map(visit).mkString(", ")})"
+  override def visitBlockParameters(ctx: BlockParametersContext): String =
+    s"(${ctx.typeVariableDeclarator.map(visit).mkString(", ")})"
 
 
   /**
-   * Returns translated text of conditional_expression context.
+   * Returns translated text of conditionalExpression context.
    *
    * @param ctx the parse tree
    **/
-  override def visitConditional_expression(ctx: Conditional_expressionContext): String = {
-    val left = visit(ctx.logical_or_expression())
-    val conds = ctx.conditional_expression()
+  override def visitConditionalExpression(ctx: ConditionalExpressionContext): String = {
+    val left = visit(ctx.logicalOrExpression())
+    val conds = ctx.conditionalExpression()
     conds.length match {
       case 0 => left
       case 1 => s"$left ?? ${visit(conds(0))}"
@@ -155,7 +155,7 @@ protected trait ExpressionVisitor {
     }
   }
 
-  override def visitPrimary_expression(ctx: Primary_expressionContext): String = {
+  override def visitPrimaryExpression(ctx: PrimaryExpressionContext): String = {
     if (ctx.getChildCount == 3 && ctx.getChild(0).getText == "(" && ctx.getChild(2).getText == ")") {
       return s"(${visit(ctx.getChild(1))})"
     }
@@ -179,38 +179,38 @@ protected trait ExpressionVisitor {
   }
 
   override def visitExpression(ctx: ExpressionContext) = concatChildResults(ctx, "")
-  override def visitArgument_expression_list(ctx: Argument_expression_listContext) = concatChildResults(ctx, ", ")
-  override def visitAssignment_expression(ctx: Assignment_expressionContext): String = {
+  override def visitArgumentExpressionList(ctx: ArgumentExpressionListContext) = concatChildResults(ctx, ", ")
+  override def visitAssignmentExpression(ctx: AssignmentExpressionContext): String = {
     if (isUSSetter(ctx.parent))
       concatChildResults(ctx, " ").replaceFirst("_","self.")
     else
       concatChildResults(ctx, " ")
   }
 
-  override def visitEquality_expression(ctx: Equality_expressionContext)       = visitBinaryExpression(ctx)
-  override def visitRelational_expression(ctx: Relational_expressionContext)   = visitBinaryExpression(ctx)
-  override def visitLogical_or_expression(ctx: Logical_or_expressionContext)   = visitBinaryExpression(ctx)
-  override def visitLogical_and_expression(ctx: Logical_and_expressionContext) = visitBinaryExpression(ctx)
-  override def visitAdditive_expression(ctx: Additive_expressionContext)       = visitBinaryExpression(ctx)
-  override def visitMultiplicative_expression(ctx: Multiplicative_expressionContext) = visitBinaryExpression(ctx)
+  override def visitEqualityExpression(ctx: EqualityExpressionContext)       = processBinaryExpression(ctx)
+  override def visitRelationalExpression(ctx: RelationalExpressionContext)   = processBinaryExpression(ctx)
+  override def visitLogicalOrExpression(ctx: LogicalOrExpressionContext)   = processBinaryExpression(ctx)
+  override def visitLogicalAndExpression(ctx: LogicalAndExpressionContext) = processBinaryExpression(ctx)
+  override def visitAdditiveExpression(ctx: AdditiveExpressionContext)       = processBinaryExpression(ctx)
+  override def visitMultiplicativeExpression(ctx: MultiplicativeExpressionContext) = processBinaryExpression(ctx)
 
-  override def visitUnary_expression(ctx: Unary_expressionContext)             = visitUnaryExpression(ctx)
-  override def visitPostfix_expression(ctx: Postfix_expressionContext)         = visitUnaryExpression(ctx)
+  override def visitUnaryExpression(ctx: UnaryExpressionContext)             = processUnaryExpression(ctx)
+  override def visitPostfixExpression(ctx: PostfixExpressionContext)         = processUnaryExpression(ctx)
 
-  override def visitInclusive_or_expression(ctx: Inclusive_or_expressionContext): String =
-    ctx.exclusive_or_expression().map(visit).mkString(" | ")
+  override def visitInclusiveOrExpression(ctx: InclusiveOrExpressionContext): String =
+    ctx.exclusiveOrExpression().map(visit).mkString(" | ")
 
-  override def visitExclusive_or_expression(ctx: Exclusive_or_expressionContext): String =
-    ctx.and_expression().map(visit).mkString(" ^ ")
+  override def visitExclusiveOrExpression(ctx: ExclusiveOrExpressionContext): String =
+    ctx.andExpression().map(visit).mkString(" ^ ")
 
-  override def visitAnd_expression(ctx: And_expressionContext): String =
-    ctx.equality_expression().map(visit).mkString(" & ")
+  override def visitAndExpression(ctx: AndExpressionContext): String =
+    ctx.equalityExpression().map(visit).mkString(" & ")
 
-  override def visitShift_expression(ctx: Shift_expressionContext): String =
+  override def visitShiftExpression(ctx: ShiftExpressionContext): String =
     ctx.children.collect {
       case TerminalText("<<") => " << "
       case TerminalText(">>") => " >> "
-      case a: Additive_expressionContext => visit(a)
+      case a: AdditiveExpressionContext => visit(a)
     }.mkString
 
 }

@@ -15,31 +15,31 @@ package object antlr {
     def toList: List[T] = if (value != null) value else List()
   }
 
-  implicit class AClass_interfaceContext(ctx: Class_interfaceContext) {
-    def correspondingClassImplementation(root: Translation_unitContext): Option[Class_implementationContext] = {
-      val className = ctx.class_name.getText
+  implicit class AClassInterfaceContext(ctx: ClassInterfaceContext) {
+    def correspondingClassImplementation(root: TranslationUnitContext): Option[ClassImplementationContext] = {
+      val className = ctx.className.getText
 
       {
         for {
-          extDclCtx <- root.external_declaration.toStream
-          implCtx <- Option(extDclCtx.class_implementation)
-          if implCtx.class_name.getText == className
+          extDclCtx <- root.externalDeclaration.toStream
+          implCtx <- Option(extDclCtx.classImplementation)
+          if implCtx.className.getText == className
         } yield implCtx
       }.headOption
     }
   }
 
-  implicit class ACategory_interfaceContext(ctx: Category_interfaceContext) {
-    def correspondingCategoryImplementation(root: Translation_unitContext): Option[Category_implementationContext] = {
-      val className = ctx.class_name.getText
-      val categoryName = ctx.category_name.getText
+  implicit class ACategoryInterfaceContext(ctx: CategoryInterfaceContext) {
+    def correspondingCategoryImplementation(root: TranslationUnitContext): Option[CategoryImplementationContext] = {
+      val className = ctx.className.getText
+      val categoryName = ctx.categoryName.getText
 
       {
         for {
-          extDclCtx <- root.external_declaration.toStream
-          implCtx <- Option(extDclCtx.category_implementation())
-          if implCtx.class_name.getText == className
-          if implCtx.category_name.getText == categoryName
+          extDclCtx <- root.externalDeclaration.toStream
+          implCtx <- Option(extDclCtx.categoryImplementation())
+          if implCtx.className.getText == className
+          if implCtx.categoryName.getText == categoryName
         } yield implCtx
       }.headOption
     }

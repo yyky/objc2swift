@@ -29,8 +29,8 @@ trait UtilMethods {
         .scanLeft(node.parent) { (list, _) => list.parent }
         .takeWhile(_ != null)
     parents.count {
-      case _: External_declarationContext => true
-      case _: Compound_statementContext   => true
+      case _: ExternalDeclarationContext => true
+      case _: CompoundStatementContext   => true
       case _ => false
     }
   }

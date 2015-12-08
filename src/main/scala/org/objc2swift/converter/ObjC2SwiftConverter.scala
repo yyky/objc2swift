@@ -37,7 +37,7 @@ class ObjC2SwiftConverter(parser: ObjCParser) extends ObjCBaseVisitor[String]
   parser.removeErrorListeners()
   parser.addErrorListener(this)
 
-  protected val root = parser.translation_unit()
+  protected val root = parser.translationUnit()
   def getResult() = visit(root)
 
   override def visit(tree: ParseTree): String =

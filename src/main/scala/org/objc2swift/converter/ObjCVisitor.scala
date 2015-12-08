@@ -15,205 +15,205 @@ trait ObjCVisitor[T] extends ParseTreeVisitor[T] {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitTranslation_unit(ctx: ObjCParser.Translation_unitContext): T
+	def visitTranslationUnit(ctx: ObjCParser.TranslationUnitContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.external_declaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitExternal_declaration(ctx: ObjCParser.External_declarationContext): T
+	def visitExternalDeclaration(ctx: ObjCParser.ExternalDeclarationContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.preprocessor_declaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitPreprocessor_declaration(ctx: ObjCParser.Preprocessor_declarationContext): T
+	def visitPreprocessorDeclaration(ctx: ObjCParser.PreprocessorDeclarationContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.class_interface}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitClass_interface(ctx: ObjCParser.Class_interfaceContext): T
+	def visitClassInterface(ctx: ObjCParser.ClassInterfaceContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.category_interface}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitCategory_interface(ctx: ObjCParser.Category_interfaceContext): T
+	def visitCategoryInterface(ctx: ObjCParser.CategoryInterfaceContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.class_implementation}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitClass_implementation(ctx: ObjCParser.Class_implementationContext): T
+	def visitClassImplementation(ctx: ObjCParser.ClassImplementationContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.category_implementation}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitCategory_implementation(ctx: ObjCParser.Category_implementationContext): T
+	def visitCategoryImplementation(ctx: ObjCParser.CategoryImplementationContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.protocol_declaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitProtocol_declaration(ctx: ObjCParser.Protocol_declarationContext): T
+	def visitProtocolDeclaration(ctx: ObjCParser.ProtocolDeclarationContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.protocol_declaration_list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitProtocol_declaration_list(ctx: ObjCParser.Protocol_declaration_listContext): T
+	def visitProtocolDeclarationList(ctx: ObjCParser.ProtocolDeclarationListContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.class_declaration_list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitClass_declaration_list(ctx: ObjCParser.Class_declaration_listContext): T
+	def visitClassDeclarationList(ctx: ObjCParser.ClassDeclarationListContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.class_list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitClass_list(ctx: ObjCParser.Class_listContext): T
+	def visitClassList(ctx: ObjCParser.ClassListContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.protocol_reference_list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitProtocol_reference_list(ctx: ObjCParser.Protocol_reference_listContext): T
+	def visitProtocolReferenceList(ctx: ObjCParser.ProtocolReferenceListContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.protocol_list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitProtocol_list(ctx: ObjCParser.Protocol_listContext): T
+	def visitProtocolList(ctx: ObjCParser.ProtocolListContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.property_declaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitProperty_declaration(ctx: ObjCParser.Property_declarationContext): T
+	def visitPropertyDeclaration(ctx: ObjCParser.PropertyDeclarationContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.property_attributes_declaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitProperty_attributes_declaration(ctx: ObjCParser.Property_attributes_declarationContext): T
+	def visitPropertyAttributesDeclaration(ctx: ObjCParser.PropertyAttributesDeclarationContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.property_attributes_list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitProperty_attributes_list(ctx: ObjCParser.Property_attributes_listContext): T
+	def visitPropertyAttributesList(ctx: ObjCParser.PropertyAttributesListContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.property_attribute}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitProperty_attribute(ctx: ObjCParser.Property_attributeContext): T
+	def visitPropertyAttribute(ctx: ObjCParser.PropertyAttributeContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.ib_outlet_specifier}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitIb_outlet_specifier(ctx: ObjCParser.Ib_outlet_specifierContext): T
+	def visitIbOutletSpecifier(ctx: ObjCParser.IbOutletSpecifierContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.class_name}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitClass_name(ctx: ObjCParser.Class_nameContext): T
+	def visitClassName(ctx: ObjCParser.ClassNameContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.superclass_name}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitSuperclass_name(ctx: ObjCParser.Superclass_nameContext): T
+	def visitSuperclassName(ctx: ObjCParser.SuperclassNameContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.category_name}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitCategory_name(ctx: ObjCParser.Category_nameContext): T
+	def visitCategoryName(ctx: ObjCParser.CategoryNameContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.protocol_name}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitProtocol_name(ctx: ObjCParser.Protocol_nameContext): T
+	def visitProtocolName(ctx: ObjCParser.ProtocolNameContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.instance_variables}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitInstance_variables(ctx: ObjCParser.Instance_variablesContext): T
+	def visitInstanceVariables(ctx: ObjCParser.InstanceVariablesContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.visibility_specification}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitVisibility_specification(ctx: ObjCParser.Visibility_specificationContext): T
+	def visitVisibilitySpecification(ctx: ObjCParser.VisibilitySpecificationContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.interface_declaration_list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitInterface_declaration_list(ctx: ObjCParser.Interface_declaration_listContext): T
+	def visitInterfaceDeclarationList(ctx: ObjCParser.InterfaceDeclarationListContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.class_method_declaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitClass_method_declaration(ctx: ObjCParser.Class_method_declarationContext): T
+	def visitClassMethodDeclaration(ctx: ObjCParser.ClassMethodDeclarationContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.instance_method_declaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitInstance_method_declaration(ctx: ObjCParser.Instance_method_declarationContext): T
+	def visitInstanceMethodDeclaration(ctx: ObjCParser.InstanceMethodDeclarationContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.method_declaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitMethod_declaration(ctx: ObjCParser.Method_declarationContext): T
+	def visitMethodDeclaration(ctx: ObjCParser.MethodDeclarationContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.implementation_definition_list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitImplementation_definition_list(ctx: ObjCParser.Implementation_definition_listContext): T
+	def visitImplementationDefinitionList(ctx: ObjCParser.ImplementationDefinitionListContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.class_method_definition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitClass_method_definition(ctx: ObjCParser.Class_method_definitionContext): T
+	def visitClassMethodDefinition(ctx: ObjCParser.ClassMethodDefinitionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.instance_method_definition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitInstance_method_definition(ctx: ObjCParser.Instance_method_definitionContext): T
+	def visitInstanceMethodDefinition(ctx: ObjCParser.InstanceMethodDefinitionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.method_definition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitMethod_definition(ctx: ObjCParser.Method_definitionContext): T
+	def visitMethodDefinition(ctx: ObjCParser.MethodDefinitionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.method_selector}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitMethod_selector(ctx: ObjCParser.Method_selectorContext): T
+	def visitMethodSelector(ctx: ObjCParser.MethodSelectorContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.keyword_declarator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitKeyword_declarator(ctx: ObjCParser.Keyword_declaratorContext): T
+	def visitKeywordDeclarator(ctx: ObjCParser.KeywordDeclaratorContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.selector}.
 	 * @param ctx the parse tree
@@ -225,97 +225,97 @@ trait ObjCVisitor[T] extends ParseTreeVisitor[T] {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitMethod_type(ctx: ObjCParser.Method_typeContext): T
+	def visitMethodType(ctx: ObjCParser.MethodTypeContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.property_implementation}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitProperty_implementation(ctx: ObjCParser.Property_implementationContext): T
+	def visitPropertyImplementation(ctx: ObjCParser.PropertyImplementationContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.property_synthesize_list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitProperty_synthesize_list(ctx: ObjCParser.Property_synthesize_listContext): T
+	def visitPropertySynthesizeList(ctx: ObjCParser.PropertySynthesizeListContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.property_synthesize_item}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitProperty_synthesize_item(ctx: ObjCParser.Property_synthesize_itemContext): T
+	def visitPropertySynthesizeItem(ctx: ObjCParser.PropertySynthesizeItemContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.block_type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitBlock_type(ctx: ObjCParser.Block_typeContext): T
+	def visitBlockType(ctx: ObjCParser.BlockTypeContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.type_specifier}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitType_specifier(ctx: ObjCParser.Type_specifierContext): T
+	def visitTypeSpecifier(ctx: ObjCParser.TypeSpecifierContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.type_qualifier}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitType_qualifier(ctx: ObjCParser.Type_qualifierContext): T
+	def visitTypeQualifier(ctx: ObjCParser.TypeQualifierContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.protocol_qualifier}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitProtocol_qualifier(ctx: ObjCParser.Protocol_qualifierContext): T
+	def visitProtocolQualifier(ctx: ObjCParser.ProtocolQualifierContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.primary_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitPrimary_expression(ctx: ObjCParser.Primary_expressionContext): T
+	def visitPrimaryExpression(ctx: ObjCParser.PrimaryExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.dictionary_pair}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitDictionary_pair(ctx: ObjCParser.Dictionary_pairContext): T
+	def visitDictionaryPair(ctx: ObjCParser.DictionaryPairContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.dictionary_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitDictionary_expression(ctx: ObjCParser.Dictionary_expressionContext): T
+	def visitDictionaryExpression(ctx: ObjCParser.DictionaryExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.array_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitArray_expression(ctx: ObjCParser.Array_expressionContext): T
+	def visitArrayExpression(ctx: ObjCParser.ArrayExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.box_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitBox_expression(ctx: ObjCParser.Box_expressionContext): T
+	def visitBoxExpression(ctx: ObjCParser.BoxExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.block_parameters}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitBlock_parameters(ctx: ObjCParser.Block_parametersContext): T
+	def visitBlockParameters(ctx: ObjCParser.BlockParametersContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.block_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitBlock_expression(ctx: ObjCParser.Block_expressionContext): T
+	def visitBlockExpression(ctx: ObjCParser.BlockExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.message_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitMessage_expression(ctx: ObjCParser.Message_expressionContext): T
+	def visitMessageExpression(ctx: ObjCParser.MessageExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.receiver}.
 	 * @param ctx the parse tree
@@ -327,91 +327,91 @@ trait ObjCVisitor[T] extends ParseTreeVisitor[T] {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitMessage_selector(ctx: ObjCParser.Message_selectorContext): T
+	def visitMessageSelector(ctx: ObjCParser.MessageSelectorContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.keyword_argument}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitKeyword_argument(ctx: ObjCParser.Keyword_argumentContext): T
+	def visitKeywordArgument(ctx: ObjCParser.KeywordArgumentContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.selector_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitSelector_expression(ctx: ObjCParser.Selector_expressionContext): T
+	def visitSelectorExpression(ctx: ObjCParser.SelectorExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.selector_name}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitSelector_name(ctx: ObjCParser.Selector_nameContext): T
+	def visitSelectorName(ctx: ObjCParser.SelectorNameContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.protocol_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitProtocol_expression(ctx: ObjCParser.Protocol_expressionContext): T
+	def visitProtocolExpression(ctx: ObjCParser.ProtocolExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.encode_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitEncode_expression(ctx: ObjCParser.Encode_expressionContext): T
+	def visitEncodeExpression(ctx: ObjCParser.EncodeExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.type_variable_declarator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitType_variable_declarator(ctx: ObjCParser.Type_variable_declaratorContext): T
+	def visitTypeVariableDeclarator(ctx: ObjCParser.TypeVariableDeclaratorContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.try_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitTry_statement(ctx: ObjCParser.Try_statementContext): T
+	def visitTryStatement(ctx: ObjCParser.TryStatementContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.catch_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitCatch_statement(ctx: ObjCParser.Catch_statementContext): T
+	def visitCatchStatement(ctx: ObjCParser.CatchStatementContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.finally_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitFinally_statement(ctx: ObjCParser.Finally_statementContext): T
+	def visitFinallyStatement(ctx: ObjCParser.FinallyStatementContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.throw_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitThrow_statement(ctx: ObjCParser.Throw_statementContext): T
+	def visitThrowStatement(ctx: ObjCParser.ThrowStatementContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.try_block}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitTry_block(ctx: ObjCParser.Try_blockContext): T
+	def visitTryBlock(ctx: ObjCParser.TryBlockContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.synchronized_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitSynchronized_statement(ctx: ObjCParser.Synchronized_statementContext): T
+	def visitSynchronizedStatement(ctx: ObjCParser.SynchronizedStatementContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.autorelease_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitAutorelease_statement(ctx: ObjCParser.Autorelease_statementContext): T
+	def visitAutoreleaseStatement(ctx: ObjCParser.AutoreleaseStatementContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.function_definition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitFunction_definition(ctx: ObjCParser.Function_definitionContext): T
+	def visitFunctionDefinition(ctx: ObjCParser.FunctionDefinitionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.declaration}.
 	 * @param ctx the parse tree
@@ -423,73 +423,73 @@ trait ObjCVisitor[T] extends ParseTreeVisitor[T] {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitDeclaration_specifiers(ctx: ObjCParser.Declaration_specifiersContext): T
+	def visitDeclarationSpecifiers(ctx: ObjCParser.DeclarationSpecifiersContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.arc_behaviour_specifier}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitArc_behaviour_specifier(ctx: ObjCParser.Arc_behaviour_specifierContext): T
+	def visitArcBehaviourSpecifier(ctx: ObjCParser.ArcBehaviourSpecifierContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.storage_class_specifier}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitStorage_class_specifier(ctx: ObjCParser.Storage_class_specifierContext): T
+	def visitStorageClassSpecifier(ctx: ObjCParser.StorageClassSpecifierContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.init_declarator_list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitInit_declarator_list(ctx: ObjCParser.Init_declarator_listContext): T
+	def visitInitDeclaratorList(ctx: ObjCParser.InitDeclaratorListContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.init_declarator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitInit_declarator(ctx: ObjCParser.Init_declaratorContext): T
+	def visitInitDeclarator(ctx: ObjCParser.InitDeclaratorContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.struct_or_union_specifier}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitStruct_or_union_specifier(ctx: ObjCParser.Struct_or_union_specifierContext): T
+	def visitStructOrUnionSpecifier(ctx: ObjCParser.StructOrUnionSpecifierContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.struct_declaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitStruct_declaration(ctx: ObjCParser.Struct_declarationContext): T
+	def visitStructDeclaration(ctx: ObjCParser.StructDeclarationContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.specifier_qualifier_list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitSpecifier_qualifier_list(ctx: ObjCParser.Specifier_qualifier_listContext): T
+	def visitSpecifierQualifierList(ctx: ObjCParser.SpecifierQualifierListContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.struct_declarator_list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitStruct_declarator_list(ctx: ObjCParser.Struct_declarator_listContext): T
+	def visitStructDeclaratorList(ctx: ObjCParser.StructDeclaratorListContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.struct_declarator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitStruct_declarator(ctx: ObjCParser.Struct_declaratorContext): T
+	def visitStructDeclarator(ctx: ObjCParser.StructDeclaratorContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.enum_specifier}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitEnum_specifier(ctx: ObjCParser.Enum_specifierContext): T
+	def visitEnumSpecifier(ctx: ObjCParser.EnumSpecifierContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.enumerator_list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitEnumerator_list(ctx: ObjCParser.Enumerator_listContext): T
+	def visitEnumeratorList(ctx: ObjCParser.EnumeratorListContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.enumerator}.
 	 * @param ctx the parse tree
@@ -513,25 +513,25 @@ trait ObjCVisitor[T] extends ParseTreeVisitor[T] {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitDirect_declarator(ctx: ObjCParser.Direct_declaratorContext): T
+	def visitDirectDeclarator(ctx: ObjCParser.DirectDeclaratorContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.declarator_suffix}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitDeclarator_suffix(ctx: ObjCParser.Declarator_suffixContext): T
+	def visitDeclaratorSuffix(ctx: ObjCParser.DeclaratorSuffixContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.parameter_list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitParameter_list(ctx: ObjCParser.Parameter_listContext): T
+	def visitParameterList(ctx: ObjCParser.ParameterListContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.parameter_declaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitParameter_declaration(ctx: ObjCParser.Parameter_declarationContext): T
+	def visitParameterDeclaration(ctx: ObjCParser.ParameterDeclarationContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.initializer}.
 	 * @param ctx the parse tree
@@ -543,31 +543,31 @@ trait ObjCVisitor[T] extends ParseTreeVisitor[T] {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitType_name(ctx: ObjCParser.Type_nameContext): T
+	def visitTypeName(ctx: ObjCParser.TypeNameContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.abstract_declarator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitAbstract_declarator(ctx: ObjCParser.Abstract_declaratorContext): T
+	def visitAbstractDeclarator(ctx: ObjCParser.AbstractDeclaratorContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.abstract_declarator_suffix}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitAbstract_declarator_suffix(ctx: ObjCParser.Abstract_declarator_suffixContext): T
+	def visitAbstractDeclaratorSuffix(ctx: ObjCParser.AbstractDeclaratorSuffixContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.parameter_declaration_list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitParameter_declaration_list(ctx: ObjCParser.Parameter_declaration_listContext): T
+	def visitParameterDeclarationList(ctx: ObjCParser.ParameterDeclarationListContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.statement_list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitStatement_list(ctx: ObjCParser.Statement_listContext): T
+	def visitStatementList(ctx: ObjCParser.StatementListContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.statement}.
 	 * @param ctx the parse tree
@@ -579,55 +579,55 @@ trait ObjCVisitor[T] extends ParseTreeVisitor[T] {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitLabeled_statement(ctx: ObjCParser.Labeled_statementContext): T
+	def visitLabeledStatement(ctx: ObjCParser.LabeledStatementContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.compound_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitCompound_statement(ctx: ObjCParser.Compound_statementContext): T
+	def visitCompoundStatement(ctx: ObjCParser.CompoundStatementContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.selection_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitSelection_statement(ctx: ObjCParser.Selection_statementContext): T
+	def visitSelectionStatement(ctx: ObjCParser.SelectionStatementContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.for_in_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitFor_in_statement(ctx: ObjCParser.For_in_statementContext): T
+	def visitForInStatement(ctx: ObjCParser.ForInStatementContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.for_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitFor_statement(ctx: ObjCParser.For_statementContext): T
+	def visitForStatement(ctx: ObjCParser.ForStatementContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.while_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitWhile_statement(ctx: ObjCParser.While_statementContext): T
+	def visitWhileStatement(ctx: ObjCParser.WhileStatementContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.do_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitDo_statement(ctx: ObjCParser.Do_statementContext): T
+	def visitDoStatement(ctx: ObjCParser.DoStatementContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.iteration_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitIteration_statement(ctx: ObjCParser.Iteration_statementContext): T
+	def visitIterationStatement(ctx: ObjCParser.IterationStatementContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.jump_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitJump_statement(ctx: ObjCParser.Jump_statementContext): T
+	def visitJumpStatement(ctx: ObjCParser.JumpStatementContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.expression}.
 	 * @param ctx the parse tree
@@ -639,115 +639,115 @@ trait ObjCVisitor[T] extends ParseTreeVisitor[T] {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitAssignment_expression(ctx: ObjCParser.Assignment_expressionContext): T
+	def visitAssignmentExpression(ctx: ObjCParser.AssignmentExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.assignment_operator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitAssignment_operator(ctx: ObjCParser.Assignment_operatorContext): T
+	def visitAssignmentOperator(ctx: ObjCParser.AssignmentOperatorContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.conditional_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitConditional_expression(ctx: ObjCParser.Conditional_expressionContext): T
+	def visitConditionalExpression(ctx: ObjCParser.ConditionalExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.constant_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitConstant_expression(ctx: ObjCParser.Constant_expressionContext): T
+	def visitConstantExpression(ctx: ObjCParser.ConstantExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.logical_or_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitLogical_or_expression(ctx: ObjCParser.Logical_or_expressionContext): T
+	def visitLogicalOrExpression(ctx: ObjCParser.LogicalOrExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.logical_and_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitLogical_and_expression(ctx: ObjCParser.Logical_and_expressionContext): T
+	def visitLogicalAndExpression(ctx: ObjCParser.LogicalAndExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.inclusive_or_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitInclusive_or_expression(ctx: ObjCParser.Inclusive_or_expressionContext): T
+	def visitInclusiveOrExpression(ctx: ObjCParser.InclusiveOrExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.exclusive_or_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitExclusive_or_expression(ctx: ObjCParser.Exclusive_or_expressionContext): T
+	def visitExclusiveOrExpression(ctx: ObjCParser.ExclusiveOrExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.and_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitAnd_expression(ctx: ObjCParser.And_expressionContext): T
+	def visitAndExpression(ctx: ObjCParser.AndExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.equality_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitEquality_expression(ctx: ObjCParser.Equality_expressionContext): T
+	def visitEqualityExpression(ctx: ObjCParser.EqualityExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.relational_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitRelational_expression(ctx: ObjCParser.Relational_expressionContext): T
+	def visitRelationalExpression(ctx: ObjCParser.RelationalExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.shift_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitShift_expression(ctx: ObjCParser.Shift_expressionContext): T
+	def visitShiftExpression(ctx: ObjCParser.ShiftExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.additive_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitAdditive_expression(ctx: ObjCParser.Additive_expressionContext): T
+	def visitAdditiveExpression(ctx: ObjCParser.AdditiveExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.multiplicative_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitMultiplicative_expression(ctx: ObjCParser.Multiplicative_expressionContext): T
+	def visitMultiplicativeExpression(ctx: ObjCParser.MultiplicativeExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.cast_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitCast_expression(ctx: ObjCParser.Cast_expressionContext): T
+	def visitCastExpression(ctx: ObjCParser.CastExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.unary_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitUnary_expression(ctx: ObjCParser.Unary_expressionContext): T
+	def visitUnaryExpression(ctx: ObjCParser.UnaryExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.unary_operator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitUnary_operator(ctx: ObjCParser.Unary_operatorContext): T
+	def visitUnaryOperator(ctx: ObjCParser.UnaryOperatorContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.postfix_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitPostfix_expression(ctx: ObjCParser.Postfix_expressionContext): T
+	def visitPostfixExpression(ctx: ObjCParser.PostfixExpressionContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.argument_expression_list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	def visitArgument_expression_list(ctx: ObjCParser.Argument_expression_listContext): T
+	def visitArgumentExpressionList(ctx: ObjCParser.ArgumentExpressionListContext): T
 	/**
 	 * Visit a parse tree produced by {@link ObjCParser.identifier}.
 	 * @param ctx the parse tree

@@ -15,778 +15,778 @@ object ObjCParser {
 
 	protected final val _sharedContextCache = new PredictionContextCache()
 
-	class Translation_unitContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class TranslationUnitContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def EOF() = getToken(ObjCParser.EOF, 0)
-		def external_declaration() = getRuleContexts(classOf[External_declarationContext]).asScala
-		def external_declaration(i: Int) = getRuleContext(classOf[External_declarationContext], i)
+		def externalDeclaration() = getRuleContexts(classOf[ExternalDeclarationContext]).asScala
+		def externalDeclaration(i: Int) = getRuleContext(classOf[ExternalDeclarationContext], i)
 
 		override def getRuleIndex = RULE_translation_unit
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterTranslation_unit(this)
+			case listener1: ObjCListener => listener1.enterTranslationUnit(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitTranslation_unit(this)
+			case listener1: ObjCListener => listener1.exitTranslationUnit(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitTranslation_unit(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitTranslationUnit(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class External_declarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class ExternalDeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def COMMENT() = getToken(ObjCParser.COMMENT, 0)
 		def LINE_COMMENT() = getToken(ObjCParser.LINE_COMMENT, 0)
-		def preprocessor_declaration() = getRuleContext(classOf[Preprocessor_declarationContext], 0)
-		def function_definition() = getRuleContext(classOf[Function_definitionContext], 0)
+		def preprocessorDeclaration() = getRuleContext(classOf[PreprocessorDeclarationContext], 0)
+		def functionDefinition() = getRuleContext(classOf[FunctionDefinitionContext], 0)
 		def declaration() = getRuleContext(classOf[DeclarationContext], 0)
-		def class_interface() = getRuleContext(classOf[Class_interfaceContext], 0)
-		def class_implementation() = getRuleContext(classOf[Class_implementationContext], 0)
-		def category_interface() = getRuleContext(classOf[Category_interfaceContext], 0)
-		def category_implementation() = getRuleContext(classOf[Category_implementationContext], 0)
-		def protocol_declaration() = getRuleContext(classOf[Protocol_declarationContext], 0)
-		def protocol_declaration_list() = getRuleContext(classOf[Protocol_declaration_listContext], 0)
-		def class_declaration_list() = getRuleContext(classOf[Class_declaration_listContext], 0)
+		def classInterface() = getRuleContext(classOf[ClassInterfaceContext], 0)
+		def classImplementation() = getRuleContext(classOf[ClassImplementationContext], 0)
+		def categoryInterface() = getRuleContext(classOf[CategoryInterfaceContext], 0)
+		def categoryImplementation() = getRuleContext(classOf[CategoryImplementationContext], 0)
+		def protocolDeclaration() = getRuleContext(classOf[ProtocolDeclarationContext], 0)
+		def protocolDeclarationList() = getRuleContext(classOf[ProtocolDeclarationListContext], 0)
+		def classDeclarationList() = getRuleContext(classOf[ClassDeclarationListContext], 0)
 
 		override def getRuleIndex = RULE_external_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterExternal_declaration(this)
+			case listener1: ObjCListener => listener1.enterExternalDeclaration(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitExternal_declaration(this)
+			case listener1: ObjCListener => listener1.exitExternalDeclaration(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitExternal_declaration(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitExternalDeclaration(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Preprocessor_declarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class PreprocessorDeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def IMPORT() = getToken(ObjCParser.IMPORT, 0)
 		def INCLUDE() = getToken(ObjCParser.INCLUDE, 0)
 
 		override def getRuleIndex = RULE_preprocessor_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterPreprocessor_declaration(this)
+			case listener1: ObjCListener => listener1.enterPreprocessorDeclaration(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitPreprocessor_declaration(this)
+			case listener1: ObjCListener => listener1.exitPreprocessorDeclaration(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitPreprocessor_declaration(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitPreprocessorDeclaration(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Class_interfaceContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def class_name() = getRuleContext(classOf[Class_nameContext], 0)
-		def superclass_name() = getRuleContext(classOf[Superclass_nameContext], 0)
-		def protocol_reference_list() = getRuleContext(classOf[Protocol_reference_listContext], 0)
-		def instance_variables() = getRuleContext(classOf[Instance_variablesContext], 0)
-		def interface_declaration_list() = getRuleContext(classOf[Interface_declaration_listContext], 0)
+	class ClassInterfaceContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def className() = getRuleContext(classOf[ClassNameContext], 0)
+		def superclassName() = getRuleContext(classOf[SuperclassNameContext], 0)
+		def protocolReferenceList() = getRuleContext(classOf[ProtocolReferenceListContext], 0)
+		def instanceVariables() = getRuleContext(classOf[InstanceVariablesContext], 0)
+		def interfaceDeclarationList() = getRuleContext(classOf[InterfaceDeclarationListContext], 0)
 
 		override def getRuleIndex = RULE_class_interface
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterClass_interface(this)
+			case listener1: ObjCListener => listener1.enterClassInterface(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitClass_interface(this)
+			case listener1: ObjCListener => listener1.exitClassInterface(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitClass_interface(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitClassInterface(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Category_interfaceContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def class_name() = getRuleContext(classOf[Class_nameContext], 0)
-		def category_name() = getRuleContext(classOf[Category_nameContext], 0)
-		def protocol_reference_list() = getRuleContext(classOf[Protocol_reference_listContext], 0)
-		def instance_variables() = getRuleContext(classOf[Instance_variablesContext], 0)
-		def interface_declaration_list() = getRuleContext(classOf[Interface_declaration_listContext], 0)
+	class CategoryInterfaceContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def className() = getRuleContext(classOf[ClassNameContext], 0)
+		def categoryName() = getRuleContext(classOf[CategoryNameContext], 0)
+		def protocolReferenceList() = getRuleContext(classOf[ProtocolReferenceListContext], 0)
+		def instanceVariables() = getRuleContext(classOf[InstanceVariablesContext], 0)
+		def interfaceDeclarationList() = getRuleContext(classOf[InterfaceDeclarationListContext], 0)
 
 		override def getRuleIndex = RULE_category_interface
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterCategory_interface(this)
+			case listener1: ObjCListener => listener1.enterCategoryInterface(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitCategory_interface(this)
+			case listener1: ObjCListener => listener1.exitCategoryInterface(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitCategory_interface(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitCategoryInterface(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Class_implementationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def class_name() = getRuleContext(classOf[Class_nameContext], 0)
-		def superclass_name() = getRuleContext(classOf[Superclass_nameContext], 0)
-		def instance_variables() = getRuleContext(classOf[Instance_variablesContext], 0)
-		def implementation_definition_list() = getRuleContext(classOf[Implementation_definition_listContext], 0)
+	class ClassImplementationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def className() = getRuleContext(classOf[ClassNameContext], 0)
+		def superclassName() = getRuleContext(classOf[SuperclassNameContext], 0)
+		def instanceVariables() = getRuleContext(classOf[InstanceVariablesContext], 0)
+		def implementationDefinitionList() = getRuleContext(classOf[ImplementationDefinitionListContext], 0)
 
 		override def getRuleIndex = RULE_class_implementation
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterClass_implementation(this)
+			case listener1: ObjCListener => listener1.enterClassImplementation(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitClass_implementation(this)
+			case listener1: ObjCListener => listener1.exitClassImplementation(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitClass_implementation(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitClassImplementation(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Category_implementationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def class_name() = getRuleContext(classOf[Class_nameContext], 0)
-		def category_name() = getRuleContext(classOf[Category_nameContext], 0)
-		def implementation_definition_list() = getRuleContext(classOf[Implementation_definition_listContext], 0)
+	class CategoryImplementationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def className() = getRuleContext(classOf[ClassNameContext], 0)
+		def categoryName() = getRuleContext(classOf[CategoryNameContext], 0)
+		def implementationDefinitionList() = getRuleContext(classOf[ImplementationDefinitionListContext], 0)
 
 		override def getRuleIndex = RULE_category_implementation
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterCategory_implementation(this)
+			case listener1: ObjCListener => listener1.enterCategoryImplementation(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitCategory_implementation(this)
+			case listener1: ObjCListener => listener1.exitCategoryImplementation(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitCategory_implementation(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitCategoryImplementation(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Protocol_declarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def protocol_name() = getRuleContext(classOf[Protocol_nameContext], 0)
-		def protocol_reference_list() = getRuleContext(classOf[Protocol_reference_listContext], 0)
-		def interface_declaration_list() = getRuleContexts(classOf[Interface_declaration_listContext]).asScala
-		def interface_declaration_list(i: Int) = getRuleContext(classOf[Interface_declaration_listContext], i)
+	class ProtocolDeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def protocolName() = getRuleContext(classOf[ProtocolNameContext], 0)
+		def protocolReferenceList() = getRuleContext(classOf[ProtocolReferenceListContext], 0)
+		def interfaceDeclarationList() = getRuleContexts(classOf[InterfaceDeclarationListContext]).asScala
+		def interfaceDeclarationList(i: Int) = getRuleContext(classOf[InterfaceDeclarationListContext], i)
 
 		override def getRuleIndex = RULE_protocol_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterProtocol_declaration(this)
+			case listener1: ObjCListener => listener1.enterProtocolDeclaration(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitProtocol_declaration(this)
+			case listener1: ObjCListener => listener1.exitProtocolDeclaration(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProtocol_declaration(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProtocolDeclaration(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Protocol_declaration_listContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def protocol_list() = getRuleContext(classOf[Protocol_listContext], 0)
+	class ProtocolDeclarationListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def protocolList() = getRuleContext(classOf[ProtocolListContext], 0)
 
 		override def getRuleIndex = RULE_protocol_declaration_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterProtocol_declaration_list(this)
+			case listener1: ObjCListener => listener1.enterProtocolDeclarationList(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitProtocol_declaration_list(this)
+			case listener1: ObjCListener => listener1.exitProtocolDeclarationList(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProtocol_declaration_list(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProtocolDeclarationList(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Class_declaration_listContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def class_list() = getRuleContext(classOf[Class_listContext], 0)
+	class ClassDeclarationListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def classList() = getRuleContext(classOf[ClassListContext], 0)
 
 		override def getRuleIndex = RULE_class_declaration_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterClass_declaration_list(this)
+			case listener1: ObjCListener => listener1.enterClassDeclarationList(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitClass_declaration_list(this)
+			case listener1: ObjCListener => listener1.exitClassDeclarationList(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitClass_declaration_list(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitClassDeclarationList(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Class_listContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def class_name() = getRuleContexts(classOf[Class_nameContext]).asScala
-		def class_name(i: Int) = getRuleContext(classOf[Class_nameContext], i)
+	class ClassListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def className() = getRuleContexts(classOf[ClassNameContext]).asScala
+		def className(i: Int) = getRuleContext(classOf[ClassNameContext], i)
 
 		override def getRuleIndex = RULE_class_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterClass_list(this)
+			case listener1: ObjCListener => listener1.enterClassList(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitClass_list(this)
+			case listener1: ObjCListener => listener1.exitClassList(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitClass_list(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitClassList(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Protocol_reference_listContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def protocol_list() = getRuleContext(classOf[Protocol_listContext], 0)
+	class ProtocolReferenceListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def protocolList() = getRuleContext(classOf[ProtocolListContext], 0)
 
 		override def getRuleIndex = RULE_protocol_reference_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterProtocol_reference_list(this)
+			case listener1: ObjCListener => listener1.enterProtocolReferenceList(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitProtocol_reference_list(this)
+			case listener1: ObjCListener => listener1.exitProtocolReferenceList(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProtocol_reference_list(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProtocolReferenceList(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Protocol_listContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def protocol_name() = getRuleContexts(classOf[Protocol_nameContext]).asScala
-		def protocol_name(i: Int) = getRuleContext(classOf[Protocol_nameContext], i)
+	class ProtocolListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def protocolName() = getRuleContexts(classOf[ProtocolNameContext]).asScala
+		def protocolName(i: Int) = getRuleContext(classOf[ProtocolNameContext], i)
 
 		override def getRuleIndex = RULE_protocol_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterProtocol_list(this)
+			case listener1: ObjCListener => listener1.enterProtocolList(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitProtocol_list(this)
+			case listener1: ObjCListener => listener1.exitProtocolList(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProtocol_list(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProtocolList(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Property_declarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def struct_declaration() = getRuleContext(classOf[Struct_declarationContext], 0)
-		def property_attributes_declaration() = getRuleContext(classOf[Property_attributes_declarationContext], 0)
-		def ib_outlet_specifier() = getRuleContext(classOf[Ib_outlet_specifierContext], 0)
+	class PropertyDeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def structDeclaration() = getRuleContext(classOf[StructDeclarationContext], 0)
+		def propertyAttributesDeclaration() = getRuleContext(classOf[PropertyAttributesDeclarationContext], 0)
+		def ibOutletSpecifier() = getRuleContext(classOf[IbOutletSpecifierContext], 0)
 
 		override def getRuleIndex = RULE_property_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterProperty_declaration(this)
+			case listener1: ObjCListener => listener1.enterPropertyDeclaration(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitProperty_declaration(this)
+			case listener1: ObjCListener => listener1.exitPropertyDeclaration(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProperty_declaration(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitPropertyDeclaration(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Property_attributes_declarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def property_attributes_list() = getRuleContext(classOf[Property_attributes_listContext], 0)
+	class PropertyAttributesDeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def propertyAttributesList() = getRuleContext(classOf[PropertyAttributesListContext], 0)
 
 		override def getRuleIndex = RULE_property_attributes_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterProperty_attributes_declaration(this)
+			case listener1: ObjCListener => listener1.enterPropertyAttributesDeclaration(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitProperty_attributes_declaration(this)
+			case listener1: ObjCListener => listener1.exitPropertyAttributesDeclaration(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProperty_attributes_declaration(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitPropertyAttributesDeclaration(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Property_attributes_listContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def property_attribute() = getRuleContexts(classOf[Property_attributeContext]).asScala
-		def property_attribute(i: Int) = getRuleContext(classOf[Property_attributeContext], i)
+	class PropertyAttributesListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def propertyAttribute() = getRuleContexts(classOf[PropertyAttributeContext]).asScala
+		def propertyAttribute(i: Int) = getRuleContext(classOf[PropertyAttributeContext], i)
 
 		override def getRuleIndex = RULE_property_attributes_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterProperty_attributes_list(this)
+			case listener1: ObjCListener => listener1.enterPropertyAttributesList(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitProperty_attributes_list(this)
+			case listener1: ObjCListener => listener1.exitPropertyAttributesList(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProperty_attributes_list(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitPropertyAttributesList(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Property_attributeContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class PropertyAttributeContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
 
 		override def getRuleIndex = RULE_property_attribute
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterProperty_attribute(this)
+			case listener1: ObjCListener => listener1.enterPropertyAttribute(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitProperty_attribute(this)
+			case listener1: ObjCListener => listener1.exitPropertyAttribute(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProperty_attribute(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitPropertyAttribute(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Ib_outlet_specifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class IbOutletSpecifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
-		def class_name() = getRuleContext(classOf[Class_nameContext], 0)
+		def className() = getRuleContext(classOf[ClassNameContext], 0)
 
 		override def getRuleIndex = RULE_ib_outlet_specifier
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterIb_outlet_specifier(this)
+			case listener1: ObjCListener => listener1.enterIbOutletSpecifier(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitIb_outlet_specifier(this)
+			case listener1: ObjCListener => listener1.exitIbOutletSpecifier(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitIb_outlet_specifier(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitIbOutletSpecifier(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Class_nameContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class ClassNameContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
 
 		override def getRuleIndex = RULE_class_name
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterClass_name(this)
+			case listener1: ObjCListener => listener1.enterClassName(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitClass_name(this)
+			case listener1: ObjCListener => listener1.exitClassName(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitClass_name(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitClassName(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Superclass_nameContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class SuperclassNameContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
 
 		override def getRuleIndex = RULE_superclass_name
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterSuperclass_name(this)
+			case listener1: ObjCListener => listener1.enterSuperclassName(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitSuperclass_name(this)
+			case listener1: ObjCListener => listener1.exitSuperclassName(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitSuperclass_name(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitSuperclassName(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Category_nameContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class CategoryNameContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
 
 		override def getRuleIndex = RULE_category_name
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterCategory_name(this)
+			case listener1: ObjCListener => listener1.enterCategoryName(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitCategory_name(this)
+			case listener1: ObjCListener => listener1.exitCategoryName(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitCategory_name(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitCategoryName(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Protocol_nameContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class ProtocolNameContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
 
 		override def getRuleIndex = RULE_protocol_name
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterProtocol_name(this)
+			case listener1: ObjCListener => listener1.enterProtocolName(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitProtocol_name(this)
+			case listener1: ObjCListener => listener1.exitProtocolName(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProtocol_name(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProtocolName(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Instance_variablesContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def struct_declaration() = getRuleContexts(classOf[Struct_declarationContext]).asScala
-		def struct_declaration(i: Int) = getRuleContext(classOf[Struct_declarationContext], i)
-		def visibility_specification() = getRuleContext(classOf[Visibility_specificationContext], 0)
-		def instance_variables() = getRuleContext(classOf[Instance_variablesContext], 0)
+	class InstanceVariablesContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def structDeclaration() = getRuleContexts(classOf[StructDeclarationContext]).asScala
+		def structDeclaration(i: Int) = getRuleContext(classOf[StructDeclarationContext], i)
+		def visibilitySpecification() = getRuleContext(classOf[VisibilitySpecificationContext], 0)
+		def instanceVariables() = getRuleContext(classOf[InstanceVariablesContext], 0)
 
 		override def getRuleIndex = RULE_instance_variables
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterInstance_variables(this)
+			case listener1: ObjCListener => listener1.enterInstanceVariables(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitInstance_variables(this)
+			case listener1: ObjCListener => listener1.exitInstanceVariables(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitInstance_variables(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitInstanceVariables(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Visibility_specificationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class VisibilitySpecificationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 
 		override def getRuleIndex = RULE_visibility_specification
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterVisibility_specification(this)
+			case listener1: ObjCListener => listener1.enterVisibilitySpecification(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitVisibility_specification(this)
+			case listener1: ObjCListener => listener1.exitVisibilitySpecification(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitVisibility_specification(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitVisibilitySpecification(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Interface_declaration_listContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class InterfaceDeclarationListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def declaration() = getRuleContexts(classOf[DeclarationContext]).asScala
 		def declaration(i: Int) = getRuleContext(classOf[DeclarationContext], i)
-		def class_method_declaration() = getRuleContexts(classOf[Class_method_declarationContext]).asScala
-		def class_method_declaration(i: Int) = getRuleContext(classOf[Class_method_declarationContext], i)
-		def instance_method_declaration() = getRuleContexts(classOf[Instance_method_declarationContext]).asScala
-		def instance_method_declaration(i: Int) = getRuleContext(classOf[Instance_method_declarationContext], i)
-		def property_declaration() = getRuleContexts(classOf[Property_declarationContext]).asScala
-		def property_declaration(i: Int) = getRuleContext(classOf[Property_declarationContext], i)
+		def classMethodDeclaration() = getRuleContexts(classOf[ClassMethodDeclarationContext]).asScala
+		def classMethodDeclaration(i: Int) = getRuleContext(classOf[ClassMethodDeclarationContext], i)
+		def instanceMethodDeclaration() = getRuleContexts(classOf[InstanceMethodDeclarationContext]).asScala
+		def instanceMethodDeclaration(i: Int) = getRuleContext(classOf[InstanceMethodDeclarationContext], i)
+		def propertyDeclaration() = getRuleContexts(classOf[PropertyDeclarationContext]).asScala
+		def propertyDeclaration(i: Int) = getRuleContext(classOf[PropertyDeclarationContext], i)
 
 		override def getRuleIndex = RULE_interface_declaration_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterInterface_declaration_list(this)
+			case listener1: ObjCListener => listener1.enterInterfaceDeclarationList(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitInterface_declaration_list(this)
+			case listener1: ObjCListener => listener1.exitInterfaceDeclarationList(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitInterface_declaration_list(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitInterfaceDeclarationList(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Class_method_declarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def method_declaration() = getRuleContext(classOf[Method_declarationContext], 0)
+	class ClassMethodDeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def methodDeclaration() = getRuleContext(classOf[MethodDeclarationContext], 0)
 
 		override def getRuleIndex = RULE_class_method_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterClass_method_declaration(this)
+			case listener1: ObjCListener => listener1.enterClassMethodDeclaration(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitClass_method_declaration(this)
+			case listener1: ObjCListener => listener1.exitClassMethodDeclaration(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitClass_method_declaration(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitClassMethodDeclaration(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Instance_method_declarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def method_declaration() = getRuleContext(classOf[Method_declarationContext], 0)
+	class InstanceMethodDeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def methodDeclaration() = getRuleContext(classOf[MethodDeclarationContext], 0)
 
 		override def getRuleIndex = RULE_instance_method_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterInstance_method_declaration(this)
+			case listener1: ObjCListener => listener1.enterInstanceMethodDeclaration(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitInstance_method_declaration(this)
+			case listener1: ObjCListener => listener1.exitInstanceMethodDeclaration(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitInstance_method_declaration(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitInstanceMethodDeclaration(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Method_declarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def method_selector() = getRuleContext(classOf[Method_selectorContext], 0)
-		def method_type() = getRuleContext(classOf[Method_typeContext], 0)
+	class MethodDeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def methodSelector() = getRuleContext(classOf[MethodSelectorContext], 0)
+		def methodType() = getRuleContext(classOf[MethodTypeContext], 0)
 
 		override def getRuleIndex = RULE_method_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterMethod_declaration(this)
+			case listener1: ObjCListener => listener1.enterMethodDeclaration(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitMethod_declaration(this)
+			case listener1: ObjCListener => listener1.exitMethodDeclaration(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitMethod_declaration(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitMethodDeclaration(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Implementation_definition_listContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def function_definition() = getRuleContexts(classOf[Function_definitionContext]).asScala
-		def function_definition(i: Int) = getRuleContext(classOf[Function_definitionContext], i)
+	class ImplementationDefinitionListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def functionDefinition() = getRuleContexts(classOf[FunctionDefinitionContext]).asScala
+		def functionDefinition(i: Int) = getRuleContext(classOf[FunctionDefinitionContext], i)
 		def declaration() = getRuleContexts(classOf[DeclarationContext]).asScala
 		def declaration(i: Int) = getRuleContext(classOf[DeclarationContext], i)
-		def class_method_definition() = getRuleContexts(classOf[Class_method_definitionContext]).asScala
-		def class_method_definition(i: Int) = getRuleContext(classOf[Class_method_definitionContext], i)
-		def instance_method_definition() = getRuleContexts(classOf[Instance_method_definitionContext]).asScala
-		def instance_method_definition(i: Int) = getRuleContext(classOf[Instance_method_definitionContext], i)
-		def property_implementation() = getRuleContexts(classOf[Property_implementationContext]).asScala
-		def property_implementation(i: Int) = getRuleContext(classOf[Property_implementationContext], i)
+		def classMethodDefinition() = getRuleContexts(classOf[ClassMethodDefinitionContext]).asScala
+		def classMethodDefinition(i: Int) = getRuleContext(classOf[ClassMethodDefinitionContext], i)
+		def instanceMethodDefinition() = getRuleContexts(classOf[InstanceMethodDefinitionContext]).asScala
+		def instanceMethodDefinition(i: Int) = getRuleContext(classOf[InstanceMethodDefinitionContext], i)
+		def propertyImplementation() = getRuleContexts(classOf[PropertyImplementationContext]).asScala
+		def propertyImplementation(i: Int) = getRuleContext(classOf[PropertyImplementationContext], i)
 
 		override def getRuleIndex = RULE_implementation_definition_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterImplementation_definition_list(this)
+			case listener1: ObjCListener => listener1.enterImplementationDefinitionList(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitImplementation_definition_list(this)
+			case listener1: ObjCListener => listener1.exitImplementationDefinitionList(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitImplementation_definition_list(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitImplementationDefinitionList(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Class_method_definitionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def method_definition() = getRuleContext(classOf[Method_definitionContext], 0)
+	class ClassMethodDefinitionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def methodDefinition() = getRuleContext(classOf[MethodDefinitionContext], 0)
 
 		override def getRuleIndex = RULE_class_method_definition
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterClass_method_definition(this)
+			case listener1: ObjCListener => listener1.enterClassMethodDefinition(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitClass_method_definition(this)
+			case listener1: ObjCListener => listener1.exitClassMethodDefinition(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitClass_method_definition(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitClassMethodDefinition(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Instance_method_definitionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def method_definition() = getRuleContext(classOf[Method_definitionContext], 0)
+	class InstanceMethodDefinitionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def methodDefinition() = getRuleContext(classOf[MethodDefinitionContext], 0)
 
 		override def getRuleIndex = RULE_instance_method_definition
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterInstance_method_definition(this)
+			case listener1: ObjCListener => listener1.enterInstanceMethodDefinition(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitInstance_method_definition(this)
+			case listener1: ObjCListener => listener1.exitInstanceMethodDefinition(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitInstance_method_definition(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitInstanceMethodDefinition(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Method_definitionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def method_selector() = getRuleContext(classOf[Method_selectorContext], 0)
-		def compound_statement() = getRuleContext(classOf[Compound_statementContext], 0)
-		def method_type() = getRuleContext(classOf[Method_typeContext], 0)
-		def init_declarator_list() = getRuleContext(classOf[Init_declarator_listContext], 0)
+	class MethodDefinitionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def methodSelector() = getRuleContext(classOf[MethodSelectorContext], 0)
+		def compoundStatement() = getRuleContext(classOf[CompoundStatementContext], 0)
+		def methodType() = getRuleContext(classOf[MethodTypeContext], 0)
+		def initDeclaratorList() = getRuleContext(classOf[InitDeclaratorListContext], 0)
 
 		override def getRuleIndex = RULE_method_definition
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterMethod_definition(this)
+			case listener1: ObjCListener => listener1.enterMethodDefinition(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitMethod_definition(this)
+			case listener1: ObjCListener => listener1.exitMethodDefinition(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitMethod_definition(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitMethodDefinition(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Method_selectorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class MethodSelectorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def selector() = getRuleContext(classOf[SelectorContext], 0)
-		def keyword_declarator() = getRuleContexts(classOf[Keyword_declaratorContext]).asScala
-		def keyword_declarator(i: Int) = getRuleContext(classOf[Keyword_declaratorContext], i)
-		def parameter_list() = getRuleContext(classOf[Parameter_listContext], 0)
+		def keywordDeclarator() = getRuleContexts(classOf[KeywordDeclaratorContext]).asScala
+		def keywordDeclarator(i: Int) = getRuleContext(classOf[KeywordDeclaratorContext], i)
+		def parameterList() = getRuleContext(classOf[ParameterListContext], 0)
 
 		override def getRuleIndex = RULE_method_selector
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterMethod_selector(this)
+			case listener1: ObjCListener => listener1.enterMethodSelector(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitMethod_selector(this)
+			case listener1: ObjCListener => listener1.exitMethodSelector(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitMethod_selector(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitMethodSelector(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Keyword_declaratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class KeywordDeclaratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
 		def selector() = getRuleContext(classOf[SelectorContext], 0)
-		def method_type() = getRuleContexts(classOf[Method_typeContext]).asScala
-		def method_type(i: Int) = getRuleContext(classOf[Method_typeContext], i)
+		def methodType() = getRuleContexts(classOf[MethodTypeContext]).asScala
+		def methodType(i: Int) = getRuleContext(classOf[MethodTypeContext], i)
 
 		override def getRuleIndex = RULE_keyword_declarator
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterKeyword_declarator(this)
+			case listener1: ObjCListener => listener1.enterKeywordDeclarator(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitKeyword_declarator(this)
+			case listener1: ObjCListener => listener1.exitKeywordDeclarator(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitKeyword_declarator(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitKeywordDeclarator(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
@@ -814,365 +814,365 @@ object ObjCParser {
 	}
 
 
-	class Method_typeContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def type_name() = getRuleContext(classOf[Type_nameContext], 0)
+	class MethodTypeContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def typeName() = getRuleContext(classOf[TypeNameContext], 0)
 
 		override def getRuleIndex = RULE_method_type
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterMethod_type(this)
+			case listener1: ObjCListener => listener1.enterMethodType(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitMethod_type(this)
+			case listener1: ObjCListener => listener1.exitMethodType(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitMethod_type(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitMethodType(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Property_implementationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def property_synthesize_list() = getRuleContext(classOf[Property_synthesize_listContext], 0)
+	class PropertyImplementationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def propertySynthesizeList() = getRuleContext(classOf[PropertySynthesizeListContext], 0)
 
 		override def getRuleIndex = RULE_property_implementation
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterProperty_implementation(this)
+			case listener1: ObjCListener => listener1.enterPropertyImplementation(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitProperty_implementation(this)
+			case listener1: ObjCListener => listener1.exitPropertyImplementation(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProperty_implementation(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitPropertyImplementation(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Property_synthesize_listContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def property_synthesize_item() = getRuleContexts(classOf[Property_synthesize_itemContext]).asScala
-		def property_synthesize_item(i: Int) = getRuleContext(classOf[Property_synthesize_itemContext], i)
+	class PropertySynthesizeListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def propertySynthesizeItem() = getRuleContexts(classOf[PropertySynthesizeItemContext]).asScala
+		def propertySynthesizeItem(i: Int) = getRuleContext(classOf[PropertySynthesizeItemContext], i)
 
 		override def getRuleIndex = RULE_property_synthesize_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterProperty_synthesize_list(this)
+			case listener1: ObjCListener => listener1.enterPropertySynthesizeList(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitProperty_synthesize_list(this)
+			case listener1: ObjCListener => listener1.exitPropertySynthesizeList(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProperty_synthesize_list(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitPropertySynthesizeList(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Property_synthesize_itemContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class PropertySynthesizeItemContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def IDENTIFIER() = getTokens(ObjCParser.IDENTIFIER).asScala
 		def IDENTIFIER(i: Int) = getToken(ObjCParser.IDENTIFIER, i)
 
 		override def getRuleIndex = RULE_property_synthesize_item
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterProperty_synthesize_item(this)
+			case listener1: ObjCListener => listener1.enterPropertySynthesizeItem(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitProperty_synthesize_item(this)
+			case listener1: ObjCListener => listener1.exitPropertySynthesizeItem(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProperty_synthesize_item(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitPropertySynthesizeItem(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Block_typeContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def type_specifier() = getRuleContexts(classOf[Type_specifierContext]).asScala
-		def type_specifier(i: Int) = getRuleContext(classOf[Type_specifierContext], i)
-		def block_parameters() = getRuleContext(classOf[Block_parametersContext], 0)
+	class BlockTypeContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def typeSpecifier() = getRuleContexts(classOf[TypeSpecifierContext]).asScala
+		def typeSpecifier(i: Int) = getRuleContext(classOf[TypeSpecifierContext], i)
+		def blockParameters() = getRuleContext(classOf[BlockParametersContext], 0)
 
 		override def getRuleIndex = RULE_block_type
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterBlock_type(this)
+			case listener1: ObjCListener => listener1.enterBlockType(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitBlock_type(this)
+			case listener1: ObjCListener => listener1.exitBlockType(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitBlock_type(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitBlockType(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Type_specifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def protocol_reference_list() = getRuleContext(classOf[Protocol_reference_listContext], 0)
-		def class_name() = getRuleContext(classOf[Class_nameContext], 0)
-		def struct_or_union_specifier() = getRuleContext(classOf[Struct_or_union_specifierContext], 0)
-		def enum_specifier() = getRuleContext(classOf[Enum_specifierContext], 0)
+	class TypeSpecifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def protocolReferenceList() = getRuleContext(classOf[ProtocolReferenceListContext], 0)
+		def className() = getRuleContext(classOf[ClassNameContext], 0)
+		def structOrUnionSpecifier() = getRuleContext(classOf[StructOrUnionSpecifierContext], 0)
+		def enumSpecifier() = getRuleContext(classOf[EnumSpecifierContext], 0)
 		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
 		def pointer() = getRuleContext(classOf[PointerContext], 0)
 
 		override def getRuleIndex = RULE_type_specifier
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterType_specifier(this)
+			case listener1: ObjCListener => listener1.enterTypeSpecifier(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitType_specifier(this)
+			case listener1: ObjCListener => listener1.exitTypeSpecifier(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitType_specifier(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitTypeSpecifier(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Type_qualifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def protocol_qualifier() = getRuleContext(classOf[Protocol_qualifierContext], 0)
+	class TypeQualifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def protocolQualifier() = getRuleContext(classOf[ProtocolQualifierContext], 0)
 
 		override def getRuleIndex = RULE_type_qualifier
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterType_qualifier(this)
+			case listener1: ObjCListener => listener1.enterTypeQualifier(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitType_qualifier(this)
+			case listener1: ObjCListener => listener1.exitTypeQualifier(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitType_qualifier(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitTypeQualifier(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Protocol_qualifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class ProtocolQualifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 
 		override def getRuleIndex = RULE_protocol_qualifier
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterProtocol_qualifier(this)
+			case listener1: ObjCListener => listener1.enterProtocolQualifier(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitProtocol_qualifier(this)
+			case listener1: ObjCListener => listener1.exitProtocolQualifier(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProtocol_qualifier(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProtocolQualifier(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Primary_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class PrimaryExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
 		def constant() = getRuleContext(classOf[ConstantContext], 0)
 		def STRING_LITERAL() = getToken(ObjCParser.STRING_LITERAL, 0)
 		def expression() = getRuleContext(classOf[ExpressionContext], 0)
-		def message_expression() = getRuleContext(classOf[Message_expressionContext], 0)
-		def selector_expression() = getRuleContext(classOf[Selector_expressionContext], 0)
-		def protocol_expression() = getRuleContext(classOf[Protocol_expressionContext], 0)
-		def encode_expression() = getRuleContext(classOf[Encode_expressionContext], 0)
-		def dictionary_expression() = getRuleContext(classOf[Dictionary_expressionContext], 0)
-		def array_expression() = getRuleContext(classOf[Array_expressionContext], 0)
-		def box_expression() = getRuleContext(classOf[Box_expressionContext], 0)
-		def block_expression() = getRuleContext(classOf[Block_expressionContext], 0)
+		def messageExpression() = getRuleContext(classOf[MessageExpressionContext], 0)
+		def selectorExpression() = getRuleContext(classOf[SelectorExpressionContext], 0)
+		def protocolExpression() = getRuleContext(classOf[ProtocolExpressionContext], 0)
+		def encodeExpression() = getRuleContext(classOf[EncodeExpressionContext], 0)
+		def dictionaryExpression() = getRuleContext(classOf[DictionaryExpressionContext], 0)
+		def arrayExpression() = getRuleContext(classOf[ArrayExpressionContext], 0)
+		def boxExpression() = getRuleContext(classOf[BoxExpressionContext], 0)
+		def blockExpression() = getRuleContext(classOf[BlockExpressionContext], 0)
 
 		override def getRuleIndex = RULE_primary_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterPrimary_expression(this)
+			case listener1: ObjCListener => listener1.enterPrimaryExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitPrimary_expression(this)
+			case listener1: ObjCListener => listener1.exitPrimaryExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitPrimary_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitPrimaryExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Dictionary_pairContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def postfix_expression() = getRuleContexts(classOf[Postfix_expressionContext]).asScala
-		def postfix_expression(i: Int) = getRuleContext(classOf[Postfix_expressionContext], i)
+	class DictionaryPairContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def postfixExpression() = getRuleContexts(classOf[PostfixExpressionContext]).asScala
+		def postfixExpression(i: Int) = getRuleContext(classOf[PostfixExpressionContext], i)
 		def expression() = getRuleContext(classOf[ExpressionContext], 0)
 
 		override def getRuleIndex = RULE_dictionary_pair
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterDictionary_pair(this)
+			case listener1: ObjCListener => listener1.enterDictionaryPair(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitDictionary_pair(this)
+			case listener1: ObjCListener => listener1.exitDictionaryPair(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitDictionary_pair(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitDictionaryPair(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Dictionary_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def dictionary_pair() = getRuleContexts(classOf[Dictionary_pairContext]).asScala
-		def dictionary_pair(i: Int) = getRuleContext(classOf[Dictionary_pairContext], i)
+	class DictionaryExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def dictionaryPair() = getRuleContexts(classOf[DictionaryPairContext]).asScala
+		def dictionaryPair(i: Int) = getRuleContext(classOf[DictionaryPairContext], i)
 
 		override def getRuleIndex = RULE_dictionary_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterDictionary_expression(this)
+			case listener1: ObjCListener => listener1.enterDictionaryExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitDictionary_expression(this)
+			case listener1: ObjCListener => listener1.exitDictionaryExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitDictionary_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitDictionaryExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Array_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def postfix_expression() = getRuleContexts(classOf[Postfix_expressionContext]).asScala
-		def postfix_expression(i: Int) = getRuleContext(classOf[Postfix_expressionContext], i)
+	class ArrayExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def postfixExpression() = getRuleContexts(classOf[PostfixExpressionContext]).asScala
+		def postfixExpression(i: Int) = getRuleContext(classOf[PostfixExpressionContext], i)
 
 		override def getRuleIndex = RULE_array_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterArray_expression(this)
+			case listener1: ObjCListener => listener1.enterArrayExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitArray_expression(this)
+			case listener1: ObjCListener => listener1.exitArrayExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitArray_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitArrayExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Box_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def postfix_expression() = getRuleContext(classOf[Postfix_expressionContext], 0)
+	class BoxExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def postfixExpression() = getRuleContext(classOf[PostfixExpressionContext], 0)
 		def expression() = getRuleContext(classOf[ExpressionContext], 0)
 		def constant() = getRuleContext(classOf[ConstantContext], 0)
 
 		override def getRuleIndex = RULE_box_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterBox_expression(this)
+			case listener1: ObjCListener => listener1.enterBoxExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitBox_expression(this)
+			case listener1: ObjCListener => listener1.exitBoxExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitBox_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitBoxExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Block_parametersContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def type_variable_declarator() = getRuleContexts(classOf[Type_variable_declaratorContext]).asScala
-		def type_variable_declarator(i: Int) = getRuleContext(classOf[Type_variable_declaratorContext], i)
+	class BlockParametersContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def typeVariableDeclarator() = getRuleContexts(classOf[TypeVariableDeclaratorContext]).asScala
+		def typeVariableDeclarator(i: Int) = getRuleContext(classOf[TypeVariableDeclaratorContext], i)
 
 		override def getRuleIndex = RULE_block_parameters
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterBlock_parameters(this)
+			case listener1: ObjCListener => listener1.enterBlockParameters(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitBlock_parameters(this)
+			case listener1: ObjCListener => listener1.exitBlockParameters(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitBlock_parameters(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitBlockParameters(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Block_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def compound_statement() = getRuleContext(classOf[Compound_statementContext], 0)
-		def type_specifier() = getRuleContext(classOf[Type_specifierContext], 0)
-		def block_parameters() = getRuleContext(classOf[Block_parametersContext], 0)
+	class BlockExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def compoundStatement() = getRuleContext(classOf[CompoundStatementContext], 0)
+		def typeSpecifier() = getRuleContext(classOf[TypeSpecifierContext], 0)
+		def blockParameters() = getRuleContext(classOf[BlockParametersContext], 0)
 
 		override def getRuleIndex = RULE_block_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterBlock_expression(this)
+			case listener1: ObjCListener => listener1.enterBlockExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitBlock_expression(this)
+			case listener1: ObjCListener => listener1.exitBlockExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitBlock_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitBlockExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Message_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class MessageExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def receiver() = getRuleContext(classOf[ReceiverContext], 0)
-		def message_selector() = getRuleContext(classOf[Message_selectorContext], 0)
+		def messageSelector() = getRuleContext(classOf[MessageSelectorContext], 0)
 
 		override def getRuleIndex = RULE_message_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterMessage_expression(this)
+			case listener1: ObjCListener => listener1.enterMessageExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitMessage_expression(this)
+			case listener1: ObjCListener => listener1.exitMessageExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitMessage_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitMessageExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
@@ -1181,7 +1181,7 @@ object ObjCParser {
 
 	class ReceiverContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def expression() = getRuleContext(classOf[ExpressionContext], 0)
-		def class_name() = getRuleContext(classOf[Class_nameContext], 0)
+		def className() = getRuleContext(classOf[ClassNameContext], 0)
 
 		override def getRuleIndex = RULE_receiver
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1201,327 +1201,327 @@ object ObjCParser {
 	}
 
 
-	class Message_selectorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class MessageSelectorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def selector() = getRuleContext(classOf[SelectorContext], 0)
-		def keyword_argument() = getRuleContexts(classOf[Keyword_argumentContext]).asScala
-		def keyword_argument(i: Int) = getRuleContext(classOf[Keyword_argumentContext], i)
+		def keywordArgument() = getRuleContexts(classOf[KeywordArgumentContext]).asScala
+		def keywordArgument(i: Int) = getRuleContext(classOf[KeywordArgumentContext], i)
 
 		override def getRuleIndex = RULE_message_selector
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterMessage_selector(this)
+			case listener1: ObjCListener => listener1.enterMessageSelector(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitMessage_selector(this)
+			case listener1: ObjCListener => listener1.exitMessageSelector(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitMessage_selector(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitMessageSelector(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Keyword_argumentContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class KeywordArgumentContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def expression() = getRuleContext(classOf[ExpressionContext], 0)
 		def selector() = getRuleContext(classOf[SelectorContext], 0)
 
 		override def getRuleIndex = RULE_keyword_argument
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterKeyword_argument(this)
+			case listener1: ObjCListener => listener1.enterKeywordArgument(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitKeyword_argument(this)
+			case listener1: ObjCListener => listener1.exitKeywordArgument(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitKeyword_argument(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitKeywordArgument(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Selector_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def selector_name() = getRuleContext(classOf[Selector_nameContext], 0)
+	class SelectorExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def selectorName() = getRuleContext(classOf[SelectorNameContext], 0)
 
 		override def getRuleIndex = RULE_selector_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterSelector_expression(this)
+			case listener1: ObjCListener => listener1.enterSelectorExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitSelector_expression(this)
+			case listener1: ObjCListener => listener1.exitSelectorExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitSelector_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitSelectorExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Selector_nameContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class SelectorNameContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def selector() = getRuleContexts(classOf[SelectorContext]).asScala
 		def selector(i: Int) = getRuleContext(classOf[SelectorContext], i)
 
 		override def getRuleIndex = RULE_selector_name
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterSelector_name(this)
+			case listener1: ObjCListener => listener1.enterSelectorName(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitSelector_name(this)
+			case listener1: ObjCListener => listener1.exitSelectorName(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitSelector_name(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitSelectorName(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Protocol_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def protocol_name() = getRuleContext(classOf[Protocol_nameContext], 0)
+	class ProtocolExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def protocolName() = getRuleContext(classOf[ProtocolNameContext], 0)
 
 		override def getRuleIndex = RULE_protocol_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterProtocol_expression(this)
+			case listener1: ObjCListener => listener1.enterProtocolExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitProtocol_expression(this)
+			case listener1: ObjCListener => listener1.exitProtocolExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProtocol_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitProtocolExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Encode_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def type_name() = getRuleContext(classOf[Type_nameContext], 0)
+	class EncodeExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def typeName() = getRuleContext(classOf[TypeNameContext], 0)
 
 		override def getRuleIndex = RULE_encode_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterEncode_expression(this)
+			case listener1: ObjCListener => listener1.enterEncodeExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitEncode_expression(this)
+			case listener1: ObjCListener => listener1.exitEncodeExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitEncode_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitEncodeExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Type_variable_declaratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def declaration_specifiers() = getRuleContext(classOf[Declaration_specifiersContext], 0)
+	class TypeVariableDeclaratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def declarationSpecifiers() = getRuleContext(classOf[DeclarationSpecifiersContext], 0)
 		def declarator() = getRuleContext(classOf[DeclaratorContext], 0)
 
 		override def getRuleIndex = RULE_type_variable_declarator
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterType_variable_declarator(this)
+			case listener1: ObjCListener => listener1.enterTypeVariableDeclarator(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitType_variable_declarator(this)
+			case listener1: ObjCListener => listener1.exitTypeVariableDeclarator(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitType_variable_declarator(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitTypeVariableDeclarator(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Try_statementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def compound_statement() = getRuleContext(classOf[Compound_statementContext], 0)
+	class TryStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def compoundStatement() = getRuleContext(classOf[CompoundStatementContext], 0)
 
 		override def getRuleIndex = RULE_try_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterTry_statement(this)
+			case listener1: ObjCListener => listener1.enterTryStatement(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitTry_statement(this)
+			case listener1: ObjCListener => listener1.exitTryStatement(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitTry_statement(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitTryStatement(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Catch_statementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def type_variable_declarator() = getRuleContext(classOf[Type_variable_declaratorContext], 0)
-		def compound_statement() = getRuleContext(classOf[Compound_statementContext], 0)
+	class CatchStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def typeVariableDeclarator() = getRuleContext(classOf[TypeVariableDeclaratorContext], 0)
+		def compoundStatement() = getRuleContext(classOf[CompoundStatementContext], 0)
 
 		override def getRuleIndex = RULE_catch_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterCatch_statement(this)
+			case listener1: ObjCListener => listener1.enterCatchStatement(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitCatch_statement(this)
+			case listener1: ObjCListener => listener1.exitCatchStatement(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitCatch_statement(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitCatchStatement(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Finally_statementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def compound_statement() = getRuleContext(classOf[Compound_statementContext], 0)
+	class FinallyStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def compoundStatement() = getRuleContext(classOf[CompoundStatementContext], 0)
 
 		override def getRuleIndex = RULE_finally_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterFinally_statement(this)
+			case listener1: ObjCListener => listener1.enterFinallyStatement(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitFinally_statement(this)
+			case listener1: ObjCListener => listener1.exitFinallyStatement(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitFinally_statement(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitFinallyStatement(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Throw_statementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class ThrowStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
 
 		override def getRuleIndex = RULE_throw_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterThrow_statement(this)
+			case listener1: ObjCListener => listener1.enterThrowStatement(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitThrow_statement(this)
+			case listener1: ObjCListener => listener1.exitThrowStatement(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitThrow_statement(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitThrowStatement(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Try_blockContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def try_statement() = getRuleContext(classOf[Try_statementContext], 0)
-		def catch_statement() = getRuleContexts(classOf[Catch_statementContext]).asScala
-		def catch_statement(i: Int) = getRuleContext(classOf[Catch_statementContext], i)
-		def finally_statement() = getRuleContext(classOf[Finally_statementContext], 0)
+	class TryBlockContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def tryStatement() = getRuleContext(classOf[TryStatementContext], 0)
+		def catchStatement() = getRuleContexts(classOf[CatchStatementContext]).asScala
+		def catchStatement(i: Int) = getRuleContext(classOf[CatchStatementContext], i)
+		def finallyStatement() = getRuleContext(classOf[FinallyStatementContext], 0)
 
 		override def getRuleIndex = RULE_try_block
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterTry_block(this)
+			case listener1: ObjCListener => listener1.enterTryBlock(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitTry_block(this)
+			case listener1: ObjCListener => listener1.exitTryBlock(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitTry_block(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitTryBlock(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Synchronized_statementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def primary_expression() = getRuleContext(classOf[Primary_expressionContext], 0)
-		def compound_statement() = getRuleContext(classOf[Compound_statementContext], 0)
+	class SynchronizedStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def primaryExpression() = getRuleContext(classOf[PrimaryExpressionContext], 0)
+		def compoundStatement() = getRuleContext(classOf[CompoundStatementContext], 0)
 
 		override def getRuleIndex = RULE_synchronized_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterSynchronized_statement(this)
+			case listener1: ObjCListener => listener1.enterSynchronizedStatement(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitSynchronized_statement(this)
+			case listener1: ObjCListener => listener1.exitSynchronizedStatement(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitSynchronized_statement(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitSynchronizedStatement(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Autorelease_statementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def compound_statement() = getRuleContext(classOf[Compound_statementContext], 0)
+	class AutoreleaseStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def compoundStatement() = getRuleContext(classOf[CompoundStatementContext], 0)
 
 		override def getRuleIndex = RULE_autorelease_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterAutorelease_statement(this)
+			case listener1: ObjCListener => listener1.enterAutoreleaseStatement(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitAutorelease_statement(this)
+			case listener1: ObjCListener => listener1.exitAutoreleaseStatement(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitAutorelease_statement(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitAutoreleaseStatement(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Function_definitionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class FunctionDefinitionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def declarator() = getRuleContext(classOf[DeclaratorContext], 0)
-		def compound_statement() = getRuleContext(classOf[Compound_statementContext], 0)
-		def declaration_specifiers() = getRuleContext(classOf[Declaration_specifiersContext], 0)
+		def compoundStatement() = getRuleContext(classOf[CompoundStatementContext], 0)
+		def declarationSpecifiers() = getRuleContext(classOf[DeclarationSpecifiersContext], 0)
 
 		override def getRuleIndex = RULE_function_definition
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterFunction_definition(this)
+			case listener1: ObjCListener => listener1.enterFunctionDefinition(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitFunction_definition(this)
+			case listener1: ObjCListener => listener1.exitFunctionDefinition(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitFunction_definition(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitFunctionDefinition(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
@@ -1529,8 +1529,8 @@ object ObjCParser {
 
 
 	class DeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def declaration_specifiers() = getRuleContext(classOf[Declaration_specifiersContext], 0)
-		def init_declarator_list() = getRuleContext(classOf[Init_declarator_listContext], 0)
+		def declarationSpecifiers() = getRuleContext(classOf[DeclarationSpecifiersContext], 0)
+		def initDeclaratorList() = getRuleContext(classOf[InitDeclaratorListContext], 0)
 
 		override def getRuleIndex = RULE_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1550,273 +1550,273 @@ object ObjCParser {
 	}
 
 
-	class Declaration_specifiersContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def arc_behaviour_specifier() = getRuleContexts(classOf[Arc_behaviour_specifierContext]).asScala
-		def arc_behaviour_specifier(i: Int) = getRuleContext(classOf[Arc_behaviour_specifierContext], i)
-		def storage_class_specifier() = getRuleContexts(classOf[Storage_class_specifierContext]).asScala
-		def storage_class_specifier(i: Int) = getRuleContext(classOf[Storage_class_specifierContext], i)
-		def type_specifier() = getRuleContexts(classOf[Type_specifierContext]).asScala
-		def type_specifier(i: Int) = getRuleContext(classOf[Type_specifierContext], i)
-		def type_qualifier() = getRuleContexts(classOf[Type_qualifierContext]).asScala
-		def type_qualifier(i: Int) = getRuleContext(classOf[Type_qualifierContext], i)
+	class DeclarationSpecifiersContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def arcBehaviourSpecifier() = getRuleContexts(classOf[ArcBehaviourSpecifierContext]).asScala
+		def arcBehaviourSpecifier(i: Int) = getRuleContext(classOf[ArcBehaviourSpecifierContext], i)
+		def storageClassSpecifier() = getRuleContexts(classOf[StorageClassSpecifierContext]).asScala
+		def storageClassSpecifier(i: Int) = getRuleContext(classOf[StorageClassSpecifierContext], i)
+		def typeSpecifier() = getRuleContexts(classOf[TypeSpecifierContext]).asScala
+		def typeSpecifier(i: Int) = getRuleContext(classOf[TypeSpecifierContext], i)
+		def typeQualifier() = getRuleContexts(classOf[TypeQualifierContext]).asScala
+		def typeQualifier(i: Int) = getRuleContext(classOf[TypeQualifierContext], i)
 
 		override def getRuleIndex = RULE_declaration_specifiers
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterDeclaration_specifiers(this)
+			case listener1: ObjCListener => listener1.enterDeclarationSpecifiers(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitDeclaration_specifiers(this)
+			case listener1: ObjCListener => listener1.exitDeclarationSpecifiers(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitDeclaration_specifiers(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitDeclarationSpecifiers(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Arc_behaviour_specifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class ArcBehaviourSpecifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 
 		override def getRuleIndex = RULE_arc_behaviour_specifier
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterArc_behaviour_specifier(this)
+			case listener1: ObjCListener => listener1.enterArcBehaviourSpecifier(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitArc_behaviour_specifier(this)
+			case listener1: ObjCListener => listener1.exitArcBehaviourSpecifier(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitArc_behaviour_specifier(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitArcBehaviourSpecifier(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Storage_class_specifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class StorageClassSpecifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 
 		override def getRuleIndex = RULE_storage_class_specifier
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterStorage_class_specifier(this)
+			case listener1: ObjCListener => listener1.enterStorageClassSpecifier(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitStorage_class_specifier(this)
+			case listener1: ObjCListener => listener1.exitStorageClassSpecifier(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitStorage_class_specifier(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitStorageClassSpecifier(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Init_declarator_listContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def init_declarator() = getRuleContexts(classOf[Init_declaratorContext]).asScala
-		def init_declarator(i: Int) = getRuleContext(classOf[Init_declaratorContext], i)
+	class InitDeclaratorListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def initDeclarator() = getRuleContexts(classOf[InitDeclaratorContext]).asScala
+		def initDeclarator(i: Int) = getRuleContext(classOf[InitDeclaratorContext], i)
 
 		override def getRuleIndex = RULE_init_declarator_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterInit_declarator_list(this)
+			case listener1: ObjCListener => listener1.enterInitDeclaratorList(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitInit_declarator_list(this)
+			case listener1: ObjCListener => listener1.exitInitDeclaratorList(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitInit_declarator_list(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitInitDeclaratorList(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Init_declaratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class InitDeclaratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def declarator() = getRuleContext(classOf[DeclaratorContext], 0)
 		def initializer() = getRuleContext(classOf[InitializerContext], 0)
 
 		override def getRuleIndex = RULE_init_declarator
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterInit_declarator(this)
+			case listener1: ObjCListener => listener1.enterInitDeclarator(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitInit_declarator(this)
+			case listener1: ObjCListener => listener1.exitInitDeclarator(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitInit_declarator(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitInitDeclarator(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Struct_or_union_specifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class StructOrUnionSpecifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
-		def struct_declaration() = getRuleContexts(classOf[Struct_declarationContext]).asScala
-		def struct_declaration(i: Int) = getRuleContext(classOf[Struct_declarationContext], i)
+		def structDeclaration() = getRuleContexts(classOf[StructDeclarationContext]).asScala
+		def structDeclaration(i: Int) = getRuleContext(classOf[StructDeclarationContext], i)
 
 		override def getRuleIndex = RULE_struct_or_union_specifier
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterStruct_or_union_specifier(this)
+			case listener1: ObjCListener => listener1.enterStructOrUnionSpecifier(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitStruct_or_union_specifier(this)
+			case listener1: ObjCListener => listener1.exitStructOrUnionSpecifier(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitStruct_or_union_specifier(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitStructOrUnionSpecifier(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Struct_declarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def specifier_qualifier_list() = getRuleContext(classOf[Specifier_qualifier_listContext], 0)
-		def struct_declarator_list() = getRuleContext(classOf[Struct_declarator_listContext], 0)
+	class StructDeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def specifierQualifierList() = getRuleContext(classOf[SpecifierQualifierListContext], 0)
+		def structDeclaratorList() = getRuleContext(classOf[StructDeclaratorListContext], 0)
 
 		override def getRuleIndex = RULE_struct_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterStruct_declaration(this)
+			case listener1: ObjCListener => listener1.enterStructDeclaration(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitStruct_declaration(this)
+			case listener1: ObjCListener => listener1.exitStructDeclaration(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitStruct_declaration(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitStructDeclaration(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Specifier_qualifier_listContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def arc_behaviour_specifier() = getRuleContexts(classOf[Arc_behaviour_specifierContext]).asScala
-		def arc_behaviour_specifier(i: Int) = getRuleContext(classOf[Arc_behaviour_specifierContext], i)
-		def type_specifier() = getRuleContexts(classOf[Type_specifierContext]).asScala
-		def type_specifier(i: Int) = getRuleContext(classOf[Type_specifierContext], i)
-		def type_qualifier() = getRuleContexts(classOf[Type_qualifierContext]).asScala
-		def type_qualifier(i: Int) = getRuleContext(classOf[Type_qualifierContext], i)
+	class SpecifierQualifierListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def arcBehaviourSpecifier() = getRuleContexts(classOf[ArcBehaviourSpecifierContext]).asScala
+		def arcBehaviourSpecifier(i: Int) = getRuleContext(classOf[ArcBehaviourSpecifierContext], i)
+		def typeSpecifier() = getRuleContexts(classOf[TypeSpecifierContext]).asScala
+		def typeSpecifier(i: Int) = getRuleContext(classOf[TypeSpecifierContext], i)
+		def typeQualifier() = getRuleContexts(classOf[TypeQualifierContext]).asScala
+		def typeQualifier(i: Int) = getRuleContext(classOf[TypeQualifierContext], i)
 
 		override def getRuleIndex = RULE_specifier_qualifier_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterSpecifier_qualifier_list(this)
+			case listener1: ObjCListener => listener1.enterSpecifierQualifierList(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitSpecifier_qualifier_list(this)
+			case listener1: ObjCListener => listener1.exitSpecifierQualifierList(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitSpecifier_qualifier_list(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitSpecifierQualifierList(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Struct_declarator_listContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def struct_declarator() = getRuleContexts(classOf[Struct_declaratorContext]).asScala
-		def struct_declarator(i: Int) = getRuleContext(classOf[Struct_declaratorContext], i)
+	class StructDeclaratorListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def structDeclarator() = getRuleContexts(classOf[StructDeclaratorContext]).asScala
+		def structDeclarator(i: Int) = getRuleContext(classOf[StructDeclaratorContext], i)
 
 		override def getRuleIndex = RULE_struct_declarator_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterStruct_declarator_list(this)
+			case listener1: ObjCListener => listener1.enterStructDeclaratorList(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitStruct_declarator_list(this)
+			case listener1: ObjCListener => listener1.exitStructDeclaratorList(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitStruct_declarator_list(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitStructDeclaratorList(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Struct_declaratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class StructDeclaratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def declarator() = getRuleContext(classOf[DeclaratorContext], 0)
 		def constant() = getRuleContext(classOf[ConstantContext], 0)
 
 		override def getRuleIndex = RULE_struct_declarator
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterStruct_declarator(this)
+			case listener1: ObjCListener => listener1.enterStructDeclarator(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitStruct_declarator(this)
+			case listener1: ObjCListener => listener1.exitStructDeclarator(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitStruct_declarator(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitStructDeclarator(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Enum_specifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class EnumSpecifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def identifier() = getRuleContext(classOf[IdentifierContext], 0)
-		def enumerator_list() = getRuleContext(classOf[Enumerator_listContext], 0)
-		def type_name() = getRuleContext(classOf[Type_nameContext], 0)
+		def enumeratorList() = getRuleContext(classOf[EnumeratorListContext], 0)
+		def typeName() = getRuleContext(classOf[TypeNameContext], 0)
 		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
 
 		override def getRuleIndex = RULE_enum_specifier
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterEnum_specifier(this)
+			case listener1: ObjCListener => listener1.enterEnumSpecifier(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitEnum_specifier(this)
+			case listener1: ObjCListener => listener1.exitEnumSpecifier(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitEnum_specifier(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitEnumSpecifier(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Enumerator_listContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class EnumeratorListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def enumerator() = getRuleContexts(classOf[EnumeratorContext]).asScala
 		def enumerator(i: Int) = getRuleContext(classOf[EnumeratorContext], i)
 
 		override def getRuleIndex = RULE_enumerator_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterEnumerator_list(this)
+			case listener1: ObjCListener => listener1.enterEnumeratorList(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitEnumerator_list(this)
+			case listener1: ObjCListener => listener1.exitEnumeratorList(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitEnumerator_list(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitEnumeratorList(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
@@ -1825,7 +1825,7 @@ object ObjCParser {
 
 	class EnumeratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def identifier() = getRuleContext(classOf[IdentifierContext], 0)
-		def constant_expression() = getRuleContext(classOf[Constant_expressionContext], 0)
+		def constantExpression() = getRuleContext(classOf[ConstantExpressionContext], 0)
 
 		override def getRuleIndex = RULE_enumerator
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1846,7 +1846,7 @@ object ObjCParser {
 
 
 	class PointerContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def declaration_specifiers() = getRuleContext(classOf[Declaration_specifiersContext], 0)
+		def declarationSpecifiers() = getRuleContext(classOf[DeclarationSpecifiersContext], 0)
 		def pointer() = getRuleContext(classOf[PointerContext], 0)
 
 		override def getRuleIndex = RULE_pointer
@@ -1868,7 +1868,7 @@ object ObjCParser {
 
 
 	class DeclaratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def direct_declarator() = getRuleContext(classOf[Direct_declaratorContext], 0)
+		def directDeclarator() = getRuleContext(classOf[DirectDeclaratorContext], 0)
 		def pointer() = getRuleContext(classOf[PointerContext], 0)
 
 		override def getRuleIndex = RULE_declarator
@@ -1889,91 +1889,91 @@ object ObjCParser {
 	}
 
 
-	class Direct_declaratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class DirectDeclaratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def identifier() = getRuleContext(classOf[IdentifierContext], 0)
-		def declarator_suffix() = getRuleContexts(classOf[Declarator_suffixContext]).asScala
-		def declarator_suffix(i: Int) = getRuleContext(classOf[Declarator_suffixContext], i)
+		def declaratorSuffix() = getRuleContexts(classOf[DeclaratorSuffixContext]).asScala
+		def declaratorSuffix(i: Int) = getRuleContext(classOf[DeclaratorSuffixContext], i)
 		def declarator() = getRuleContext(classOf[DeclaratorContext], 0)
-		def block_parameters() = getRuleContext(classOf[Block_parametersContext], 0)
+		def blockParameters() = getRuleContext(classOf[BlockParametersContext], 0)
 
 		override def getRuleIndex = RULE_direct_declarator
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterDirect_declarator(this)
+			case listener1: ObjCListener => listener1.enterDirectDeclarator(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitDirect_declarator(this)
+			case listener1: ObjCListener => listener1.exitDirectDeclarator(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitDirect_declarator(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitDirectDeclarator(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Declarator_suffixContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def constant_expression() = getRuleContext(classOf[Constant_expressionContext], 0)
-		def parameter_list() = getRuleContext(classOf[Parameter_listContext], 0)
+	class DeclaratorSuffixContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def constantExpression() = getRuleContext(classOf[ConstantExpressionContext], 0)
+		def parameterList() = getRuleContext(classOf[ParameterListContext], 0)
 
 		override def getRuleIndex = RULE_declarator_suffix
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterDeclarator_suffix(this)
+			case listener1: ObjCListener => listener1.enterDeclaratorSuffix(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitDeclarator_suffix(this)
+			case listener1: ObjCListener => listener1.exitDeclaratorSuffix(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitDeclarator_suffix(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitDeclaratorSuffix(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Parameter_listContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def parameter_declaration_list() = getRuleContext(classOf[Parameter_declaration_listContext], 0)
+	class ParameterListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def parameterDeclarationList() = getRuleContext(classOf[ParameterDeclarationListContext], 0)
 
 		override def getRuleIndex = RULE_parameter_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterParameter_list(this)
+			case listener1: ObjCListener => listener1.enterParameterList(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitParameter_list(this)
+			case listener1: ObjCListener => listener1.exitParameterList(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitParameter_list(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitParameterList(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Parameter_declarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def declaration_specifiers() = getRuleContext(classOf[Declaration_specifiersContext], 0)
-		def abstract_declarator() = getRuleContext(classOf[Abstract_declaratorContext], 0)
+	class ParameterDeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def declarationSpecifiers() = getRuleContext(classOf[DeclarationSpecifiersContext], 0)
+		def abstractDeclarator() = getRuleContext(classOf[AbstractDeclaratorContext], 0)
 		def declarator() = getRuleContext(classOf[DeclaratorContext], 0)
 
 		override def getRuleIndex = RULE_parameter_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterParameter_declaration(this)
+			case listener1: ObjCListener => listener1.enterParameterDeclaration(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitParameter_declaration(this)
+			case listener1: ObjCListener => listener1.exitParameterDeclaration(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitParameter_declaration(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitParameterDeclaration(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
@@ -1981,7 +1981,7 @@ object ObjCParser {
 
 
 	class InitializerContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def assignment_expression() = getRuleContext(classOf[Assignment_expressionContext], 0)
+		def assignmentExpression() = getRuleContext(classOf[AssignmentExpressionContext], 0)
 		def initializer() = getRuleContexts(classOf[InitializerContext]).asScala
 		def initializer(i: Int) = getRuleContext(classOf[InitializerContext], i)
 
@@ -2003,115 +2003,115 @@ object ObjCParser {
 	}
 
 
-	class Type_nameContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def specifier_qualifier_list() = getRuleContext(classOf[Specifier_qualifier_listContext], 0)
-		def abstract_declarator() = getRuleContext(classOf[Abstract_declaratorContext], 0)
-		def block_type() = getRuleContext(classOf[Block_typeContext], 0)
+	class TypeNameContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def specifierQualifierList() = getRuleContext(classOf[SpecifierQualifierListContext], 0)
+		def abstractDeclarator() = getRuleContext(classOf[AbstractDeclaratorContext], 0)
+		def blockType() = getRuleContext(classOf[BlockTypeContext], 0)
 
 		override def getRuleIndex = RULE_type_name
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterType_name(this)
+			case listener1: ObjCListener => listener1.enterTypeName(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitType_name(this)
+			case listener1: ObjCListener => listener1.exitTypeName(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitType_name(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitTypeName(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Abstract_declaratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class AbstractDeclaratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def pointer() = getRuleContext(classOf[PointerContext], 0)
-		def abstract_declarator() = getRuleContext(classOf[Abstract_declaratorContext], 0)
-		def abstract_declarator_suffix() = getRuleContexts(classOf[Abstract_declarator_suffixContext]).asScala
-		def abstract_declarator_suffix(i: Int) = getRuleContext(classOf[Abstract_declarator_suffixContext], i)
-		def constant_expression() = getRuleContexts(classOf[Constant_expressionContext]).asScala
-		def constant_expression(i: Int) = getRuleContext(classOf[Constant_expressionContext], i)
+		def abstractDeclarator() = getRuleContext(classOf[AbstractDeclaratorContext], 0)
+		def abstractDeclaratorSuffix() = getRuleContexts(classOf[AbstractDeclaratorSuffixContext]).asScala
+		def abstractDeclaratorSuffix(i: Int) = getRuleContext(classOf[AbstractDeclaratorSuffixContext], i)
+		def constantExpression() = getRuleContexts(classOf[ConstantExpressionContext]).asScala
+		def constantExpression(i: Int) = getRuleContext(classOf[ConstantExpressionContext], i)
 
 		override def getRuleIndex = RULE_abstract_declarator
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterAbstract_declarator(this)
+			case listener1: ObjCListener => listener1.enterAbstractDeclarator(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitAbstract_declarator(this)
+			case listener1: ObjCListener => listener1.exitAbstractDeclarator(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitAbstract_declarator(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitAbstractDeclarator(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Abstract_declarator_suffixContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def constant_expression() = getRuleContext(classOf[Constant_expressionContext], 0)
-		def parameter_declaration_list() = getRuleContext(classOf[Parameter_declaration_listContext], 0)
+	class AbstractDeclaratorSuffixContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def constantExpression() = getRuleContext(classOf[ConstantExpressionContext], 0)
+		def parameterDeclarationList() = getRuleContext(classOf[ParameterDeclarationListContext], 0)
 
 		override def getRuleIndex = RULE_abstract_declarator_suffix
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterAbstract_declarator_suffix(this)
+			case listener1: ObjCListener => listener1.enterAbstractDeclaratorSuffix(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitAbstract_declarator_suffix(this)
+			case listener1: ObjCListener => listener1.exitAbstractDeclaratorSuffix(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitAbstract_declarator_suffix(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitAbstractDeclaratorSuffix(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Parameter_declaration_listContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def parameter_declaration() = getRuleContexts(classOf[Parameter_declarationContext]).asScala
-		def parameter_declaration(i: Int) = getRuleContext(classOf[Parameter_declarationContext], i)
+	class ParameterDeclarationListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def parameterDeclaration() = getRuleContexts(classOf[ParameterDeclarationContext]).asScala
+		def parameterDeclaration(i: Int) = getRuleContext(classOf[ParameterDeclarationContext], i)
 
 		override def getRuleIndex = RULE_parameter_declaration_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterParameter_declaration_list(this)
+			case listener1: ObjCListener => listener1.enterParameterDeclarationList(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitParameter_declaration_list(this)
+			case listener1: ObjCListener => listener1.exitParameterDeclarationList(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitParameter_declaration_list(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitParameterDeclarationList(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Statement_listContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class StatementListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def statement() = getRuleContexts(classOf[StatementContext]).asScala
 		def statement(i: Int) = getRuleContext(classOf[StatementContext], i)
 
 		override def getRuleIndex = RULE_statement_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterStatement_list(this)
+			case listener1: ObjCListener => listener1.enterStatementList(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitStatement_list(this)
+			case listener1: ObjCListener => listener1.exitStatementList(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitStatement_list(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitStatementList(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
@@ -2119,15 +2119,15 @@ object ObjCParser {
 
 
 	class StatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def labeled_statement() = getRuleContext(classOf[Labeled_statementContext], 0)
+		def labeledStatement() = getRuleContext(classOf[LabeledStatementContext], 0)
 		def expression() = getRuleContext(classOf[ExpressionContext], 0)
-		def compound_statement() = getRuleContext(classOf[Compound_statementContext], 0)
-		def selection_statement() = getRuleContext(classOf[Selection_statementContext], 0)
-		def iteration_statement() = getRuleContext(classOf[Iteration_statementContext], 0)
-		def jump_statement() = getRuleContext(classOf[Jump_statementContext], 0)
-		def synchronized_statement() = getRuleContext(classOf[Synchronized_statementContext], 0)
-		def autorelease_statement() = getRuleContext(classOf[Autorelease_statementContext], 0)
-		def try_block() = getRuleContext(classOf[Try_blockContext], 0)
+		def compoundStatement() = getRuleContext(classOf[CompoundStatementContext], 0)
+		def selectionStatement() = getRuleContext(classOf[SelectionStatementContext], 0)
+		def iterationStatement() = getRuleContext(classOf[IterationStatementContext], 0)
+		def jumpStatement() = getRuleContext(classOf[JumpStatementContext], 0)
+		def synchronizedStatement() = getRuleContext(classOf[SynchronizedStatementContext], 0)
+		def autoreleaseStatement() = getRuleContext(classOf[AutoreleaseStatementContext], 0)
+		def tryBlock() = getRuleContext(classOf[TryBlockContext], 0)
 
 		override def getRuleIndex = RULE_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -2147,208 +2147,208 @@ object ObjCParser {
 	}
 
 
-	class Labeled_statementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class LabeledStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def identifier() = getRuleContext(classOf[IdentifierContext], 0)
 		def statement() = getRuleContext(classOf[StatementContext], 0)
-		def constant_expression() = getRuleContext(classOf[Constant_expressionContext], 0)
+		def constantExpression() = getRuleContext(classOf[ConstantExpressionContext], 0)
 
 		override def getRuleIndex = RULE_labeled_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterLabeled_statement(this)
+			case listener1: ObjCListener => listener1.enterLabeledStatement(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitLabeled_statement(this)
+			case listener1: ObjCListener => listener1.exitLabeledStatement(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitLabeled_statement(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitLabeledStatement(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Compound_statementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class CompoundStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def declaration() = getRuleContexts(classOf[DeclarationContext]).asScala
 		def declaration(i: Int) = getRuleContext(classOf[DeclarationContext], i)
-		def statement_list() = getRuleContexts(classOf[Statement_listContext]).asScala
-		def statement_list(i: Int) = getRuleContext(classOf[Statement_listContext], i)
+		def statementList() = getRuleContexts(classOf[StatementListContext]).asScala
+		def statementList(i: Int) = getRuleContext(classOf[StatementListContext], i)
 
 		override def getRuleIndex = RULE_compound_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterCompound_statement(this)
+			case listener1: ObjCListener => listener1.enterCompoundStatement(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitCompound_statement(this)
+			case listener1: ObjCListener => listener1.exitCompoundStatement(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitCompound_statement(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitCompoundStatement(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Selection_statementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class SelectionStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def expression() = getRuleContext(classOf[ExpressionContext], 0)
 		def statement() = getRuleContexts(classOf[StatementContext]).asScala
 		def statement(i: Int) = getRuleContext(classOf[StatementContext], i)
 
 		override def getRuleIndex = RULE_selection_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterSelection_statement(this)
+			case listener1: ObjCListener => listener1.enterSelectionStatement(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitSelection_statement(this)
+			case listener1: ObjCListener => listener1.exitSelectionStatement(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitSelection_statement(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitSelectionStatement(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class For_in_statementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def type_variable_declarator() = getRuleContext(classOf[Type_variable_declaratorContext], 0)
+	class ForInStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def typeVariableDeclarator() = getRuleContext(classOf[TypeVariableDeclaratorContext], 0)
 		def statement() = getRuleContext(classOf[StatementContext], 0)
 		def expression() = getRuleContext(classOf[ExpressionContext], 0)
 
 		override def getRuleIndex = RULE_for_in_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterFor_in_statement(this)
+			case listener1: ObjCListener => listener1.enterForInStatement(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitFor_in_statement(this)
+			case listener1: ObjCListener => listener1.exitForInStatement(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitFor_in_statement(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitForInStatement(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class For_statementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class ForStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def statement() = getRuleContext(classOf[StatementContext], 0)
 		def expression() = getRuleContexts(classOf[ExpressionContext]).asScala
 		def expression(i: Int) = getRuleContext(classOf[ExpressionContext], i)
-		def declaration_specifiers() = getRuleContext(classOf[Declaration_specifiersContext], 0)
-		def init_declarator_list() = getRuleContext(classOf[Init_declarator_listContext], 0)
+		def declarationSpecifiers() = getRuleContext(classOf[DeclarationSpecifiersContext], 0)
+		def initDeclaratorList() = getRuleContext(classOf[InitDeclaratorListContext], 0)
 
 		override def getRuleIndex = RULE_for_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterFor_statement(this)
+			case listener1: ObjCListener => listener1.enterForStatement(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitFor_statement(this)
+			case listener1: ObjCListener => listener1.exitForStatement(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitFor_statement(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitForStatement(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class While_statementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class WhileStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def expression() = getRuleContext(classOf[ExpressionContext], 0)
 		def statement() = getRuleContext(classOf[StatementContext], 0)
 
 		override def getRuleIndex = RULE_while_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterWhile_statement(this)
+			case listener1: ObjCListener => listener1.enterWhileStatement(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitWhile_statement(this)
+			case listener1: ObjCListener => listener1.exitWhileStatement(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitWhile_statement(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitWhileStatement(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Do_statementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class DoStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def statement() = getRuleContext(classOf[StatementContext], 0)
 		def expression() = getRuleContext(classOf[ExpressionContext], 0)
 
 		override def getRuleIndex = RULE_do_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterDo_statement(this)
+			case listener1: ObjCListener => listener1.enterDoStatement(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitDo_statement(this)
+			case listener1: ObjCListener => listener1.exitDoStatement(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitDo_statement(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitDoStatement(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Iteration_statementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def while_statement() = getRuleContext(classOf[While_statementContext], 0)
-		def do_statement() = getRuleContext(classOf[Do_statementContext], 0)
-		def for_statement() = getRuleContext(classOf[For_statementContext], 0)
-		def for_in_statement() = getRuleContext(classOf[For_in_statementContext], 0)
+	class IterationStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def whileStatement() = getRuleContext(classOf[WhileStatementContext], 0)
+		def doStatement() = getRuleContext(classOf[DoStatementContext], 0)
+		def forStatement() = getRuleContext(classOf[ForStatementContext], 0)
+		def forInStatement() = getRuleContext(classOf[ForInStatementContext], 0)
 
 		override def getRuleIndex = RULE_iteration_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterIteration_statement(this)
+			case listener1: ObjCListener => listener1.enterIterationStatement(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitIteration_statement(this)
+			case listener1: ObjCListener => listener1.exitIterationStatement(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitIteration_statement(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitIterationStatement(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Jump_statementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class JumpStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 		def identifier() = getRuleContext(classOf[IdentifierContext], 0)
 		def expression() = getRuleContext(classOf[ExpressionContext], 0)
 
 		override def getRuleIndex = RULE_jump_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterJump_statement(this)
+			case listener1: ObjCListener => listener1.enterJumpStatement(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitJump_statement(this)
+			case listener1: ObjCListener => listener1.exitJumpStatement(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitJump_statement(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitJumpStatement(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
@@ -2356,8 +2356,8 @@ object ObjCParser {
 
 
 	class ExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def assignment_expression() = getRuleContexts(classOf[Assignment_expressionContext]).asScala
-		def assignment_expression(i: Int) = getRuleContext(classOf[Assignment_expressionContext], i)
+		def assignmentExpression() = getRuleContexts(classOf[AssignmentExpressionContext]).asScala
+		def assignmentExpression(i: Int) = getRuleContext(classOf[AssignmentExpressionContext], i)
 
 		override def getRuleIndex = RULE_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -2377,425 +2377,425 @@ object ObjCParser {
 	}
 
 
-	class Assignment_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def conditional_expression() = getRuleContext(classOf[Conditional_expressionContext], 0)
-		def unary_expression() = getRuleContext(classOf[Unary_expressionContext], 0)
-		def assignment_operator() = getRuleContext(classOf[Assignment_operatorContext], 0)
-		def assignment_expression() = getRuleContext(classOf[Assignment_expressionContext], 0)
+	class AssignmentExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def conditionalExpression() = getRuleContext(classOf[ConditionalExpressionContext], 0)
+		def unaryExpression() = getRuleContext(classOf[UnaryExpressionContext], 0)
+		def assignmentOperator() = getRuleContext(classOf[AssignmentOperatorContext], 0)
+		def assignmentExpression() = getRuleContext(classOf[AssignmentExpressionContext], 0)
 
 		override def getRuleIndex = RULE_assignment_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterAssignment_expression(this)
+			case listener1: ObjCListener => listener1.enterAssignmentExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitAssignment_expression(this)
+			case listener1: ObjCListener => listener1.exitAssignmentExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitAssignment_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitAssignmentExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Assignment_operatorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class AssignmentOperatorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 
 		override def getRuleIndex = RULE_assignment_operator
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterAssignment_operator(this)
+			case listener1: ObjCListener => listener1.enterAssignmentOperator(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitAssignment_operator(this)
+			case listener1: ObjCListener => listener1.exitAssignmentOperator(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitAssignment_operator(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitAssignmentOperator(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Conditional_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def logical_or_expression() = getRuleContext(classOf[Logical_or_expressionContext], 0)
-		def conditional_expression() = getRuleContexts(classOf[Conditional_expressionContext]).asScala
-		def conditional_expression(i: Int) = getRuleContext(classOf[Conditional_expressionContext], i)
+	class ConditionalExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def logicalOrExpression() = getRuleContext(classOf[LogicalOrExpressionContext], 0)
+		def conditionalExpression() = getRuleContexts(classOf[ConditionalExpressionContext]).asScala
+		def conditionalExpression(i: Int) = getRuleContext(classOf[ConditionalExpressionContext], i)
 
 		override def getRuleIndex = RULE_conditional_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterConditional_expression(this)
+			case listener1: ObjCListener => listener1.enterConditionalExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitConditional_expression(this)
+			case listener1: ObjCListener => listener1.exitConditionalExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitConditional_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitConditionalExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Constant_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def conditional_expression() = getRuleContext(classOf[Conditional_expressionContext], 0)
+	class ConstantExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def conditionalExpression() = getRuleContext(classOf[ConditionalExpressionContext], 0)
 
 		override def getRuleIndex = RULE_constant_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterConstant_expression(this)
+			case listener1: ObjCListener => listener1.enterConstantExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitConstant_expression(this)
+			case listener1: ObjCListener => listener1.exitConstantExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitConstant_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitConstantExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Logical_or_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def logical_and_expression() = getRuleContexts(classOf[Logical_and_expressionContext]).asScala
-		def logical_and_expression(i: Int) = getRuleContext(classOf[Logical_and_expressionContext], i)
+	class LogicalOrExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def logicalAndExpression() = getRuleContexts(classOf[LogicalAndExpressionContext]).asScala
+		def logicalAndExpression(i: Int) = getRuleContext(classOf[LogicalAndExpressionContext], i)
 
 		override def getRuleIndex = RULE_logical_or_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterLogical_or_expression(this)
+			case listener1: ObjCListener => listener1.enterLogicalOrExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitLogical_or_expression(this)
+			case listener1: ObjCListener => listener1.exitLogicalOrExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitLogical_or_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitLogicalOrExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Logical_and_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def inclusive_or_expression() = getRuleContexts(classOf[Inclusive_or_expressionContext]).asScala
-		def inclusive_or_expression(i: Int) = getRuleContext(classOf[Inclusive_or_expressionContext], i)
+	class LogicalAndExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def inclusiveOrExpression() = getRuleContexts(classOf[InclusiveOrExpressionContext]).asScala
+		def inclusiveOrExpression(i: Int) = getRuleContext(classOf[InclusiveOrExpressionContext], i)
 
 		override def getRuleIndex = RULE_logical_and_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterLogical_and_expression(this)
+			case listener1: ObjCListener => listener1.enterLogicalAndExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitLogical_and_expression(this)
+			case listener1: ObjCListener => listener1.exitLogicalAndExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitLogical_and_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitLogicalAndExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Inclusive_or_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def exclusive_or_expression() = getRuleContexts(classOf[Exclusive_or_expressionContext]).asScala
-		def exclusive_or_expression(i: Int) = getRuleContext(classOf[Exclusive_or_expressionContext], i)
+	class InclusiveOrExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def exclusiveOrExpression() = getRuleContexts(classOf[ExclusiveOrExpressionContext]).asScala
+		def exclusiveOrExpression(i: Int) = getRuleContext(classOf[ExclusiveOrExpressionContext], i)
 
 		override def getRuleIndex = RULE_inclusive_or_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterInclusive_or_expression(this)
+			case listener1: ObjCListener => listener1.enterInclusiveOrExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitInclusive_or_expression(this)
+			case listener1: ObjCListener => listener1.exitInclusiveOrExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitInclusive_or_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitInclusiveOrExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Exclusive_or_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def and_expression() = getRuleContexts(classOf[And_expressionContext]).asScala
-		def and_expression(i: Int) = getRuleContext(classOf[And_expressionContext], i)
+	class ExclusiveOrExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def andExpression() = getRuleContexts(classOf[AndExpressionContext]).asScala
+		def andExpression(i: Int) = getRuleContext(classOf[AndExpressionContext], i)
 
 		override def getRuleIndex = RULE_exclusive_or_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterExclusive_or_expression(this)
+			case listener1: ObjCListener => listener1.enterExclusiveOrExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitExclusive_or_expression(this)
+			case listener1: ObjCListener => listener1.exitExclusiveOrExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitExclusive_or_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitExclusiveOrExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class And_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def equality_expression() = getRuleContexts(classOf[Equality_expressionContext]).asScala
-		def equality_expression(i: Int) = getRuleContext(classOf[Equality_expressionContext], i)
+	class AndExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def equalityExpression() = getRuleContexts(classOf[EqualityExpressionContext]).asScala
+		def equalityExpression(i: Int) = getRuleContext(classOf[EqualityExpressionContext], i)
 
 		override def getRuleIndex = RULE_and_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterAnd_expression(this)
+			case listener1: ObjCListener => listener1.enterAndExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitAnd_expression(this)
+			case listener1: ObjCListener => listener1.exitAndExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitAnd_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitAndExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Equality_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def relational_expression() = getRuleContexts(classOf[Relational_expressionContext]).asScala
-		def relational_expression(i: Int) = getRuleContext(classOf[Relational_expressionContext], i)
+	class EqualityExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def relationalExpression() = getRuleContexts(classOf[RelationalExpressionContext]).asScala
+		def relationalExpression(i: Int) = getRuleContext(classOf[RelationalExpressionContext], i)
 
 		override def getRuleIndex = RULE_equality_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterEquality_expression(this)
+			case listener1: ObjCListener => listener1.enterEqualityExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitEquality_expression(this)
+			case listener1: ObjCListener => listener1.exitEqualityExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitEquality_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitEqualityExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Relational_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def shift_expression() = getRuleContexts(classOf[Shift_expressionContext]).asScala
-		def shift_expression(i: Int) = getRuleContext(classOf[Shift_expressionContext], i)
+	class RelationalExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def shiftExpression() = getRuleContexts(classOf[ShiftExpressionContext]).asScala
+		def shiftExpression(i: Int) = getRuleContext(classOf[ShiftExpressionContext], i)
 
 		override def getRuleIndex = RULE_relational_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterRelational_expression(this)
+			case listener1: ObjCListener => listener1.enterRelationalExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitRelational_expression(this)
+			case listener1: ObjCListener => listener1.exitRelationalExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitRelational_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitRelationalExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Shift_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def additive_expression() = getRuleContexts(classOf[Additive_expressionContext]).asScala
-		def additive_expression(i: Int) = getRuleContext(classOf[Additive_expressionContext], i)
+	class ShiftExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def additiveExpression() = getRuleContexts(classOf[AdditiveExpressionContext]).asScala
+		def additiveExpression(i: Int) = getRuleContext(classOf[AdditiveExpressionContext], i)
 
 		override def getRuleIndex = RULE_shift_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterShift_expression(this)
+			case listener1: ObjCListener => listener1.enterShiftExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitShift_expression(this)
+			case listener1: ObjCListener => listener1.exitShiftExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitShift_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitShiftExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Additive_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def multiplicative_expression() = getRuleContexts(classOf[Multiplicative_expressionContext]).asScala
-		def multiplicative_expression(i: Int) = getRuleContext(classOf[Multiplicative_expressionContext], i)
+	class AdditiveExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def multiplicativeExpression() = getRuleContexts(classOf[MultiplicativeExpressionContext]).asScala
+		def multiplicativeExpression(i: Int) = getRuleContext(classOf[MultiplicativeExpressionContext], i)
 
 		override def getRuleIndex = RULE_additive_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterAdditive_expression(this)
+			case listener1: ObjCListener => listener1.enterAdditiveExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitAdditive_expression(this)
+			case listener1: ObjCListener => listener1.exitAdditiveExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitAdditive_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitAdditiveExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Multiplicative_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def cast_expression() = getRuleContexts(classOf[Cast_expressionContext]).asScala
-		def cast_expression(i: Int) = getRuleContext(classOf[Cast_expressionContext], i)
+	class MultiplicativeExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def castExpression() = getRuleContexts(classOf[CastExpressionContext]).asScala
+		def castExpression(i: Int) = getRuleContext(classOf[CastExpressionContext], i)
 
 		override def getRuleIndex = RULE_multiplicative_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterMultiplicative_expression(this)
+			case listener1: ObjCListener => listener1.enterMultiplicativeExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitMultiplicative_expression(this)
+			case listener1: ObjCListener => listener1.exitMultiplicativeExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitMultiplicative_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitMultiplicativeExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Cast_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def type_name() = getRuleContext(classOf[Type_nameContext], 0)
-		def cast_expression() = getRuleContext(classOf[Cast_expressionContext], 0)
-		def unary_expression() = getRuleContext(classOf[Unary_expressionContext], 0)
+	class CastExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def typeName() = getRuleContext(classOf[TypeNameContext], 0)
+		def castExpression() = getRuleContext(classOf[CastExpressionContext], 0)
+		def unaryExpression() = getRuleContext(classOf[UnaryExpressionContext], 0)
 
 		override def getRuleIndex = RULE_cast_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterCast_expression(this)
+			case listener1: ObjCListener => listener1.enterCastExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitCast_expression(this)
+			case listener1: ObjCListener => listener1.exitCastExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitCast_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitCastExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Unary_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def postfix_expression() = getRuleContext(classOf[Postfix_expressionContext], 0)
-		def unary_expression() = getRuleContext(classOf[Unary_expressionContext], 0)
-		def unary_operator() = getRuleContext(classOf[Unary_operatorContext], 0)
-		def cast_expression() = getRuleContext(classOf[Cast_expressionContext], 0)
-		def type_name() = getRuleContext(classOf[Type_nameContext], 0)
+	class UnaryExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def postfixExpression() = getRuleContext(classOf[PostfixExpressionContext], 0)
+		def unaryExpression() = getRuleContext(classOf[UnaryExpressionContext], 0)
+		def unaryOperator() = getRuleContext(classOf[UnaryOperatorContext], 0)
+		def castExpression() = getRuleContext(classOf[CastExpressionContext], 0)
+		def typeName() = getRuleContext(classOf[TypeNameContext], 0)
 
 		override def getRuleIndex = RULE_unary_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterUnary_expression(this)
+			case listener1: ObjCListener => listener1.enterUnaryExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitUnary_expression(this)
+			case listener1: ObjCListener => listener1.exitUnaryExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitUnary_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitUnaryExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Unary_operatorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+	class UnaryOperatorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
 
 		override def getRuleIndex = RULE_unary_operator
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterUnary_operator(this)
+			case listener1: ObjCListener => listener1.enterUnaryOperator(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitUnary_operator(this)
+			case listener1: ObjCListener => listener1.exitUnaryOperator(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitUnary_operator(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitUnaryOperator(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Postfix_expressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def primary_expression() = getRuleContext(classOf[Primary_expressionContext], 0)
+	class PostfixExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def primaryExpression() = getRuleContext(classOf[PrimaryExpressionContext], 0)
 		def expression() = getRuleContexts(classOf[ExpressionContext]).asScala
 		def expression(i: Int) = getRuleContext(classOf[ExpressionContext], i)
 		def identifier() = getRuleContexts(classOf[IdentifierContext]).asScala
 		def identifier(i: Int) = getRuleContext(classOf[IdentifierContext], i)
-		def argument_expression_list() = getRuleContexts(classOf[Argument_expression_listContext]).asScala
-		def argument_expression_list(i: Int) = getRuleContext(classOf[Argument_expression_listContext], i)
+		def argumentExpressionList() = getRuleContexts(classOf[ArgumentExpressionListContext]).asScala
+		def argumentExpressionList(i: Int) = getRuleContext(classOf[ArgumentExpressionListContext], i)
 
 		override def getRuleIndex = RULE_postfix_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterPostfix_expression(this)
+			case listener1: ObjCListener => listener1.enterPostfixExpression(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitPostfix_expression(this)
+			case listener1: ObjCListener => listener1.exitPostfixExpression(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitPostfix_expression(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitPostfixExpression(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
 	}
 
 
-	class Argument_expression_listContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def assignment_expression() = getRuleContexts(classOf[Assignment_expressionContext]).asScala
-		def assignment_expression(i: Int) = getRuleContext(classOf[Assignment_expressionContext], i)
+	class ArgumentExpressionListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
+		def assignmentExpression() = getRuleContexts(classOf[AssignmentExpressionContext]).asScala
+		def assignmentExpression(i: Int) = getRuleContext(classOf[AssignmentExpressionContext], i)
 
 		override def getRuleIndex = RULE_argument_expression_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.enterArgument_expression_list(this)
+			case listener1: ObjCListener => listener1.enterArgumentExpressionList(this)
 			case _ =>
 		}
 		override def exitRule(listener: ParseTreeListener) = listener match {
-			case listener1: ObjCListener => listener1.exitArgument_expression_list(this)
+			case listener1: ObjCListener => listener1.exitArgumentExpressionList(this)
 			case _ =>
 		}
 		override def accept[T](visitor: ParseTreeVisitor[_ <: T]): T = visitor match {
 			case _: ObjCVisitor[_] =>
-				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitArgument_expression_list(this)
+				visitor.asInstanceOf[ObjCVisitor[_ <: T]].visitArgumentExpressionList(this)
 			case _ =>
 				visitor.visitChildren(this)
 		}
@@ -4115,8 +4115,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def translation_unit(): Translation_unitContext = {
-		val _localctx: Translation_unitContext = new Translation_unitContext(_ctx, getState)
+	final def translationUnit(): TranslationUnitContext = {
+		val _localctx = new TranslationUnitContext(_ctx, getState)
 		enterRule(_localctx, 0, RULE_translation_unit)
 		var _la = 0
 		try {
@@ -4126,7 +4126,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			_la = _input.LA(1)
 			do {
 				setState(250)
-				external_declaration()
+				externalDeclaration()
 				setState(253) 
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -4148,8 +4148,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def external_declaration(): External_declarationContext = {
-		val _localctx: External_declarationContext = new External_declarationContext(_ctx, getState)
+	final def externalDeclaration(): ExternalDeclarationContext = {
+		val _localctx = new ExternalDeclarationContext(_ctx, getState)
 		enterRule(_localctx, 2, RULE_external_declaration)
 		try {
 			setState(269)
@@ -4168,12 +4168,12 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			case 3 =>
 				enterOuterAlt(_localctx, 3)
 				setState(259)
-				preprocessor_declaration()
+				preprocessorDeclaration()
 
 			case 4 =>
 				enterOuterAlt(_localctx, 4)
 				setState(260)
-				function_definition()
+				functionDefinition()
 
 			case 5 =>
 				enterOuterAlt(_localctx, 5)
@@ -4183,37 +4183,37 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			case 6 =>
 				enterOuterAlt(_localctx, 6)
 				setState(262)
-				class_interface()
+				classInterface()
 
 			case 7 =>
 				enterOuterAlt(_localctx, 7)
 				setState(263)
-				class_implementation()
+				classImplementation()
 
 			case 8 =>
 				enterOuterAlt(_localctx, 8)
 				setState(264)
-				category_interface()
+				categoryInterface()
 
 			case 9 =>
 				enterOuterAlt(_localctx, 9)
 				setState(265)
-				category_implementation()
+				categoryImplementation()
 
 			case 10 =>
 				enterOuterAlt(_localctx, 10)
 				setState(266)
-				protocol_declaration()
+				protocolDeclaration()
 
 			case 11 =>
 				enterOuterAlt(_localctx, 11)
 				setState(267)
-				protocol_declaration_list()
+				protocolDeclarationList()
 
 			case 12 =>
 				enterOuterAlt(_localctx, 12)
 				setState(268)
-				class_declaration_list()
+				classDeclarationList()
 
 			case _ =>
 			}
@@ -4232,8 +4232,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def preprocessor_declaration(): Preprocessor_declarationContext = {
-		val _localctx: Preprocessor_declarationContext = new Preprocessor_declarationContext(_ctx, getState)
+	final def preprocessorDeclaration(): PreprocessorDeclarationContext = {
+		val _localctx = new PreprocessorDeclarationContext(_ctx, getState)
 		enterRule(_localctx, 4, RULE_preprocessor_declaration)
 		var _la = 0
 		try {
@@ -4260,8 +4260,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def class_interface(): Class_interfaceContext = {
-		val _localctx: Class_interfaceContext = new Class_interfaceContext(_ctx, getState)
+	final def classInterface(): ClassInterfaceContext = {
+		val _localctx = new ClassInterfaceContext(_ctx, getState)
 		enterRule(_localctx, 6, RULE_class_interface)
 		var _la = 0
 		try {
@@ -4269,35 +4269,35 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			setState(273)
 			matchToken(INTERFACE)
 			setState(274)
-			class_name()
+			className()
 			setState(277)
 			_la = _input.LA(1)
 			if (_la==COLON) {
 				setState(275)
 				matchToken(COLON)
 				setState(276)
-				superclass_name()
+				superclassName()
 			}
 
 			setState(280)
 			_la = _input.LA(1)
 			if (_la==LT) {
 				setState(279)
-				protocol_reference_list()
+				protocolReferenceList()
 			}
 
 			setState(283)
 			_la = _input.LA(1)
 			if (_la==LBRACE) {
 				setState(282)
-				instance_variables()
+				instanceVariables()
 			}
 
 			setState(286)
 			_la = _input.LA(1)
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PROPERTY) | (1L << AUTO) | (1L << BYCOPY) | (1L << BYREF) | (1L << CHAR) | (1L << CONST) | (1L << DOUBLE) | (1L << ENUM) | (1L << EXTERN) | (1L << FLOAT) | (1L << ID) | (1L << IN) | (1L << INOUT) | (1L << INT) | (1L << LONG) | (1L << ONEWAY) | (1L << OUT) | (1L << REGISTER) | (1L << SHORT) | (1L << SIGNED) | (1L << STATIC) | (1L << STRUCT) | (1L << TYPEDEF) | (1L << UNION) | (1L << UNSIGNED) | (1L << VOID))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (VOLATILE - 64)) | (1L << (NS_OPTIONS - 64)) | (1L << (NS_ENUM - 64)) | (1L << (WWEAK - 64)) | (1L << (WUNSAFE_UNRETAINED - 64)) | (1L << (ADD - 64)) | (1L << (SUB - 64)) | (1L << (IDENTIFIER - 64)))) != 0)) {
 				setState(285)
-				interface_declaration_list()
+				interfaceDeclarationList()
 			}
 
 			setState(288)
@@ -4317,8 +4317,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def category_interface(): Category_interfaceContext = {
-		val _localctx: Category_interfaceContext = new Category_interfaceContext(_ctx, getState)
+	final def categoryInterface(): CategoryInterfaceContext = {
+		val _localctx = new CategoryInterfaceContext(_ctx, getState)
 		enterRule(_localctx, 8, RULE_category_interface)
 		var _la = 0
 		try {
@@ -4326,14 +4326,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			setState(290)
 			matchToken(INTERFACE)
 			setState(291)
-			class_name()
+			className()
 			setState(292)
 			matchToken(LPAREN)
 			setState(294)
 			_la = _input.LA(1)
 			if (_la==IDENTIFIER) {
 				setState(293)
-				category_name()
+				categoryName()
 			}
 
 			setState(296)
@@ -4342,21 +4342,21 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			_la = _input.LA(1)
 			if (_la==LT) {
 				setState(297)
-				protocol_reference_list()
+				protocolReferenceList()
 			}
 
 			setState(301)
 			_la = _input.LA(1)
 			if (_la==LBRACE) {
 				setState(300)
-				instance_variables()
+				instanceVariables()
 			}
 
 			setState(304)
 			_la = _input.LA(1)
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PROPERTY) | (1L << AUTO) | (1L << BYCOPY) | (1L << BYREF) | (1L << CHAR) | (1L << CONST) | (1L << DOUBLE) | (1L << ENUM) | (1L << EXTERN) | (1L << FLOAT) | (1L << ID) | (1L << IN) | (1L << INOUT) | (1L << INT) | (1L << LONG) | (1L << ONEWAY) | (1L << OUT) | (1L << REGISTER) | (1L << SHORT) | (1L << SIGNED) | (1L << STATIC) | (1L << STRUCT) | (1L << TYPEDEF) | (1L << UNION) | (1L << UNSIGNED) | (1L << VOID))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (VOLATILE - 64)) | (1L << (NS_OPTIONS - 64)) | (1L << (NS_ENUM - 64)) | (1L << (WWEAK - 64)) | (1L << (WUNSAFE_UNRETAINED - 64)) | (1L << (ADD - 64)) | (1L << (SUB - 64)) | (1L << (IDENTIFIER - 64)))) != 0)) {
 				setState(303)
-				interface_declaration_list()
+				interfaceDeclarationList()
 			}
 
 			setState(306)
@@ -4376,8 +4376,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def class_implementation(): Class_implementationContext = {
-		val _localctx: Class_implementationContext = new Class_implementationContext(_ctx, getState)
+	final def classImplementation(): ClassImplementationContext = {
+		val _localctx = new ClassImplementationContext(_ctx, getState)
 		enterRule(_localctx, 10, RULE_class_implementation)
 		var _la = 0
 		try {
@@ -4386,28 +4386,28 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			matchToken(IMPLEMENTATION)
 
 			setState(309)
-			class_name()
+			className()
 			setState(312)
 			_la = _input.LA(1)
 			if (_la==COLON) {
 				setState(310)
 				matchToken(COLON)
 				setState(311)
-				superclass_name()
+				superclassName()
 			}
 
 			setState(315)
 			_la = _input.LA(1)
 			if (_la==LBRACE) {
 				setState(314)
-				instance_variables()
+				instanceVariables()
 			}
 
 			setState(318)
 			_la = _input.LA(1)
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << DYNAMIC) | (1L << SYNTHESIZE) | (1L << AUTO) | (1L << BYCOPY) | (1L << BYREF) | (1L << CHAR) | (1L << CONST) | (1L << DOUBLE) | (1L << ENUM) | (1L << EXTERN) | (1L << FLOAT) | (1L << ID) | (1L << IN) | (1L << INOUT) | (1L << INT) | (1L << LONG) | (1L << ONEWAY) | (1L << OUT) | (1L << REGISTER) | (1L << SHORT) | (1L << SIGNED) | (1L << STATIC) | (1L << STRUCT) | (1L << TYPEDEF) | (1L << UNION) | (1L << UNSIGNED) | (1L << VOID))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (VOLATILE - 64)) | (1L << (NS_OPTIONS - 64)) | (1L << (NS_ENUM - 64)) | (1L << (WWEAK - 64)) | (1L << (WUNSAFE_UNRETAINED - 64)) | (1L << (LPAREN - 64)) | (1L << (ADD - 64)) | (1L << (SUB - 64)) | (1L << (MUL - 64)) | (1L << (IDENTIFIER - 64)))) != 0)) {
 				setState(317)
-				implementation_definition_list()
+				implementationDefinitionList()
 			}
 
 			setState(320)
@@ -4427,8 +4427,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def category_implementation(): Category_implementationContext = {
-		val _localctx: Category_implementationContext = new Category_implementationContext(_ctx, getState)
+	final def categoryImplementation(): CategoryImplementationContext = {
+		val _localctx = new CategoryImplementationContext(_ctx, getState)
 		enterRule(_localctx, 12, RULE_category_implementation)
 		var _la = 0
 		try {
@@ -4437,18 +4437,18 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			matchToken(IMPLEMENTATION)
 
 			setState(323)
-			class_name()
+			className()
 			setState(324)
 			matchToken(LPAREN)
 			setState(325)
-			category_name()
+			categoryName()
 			setState(326)
 			matchToken(RPAREN)
 			setState(328)
 			_la = _input.LA(1)
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << DYNAMIC) | (1L << SYNTHESIZE) | (1L << AUTO) | (1L << BYCOPY) | (1L << BYREF) | (1L << CHAR) | (1L << CONST) | (1L << DOUBLE) | (1L << ENUM) | (1L << EXTERN) | (1L << FLOAT) | (1L << ID) | (1L << IN) | (1L << INOUT) | (1L << INT) | (1L << LONG) | (1L << ONEWAY) | (1L << OUT) | (1L << REGISTER) | (1L << SHORT) | (1L << SIGNED) | (1L << STATIC) | (1L << STRUCT) | (1L << TYPEDEF) | (1L << UNION) | (1L << UNSIGNED) | (1L << VOID))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (VOLATILE - 64)) | (1L << (NS_OPTIONS - 64)) | (1L << (NS_ENUM - 64)) | (1L << (WWEAK - 64)) | (1L << (WUNSAFE_UNRETAINED - 64)) | (1L << (LPAREN - 64)) | (1L << (ADD - 64)) | (1L << (SUB - 64)) | (1L << (MUL - 64)) | (1L << (IDENTIFIER - 64)))) != 0)) {
 				setState(327)
-				implementation_definition_list()
+				implementationDefinitionList()
 			}
 
 			setState(330)
@@ -4468,8 +4468,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def protocol_declaration(): Protocol_declarationContext = {
-		val _localctx: Protocol_declarationContext = new Protocol_declarationContext(_ctx, getState)
+	final def protocolDeclaration(): ProtocolDeclarationContext = {
+		val _localctx = new ProtocolDeclarationContext(_ctx, getState)
 		enterRule(_localctx, 14, RULE_protocol_declaration)
 		var _la = 0
 		try {
@@ -4478,12 +4478,12 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			matchToken(PROTOCOL)
 
 			setState(333)
-			protocol_name()
+			protocolName()
 			setState(335)
 			_la = _input.LA(1)
 			if (_la==LT) {
 				setState(334)
-				protocol_reference_list()
+				protocolReferenceList()
 			}
 
 			setState(342)
@@ -4494,7 +4494,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				_input.LA(1) match {
 				case PROPERTY | AUTO | BYCOPY | BYREF | CHAR | CONST | DOUBLE | ENUM | EXTERN | FLOAT | ID | IN | INOUT | INT | LONG | ONEWAY | OUT | REGISTER | SHORT | SIGNED | STATIC | STRUCT | TYPEDEF | UNION | UNSIGNED | VOID | VOLATILE | NS_OPTIONS | NS_ENUM | WWEAK | WUNSAFE_UNRETAINED | ADD | SUB | IDENTIFIER =>
 					setState(337)
-					interface_declaration_list()
+					interfaceDeclarationList()
 
 				case OPTIONAL =>
 					setState(338)
@@ -4528,15 +4528,15 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def protocol_declaration_list(): Protocol_declaration_listContext = {
-		val _localctx: Protocol_declaration_listContext = new Protocol_declaration_listContext(_ctx, getState)
+	final def protocolDeclarationList(): ProtocolDeclarationListContext = {
+		val _localctx = new ProtocolDeclarationListContext(_ctx, getState)
 		enterRule(_localctx, 16, RULE_protocol_declaration_list)
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(347)
 			matchToken(PROTOCOL)
 			setState(348)
-			protocol_list()
+			protocolList()
 			setState(349)
 			matchToken(SEMI)
 		}
@@ -4554,15 +4554,15 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def class_declaration_list(): Class_declaration_listContext = {
-		val _localctx: Class_declaration_listContext = new Class_declaration_listContext(_ctx, getState)
+	final def classDeclarationList(): ClassDeclarationListContext = {
+		val _localctx = new ClassDeclarationListContext(_ctx, getState)
 		enterRule(_localctx, 18, RULE_class_declaration_list)
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(351)
 			matchToken(CLASS)
 			setState(352)
-			class_list()
+			classList()
 			setState(353)
 			matchToken(SEMI)
 		}
@@ -4580,14 +4580,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def class_list(): Class_listContext = {
-		val _localctx: Class_listContext = new Class_listContext(_ctx, getState)
+	final def classList(): ClassListContext = {
+		val _localctx = new ClassListContext(_ctx, getState)
 		enterRule(_localctx, 20, RULE_class_list)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(355)
-			class_name()
+			className()
 			setState(360)
 			_errHandler.sync(this)
 			_la = _input.LA(1)
@@ -4595,7 +4595,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(356)
 				matchToken(COMMA)
 				setState(357)
-				class_name()
+				className()
 				setState(362)
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -4615,15 +4615,15 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def protocol_reference_list(): Protocol_reference_listContext = {
-		val _localctx: Protocol_reference_listContext = new Protocol_reference_listContext(_ctx, getState)
+	final def protocolReferenceList(): ProtocolReferenceListContext = {
+		val _localctx = new ProtocolReferenceListContext(_ctx, getState)
 		enterRule(_localctx, 22, RULE_protocol_reference_list)
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(363)
 			matchToken(LT)
 			setState(364)
-			protocol_list()
+			protocolList()
 			setState(365)
 			matchToken(GT)
 		}
@@ -4641,14 +4641,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def protocol_list(): Protocol_listContext = {
-		val _localctx: Protocol_listContext = new Protocol_listContext(_ctx, getState)
+	final def protocolList(): ProtocolListContext = {
+		val _localctx = new ProtocolListContext(_ctx, getState)
 		enterRule(_localctx, 24, RULE_protocol_list)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(367)
-			protocol_name()
+			protocolName()
 			setState(372)
 			_errHandler.sync(this)
 			_la = _input.LA(1)
@@ -4656,7 +4656,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(368)
 				matchToken(COMMA)
 				setState(369)
-				protocol_name()
+				protocolName()
 				setState(374)
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -4676,8 +4676,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def property_declaration(): Property_declarationContext = {
-		val _localctx: Property_declarationContext = new Property_declarationContext(_ctx, getState)
+	final def propertyDeclaration(): PropertyDeclarationContext = {
+		val _localctx = new PropertyDeclarationContext(_ctx, getState)
 		enterRule(_localctx, 26, RULE_property_declaration)
 		var _la = 0
 		try {
@@ -4688,7 +4688,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			_la = _input.LA(1)
 			if (_la==LPAREN) {
 				setState(376)
-				property_attributes_declaration()
+				propertyAttributesDeclaration()
 			}
 
 			setState(380)
@@ -4696,12 +4696,12 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			getInterpreter().adaptivePredict(_input,20,_ctx) match {
 			case 1 =>
 				setState(379)
-				ib_outlet_specifier()
+				ibOutletSpecifier()
 
 			case _ =>
 			}
 			setState(382)
-			struct_declaration()
+			structDeclaration()
 		}
 		catch {
 		case re: RecognitionException =>
@@ -4717,15 +4717,15 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def property_attributes_declaration(): Property_attributes_declarationContext = {
-		val _localctx: Property_attributes_declarationContext = new Property_attributes_declarationContext(_ctx, getState)
+	final def propertyAttributesDeclaration(): PropertyAttributesDeclarationContext = {
+		val _localctx = new PropertyAttributesDeclarationContext(_ctx, getState)
 		enterRule(_localctx, 28, RULE_property_attributes_declaration)
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(384)
 			matchToken(LPAREN)
 			setState(385)
-			property_attributes_list()
+			propertyAttributesList()
 			setState(386)
 			matchToken(RPAREN)
 		}
@@ -4743,14 +4743,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def property_attributes_list(): Property_attributes_listContext = {
-		val _localctx: Property_attributes_listContext = new Property_attributes_listContext(_ctx, getState)
+	final def propertyAttributesList(): PropertyAttributesListContext = {
+		val _localctx = new PropertyAttributesListContext(_ctx, getState)
 		enterRule(_localctx, 30, RULE_property_attributes_list)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(388)
-			property_attribute()
+			propertyAttribute()
 			setState(393)
 			_errHandler.sync(this)
 			_la = _input.LA(1)
@@ -4758,7 +4758,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(389)
 				matchToken(COMMA)
 				setState(390)
-				property_attribute()
+				propertyAttribute()
 				setState(395)
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -4778,8 +4778,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def property_attribute(): Property_attributeContext = {
-		val _localctx: Property_attributeContext = new Property_attributeContext(_ctx, getState)
+	final def propertyAttribute(): PropertyAttributeContext = {
+		val _localctx = new PropertyAttributeContext(_ctx, getState)
 		enterRule(_localctx, 32, RULE_property_attribute)
 		try {
 			setState(412)
@@ -4866,8 +4866,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def ib_outlet_specifier(): Ib_outlet_specifierContext = {
-		val _localctx: Ib_outlet_specifierContext = new Ib_outlet_specifierContext(_ctx, getState)
+	final def ibOutletSpecifier(): IbOutletSpecifierContext = {
+		val _localctx = new IbOutletSpecifierContext(_ctx, getState)
 		enterRule(_localctx, 34, RULE_ib_outlet_specifier)
 		try {
 			setState(420)
@@ -4880,7 +4880,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(415)
 				matchToken(LPAREN)
 				setState(416)
-				class_name()
+				className()
 				setState(417)
 				matchToken(RPAREN)
 
@@ -4906,8 +4906,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def class_name(): Class_nameContext = {
-		val _localctx: Class_nameContext = new Class_nameContext(_ctx, getState)
+	final def className(): ClassNameContext = {
+		val _localctx = new ClassNameContext(_ctx, getState)
 		enterRule(_localctx, 36, RULE_class_name)
 		try {
 			enterOuterAlt(_localctx, 1)
@@ -4928,8 +4928,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def superclass_name(): Superclass_nameContext = {
-		val _localctx: Superclass_nameContext = new Superclass_nameContext(_ctx, getState)
+	final def superclassName(): SuperclassNameContext = {
+		val _localctx = new SuperclassNameContext(_ctx, getState)
 		enterRule(_localctx, 38, RULE_superclass_name)
 		try {
 			enterOuterAlt(_localctx, 1)
@@ -4950,8 +4950,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def category_name(): Category_nameContext = {
-		val _localctx: Category_nameContext = new Category_nameContext(_ctx, getState)
+	final def categoryName(): CategoryNameContext = {
+		val _localctx = new CategoryNameContext(_ctx, getState)
 		enterRule(_localctx, 40, RULE_category_name)
 		try {
 			enterOuterAlt(_localctx, 1)
@@ -4972,8 +4972,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def protocol_name(): Protocol_nameContext = {
-		val _localctx: Protocol_nameContext = new Protocol_nameContext(_ctx, getState)
+	final def protocolName(): ProtocolNameContext = {
+		val _localctx = new ProtocolNameContext(_ctx, getState)
 		enterRule(_localctx, 42, RULE_protocol_name)
 		try {
 			enterOuterAlt(_localctx, 1)
@@ -4994,8 +4994,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def instance_variables(): Instance_variablesContext = {
-		val _localctx: Instance_variablesContext = new Instance_variablesContext(_ctx, getState)
+	final def instanceVariables(): InstanceVariablesContext = {
+		val _localctx = new InstanceVariablesContext(_ctx, getState)
 		enterRule(_localctx, 44, RULE_instance_variables)
 		var _la = 0
 		try {
@@ -5011,7 +5011,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				_la = _input.LA(1)
 				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BYCOPY) | (1L << BYREF) | (1L << CHAR) | (1L << CONST) | (1L << DOUBLE) | (1L << ENUM) | (1L << FLOAT) | (1L << ID) | (1L << IN) | (1L << INOUT) | (1L << INT) | (1L << LONG) | (1L << ONEWAY) | (1L << OUT) | (1L << SHORT) | (1L << SIGNED) | (1L << STRUCT) | (1L << UNION) | (1L << UNSIGNED) | (1L << VOID))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (VOLATILE - 64)) | (1L << (NS_OPTIONS - 64)) | (1L << (NS_ENUM - 64)) | (1L << (WWEAK - 64)) | (1L << (WUNSAFE_UNRETAINED - 64)) | (1L << (IDENTIFIER - 64)))) != 0)) {
 					setState(431)
-					struct_declaration()
+					structDeclaration()
 					setState(436)
 					_errHandler.sync(this)
 					_la = _input.LA(1)
@@ -5024,13 +5024,13 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(438)
 				matchToken(LBRACE)
 				setState(439)
-				visibility_specification()
+				visibilitySpecification()
 				setState(441) 
 				_errHandler.sync(this)
 				_la = _input.LA(1)
 				do {
 					setState(440)
-					struct_declaration()
+					structDeclaration()
 					setState(443) 
 					_errHandler.sync(this)
 					_la = _input.LA(1)
@@ -5047,13 +5047,13 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				_la = _input.LA(1)
 				do {
 					setState(448)
-					struct_declaration()
+					structDeclaration()
 					setState(451) 
 					_errHandler.sync(this)
 					_la = _input.LA(1)
 				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BYCOPY) | (1L << BYREF) | (1L << CHAR) | (1L << CONST) | (1L << DOUBLE) | (1L << ENUM) | (1L << FLOAT) | (1L << ID) | (1L << IN) | (1L << INOUT) | (1L << INT) | (1L << LONG) | (1L << ONEWAY) | (1L << OUT) | (1L << SHORT) | (1L << SIGNED) | (1L << STRUCT) | (1L << UNION) | (1L << UNSIGNED) | (1L << VOID))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (VOLATILE - 64)) | (1L << (NS_OPTIONS - 64)) | (1L << (NS_ENUM - 64)) | (1L << (WWEAK - 64)) | (1L << (WUNSAFE_UNRETAINED - 64)) | (1L << (IDENTIFIER - 64)))) != 0) )
 				setState(453)
-				instance_variables()
+				instanceVariables()
 				setState(454)
 				matchToken(RBRACE)
 
@@ -5062,19 +5062,19 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(456)
 				matchToken(LBRACE)
 				setState(457)
-				visibility_specification()
+				visibilitySpecification()
 				setState(459) 
 				_errHandler.sync(this)
 				_la = _input.LA(1)
 				do {
 					setState(458)
-					struct_declaration()
+					structDeclaration()
 					setState(461) 
 					_errHandler.sync(this)
 					_la = _input.LA(1)
 				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BYCOPY) | (1L << BYREF) | (1L << CHAR) | (1L << CONST) | (1L << DOUBLE) | (1L << ENUM) | (1L << FLOAT) | (1L << ID) | (1L << IN) | (1L << INOUT) | (1L << INT) | (1L << LONG) | (1L << ONEWAY) | (1L << OUT) | (1L << SHORT) | (1L << SIGNED) | (1L << STRUCT) | (1L << UNION) | (1L << UNSIGNED) | (1L << VOID))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (VOLATILE - 64)) | (1L << (NS_OPTIONS - 64)) | (1L << (NS_ENUM - 64)) | (1L << (WWEAK - 64)) | (1L << (WUNSAFE_UNRETAINED - 64)) | (1L << (IDENTIFIER - 64)))) != 0) )
 				setState(463)
-				instance_variables()
+				instanceVariables()
 				setState(464)
 				matchToken(RBRACE)
 
@@ -5095,8 +5095,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def visibility_specification(): Visibility_specificationContext = {
-		val _localctx: Visibility_specificationContext = new Visibility_specificationContext(_ctx, getState)
+	final def visibilitySpecification(): VisibilitySpecificationContext = {
+		val _localctx = new VisibilitySpecificationContext(_ctx, getState)
 		enterRule(_localctx, 46, RULE_visibility_specification)
 		var _la = 0
 		try {
@@ -5123,8 +5123,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def interface_declaration_list(): Interface_declaration_listContext = {
-		val _localctx: Interface_declaration_listContext = new Interface_declaration_listContext(_ctx, getState)
+	final def interfaceDeclarationList(): InterfaceDeclarationListContext = {
+		val _localctx = new InterfaceDeclarationListContext(_ctx, getState)
 		enterRule(_localctx, 48, RULE_interface_declaration_list)
 		try {
 			var _alt = 0
@@ -5143,15 +5143,15 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 					case ADD =>
 						setState(471)
-						class_method_declaration()
+						classMethodDeclaration()
 
 					case SUB =>
 						setState(472)
-						instance_method_declaration()
+						instanceMethodDeclaration()
 
 					case PROPERTY =>
 						setState(473)
-						property_declaration()
+						propertyDeclaration()
 
 					case _ =>
 						throw new NoViableAltException(this)
@@ -5179,15 +5179,15 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def class_method_declaration(): Class_method_declarationContext = {
-		val _localctx: Class_method_declarationContext = new Class_method_declarationContext(_ctx, getState)
+	final def classMethodDeclaration(): ClassMethodDeclarationContext = {
+		val _localctx = new ClassMethodDeclarationContext(_ctx, getState)
 		enterRule(_localctx, 50, RULE_class_method_declaration)
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(478)
 			matchToken(ADD)
 			setState(479)
-			method_declaration()
+			methodDeclaration()
 		}
 		catch {
 		case re: RecognitionException =>
@@ -5203,15 +5203,15 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def instance_method_declaration(): Instance_method_declarationContext = {
-		val _localctx: Instance_method_declarationContext = new Instance_method_declarationContext(_ctx, getState)
+	final def instanceMethodDeclaration(): InstanceMethodDeclarationContext = {
+		val _localctx = new InstanceMethodDeclarationContext(_ctx, getState)
 		enterRule(_localctx, 52, RULE_instance_method_declaration)
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(481)
 			matchToken(SUB)
 			setState(482)
-			method_declaration()
+			methodDeclaration()
 		}
 		catch {
 		case re: RecognitionException =>
@@ -5227,8 +5227,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def method_declaration(): Method_declarationContext = {
-		val _localctx: Method_declarationContext = new Method_declarationContext(_ctx, getState)
+	final def methodDeclaration(): MethodDeclarationContext = {
+		val _localctx = new MethodDeclarationContext(_ctx, getState)
 		enterRule(_localctx, 54, RULE_method_declaration)
 		var _la = 0
 		try {
@@ -5237,11 +5237,11 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			_la = _input.LA(1)
 			if (_la==LPAREN) {
 				setState(484)
-				method_type()
+				methodType()
 			}
 
 			setState(487)
-			method_selector()
+			methodSelector()
 			setState(488)
 			matchToken(SEMI)
 		}
@@ -5259,8 +5259,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def implementation_definition_list(): Implementation_definition_listContext = {
-		val _localctx: Implementation_definition_listContext = new Implementation_definition_listContext(_ctx, getState)
+	final def implementationDefinitionList(): ImplementationDefinitionListContext = {
+		val _localctx = new ImplementationDefinitionListContext(_ctx, getState)
 		enterRule(_localctx, 56, RULE_implementation_definition_list)
 		var _la = 0
 		try {
@@ -5274,7 +5274,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				getInterpreter().adaptivePredict(_input,32,_ctx) match {
 				case 1 =>
 					setState(490)
-					function_definition()
+					functionDefinition()
 
 				case 2 =>
 					setState(491)
@@ -5282,15 +5282,15 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 				case 3 =>
 					setState(492)
-					class_method_definition()
+					classMethodDefinition()
 
 				case 4 =>
 					setState(493)
-					instance_method_definition()
+					instanceMethodDefinition()
 
 				case 5 =>
 					setState(494)
-					property_implementation()
+					propertyImplementation()
 
 				case _ =>
 				}
@@ -5313,15 +5313,15 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def class_method_definition(): Class_method_definitionContext = {
-		val _localctx: Class_method_definitionContext = new Class_method_definitionContext(_ctx, getState)
+	final def classMethodDefinition(): ClassMethodDefinitionContext = {
+		val _localctx = new ClassMethodDefinitionContext(_ctx, getState)
 		enterRule(_localctx, 58, RULE_class_method_definition)
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(499)
 			matchToken(ADD)
 			setState(500)
-			method_definition()
+			methodDefinition()
 		}
 		catch {
 		case re: RecognitionException =>
@@ -5337,15 +5337,15 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def instance_method_definition(): Instance_method_definitionContext = {
-		val _localctx: Instance_method_definitionContext = new Instance_method_definitionContext(_ctx, getState)
+	final def instanceMethodDefinition(): InstanceMethodDefinitionContext = {
+		val _localctx = new InstanceMethodDefinitionContext(_ctx, getState)
 		enterRule(_localctx, 60, RULE_instance_method_definition)
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(502)
 			matchToken(SUB)
 			setState(503)
-			method_definition()
+			methodDefinition()
 		}
 		catch {
 		case re: RecognitionException =>
@@ -5361,8 +5361,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def method_definition(): Method_definitionContext = {
-		val _localctx: Method_definitionContext = new Method_definitionContext(_ctx, getState)
+	final def methodDefinition(): MethodDefinitionContext = {
+		val _localctx = new MethodDefinitionContext(_ctx, getState)
 		enterRule(_localctx, 62, RULE_method_definition)
 		var _la = 0
 		try {
@@ -5371,16 +5371,16 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			_la = _input.LA(1)
 			if (_la==LPAREN) {
 				setState(505)
-				method_type()
+				methodType()
 			}
 
 			setState(508)
-			method_selector()
+			methodSelector()
 			setState(510)
 			_la = _input.LA(1)
 			if (((((_la - 70)) & ~0x3f) == 0 && ((1L << (_la - 70)) & ((1L << (LPAREN - 70)) | (1L << (MUL - 70)) | (1L << (IDENTIFIER - 70)))) != 0)) {
 				setState(509)
-				init_declarator_list()
+				initDeclaratorList()
 			}
 
 			setState(513)
@@ -5391,7 +5391,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			}
 
 			setState(515)
-			compound_statement()
+			compoundStatement()
 		}
 		catch {
 		case re: RecognitionException =>
@@ -5407,8 +5407,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def method_selector(): Method_selectorContext = {
-		val _localctx: Method_selectorContext = new Method_selectorContext(_ctx, getState)
+	final def methodSelector(): MethodSelectorContext = {
+		val _localctx = new MethodSelectorContext(_ctx, getState)
 		enterRule(_localctx, 64, RULE_method_selector)
 		try {
 			var _alt = 0
@@ -5429,7 +5429,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 					_alt match {
 					case 1 =>
 						setState(518)
-						keyword_declarator()
+						keywordDeclarator()
 
 					case _ =>
 						throw new NoViableAltException(this)
@@ -5443,7 +5443,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				getInterpreter().adaptivePredict(_input,38,_ctx) match {
 				case 1 =>
 					setState(523)
-					parameter_list()
+					parameterList()
 
 				case _ =>
 				}
@@ -5465,8 +5465,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def keyword_declarator(): Keyword_declaratorContext = {
-		val _localctx: Keyword_declaratorContext = new Keyword_declaratorContext(_ctx, getState)
+	final def keywordDeclarator(): KeywordDeclaratorContext = {
+		val _localctx = new KeywordDeclaratorContext(_ctx, getState)
 		enterRule(_localctx, 66, RULE_keyword_declarator)
 		var _la = 0
 		try {
@@ -5485,7 +5485,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			_la = _input.LA(1)
 			while (_la==LPAREN) {
 				setState(532)
-				method_type()
+				methodType()
 				setState(537)
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -5508,7 +5508,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 	@throws(classOf[RecognitionException])
 	final def selector(): SelectorContext = {
-		val _localctx: SelectorContext = new SelectorContext(_ctx, getState)
+		val _localctx = new SelectorContext(_ctx, getState)
 		enterRule(_localctx, 68, RULE_selector)
 		try {
 			enterOuterAlt(_localctx, 1)
@@ -5529,15 +5529,15 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def method_type(): Method_typeContext = {
-		val _localctx: Method_typeContext = new Method_typeContext(_ctx, getState)
+	final def methodType(): MethodTypeContext = {
+		val _localctx = new MethodTypeContext(_ctx, getState)
 		enterRule(_localctx, 70, RULE_method_type)
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(542)
 			matchToken(LPAREN)
 			setState(543)
-			type_name()
+			typeName()
 			setState(544)
 			matchToken(RPAREN)
 		}
@@ -5555,8 +5555,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def property_implementation(): Property_implementationContext = {
-		val _localctx: Property_implementationContext = new Property_implementationContext(_ctx, getState)
+	final def propertyImplementation(): PropertyImplementationContext = {
+		val _localctx = new PropertyImplementationContext(_ctx, getState)
 		enterRule(_localctx, 72, RULE_property_implementation)
 		try {
 			setState(554)
@@ -5566,7 +5566,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(546)
 				matchToken(SYNTHESIZE)
 				setState(547)
-				property_synthesize_list()
+				propertySynthesizeList()
 				setState(548)
 				matchToken(SEMI)
 
@@ -5575,7 +5575,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(550)
 				matchToken(DYNAMIC)
 				setState(551)
-				property_synthesize_list()
+				propertySynthesizeList()
 				setState(552)
 				matchToken(SEMI)
 
@@ -5597,14 +5597,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def property_synthesize_list(): Property_synthesize_listContext = {
-		val _localctx: Property_synthesize_listContext = new Property_synthesize_listContext(_ctx, getState)
+	final def propertySynthesizeList(): PropertySynthesizeListContext = {
+		val _localctx = new PropertySynthesizeListContext(_ctx, getState)
 		enterRule(_localctx, 74, RULE_property_synthesize_list)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(556)
-			property_synthesize_item()
+			propertySynthesizeItem()
 			setState(561)
 			_errHandler.sync(this)
 			_la = _input.LA(1)
@@ -5612,7 +5612,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(557)
 				matchToken(COMMA)
 				setState(558)
-				property_synthesize_item()
+				propertySynthesizeItem()
 				setState(563)
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -5632,8 +5632,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def property_synthesize_item(): Property_synthesize_itemContext = {
-		val _localctx: Property_synthesize_itemContext = new Property_synthesize_itemContext(_ctx, getState)
+	final def propertySynthesizeItem(): PropertySynthesizeItemContext = {
+		val _localctx = new PropertySynthesizeItemContext(_ctx, getState)
 		enterRule(_localctx, 76, RULE_property_synthesize_item)
 		try {
 			setState(568)
@@ -5670,14 +5670,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def block_type(): Block_typeContext = {
-		val _localctx: Block_typeContext = new Block_typeContext(_ctx, getState)
+	final def blockType(): BlockTypeContext = {
+		val _localctx = new BlockTypeContext(_ctx, getState)
 		enterRule(_localctx, 78, RULE_block_type)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(570)
-			type_specifier()
+			typeSpecifier()
 			setState(571)
 			matchToken(LPAREN)
 			setState(572)
@@ -5686,7 +5686,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			_la = _input.LA(1)
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CHAR) | (1L << DOUBLE) | (1L << ENUM) | (1L << FLOAT) | (1L << ID) | (1L << INT) | (1L << LONG) | (1L << SHORT) | (1L << SIGNED) | (1L << STRUCT) | (1L << UNION) | (1L << UNSIGNED) | (1L << VOID))) != 0) || ((((_la - 66)) & ~0x3f) == 0 && ((1L << (_la - 66)) & ((1L << (NS_OPTIONS - 66)) | (1L << (NS_ENUM - 66)) | (1L << (IDENTIFIER - 66)))) != 0)) {
 				setState(573)
-				type_specifier()
+				typeSpecifier()
 			}
 
 			setState(576)
@@ -5695,7 +5695,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			_la = _input.LA(1)
 			if (_la==LPAREN) {
 				setState(577)
-				block_parameters()
+				blockParameters()
 			}
 
 		}
@@ -5713,8 +5713,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def type_specifier(): Type_specifierContext = {
-		val _localctx: Type_specifierContext = new Type_specifierContext(_ctx, getState)
+	final def typeSpecifier(): TypeSpecifierContext = {
+		val _localctx = new TypeSpecifierContext(_ctx, getState)
 		enterRule(_localctx, 80, RULE_type_specifier)
 		var _la = 0
 		try {
@@ -5774,31 +5774,31 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				_la = _input.LA(1)
 				if (_la==LT) {
 					setState(590)
-					protocol_reference_list()
+					protocolReferenceList()
 				}
 
 
 			case 11 =>
 				enterOuterAlt(_localctx, 11)
 				setState(593)
-				class_name()
+				className()
 				setState(595)
 				_la = _input.LA(1)
 				if (_la==LT) {
 					setState(594)
-					protocol_reference_list()
+					protocolReferenceList()
 				}
 
 
 			case 12 =>
 				enterOuterAlt(_localctx, 12)
 				setState(597)
-				struct_or_union_specifier()
+				structOrUnionSpecifier()
 
 			case 13 =>
 				enterOuterAlt(_localctx, 13)
 				setState(598)
-				enum_specifier()
+				enumSpecifier()
 
 			case 14 =>
 				enterOuterAlt(_localctx, 14)
@@ -5829,8 +5829,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def type_qualifier(): Type_qualifierContext = {
-		val _localctx: Type_qualifierContext = new Type_qualifierContext(_ctx, getState)
+	final def typeQualifier(): TypeQualifierContext = {
+		val _localctx = new TypeQualifierContext(_ctx, getState)
 		enterRule(_localctx, 82, RULE_type_qualifier)
 		try {
 			setState(607)
@@ -5848,7 +5848,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			case BYCOPY | BYREF | IN | INOUT | ONEWAY | OUT =>
 				enterOuterAlt(_localctx, 3)
 				setState(606)
-				protocol_qualifier()
+				protocolQualifier()
 
 			case _ =>
 				throw new NoViableAltException(this)
@@ -5868,8 +5868,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def protocol_qualifier(): Protocol_qualifierContext = {
-		val _localctx: Protocol_qualifierContext = new Protocol_qualifierContext(_ctx, getState)
+	final def protocolQualifier(): ProtocolQualifierContext = {
+		val _localctx = new ProtocolQualifierContext(_ctx, getState)
 		enterRule(_localctx, 84, RULE_protocol_qualifier)
 		var _la = 0
 		try {
@@ -5896,8 +5896,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def primary_expression(): Primary_expressionContext = {
-		val _localctx: Primary_expressionContext = new Primary_expressionContext(_ctx, getState)
+	final def primaryExpression(): PrimaryExpressionContext = {
+		val _localctx = new PrimaryExpressionContext(_ctx, getState)
 		enterRule(_localctx, 86, RULE_primary_expression)
 		try {
 			setState(628)
@@ -5940,42 +5940,42 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			case 7 =>
 				enterOuterAlt(_localctx, 7)
 				setState(620)
-				message_expression()
+				messageExpression()
 
 			case 8 =>
 				enterOuterAlt(_localctx, 8)
 				setState(621)
-				selector_expression()
+				selectorExpression()
 
 			case 9 =>
 				enterOuterAlt(_localctx, 9)
 				setState(622)
-				protocol_expression()
+				protocolExpression()
 
 			case 10 =>
 				enterOuterAlt(_localctx, 10)
 				setState(623)
-				encode_expression()
+				encodeExpression()
 
 			case 11 =>
 				enterOuterAlt(_localctx, 11)
 				setState(624)
-				dictionary_expression()
+				dictionaryExpression()
 
 			case 12 =>
 				enterOuterAlt(_localctx, 12)
 				setState(625)
-				array_expression()
+				arrayExpression()
 
 			case 13 =>
 				enterOuterAlt(_localctx, 13)
 				setState(626)
-				box_expression()
+				boxExpression()
 
 			case 14 =>
 				enterOuterAlt(_localctx, 14)
 				setState(627)
-				block_expression()
+				blockExpression()
 
 			case _ =>
 			}
@@ -5994,13 +5994,13 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def dictionary_pair(): Dictionary_pairContext = {
-		val _localctx: Dictionary_pairContext = new Dictionary_pairContext(_ctx, getState)
+	final def dictionaryPair(): DictionaryPairContext = {
+		val _localctx = new DictionaryPairContext(_ctx, getState)
 		enterRule(_localctx, 88, RULE_dictionary_pair)
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(630)
-			postfix_expression()
+			postfixExpression()
 			setState(631)
 			matchToken(COLON)
 			setState(634)
@@ -6008,7 +6008,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			getInterpreter().adaptivePredict(_input,52,_ctx) match {
 			case 1 =>
 				setState(632)
-				postfix_expression()
+				postfixExpression()
 
 			case 2 =>
 				setState(633)
@@ -6031,8 +6031,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def dictionary_expression(): Dictionary_expressionContext = {
-		val _localctx: Dictionary_expressionContext = new Dictionary_expressionContext(_ctx, getState)
+	final def dictionaryExpression(): DictionaryExpressionContext = {
+		val _localctx = new DictionaryExpressionContext(_ctx, getState)
 		enterRule(_localctx, 90, RULE_dictionary_expression)
 		var _la = 0
 		try {
@@ -6046,7 +6046,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			_la = _input.LA(1)
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ENCODE) | (1L << PROTOCOL) | (1L << SELECTOR) | (1L << SUPER) | (1L << SELF))) != 0) || ((((_la - 70)) & ~0x3f) == 0 && ((1L << (_la - 70)) & ((1L << (LPAREN - 70)) | (1L << (LBRACK - 70)) | (1L << (AT - 70)) | (1L << (CARET - 70)) | (1L << (IDENTIFIER - 70)) | (1L << (CHARACTER_LITERAL - 70)) | (1L << (STRING_LITERAL - 70)) | (1L << (HEX_LITERAL - 70)) | (1L << (DECIMAL_LITERAL - 70)) | (1L << (OCTAL_LITERAL - 70)) | (1L << (FLOATING_POINT_LITERAL - 70)))) != 0)) {
 				setState(638)
-				dictionary_pair()
+				dictionaryPair()
 			}
 
 			setState(645)
@@ -6057,7 +6057,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 					setState(641)
 					matchToken(COMMA)
 					setState(642)
-					dictionary_pair() 
+					dictionaryPair() 
 				}
 				setState(647)
 				_errHandler.sync(this)
@@ -6087,8 +6087,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def array_expression(): Array_expressionContext = {
-		val _localctx: Array_expressionContext = new Array_expressionContext(_ctx, getState)
+	final def arrayExpression(): ArrayExpressionContext = {
+		val _localctx = new ArrayExpressionContext(_ctx, getState)
 		enterRule(_localctx, 92, RULE_array_expression)
 		var _la = 0
 		try {
@@ -6102,7 +6102,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			_la = _input.LA(1)
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ENCODE) | (1L << PROTOCOL) | (1L << SELECTOR) | (1L << SUPER) | (1L << SELF))) != 0) || ((((_la - 70)) & ~0x3f) == 0 && ((1L << (_la - 70)) & ((1L << (LPAREN - 70)) | (1L << (LBRACK - 70)) | (1L << (AT - 70)) | (1L << (CARET - 70)) | (1L << (IDENTIFIER - 70)) | (1L << (CHARACTER_LITERAL - 70)) | (1L << (STRING_LITERAL - 70)) | (1L << (HEX_LITERAL - 70)) | (1L << (DECIMAL_LITERAL - 70)) | (1L << (OCTAL_LITERAL - 70)) | (1L << (FLOATING_POINT_LITERAL - 70)))) != 0)) {
 				setState(655)
-				postfix_expression()
+				postfixExpression()
 			}
 
 			setState(662)
@@ -6113,7 +6113,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 					setState(658)
 					matchToken(COMMA)
 					setState(659)
-					postfix_expression() 
+					postfixExpression() 
 				}
 				setState(664)
 				_errHandler.sync(this)
@@ -6143,8 +6143,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def box_expression(): Box_expressionContext = {
-		val _localctx: Box_expressionContext = new Box_expressionContext(_ctx, getState)
+	final def boxExpression(): BoxExpressionContext = {
+		val _localctx = new BoxExpressionContext(_ctx, getState)
 		enterRule(_localctx, 94, RULE_box_expression)
 		try {
 			setState(680)
@@ -6161,7 +6161,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				getInterpreter().adaptivePredict(_input,59,_ctx) match {
 				case 1 =>
 					setState(672)
-					postfix_expression()
+					postfixExpression()
 
 				case 2 =>
 					setState(673)
@@ -6196,8 +6196,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def block_parameters(): Block_parametersContext = {
-		val _localctx: Block_parametersContext = new Block_parametersContext(_ctx, getState)
+	final def blockParameters(): BlockParametersContext = {
+		val _localctx = new BlockParametersContext(_ctx, getState)
 		enterRule(_localctx, 96, RULE_block_parameters)
 		var _la = 0
 		try {
@@ -6209,7 +6209,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			getInterpreter().adaptivePredict(_input,61,_ctx) match {
 			case 1 =>
 				setState(683)
-				type_variable_declarator()
+				typeVariableDeclarator()
 
 			case 2 =>
 				setState(684)
@@ -6224,7 +6224,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(687)
 				matchToken(COMMA)
 				setState(688)
-				type_variable_declarator()
+				typeVariableDeclarator()
 				setState(693)
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -6246,8 +6246,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def block_expression(): Block_expressionContext = {
-		val _localctx: Block_expressionContext = new Block_expressionContext(_ctx, getState)
+	final def blockExpression(): BlockExpressionContext = {
+		val _localctx = new BlockExpressionContext(_ctx, getState)
 		enterRule(_localctx, 98, RULE_block_expression)
 		var _la = 0
 		try {
@@ -6258,18 +6258,18 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			_la = _input.LA(1)
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CHAR) | (1L << DOUBLE) | (1L << ENUM) | (1L << FLOAT) | (1L << ID) | (1L << INT) | (1L << LONG) | (1L << SHORT) | (1L << SIGNED) | (1L << STRUCT) | (1L << UNION) | (1L << UNSIGNED) | (1L << VOID))) != 0) || ((((_la - 66)) & ~0x3f) == 0 && ((1L << (_la - 66)) & ((1L << (NS_OPTIONS - 66)) | (1L << (NS_ENUM - 66)) | (1L << (IDENTIFIER - 66)))) != 0)) {
 				setState(697)
-				type_specifier()
+				typeSpecifier()
 			}
 
 			setState(701)
 			_la = _input.LA(1)
 			if (_la==LPAREN) {
 				setState(700)
-				block_parameters()
+				blockParameters()
 			}
 
 			setState(703)
-			compound_statement()
+			compoundStatement()
 		}
 		catch {
 		case re: RecognitionException =>
@@ -6285,8 +6285,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def message_expression(): Message_expressionContext = {
-		val _localctx: Message_expressionContext = new Message_expressionContext(_ctx, getState)
+	final def messageExpression(): MessageExpressionContext = {
+		val _localctx = new MessageExpressionContext(_ctx, getState)
 		enterRule(_localctx, 100, RULE_message_expression)
 		try {
 			enterOuterAlt(_localctx, 1)
@@ -6295,7 +6295,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			setState(706)
 			receiver()
 			setState(707)
-			message_selector()
+			messageSelector()
 			setState(708)
 			matchToken(RBRACK)
 		}
@@ -6314,7 +6314,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 	@throws(classOf[RecognitionException])
 	final def receiver(): ReceiverContext = {
-		val _localctx: ReceiverContext = new ReceiverContext(_ctx, getState)
+		val _localctx = new ReceiverContext(_ctx, getState)
 		enterRule(_localctx, 102, RULE_receiver)
 		try {
 			setState(713)
@@ -6328,7 +6328,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			case 2 =>
 				enterOuterAlt(_localctx, 2)
 				setState(711)
-				class_name()
+				className()
 
 			case 3 =>
 				enterOuterAlt(_localctx, 3)
@@ -6352,8 +6352,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def message_selector(): Message_selectorContext = {
-		val _localctx: Message_selectorContext = new Message_selectorContext(_ctx, getState)
+	final def messageSelector(): MessageSelectorContext = {
+		val _localctx = new MessageSelectorContext(_ctx, getState)
 		enterRule(_localctx, 104, RULE_message_selector)
 		var _la = 0
 		try {
@@ -6372,7 +6372,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				_la = _input.LA(1)
 				do {
 					setState(716)
-					keyword_argument()
+					keywordArgument()
 					setState(719) 
 					_errHandler.sync(this)
 					_la = _input.LA(1)
@@ -6395,8 +6395,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def keyword_argument(): Keyword_argumentContext = {
-		val _localctx: Keyword_argumentContext = new Keyword_argumentContext(_ctx, getState)
+	final def keywordArgument(): KeywordArgumentContext = {
+		val _localctx = new KeywordArgumentContext(_ctx, getState)
 		enterRule(_localctx, 106, RULE_keyword_argument)
 		var _la = 0
 		try {
@@ -6427,8 +6427,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def selector_expression(): Selector_expressionContext = {
-		val _localctx: Selector_expressionContext = new Selector_expressionContext(_ctx, getState)
+	final def selectorExpression(): SelectorExpressionContext = {
+		val _localctx = new SelectorExpressionContext(_ctx, getState)
 		enterRule(_localctx, 108, RULE_selector_expression)
 		try {
 			enterOuterAlt(_localctx, 1)
@@ -6437,7 +6437,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			setState(730)
 			matchToken(LPAREN)
 			setState(731)
-			selector_name()
+			selectorName()
 			setState(732)
 			matchToken(RPAREN)
 		}
@@ -6455,8 +6455,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def selector_name(): Selector_nameContext = {
-		val _localctx: Selector_nameContext = new Selector_nameContext(_ctx, getState)
+	final def selectorName(): SelectorNameContext = {
+		val _localctx = new SelectorNameContext(_ctx, getState)
 		enterRule(_localctx, 110, RULE_selector_name)
 		var _la = 0
 		try {
@@ -6505,8 +6505,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def protocol_expression(): Protocol_expressionContext = {
-		val _localctx: Protocol_expressionContext = new Protocol_expressionContext(_ctx, getState)
+	final def protocolExpression(): ProtocolExpressionContext = {
+		val _localctx = new ProtocolExpressionContext(_ctx, getState)
 		enterRule(_localctx, 112, RULE_protocol_expression)
 		try {
 			enterOuterAlt(_localctx, 1)
@@ -6515,7 +6515,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			setState(746)
 			matchToken(LPAREN)
 			setState(747)
-			protocol_name()
+			protocolName()
 			setState(748)
 			matchToken(RPAREN)
 		}
@@ -6533,8 +6533,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def encode_expression(): Encode_expressionContext = {
-		val _localctx: Encode_expressionContext = new Encode_expressionContext(_ctx, getState)
+	final def encodeExpression(): EncodeExpressionContext = {
+		val _localctx = new EncodeExpressionContext(_ctx, getState)
 		enterRule(_localctx, 114, RULE_encode_expression)
 		try {
 			enterOuterAlt(_localctx, 1)
@@ -6543,7 +6543,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			setState(751)
 			matchToken(LPAREN)
 			setState(752)
-			type_name()
+			typeName()
 			setState(753)
 			matchToken(RPAREN)
 		}
@@ -6561,13 +6561,13 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def type_variable_declarator(): Type_variable_declaratorContext = {
-		val _localctx: Type_variable_declaratorContext = new Type_variable_declaratorContext(_ctx, getState)
+	final def typeVariableDeclarator(): TypeVariableDeclaratorContext = {
+		val _localctx = new TypeVariableDeclaratorContext(_ctx, getState)
 		enterRule(_localctx, 116, RULE_type_variable_declarator)
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(755)
-			declaration_specifiers()
+			declarationSpecifiers()
 			setState(756)
 			declarator()
 		}
@@ -6585,15 +6585,15 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def try_statement(): Try_statementContext = {
-		val _localctx: Try_statementContext = new Try_statementContext(_ctx, getState)
+	final def tryStatement(): TryStatementContext = {
+		val _localctx = new TryStatementContext(_ctx, getState)
 		enterRule(_localctx, 118, RULE_try_statement)
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(758)
 			matchToken(TRY)
 			setState(759)
-			compound_statement()
+			compoundStatement()
 		}
 		catch {
 		case re: RecognitionException =>
@@ -6609,8 +6609,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def catch_statement(): Catch_statementContext = {
-		val _localctx: Catch_statementContext = new Catch_statementContext(_ctx, getState)
+	final def catchStatement(): CatchStatementContext = {
+		val _localctx = new CatchStatementContext(_ctx, getState)
 		enterRule(_localctx, 120, RULE_catch_statement)
 		try {
 			enterOuterAlt(_localctx, 1)
@@ -6619,11 +6619,11 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			setState(762)
 			matchToken(LPAREN)
 			setState(763)
-			type_variable_declarator()
+			typeVariableDeclarator()
 			setState(764)
 			matchToken(RPAREN)
 			setState(765)
-			compound_statement()
+			compoundStatement()
 		}
 		catch {
 		case re: RecognitionException =>
@@ -6639,15 +6639,15 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def finally_statement(): Finally_statementContext = {
-		val _localctx: Finally_statementContext = new Finally_statementContext(_ctx, getState)
+	final def finallyStatement(): FinallyStatementContext = {
+		val _localctx = new FinallyStatementContext(_ctx, getState)
 		enterRule(_localctx, 122, RULE_finally_statement)
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(767)
 			matchToken(FINALLY)
 			setState(768)
-			compound_statement()
+			compoundStatement()
 		}
 		catch {
 		case re: RecognitionException =>
@@ -6663,8 +6663,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def throw_statement(): Throw_statementContext = {
-		val _localctx: Throw_statementContext = new Throw_statementContext(_ctx, getState)
+	final def throwStatement(): ThrowStatementContext = {
+		val _localctx = new ThrowStatementContext(_ctx, getState)
 		enterRule(_localctx, 124, RULE_throw_statement)
 		try {
 			enterOuterAlt(_localctx, 1)
@@ -6691,20 +6691,20 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def try_block(): Try_blockContext = {
-		val _localctx: Try_blockContext = new Try_blockContext(_ctx, getState)
+	final def tryBlock(): TryBlockContext = {
+		val _localctx = new TryBlockContext(_ctx, getState)
 		enterRule(_localctx, 126, RULE_try_block)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(775)
-			try_statement()
+			tryStatement()
 			setState(779)
 			_errHandler.sync(this)
 			_la = _input.LA(1)
 			while (_la==CATCH) {
 				setState(776)
-				catch_statement()
+				catchStatement()
 				setState(781)
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -6713,7 +6713,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			_la = _input.LA(1)
 			if (_la==FINALLY) {
 				setState(782)
-				finally_statement()
+				finallyStatement()
 			}
 
 		}
@@ -6731,8 +6731,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def synchronized_statement(): Synchronized_statementContext = {
-		val _localctx: Synchronized_statementContext = new Synchronized_statementContext(_ctx, getState)
+	final def synchronizedStatement(): SynchronizedStatementContext = {
+		val _localctx = new SynchronizedStatementContext(_ctx, getState)
 		enterRule(_localctx, 128, RULE_synchronized_statement)
 		try {
 			enterOuterAlt(_localctx, 1)
@@ -6741,11 +6741,11 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			setState(786)
 			matchToken(LPAREN)
 			setState(787)
-			primary_expression()
+			primaryExpression()
 			setState(788)
 			matchToken(RPAREN)
 			setState(789)
-			compound_statement()
+			compoundStatement()
 		}
 		catch {
 		case re: RecognitionException =>
@@ -6761,15 +6761,15 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def autorelease_statement(): Autorelease_statementContext = {
-		val _localctx: Autorelease_statementContext = new Autorelease_statementContext(_ctx, getState)
+	final def autoreleaseStatement(): AutoreleaseStatementContext = {
+		val _localctx = new AutoreleaseStatementContext(_ctx, getState)
 		enterRule(_localctx, 130, RULE_autorelease_statement)
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(791)
 			matchToken(AUTORELEASEPOOL)
 			setState(792)
-			compound_statement()
+			compoundStatement()
 		}
 		catch {
 		case re: RecognitionException =>
@@ -6785,8 +6785,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def function_definition(): Function_definitionContext = {
-		val _localctx: Function_definitionContext = new Function_definitionContext(_ctx, getState)
+	final def functionDefinition(): FunctionDefinitionContext = {
+		val _localctx = new FunctionDefinitionContext(_ctx, getState)
 		enterRule(_localctx, 132, RULE_function_definition)
 		try {
 			enterOuterAlt(_localctx, 1)
@@ -6795,14 +6795,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			getInterpreter().adaptivePredict(_input,74,_ctx) match {
 			case 1 =>
 				setState(794)
-				declaration_specifiers()
+				declarationSpecifiers()
 
 			case _ =>
 			}
 			setState(797)
 			declarator()
 			setState(798)
-			compound_statement()
+			compoundStatement()
 		}
 		catch {
 		case re: RecognitionException =>
@@ -6819,18 +6819,18 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 	@throws(classOf[RecognitionException])
 	final def declaration(): DeclarationContext = {
-		val _localctx: DeclarationContext = new DeclarationContext(_ctx, getState)
+		val _localctx = new DeclarationContext(_ctx, getState)
 		enterRule(_localctx, 134, RULE_declaration)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(800)
-			declaration_specifiers()
+			declarationSpecifiers()
 			setState(802)
 			_la = _input.LA(1)
 			if (((((_la - 70)) & ~0x3f) == 0 && ((1L << (_la - 70)) & ((1L << (LPAREN - 70)) | (1L << (MUL - 70)) | (1L << (IDENTIFIER - 70)))) != 0)) {
 				setState(801)
-				init_declarator_list()
+				initDeclaratorList()
 			}
 
 			setState(804)
@@ -6850,8 +6850,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def declaration_specifiers(): Declaration_specifiersContext = {
-		val _localctx: Declaration_specifiersContext = new Declaration_specifiersContext(_ctx, getState)
+	final def declarationSpecifiers(): DeclarationSpecifiersContext = {
+		val _localctx = new DeclarationSpecifiersContext(_ctx, getState)
 		enterRule(_localctx, 136, RULE_declaration_specifiers)
 		try {
 			var _alt = 0
@@ -6866,19 +6866,19 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 					_input.LA(1) match {
 					case WWEAK | WUNSAFE_UNRETAINED =>
 						setState(806)
-						arc_behaviour_specifier()
+						arcBehaviourSpecifier()
 
 					case AUTO | EXTERN | REGISTER | STATIC | TYPEDEF =>
 						setState(807)
-						storage_class_specifier()
+						storageClassSpecifier()
 
 					case CHAR | DOUBLE | ENUM | FLOAT | ID | INT | LONG | SHORT | SIGNED | STRUCT | UNION | UNSIGNED | VOID | NS_OPTIONS | NS_ENUM | IDENTIFIER =>
 						setState(808)
-						type_specifier()
+						typeSpecifier()
 
 					case BYCOPY | BYREF | CONST | IN | INOUT | ONEWAY | OUT | VOLATILE =>
 						setState(809)
-						type_qualifier()
+						typeQualifier()
 
 					case _ =>
 						throw new NoViableAltException(this)
@@ -6906,8 +6906,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def arc_behaviour_specifier(): Arc_behaviour_specifierContext = {
-		val _localctx: Arc_behaviour_specifierContext = new Arc_behaviour_specifierContext(_ctx, getState)
+	final def arcBehaviourSpecifier(): ArcBehaviourSpecifierContext = {
+		val _localctx = new ArcBehaviourSpecifierContext(_ctx, getState)
 		enterRule(_localctx, 138, RULE_arc_behaviour_specifier)
 		var _la = 0
 		try {
@@ -6934,8 +6934,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def storage_class_specifier(): Storage_class_specifierContext = {
-		val _localctx: Storage_class_specifierContext = new Storage_class_specifierContext(_ctx, getState)
+	final def storageClassSpecifier(): StorageClassSpecifierContext = {
+		val _localctx = new StorageClassSpecifierContext(_ctx, getState)
 		enterRule(_localctx, 140, RULE_storage_class_specifier)
 		var _la = 0
 		try {
@@ -6962,14 +6962,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def init_declarator_list(): Init_declarator_listContext = {
-		val _localctx: Init_declarator_listContext = new Init_declarator_listContext(_ctx, getState)
+	final def initDeclaratorList(): InitDeclaratorListContext = {
+		val _localctx = new InitDeclaratorListContext(_ctx, getState)
 		enterRule(_localctx, 142, RULE_init_declarator_list)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(818)
-			init_declarator()
+			initDeclarator()
 			setState(823)
 			_errHandler.sync(this)
 			_la = _input.LA(1)
@@ -6977,7 +6977,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(819)
 				matchToken(COMMA)
 				setState(820)
-				init_declarator()
+				initDeclarator()
 				setState(825)
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -6997,8 +6997,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def init_declarator(): Init_declaratorContext = {
-		val _localctx: Init_declaratorContext = new Init_declaratorContext(_ctx, getState)
+	final def initDeclarator(): InitDeclaratorContext = {
+		val _localctx = new InitDeclaratorContext(_ctx, getState)
 		enterRule(_localctx, 144, RULE_init_declarator)
 		var _la = 0
 		try {
@@ -7029,8 +7029,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def struct_or_union_specifier(): Struct_or_union_specifierContext = {
-		val _localctx: Struct_or_union_specifierContext = new Struct_or_union_specifierContext(_ctx, getState)
+	final def structOrUnionSpecifier(): StructOrUnionSpecifierContext = {
+		val _localctx = new StructOrUnionSpecifierContext(_ctx, getState)
 		enterRule(_localctx, 146, RULE_struct_or_union_specifier)
 		var _la = 0
 		try {
@@ -7064,7 +7064,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				_la = _input.LA(1)
 				do {
 					setState(837)
-					struct_declaration()
+					structDeclaration()
 					setState(840) 
 					_errHandler.sync(this)
 					_la = _input.LA(1)
@@ -7089,15 +7089,15 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def struct_declaration(): Struct_declarationContext = {
-		val _localctx: Struct_declarationContext = new Struct_declarationContext(_ctx, getState)
+	final def structDeclaration(): StructDeclarationContext = {
+		val _localctx = new StructDeclarationContext(_ctx, getState)
 		enterRule(_localctx, 148, RULE_struct_declaration)
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(846)
-			specifier_qualifier_list()
+			specifierQualifierList()
 			setState(847)
-			struct_declarator_list()
+			structDeclaratorList()
 			setState(848)
 			matchToken(SEMI)
 		}
@@ -7115,8 +7115,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def specifier_qualifier_list(): Specifier_qualifier_listContext = {
-		val _localctx: Specifier_qualifier_listContext = new Specifier_qualifier_listContext(_ctx, getState)
+	final def specifierQualifierList(): SpecifierQualifierListContext = {
+		val _localctx = new SpecifierQualifierListContext(_ctx, getState)
 		enterRule(_localctx, 150, RULE_specifier_qualifier_list)
 		try {
 			var _alt = 0
@@ -7131,15 +7131,15 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 					_input.LA(1) match {
 					case WWEAK | WUNSAFE_UNRETAINED =>
 						setState(850)
-						arc_behaviour_specifier()
+						arcBehaviourSpecifier()
 
 					case CHAR | DOUBLE | ENUM | FLOAT | ID | INT | LONG | SHORT | SIGNED | STRUCT | UNION | UNSIGNED | VOID | NS_OPTIONS | NS_ENUM | IDENTIFIER =>
 						setState(851)
-						type_specifier()
+						typeSpecifier()
 
 					case BYCOPY | BYREF | CONST | IN | INOUT | ONEWAY | OUT | VOLATILE =>
 						setState(852)
-						type_qualifier()
+						typeQualifier()
 
 					case _ =>
 						throw new NoViableAltException(this)
@@ -7167,14 +7167,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def struct_declarator_list(): Struct_declarator_listContext = {
-		val _localctx: Struct_declarator_listContext = new Struct_declarator_listContext(_ctx, getState)
+	final def structDeclaratorList(): StructDeclaratorListContext = {
+		val _localctx = new StructDeclaratorListContext(_ctx, getState)
 		enterRule(_localctx, 152, RULE_struct_declarator_list)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(857)
-			struct_declarator()
+			structDeclarator()
 			setState(862)
 			_errHandler.sync(this)
 			_la = _input.LA(1)
@@ -7182,7 +7182,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(858)
 				matchToken(COMMA)
 				setState(859)
-				struct_declarator()
+				structDeclarator()
 				setState(864)
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -7202,8 +7202,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def struct_declarator(): Struct_declaratorContext = {
-		val _localctx: Struct_declaratorContext = new Struct_declaratorContext(_ctx, getState)
+	final def structDeclarator(): StructDeclaratorContext = {
+		val _localctx = new StructDeclaratorContext(_ctx, getState)
 		enterRule(_localctx, 154, RULE_struct_declarator)
 		var _la = 0
 		try {
@@ -7246,8 +7246,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def enum_specifier(): Enum_specifierContext = {
-		val _localctx: Enum_specifierContext = new Enum_specifierContext(_ctx, getState)
+	final def enumSpecifier(): EnumSpecifierContext = {
+		val _localctx = new EnumSpecifierContext(_ctx, getState)
 		enterRule(_localctx, 156, RULE_enum_specifier)
 		var _la = 0
 		try {
@@ -7271,7 +7271,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 					setState(877)
 					matchToken(COLON)
 					setState(878)
-					type_name()
+					typeName()
 
 				case _ =>
 				}
@@ -7287,7 +7287,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 						setState(882)
 						matchToken(LBRACE)
 						setState(883)
-						enumerator_list()
+						enumeratorList()
 						setState(884)
 						matchToken(RBRACE)
 
@@ -7298,7 +7298,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 					setState(888)
 					matchToken(LBRACE)
 					setState(889)
-					enumerator_list()
+					enumeratorList()
 					setState(890)
 					matchToken(RBRACE)
 
@@ -7313,7 +7313,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(895)
 				matchToken(LPAREN)
 				setState(896)
-				type_name()
+				typeName()
 				setState(897)
 				matchToken(COMMA)
 				setState(898)
@@ -7323,7 +7323,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(900)
 				matchToken(LBRACE)
 				setState(901)
-				enumerator_list()
+				enumeratorList()
 				setState(902)
 				matchToken(RBRACE)
 
@@ -7334,7 +7334,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(905)
 				matchToken(LPAREN)
 				setState(906)
-				type_name()
+				typeName()
 				setState(907)
 				matchToken(COMMA)
 				setState(908)
@@ -7344,7 +7344,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(910)
 				matchToken(LBRACE)
 				setState(911)
-				enumerator_list()
+				enumeratorList()
 				setState(912)
 				matchToken(RBRACE)
 
@@ -7366,8 +7366,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def enumerator_list(): Enumerator_listContext = {
-		val _localctx: Enumerator_listContext = new Enumerator_listContext(_ctx, getState)
+	final def enumeratorList(): EnumeratorListContext = {
+		val _localctx = new EnumeratorListContext(_ctx, getState)
 		enterRule(_localctx, 158, RULE_enumerator_list)
 		var _la = 0
 		try {
@@ -7412,7 +7412,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 	@throws(classOf[RecognitionException])
 	final def enumerator(): EnumeratorContext = {
-		val _localctx: EnumeratorContext = new EnumeratorContext(_ctx, getState)
+		val _localctx = new EnumeratorContext(_ctx, getState)
 		enterRule(_localctx, 160, RULE_enumerator)
 		var _la = 0
 		try {
@@ -7425,7 +7425,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(928)
 				matchToken(ASSIGN)
 				setState(929)
-				constant_expression()
+				constantExpression()
 			}
 
 		}
@@ -7444,7 +7444,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 	@throws(classOf[RecognitionException])
 	final def pointer(): PointerContext = {
-		val _localctx: PointerContext = new PointerContext(_ctx, getState)
+		val _localctx = new PointerContext(_ctx, getState)
 		enterRule(_localctx, 162, RULE_pointer)
 		var _la = 0
 		try {
@@ -7460,7 +7460,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				getInterpreter().adaptivePredict(_input,96,_ctx) match {
 				case 1 =>
 					setState(933)
-					declaration_specifiers()
+					declarationSpecifiers()
 
 				case _ =>
 				}
@@ -7473,7 +7473,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				_la = _input.LA(1)
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << AUTO) | (1L << BYCOPY) | (1L << BYREF) | (1L << CHAR) | (1L << CONST) | (1L << DOUBLE) | (1L << ENUM) | (1L << EXTERN) | (1L << FLOAT) | (1L << ID) | (1L << IN) | (1L << INOUT) | (1L << INT) | (1L << LONG) | (1L << ONEWAY) | (1L << OUT) | (1L << REGISTER) | (1L << SHORT) | (1L << SIGNED) | (1L << STATIC) | (1L << STRUCT) | (1L << TYPEDEF) | (1L << UNION) | (1L << UNSIGNED) | (1L << VOID))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (VOLATILE - 64)) | (1L << (NS_OPTIONS - 64)) | (1L << (NS_ENUM - 64)) | (1L << (WWEAK - 64)) | (1L << (WUNSAFE_UNRETAINED - 64)) | (1L << (IDENTIFIER - 64)))) != 0)) {
 					setState(937)
-					declaration_specifiers()
+					declarationSpecifiers()
 				}
 
 				setState(940)
@@ -7497,7 +7497,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 	@throws(classOf[RecognitionException])
 	final def declarator(): DeclaratorContext = {
-		val _localctx: DeclaratorContext = new DeclaratorContext(_ctx, getState)
+		val _localctx = new DeclaratorContext(_ctx, getState)
 		enterRule(_localctx, 164, RULE_declarator)
 		var _la = 0
 		try {
@@ -7510,7 +7510,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			}
 
 			setState(946)
-			direct_declarator()
+			directDeclarator()
 		}
 		catch {
 		case re: RecognitionException =>
@@ -7526,8 +7526,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def direct_declarator(): Direct_declaratorContext = {
-		val _localctx: Direct_declaratorContext = new Direct_declaratorContext(_ctx, getState)
+	final def directDeclarator(): DirectDeclaratorContext = {
+		val _localctx = new DirectDeclaratorContext(_ctx, getState)
 		enterRule(_localctx, 166, RULE_direct_declarator)
 		var _la = 0
 		try {
@@ -7545,7 +7545,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				while ( _alt != 2 && _alt != org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt == 1 ) {
 						setState(949)
-						declarator_suffix() 
+						declaratorSuffix() 
 					}
 					setState(954)
 					_errHandler.sync(this)
@@ -7566,7 +7566,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				while ( _alt != 2 && _alt != org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt == 1 ) {
 						setState(958)
-						declarator_suffix() 
+						declaratorSuffix() 
 					}
 					setState(963)
 					_errHandler.sync(this)
@@ -7589,7 +7589,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(969)
 				matchToken(RPAREN)
 				setState(970)
-				block_parameters()
+				blockParameters()
 
 			case _ =>
 			}
@@ -7608,8 +7608,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def declarator_suffix(): Declarator_suffixContext = {
-		val _localctx: Declarator_suffixContext = new Declarator_suffixContext(_ctx, getState)
+	final def declaratorSuffix(): DeclaratorSuffixContext = {
+		val _localctx = new DeclaratorSuffixContext(_ctx, getState)
 		enterRule(_localctx, 168, RULE_declarator_suffix)
 		var _la = 0
 		try {
@@ -7623,7 +7623,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				_la = _input.LA(1)
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ENCODE) | (1L << PROTOCOL) | (1L << SELECTOR) | (1L << SUPER) | (1L << SELF) | (1L << SIZEOF))) != 0) || ((((_la - 70)) & ~0x3f) == 0 && ((1L << (_la - 70)) & ((1L << (LPAREN - 70)) | (1L << (LBRACK - 70)) | (1L << (AT - 70)) | (1L << (BANG - 70)) | (1L << (TILDE - 70)) | (1L << (INC - 70)) | (1L << (DEC - 70)) | (1L << (SUB - 70)) | (1L << (MUL - 70)) | (1L << (BITAND - 70)) | (1L << (CARET - 70)) | (1L << (IDENTIFIER - 70)) | (1L << (CHARACTER_LITERAL - 70)) | (1L << (STRING_LITERAL - 70)) | (1L << (HEX_LITERAL - 70)) | (1L << (DECIMAL_LITERAL - 70)) | (1L << (OCTAL_LITERAL - 70)) | (1L << (FLOATING_POINT_LITERAL - 70)))) != 0)) {
 					setState(974)
-					constant_expression()
+					constantExpression()
 				}
 
 				setState(977)
@@ -7637,7 +7637,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				_la = _input.LA(1)
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << AUTO) | (1L << BYCOPY) | (1L << BYREF) | (1L << CHAR) | (1L << CONST) | (1L << DOUBLE) | (1L << ENUM) | (1L << EXTERN) | (1L << FLOAT) | (1L << ID) | (1L << IN) | (1L << INOUT) | (1L << INT) | (1L << LONG) | (1L << ONEWAY) | (1L << OUT) | (1L << REGISTER) | (1L << SHORT) | (1L << SIGNED) | (1L << STATIC) | (1L << STRUCT) | (1L << TYPEDEF) | (1L << UNION) | (1L << UNSIGNED) | (1L << VOID))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (VOLATILE - 64)) | (1L << (NS_OPTIONS - 64)) | (1L << (NS_ENUM - 64)) | (1L << (WWEAK - 64)) | (1L << (WUNSAFE_UNRETAINED - 64)) | (1L << (IDENTIFIER - 64)))) != 0)) {
 					setState(979)
-					parameter_list()
+					parameterList()
 				}
 
 				setState(982)
@@ -7661,14 +7661,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def parameter_list(): Parameter_listContext = {
-		val _localctx: Parameter_listContext = new Parameter_listContext(_ctx, getState)
+	final def parameterList(): ParameterListContext = {
+		val _localctx = new ParameterListContext(_ctx, getState)
 		enterRule(_localctx, 170, RULE_parameter_list)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(985)
-			parameter_declaration_list()
+			parameterDeclarationList()
 			setState(988)
 			_la = _input.LA(1)
 			if (_la==COMMA) {
@@ -7693,13 +7693,13 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def parameter_declaration(): Parameter_declarationContext = {
-		val _localctx: Parameter_declarationContext = new Parameter_declarationContext(_ctx, getState)
+	final def parameterDeclaration(): ParameterDeclarationContext = {
+		val _localctx = new ParameterDeclarationContext(_ctx, getState)
 		enterRule(_localctx, 172, RULE_parameter_declaration)
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(990)
-			declaration_specifiers()
+			declarationSpecifiers()
 			setState(995)
 			_errHandler.sync(this)
 			getInterpreter().adaptivePredict(_input,109,_ctx) match {
@@ -7716,7 +7716,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 			case 2 =>
 				setState(994)
-				abstract_declarator()
+				abstractDeclarator()
 
 			case _ =>
 			}
@@ -7736,7 +7736,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 	@throws(classOf[RecognitionException])
 	final def initializer(): InitializerContext = {
-		val _localctx: InitializerContext = new InitializerContext(_ctx, getState)
+		val _localctx = new InitializerContext(_ctx, getState)
 		enterRule(_localctx, 174, RULE_initializer)
 		var _la = 0
 		try {
@@ -7746,7 +7746,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			case ENCODE | PROTOCOL | SELECTOR | SUPER | SELF | SIZEOF | LPAREN | LBRACK | AT | BANG | TILDE | INC | DEC | SUB | MUL | BITAND | CARET | IDENTIFIER | CHARACTER_LITERAL | STRING_LITERAL | HEX_LITERAL | DECIMAL_LITERAL | OCTAL_LITERAL | FLOATING_POINT_LITERAL =>
 				enterOuterAlt(_localctx, 1)
 				setState(997)
-				assignment_expression()
+				assignmentExpression()
 
 			case LBRACE =>
 				enterOuterAlt(_localctx, 2)
@@ -7796,8 +7796,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def type_name(): Type_nameContext = {
-		val _localctx: Type_nameContext = new Type_nameContext(_ctx, getState)
+	final def typeName(): TypeNameContext = {
+		val _localctx = new TypeNameContext(_ctx, getState)
 		enterRule(_localctx, 176, RULE_type_name)
 		try {
 			setState(1018)
@@ -7806,14 +7806,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			case 1 =>
 				enterOuterAlt(_localctx, 1)
 				setState(1014)
-				specifier_qualifier_list()
+				specifierQualifierList()
 				setState(1015)
-				abstract_declarator()
+				abstractDeclarator()
 
 			case 2 =>
 				enterOuterAlt(_localctx, 2)
 				setState(1017)
-				block_type()
+				blockType()
 
 			case _ =>
 			}
@@ -7832,8 +7832,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def abstract_declarator(): Abstract_declaratorContext = {
-		val _localctx: Abstract_declaratorContext = new Abstract_declaratorContext(_ctx, getState)
+	final def abstractDeclarator(): AbstractDeclaratorContext = {
+		val _localctx = new AbstractDeclaratorContext(_ctx, getState)
 		enterRule(_localctx, 178, RULE_abstract_declarator)
 		var _la = 0
 		try {
@@ -7846,14 +7846,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(1020)
 				pointer()
 				setState(1021)
-				abstract_declarator()
+				abstractDeclarator()
 
 			case 2 =>
 				enterOuterAlt(_localctx, 2)
 				setState(1023)
 				matchToken(LPAREN)
 				setState(1024)
-				abstract_declarator()
+				abstractDeclarator()
 				setState(1025)
 				matchToken(RPAREN)
 				setState(1027) 
@@ -7863,7 +7863,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 					_alt match {
 					case 1 =>
 						setState(1026)
-						abstract_declarator_suffix()
+						abstractDeclaratorSuffix()
 
 					case _ =>
 						throw new NoViableAltException(this)
@@ -7885,7 +7885,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 					_la = _input.LA(1)
 					if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ENCODE) | (1L << PROTOCOL) | (1L << SELECTOR) | (1L << SUPER) | (1L << SELF) | (1L << SIZEOF))) != 0) || ((((_la - 70)) & ~0x3f) == 0 && ((1L << (_la - 70)) & ((1L << (LPAREN - 70)) | (1L << (LBRACK - 70)) | (1L << (AT - 70)) | (1L << (BANG - 70)) | (1L << (TILDE - 70)) | (1L << (INC - 70)) | (1L << (DEC - 70)) | (1L << (SUB - 70)) | (1L << (MUL - 70)) | (1L << (BITAND - 70)) | (1L << (CARET - 70)) | (1L << (IDENTIFIER - 70)) | (1L << (CHARACTER_LITERAL - 70)) | (1L << (STRING_LITERAL - 70)) | (1L << (HEX_LITERAL - 70)) | (1L << (DECIMAL_LITERAL - 70)) | (1L << (OCTAL_LITERAL - 70)) | (1L << (FLOATING_POINT_LITERAL - 70)))) != 0)) {
 						setState(1032)
-						constant_expression()
+						constantExpression()
 					}
 
 					setState(1035)
@@ -7916,8 +7916,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def abstract_declarator_suffix(): Abstract_declarator_suffixContext = {
-		val _localctx: Abstract_declarator_suffixContext = new Abstract_declarator_suffixContext(_ctx, getState)
+	final def abstractDeclaratorSuffix(): AbstractDeclaratorSuffixContext = {
+		val _localctx = new AbstractDeclaratorSuffixContext(_ctx, getState)
 		enterRule(_localctx, 180, RULE_abstract_declarator_suffix)
 		var _la = 0
 		try {
@@ -7931,7 +7931,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				_la = _input.LA(1)
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ENCODE) | (1L << PROTOCOL) | (1L << SELECTOR) | (1L << SUPER) | (1L << SELF) | (1L << SIZEOF))) != 0) || ((((_la - 70)) & ~0x3f) == 0 && ((1L << (_la - 70)) & ((1L << (LPAREN - 70)) | (1L << (LBRACK - 70)) | (1L << (AT - 70)) | (1L << (BANG - 70)) | (1L << (TILDE - 70)) | (1L << (INC - 70)) | (1L << (DEC - 70)) | (1L << (SUB - 70)) | (1L << (MUL - 70)) | (1L << (BITAND - 70)) | (1L << (CARET - 70)) | (1L << (IDENTIFIER - 70)) | (1L << (CHARACTER_LITERAL - 70)) | (1L << (STRING_LITERAL - 70)) | (1L << (HEX_LITERAL - 70)) | (1L << (DECIMAL_LITERAL - 70)) | (1L << (OCTAL_LITERAL - 70)) | (1L << (FLOATING_POINT_LITERAL - 70)))) != 0)) {
 					setState(1044)
-					constant_expression()
+					constantExpression()
 				}
 
 				setState(1047)
@@ -7945,7 +7945,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				_la = _input.LA(1)
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << AUTO) | (1L << BYCOPY) | (1L << BYREF) | (1L << CHAR) | (1L << CONST) | (1L << DOUBLE) | (1L << ENUM) | (1L << EXTERN) | (1L << FLOAT) | (1L << ID) | (1L << IN) | (1L << INOUT) | (1L << INT) | (1L << LONG) | (1L << ONEWAY) | (1L << OUT) | (1L << REGISTER) | (1L << SHORT) | (1L << SIGNED) | (1L << STATIC) | (1L << STRUCT) | (1L << TYPEDEF) | (1L << UNION) | (1L << UNSIGNED) | (1L << VOID))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (VOLATILE - 64)) | (1L << (NS_OPTIONS - 64)) | (1L << (NS_ENUM - 64)) | (1L << (WWEAK - 64)) | (1L << (WUNSAFE_UNRETAINED - 64)) | (1L << (IDENTIFIER - 64)))) != 0)) {
 					setState(1049)
-					parameter_declaration_list()
+					parameterDeclarationList()
 				}
 
 				setState(1052)
@@ -7969,14 +7969,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def parameter_declaration_list(): Parameter_declaration_listContext = {
-		val _localctx: Parameter_declaration_listContext = new Parameter_declaration_listContext(_ctx, getState)
+	final def parameterDeclarationList(): ParameterDeclarationListContext = {
+		val _localctx = new ParameterDeclarationListContext(_ctx, getState)
 		enterRule(_localctx, 182, RULE_parameter_declaration_list)
 		try {
 			var _alt = 0
 			enterOuterAlt(_localctx, 1)
 			setState(1055)
-			parameter_declaration()
+			parameterDeclaration()
 			setState(1060)
 			_errHandler.sync(this)
 			_alt = getInterpreter().adaptivePredict(_input,121,_ctx)
@@ -7985,7 +7985,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 					setState(1056)
 					matchToken(COMMA)
 					setState(1057)
-					parameter_declaration() 
+					parameterDeclaration() 
 				}
 				setState(1062)
 				_errHandler.sync(this)
@@ -8006,8 +8006,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def statement_list(): Statement_listContext = {
-		val _localctx: Statement_listContext = new Statement_listContext(_ctx, getState)
+	final def statementList(): StatementListContext = {
+		val _localctx = new StatementListContext(_ctx, getState)
 		enterRule(_localctx, 184, RULE_statement_list)
 		try {
 			var _alt = 0
@@ -8044,7 +8044,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 	@throws(classOf[RecognitionException])
 	final def statement(): StatementContext = {
-		val _localctx: StatementContext = new StatementContext(_ctx, getState)
+		val _localctx = new StatementContext(_ctx, getState)
 		enterRule(_localctx, 186, RULE_statement)
 		try {
 			setState(1080)
@@ -8053,7 +8053,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			case 1 =>
 				enterOuterAlt(_localctx, 1)
 				setState(1068)
-				labeled_statement()
+				labeledStatement()
 
 			case 2 =>
 				enterOuterAlt(_localctx, 2)
@@ -8065,37 +8065,37 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			case 3 =>
 				enterOuterAlt(_localctx, 3)
 				setState(1072)
-				compound_statement()
+				compoundStatement()
 
 			case 4 =>
 				enterOuterAlt(_localctx, 4)
 				setState(1073)
-				selection_statement()
+				selectionStatement()
 
 			case 5 =>
 				enterOuterAlt(_localctx, 5)
 				setState(1074)
-				iteration_statement()
+				iterationStatement()
 
 			case 6 =>
 				enterOuterAlt(_localctx, 6)
 				setState(1075)
-				jump_statement()
+				jumpStatement()
 
 			case 7 =>
 				enterOuterAlt(_localctx, 7)
 				setState(1076)
-				synchronized_statement()
+				synchronizedStatement()
 
 			case 8 =>
 				enterOuterAlt(_localctx, 8)
 				setState(1077)
-				autorelease_statement()
+				autoreleaseStatement()
 
 			case 9 =>
 				enterOuterAlt(_localctx, 9)
 				setState(1078)
-				try_block()
+				tryBlock()
 
 			case 10 =>
 				enterOuterAlt(_localctx, 10)
@@ -8119,8 +8119,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def labeled_statement(): Labeled_statementContext = {
-		val _localctx: Labeled_statementContext = new Labeled_statementContext(_ctx, getState)
+	final def labeledStatement(): LabeledStatementContext = {
+		val _localctx = new LabeledStatementContext(_ctx, getState)
 		enterRule(_localctx, 188, RULE_labeled_statement)
 		try {
 			setState(1094)
@@ -8139,7 +8139,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(1086)
 				matchToken(CASE)
 				setState(1087)
-				constant_expression()
+				constantExpression()
 				setState(1088)
 				matchToken(COLON)
 				setState(1089)
@@ -8172,8 +8172,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def compound_statement(): Compound_statementContext = {
-		val _localctx: Compound_statementContext = new Compound_statementContext(_ctx, getState)
+	final def compoundStatement(): CompoundStatementContext = {
+		val _localctx = new CompoundStatementContext(_ctx, getState)
 		enterRule(_localctx, 190, RULE_compound_statement)
 		var _la = 0
 		try {
@@ -8193,7 +8193,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 				case 2 =>
 					setState(1098)
-					statement_list()
+					statementList()
 
 				case _ =>
 				}
@@ -8218,8 +8218,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def selection_statement(): Selection_statementContext = {
-		val _localctx: Selection_statementContext = new Selection_statementContext(_ctx, getState)
+	final def selectionStatement(): SelectionStatementContext = {
+		val _localctx = new SelectionStatementContext(_ctx, getState)
 		enterRule(_localctx, 192, RULE_selection_statement)
 		try {
 			setState(1121)
@@ -8279,8 +8279,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def for_in_statement(): For_in_statementContext = {
-		val _localctx: For_in_statementContext = new For_in_statementContext(_ctx, getState)
+	final def forInStatement(): ForInStatementContext = {
+		val _localctx = new ForInStatementContext(_ctx, getState)
 		enterRule(_localctx, 194, RULE_for_in_statement)
 		var _la = 0
 		try {
@@ -8290,7 +8290,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			setState(1124)
 			matchToken(LPAREN)
 			setState(1125)
-			type_variable_declarator()
+			typeVariableDeclarator()
 			setState(1126)
 			matchToken(IN)
 			setState(1128)
@@ -8319,8 +8319,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def for_statement(): For_statementContext = {
-		val _localctx: For_statementContext = new For_statementContext(_ctx, getState)
+	final def forStatement(): ForStatementContext = {
+		val _localctx = new ForStatementContext(_ctx, getState)
 		enterRule(_localctx, 196, RULE_for_statement)
 		var _la = 0
 		try {
@@ -8334,9 +8334,9 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			getInterpreter().adaptivePredict(_input,130,_ctx) match {
 			case 1 =>
 				setState(1135)
-				declaration_specifiers()
+				declarationSpecifiers()
 				setState(1136)
-				init_declarator_list()
+				initDeclaratorList()
 
 			case 2 =>
 				setState(1138)
@@ -8381,8 +8381,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def while_statement(): While_statementContext = {
-		val _localctx: While_statementContext = new While_statementContext(_ctx, getState)
+	final def whileStatement(): WhileStatementContext = {
+		val _localctx = new WhileStatementContext(_ctx, getState)
 		enterRule(_localctx, 198, RULE_while_statement)
 		try {
 			enterOuterAlt(_localctx, 1)
@@ -8411,8 +8411,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def do_statement(): Do_statementContext = {
-		val _localctx: Do_statementContext = new Do_statementContext(_ctx, getState)
+	final def doStatement(): DoStatementContext = {
+		val _localctx = new DoStatementContext(_ctx, getState)
 		enterRule(_localctx, 200, RULE_do_statement)
 		try {
 			enterOuterAlt(_localctx, 1)
@@ -8445,8 +8445,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def iteration_statement(): Iteration_statementContext = {
-		val _localctx: Iteration_statementContext = new Iteration_statementContext(_ctx, getState)
+	final def iterationStatement(): IterationStatementContext = {
+		val _localctx = new IterationStatementContext(_ctx, getState)
 		enterRule(_localctx, 202, RULE_iteration_statement)
 		try {
 			setState(1170)
@@ -8455,22 +8455,22 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			case 1 =>
 				enterOuterAlt(_localctx, 1)
 				setState(1166)
-				while_statement()
+				whileStatement()
 
 			case 2 =>
 				enterOuterAlt(_localctx, 2)
 				setState(1167)
-				do_statement()
+				doStatement()
 
 			case 3 =>
 				enterOuterAlt(_localctx, 3)
 				setState(1168)
-				for_statement()
+				forStatement()
 
 			case 4 =>
 				enterOuterAlt(_localctx, 4)
 				setState(1169)
-				for_in_statement()
+				forInStatement()
 
 			case _ =>
 			}
@@ -8489,8 +8489,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def jump_statement(): Jump_statementContext = {
-		val _localctx: Jump_statementContext = new Jump_statementContext(_ctx, getState)
+	final def jumpStatement(): JumpStatementContext = {
+		val _localctx = new JumpStatementContext(_ctx, getState)
 		enterRule(_localctx, 204, RULE_jump_statement)
 		var _la = 0
 		try {
@@ -8552,13 +8552,13 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 	@throws(classOf[RecognitionException])
 	final def expression(): ExpressionContext = {
-		val _localctx: ExpressionContext = new ExpressionContext(_ctx, getState)
+		val _localctx = new ExpressionContext(_ctx, getState)
 		enterRule(_localctx, 206, RULE_expression)
 		try {
 			var _alt = 0
 			enterOuterAlt(_localctx, 1)
 			setState(1187)
-			assignment_expression()
+			assignmentExpression()
 			setState(1192)
 			_errHandler.sync(this)
 			_alt = getInterpreter().adaptivePredict(_input,136,_ctx)
@@ -8567,7 +8567,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 					setState(1188)
 					matchToken(COMMA)
 					setState(1189)
-					assignment_expression() 
+					assignmentExpression() 
 				}
 				setState(1194)
 				_errHandler.sync(this)
@@ -8588,8 +8588,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def assignment_expression(): Assignment_expressionContext = {
-		val _localctx: Assignment_expressionContext = new Assignment_expressionContext(_ctx, getState)
+	final def assignmentExpression(): AssignmentExpressionContext = {
+		val _localctx = new AssignmentExpressionContext(_ctx, getState)
 		enterRule(_localctx, 208, RULE_assignment_expression)
 		try {
 			setState(1200)
@@ -8598,16 +8598,16 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			case 1 =>
 				enterOuterAlt(_localctx, 1)
 				setState(1195)
-				conditional_expression()
+				conditionalExpression()
 
 			case 2 =>
 				enterOuterAlt(_localctx, 2)
 				setState(1196)
-				unary_expression()
+				unaryExpression()
 				setState(1197)
-				assignment_operator()
+				assignmentOperator()
 				setState(1198)
-				assignment_expression()
+				assignmentExpression()
 
 			case _ =>
 			}
@@ -8626,8 +8626,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def assignment_operator(): Assignment_operatorContext = {
-		val _localctx: Assignment_operatorContext = new Assignment_operatorContext(_ctx, getState)
+	final def assignmentOperator(): AssignmentOperatorContext = {
+		val _localctx = new AssignmentOperatorContext(_ctx, getState)
 		enterRule(_localctx, 210, RULE_assignment_operator)
 		var _la = 0
 		try {
@@ -8654,14 +8654,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def conditional_expression(): Conditional_expressionContext = {
-		val _localctx: Conditional_expressionContext = new Conditional_expressionContext(_ctx, getState)
+	final def conditionalExpression(): ConditionalExpressionContext = {
+		val _localctx = new ConditionalExpressionContext(_ctx, getState)
 		enterRule(_localctx, 212, RULE_conditional_expression)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(1204)
-			logical_or_expression()
+			logicalOrExpression()
 			setState(1211)
 			_la = _input.LA(1)
 			if (_la==QUESTION) {
@@ -8671,13 +8671,13 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				_la = _input.LA(1)
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ENCODE) | (1L << PROTOCOL) | (1L << SELECTOR) | (1L << SUPER) | (1L << SELF) | (1L << SIZEOF))) != 0) || ((((_la - 70)) & ~0x3f) == 0 && ((1L << (_la - 70)) & ((1L << (LPAREN - 70)) | (1L << (LBRACK - 70)) | (1L << (AT - 70)) | (1L << (BANG - 70)) | (1L << (TILDE - 70)) | (1L << (INC - 70)) | (1L << (DEC - 70)) | (1L << (SUB - 70)) | (1L << (MUL - 70)) | (1L << (BITAND - 70)) | (1L << (CARET - 70)) | (1L << (IDENTIFIER - 70)) | (1L << (CHARACTER_LITERAL - 70)) | (1L << (STRING_LITERAL - 70)) | (1L << (HEX_LITERAL - 70)) | (1L << (DECIMAL_LITERAL - 70)) | (1L << (OCTAL_LITERAL - 70)) | (1L << (FLOATING_POINT_LITERAL - 70)))) != 0)) {
 					setState(1206)
-					conditional_expression()
+					conditionalExpression()
 				}
 
 				setState(1209)
 				matchToken(COLON)
 				setState(1210)
-				conditional_expression()
+				conditionalExpression()
 			}
 
 		}
@@ -8695,13 +8695,13 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def constant_expression(): Constant_expressionContext = {
-		val _localctx: Constant_expressionContext = new Constant_expressionContext(_ctx, getState)
+	final def constantExpression(): ConstantExpressionContext = {
+		val _localctx = new ConstantExpressionContext(_ctx, getState)
 		enterRule(_localctx, 214, RULE_constant_expression)
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(1213)
-			conditional_expression()
+			conditionalExpression()
 		}
 		catch {
 		case re: RecognitionException =>
@@ -8717,14 +8717,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def logical_or_expression(): Logical_or_expressionContext = {
-		val _localctx: Logical_or_expressionContext = new Logical_or_expressionContext(_ctx, getState)
+	final def logicalOrExpression(): LogicalOrExpressionContext = {
+		val _localctx = new LogicalOrExpressionContext(_ctx, getState)
 		enterRule(_localctx, 216, RULE_logical_or_expression)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(1215)
-			logical_and_expression()
+			logicalAndExpression()
 			setState(1220)
 			_errHandler.sync(this)
 			_la = _input.LA(1)
@@ -8732,7 +8732,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(1216)
 				matchToken(OR)
 				setState(1217)
-				logical_and_expression()
+				logicalAndExpression()
 				setState(1222)
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -8752,14 +8752,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def logical_and_expression(): Logical_and_expressionContext = {
-		val _localctx: Logical_and_expressionContext = new Logical_and_expressionContext(_ctx, getState)
+	final def logicalAndExpression(): LogicalAndExpressionContext = {
+		val _localctx = new LogicalAndExpressionContext(_ctx, getState)
 		enterRule(_localctx, 218, RULE_logical_and_expression)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(1223)
-			inclusive_or_expression()
+			inclusiveOrExpression()
 			setState(1228)
 			_errHandler.sync(this)
 			_la = _input.LA(1)
@@ -8767,7 +8767,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(1224)
 				matchToken(AND)
 				setState(1225)
-				inclusive_or_expression()
+				inclusiveOrExpression()
 				setState(1230)
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -8787,14 +8787,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def inclusive_or_expression(): Inclusive_or_expressionContext = {
-		val _localctx: Inclusive_or_expressionContext = new Inclusive_or_expressionContext(_ctx, getState)
+	final def inclusiveOrExpression(): InclusiveOrExpressionContext = {
+		val _localctx = new InclusiveOrExpressionContext(_ctx, getState)
 		enterRule(_localctx, 220, RULE_inclusive_or_expression)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(1231)
-			exclusive_or_expression()
+			exclusiveOrExpression()
 			setState(1236)
 			_errHandler.sync(this)
 			_la = _input.LA(1)
@@ -8802,7 +8802,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(1232)
 				matchToken(BITOR)
 				setState(1233)
-				exclusive_or_expression()
+				exclusiveOrExpression()
 				setState(1238)
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -8822,14 +8822,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def exclusive_or_expression(): Exclusive_or_expressionContext = {
-		val _localctx: Exclusive_or_expressionContext = new Exclusive_or_expressionContext(_ctx, getState)
+	final def exclusiveOrExpression(): ExclusiveOrExpressionContext = {
+		val _localctx = new ExclusiveOrExpressionContext(_ctx, getState)
 		enterRule(_localctx, 222, RULE_exclusive_or_expression)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(1239)
-			and_expression()
+			andExpression()
 			setState(1244)
 			_errHandler.sync(this)
 			_la = _input.LA(1)
@@ -8837,7 +8837,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(1240)
 				matchToken(CARET)
 				setState(1241)
-				and_expression()
+				andExpression()
 				setState(1246)
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -8857,14 +8857,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def and_expression(): And_expressionContext = {
-		val _localctx: And_expressionContext = new And_expressionContext(_ctx, getState)
+	final def andExpression(): AndExpressionContext = {
+		val _localctx = new AndExpressionContext(_ctx, getState)
 		enterRule(_localctx, 224, RULE_and_expression)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(1247)
-			equality_expression()
+			equalityExpression()
 			setState(1252)
 			_errHandler.sync(this)
 			_la = _input.LA(1)
@@ -8872,7 +8872,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(1248)
 				matchToken(BITAND)
 				setState(1249)
-				equality_expression()
+				equalityExpression()
 				setState(1254)
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -8892,14 +8892,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def equality_expression(): Equality_expressionContext = {
-		val _localctx: Equality_expressionContext = new Equality_expressionContext(_ctx, getState)
+	final def equalityExpression(): EqualityExpressionContext = {
+		val _localctx = new EqualityExpressionContext(_ctx, getState)
 		enterRule(_localctx, 226, RULE_equality_expression)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(1255)
-			relational_expression()
+			relationalExpression()
 			setState(1260)
 			_errHandler.sync(this)
 			_la = _input.LA(1)
@@ -8912,7 +8912,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 					consume()
 				}
 				setState(1257)
-				relational_expression()
+				relationalExpression()
 				setState(1262)
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -8932,14 +8932,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def relational_expression(): Relational_expressionContext = {
-		val _localctx: Relational_expressionContext = new Relational_expressionContext(_ctx, getState)
+	final def relationalExpression(): RelationalExpressionContext = {
+		val _localctx = new RelationalExpressionContext(_ctx, getState)
 		enterRule(_localctx, 228, RULE_relational_expression)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(1263)
-			shift_expression()
+			shiftExpression()
 			setState(1268)
 			_errHandler.sync(this)
 			_la = _input.LA(1)
@@ -8952,7 +8952,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 					consume()
 				}
 				setState(1265)
-				shift_expression()
+				shiftExpression()
 				setState(1270)
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -8972,14 +8972,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def shift_expression(): Shift_expressionContext = {
-		val _localctx: Shift_expressionContext = new Shift_expressionContext(_ctx, getState)
+	final def shiftExpression(): ShiftExpressionContext = {
+		val _localctx = new ShiftExpressionContext(_ctx, getState)
 		enterRule(_localctx, 230, RULE_shift_expression)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(1271)
-			additive_expression()
+			additiveExpression()
 			setState(1276)
 			_errHandler.sync(this)
 			_la = _input.LA(1)
@@ -8992,7 +8992,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 					consume()
 				}
 				setState(1273)
-				additive_expression()
+				additiveExpression()
 				setState(1278)
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -9012,14 +9012,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def additive_expression(): Additive_expressionContext = {
-		val _localctx: Additive_expressionContext = new Additive_expressionContext(_ctx, getState)
+	final def additiveExpression(): AdditiveExpressionContext = {
+		val _localctx = new AdditiveExpressionContext(_ctx, getState)
 		enterRule(_localctx, 232, RULE_additive_expression)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(1279)
-			multiplicative_expression()
+			multiplicativeExpression()
 			setState(1284)
 			_errHandler.sync(this)
 			_la = _input.LA(1)
@@ -9032,7 +9032,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 					consume()
 				}
 				setState(1281)
-				multiplicative_expression()
+				multiplicativeExpression()
 				setState(1286)
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -9052,14 +9052,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def multiplicative_expression(): Multiplicative_expressionContext = {
-		val _localctx: Multiplicative_expressionContext = new Multiplicative_expressionContext(_ctx, getState)
+	final def multiplicativeExpression(): MultiplicativeExpressionContext = {
+		val _localctx = new MultiplicativeExpressionContext(_ctx, getState)
 		enterRule(_localctx, 234, RULE_multiplicative_expression)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(1287)
-			cast_expression()
+			castExpression()
 			setState(1292)
 			_errHandler.sync(this)
 			_la = _input.LA(1)
@@ -9072,7 +9072,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 					consume()
 				}
 				setState(1289)
-				cast_expression()
+				castExpression()
 				setState(1294)
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -9092,8 +9092,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def cast_expression(): Cast_expressionContext = {
-		val _localctx: Cast_expressionContext = new Cast_expressionContext(_ctx, getState)
+	final def castExpression(): CastExpressionContext = {
+		val _localctx = new CastExpressionContext(_ctx, getState)
 		enterRule(_localctx, 236, RULE_cast_expression)
 		try {
 			setState(1301)
@@ -9104,16 +9104,16 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(1295)
 				matchToken(LPAREN)
 				setState(1296)
-				type_name()
+				typeName()
 				setState(1297)
 				matchToken(RPAREN)
 				setState(1298)
-				cast_expression()
+				castExpression()
 
 			case 2 =>
 				enterOuterAlt(_localctx, 2)
 				setState(1300)
-				unary_expression()
+				unaryExpression()
 
 			case _ =>
 			}
@@ -9132,8 +9132,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def unary_expression(): Unary_expressionContext = {
-		val _localctx: Unary_expressionContext = new Unary_expressionContext(_ctx, getState)
+	final def unaryExpression(): UnaryExpressionContext = {
+		val _localctx = new UnaryExpressionContext(_ctx, getState)
 		enterRule(_localctx, 238, RULE_unary_expression)
 		try {
 			setState(1319)
@@ -9141,28 +9141,28 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 			case ENCODE | PROTOCOL | SELECTOR | SUPER | SELF | LPAREN | LBRACK | AT | CARET | IDENTIFIER | CHARACTER_LITERAL | STRING_LITERAL | HEX_LITERAL | DECIMAL_LITERAL | OCTAL_LITERAL | FLOATING_POINT_LITERAL =>
 				enterOuterAlt(_localctx, 1)
 				setState(1303)
-				postfix_expression()
+				postfixExpression()
 
 			case INC =>
 				enterOuterAlt(_localctx, 2)
 				setState(1304)
 				matchToken(INC)
 				setState(1305)
-				unary_expression()
+				unaryExpression()
 
 			case DEC =>
 				enterOuterAlt(_localctx, 3)
 				setState(1306)
 				matchToken(DEC)
 				setState(1307)
-				unary_expression()
+				unaryExpression()
 
 			case BANG | TILDE | SUB | MUL | BITAND =>
 				enterOuterAlt(_localctx, 4)
 				setState(1308)
-				unary_operator()
+				unaryOperator()
 				setState(1309)
-				cast_expression()
+				castExpression()
 
 			case SIZEOF =>
 				enterOuterAlt(_localctx, 5)
@@ -9175,13 +9175,13 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 					setState(1312)
 					matchToken(LPAREN)
 					setState(1313)
-					type_name()
+					typeName()
 					setState(1314)
 					matchToken(RPAREN)
 
 				case 2 =>
 					setState(1316)
-					unary_expression()
+					unaryExpression()
 
 				case _ =>
 				}
@@ -9204,8 +9204,8 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def unary_operator(): Unary_operatorContext = {
-		val _localctx: Unary_operatorContext = new Unary_operatorContext(_ctx, getState)
+	final def unaryOperator(): UnaryOperatorContext = {
+		val _localctx = new UnaryOperatorContext(_ctx, getState)
 		enterRule(_localctx, 240, RULE_unary_operator)
 		var _la = 0
 		try {
@@ -9232,14 +9232,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def postfix_expression(): Postfix_expressionContext = {
-		val _localctx: Postfix_expressionContext = new Postfix_expressionContext(_ctx, getState)
+	final def postfixExpression(): PostfixExpressionContext = {
+		val _localctx = new PostfixExpressionContext(_ctx, getState)
 		enterRule(_localctx, 242, RULE_postfix_expression)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(1323)
-			primary_expression()
+			primaryExpression()
 			setState(1341)
 			_errHandler.sync(this)
 			_la = _input.LA(1)
@@ -9261,7 +9261,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 					_la = _input.LA(1)
 					if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ENCODE) | (1L << PROTOCOL) | (1L << SELECTOR) | (1L << SUPER) | (1L << SELF) | (1L << SIZEOF))) != 0) || ((((_la - 70)) & ~0x3f) == 0 && ((1L << (_la - 70)) & ((1L << (LPAREN - 70)) | (1L << (LBRACK - 70)) | (1L << (AT - 70)) | (1L << (BANG - 70)) | (1L << (TILDE - 70)) | (1L << (INC - 70)) | (1L << (DEC - 70)) | (1L << (SUB - 70)) | (1L << (MUL - 70)) | (1L << (BITAND - 70)) | (1L << (CARET - 70)) | (1L << (IDENTIFIER - 70)) | (1L << (CHARACTER_LITERAL - 70)) | (1L << (STRING_LITERAL - 70)) | (1L << (HEX_LITERAL - 70)) | (1L << (DECIMAL_LITERAL - 70)) | (1L << (OCTAL_LITERAL - 70)) | (1L << (FLOATING_POINT_LITERAL - 70)))) != 0)) {
 						setState(1329)
-						argument_expression_list()
+						argumentExpressionList()
 					}
 
 					setState(1332)
@@ -9309,14 +9309,14 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 
 	@throws(classOf[RecognitionException])
-	final def argument_expression_list(): Argument_expression_listContext = {
-		val _localctx: Argument_expression_listContext = new Argument_expression_listContext(_ctx, getState)
+	final def argumentExpressionList(): ArgumentExpressionListContext = {
+		val _localctx = new ArgumentExpressionListContext(_ctx, getState)
 		enterRule(_localctx, 244, RULE_argument_expression_list)
 		var _la = 0
 		try {
 			enterOuterAlt(_localctx, 1)
 			setState(1344)
-			assignment_expression()
+			assignmentExpression()
 			setState(1349)
 			_errHandler.sync(this)
 			_la = _input.LA(1)
@@ -9324,7 +9324,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 				setState(1345)
 				matchToken(COMMA)
 				setState(1346)
-				assignment_expression()
+				assignmentExpression()
 				setState(1351)
 				_errHandler.sync(this)
 				_la = _input.LA(1)
@@ -9345,7 +9345,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 	@throws(classOf[RecognitionException])
 	final def identifier(): IdentifierContext = {
-		val _localctx: IdentifierContext = new IdentifierContext(_ctx, getState)
+		val _localctx = new IdentifierContext(_ctx, getState)
 		enterRule(_localctx, 246, RULE_identifier)
 		try {
 			enterOuterAlt(_localctx, 1)
@@ -9367,7 +9367,7 @@ class ObjCParser(input: TokenStream) extends Parser(input) {
 
 	@throws(classOf[RecognitionException])
 	final def constant(): ConstantContext = {
-		val _localctx: ConstantContext = new ConstantContext(_ctx, getState)
+		val _localctx = new ConstantContext(_ctx, getState)
 		enterRule(_localctx, 248, RULE_constant)
 		var _la = 0
 		try {

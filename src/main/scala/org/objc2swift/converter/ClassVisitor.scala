@@ -17,31 +17,31 @@ import scala.collection.JavaConversions._
 protected trait ClassVisitor {
   this: ObjC2SwiftConverter =>
 
-  override def visitClass_name(ctx: Class_nameContext): String = ctx.getText
+  override def visitClassName(ctx: ClassNameContext): String = ctx.getText
 
-  override def visitSuperclass_name(ctx: Superclass_nameContext): String = ctx.getText
+  override def visitSuperclassName(ctx: SuperclassNameContext): String = ctx.getText
 
-  override def visitClass_interface(ctx: Class_interfaceContext): String = {
+  override def visitClassInterface(ctx: ClassInterfaceContext): String = {
     val head = List(
-      ctx.class_name.toOption.map(visit).map { s => s"class $s" },
-      ctx.superclass_name.toOption.map(visit).map { s => s": $s" },
-      ctx.protocol_reference_list.toOption.map(visit).map { s => s", $s"}
+      ctx.className.toOption.map(visit).map { s => s"class $s" },
+      ctx.superclassName.toOption.map(visit).map { s => s": $s" },
+      ctx.protocolReferenceList.toOption.map(visit).map { s => s", $s"}
     ).flatten.mkString("")
 
     val body = List(
-      ctx.interface_declaration_list.toOption.map(visit),
-      ctx.correspondingClassImplementation(root).flatMap(_.implementation_definition_list.toOption).map(visit)
+      ctx.interfaceDeclarationList.toOption.map(visit),
+      ctx.correspondingClassImplementation(root).flatMap(_.implementationDefinitionList.toOption).map(visit)
     ).flatten.mkString("\n")
 
     s"${head} {\n${body}\n}"
   }
 
-  override def visitInterface_declaration_list(ctx: Interface_declaration_listContext): String =
+  override def visitInterfaceDeclarationList(ctx: InterfaceDeclarationListContext): String =
     concatChildResults(ctx, "\n\n")
 
-  override def visitImplementation_definition_list(ctx: Implementation_definition_listContext): String =
+  override def visitImplementationDefinitionList(ctx: ImplementationDefinitionListContext): String =
     concatChildResults(ctx, "\n\n")
 
   // ignore implementation with no corresponding interface.
-  override def visitClass_implementation(ctx: Class_implementationContext): String = ""
+  override def visitClassImplementation(ctx: ClassImplementationContext): String = ""
 }

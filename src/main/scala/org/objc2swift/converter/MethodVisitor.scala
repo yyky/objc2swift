@@ -28,8 +28,8 @@ protected trait MethodVisitor {
    * @param ctx the parse tree
    * @return Strings of Swift's instance method code
    */
-  override def visitInstance_method_declaration(ctx: Instance_method_declarationContext): String =
-    Option(ctx.method_declaration()).map { c =>
+  override def visitInstanceMethodDeclaration(ctx: InstanceMethodDeclarationContext): String =
+    Option(ctx.methodDeclaration()).map { c =>
       s"${indent(ctx)}${optional(ctx)}${visit(c)}".stripSuffix(" ")
     }.getOrElse("")
 
@@ -38,8 +38,8 @@ protected trait MethodVisitor {
    *
    * @param ctx the parse tree
    **/
-  override def visitClass_method_declaration(ctx: Class_method_declarationContext): String =
-    Option(ctx.method_declaration()).map { c =>
+  override def visitClassMethodDeclaration(ctx: ClassMethodDeclarationContext): String =
+    Option(ctx.methodDeclaration()).map { c =>
       s"${indent(ctx)}${optional(ctx)}class ${visit(c)}".stripSuffix(" ")
     }.getOrElse("")
 
@@ -49,8 +49,8 @@ protected trait MethodVisitor {
    * @param ctx the parse tree
    * @return Strings of Swift code
    */
-  override def visitInstance_method_definition(ctx: Instance_method_definitionContext): String =
-    ctx.method_definition() match {
+  override def visitInstanceMethodDefinition(ctx: InstanceMethodDefinitionContext): String =
+    ctx.methodDefinition() match {
       case c if !isVisited(c) => s"${indent(ctx)}${visit(c)}".stripSuffix(" ")
       case _ => "" // Already printed
     }
@@ -60,8 +60,8 @@ protected trait MethodVisitor {
    *
    * @param ctx the parse tree
    **/
-  override def visitClass_method_definition(ctx: Class_method_definitionContext): String =
-    ctx.method_definition() match {
+  override def visitClassMethodDefinition(ctx: ClassMethodDefinitionContext): String =
+    ctx.methodDefinition() match {
       case c if !isVisited(c) => s"${indent(ctx)}class ${visit(c)}".stripSuffix(" ")
       case _ => "" // Already printed
     }
@@ -72,18 +72,18 @@ protected trait MethodVisitor {
    * @param ctx the parse tree
    * @return Strings of Swift's method code
    */
-  override def visitMethod_declaration(ctx: Method_declarationContext): String =
+  override def visitMethodDeclaration(ctx: MethodDeclarationContext): String =
     findCorrespondingMethodDefinition(ctx) match {
-      case Some(impl: Method_definitionContext) => visit(impl)
+      case Some(impl: MethodDefinitionContext) => visit(impl)
       case _ =>
         // Has no definition
-        val slct = ctx.method_selector()
-        val tp = Option(ctx.method_type())
+        val slct = ctx.methodSelector()
+        val tp = Option(ctx.methodType())
         val hd = createMethodHeader(slct, tp)
 
         // Check ancestor is protocol or not
         ctx.parent.parent.parent match {
-          case _: Protocol_declarationContext => hd
+          case _: ProtocolDeclarationContext => hd
           case _ => s"$hd {\n${indent(ctx)}}"
         }
     }
@@ -93,33 +93,33 @@ protected trait MethodVisitor {
    *
    * @param ctx the parse tree
    **/
-  override def visitMethod_definition(ctx: Method_definitionContext): String = {
-    val slct = ctx.method_selector()
-    val tp = Option(ctx.method_type())
+  override def visitMethodDefinition(ctx: MethodDefinitionContext): String = {
+    val slct = ctx.methodSelector()
+    val tp = Option(ctx.methodType())
     val hd = createMethodHeader(slct, tp)
 
     s"""|$hd {
-        |${visit(ctx.compound_statement())}${indent(ctx)}}""".stripMargin
+        |${visit(ctx.compoundStatement())}${indent(ctx)}}""".stripMargin
   }
 
   /**
    * Returns translated text of method selector context.
    * @param ctx the parse tree
    **/
-  override def visitMethod_selector(ctx: Method_selectorContext): String =
+  override def visitMethodSelector(ctx: MethodSelectorContext): String =
     Option(ctx.selector()) match {
       case Some(s) => s"${visit(s)}()" // No parameters
       case None =>
         // Method name(selector)
-        val selector = Option(ctx.keyword_declarator(0).selector()).map(visit).getOrElse("")
+        val selector = Option(ctx.keywordDeclarator(0).selector()).map(visit).getOrElse("")
 
         // First parameter
-        val head = visitKeyword_declarator(ctx.keyword_declarator(0), isHead = true)
+        val head = visitKeywordDeclarator(ctx.keywordDeclarator(0), isHead = true)
 
         // Other parameters
         val tail =
-          ctx.keyword_declarator().tail
-            .map(c => ", " + visitKeyword_declarator(c))
+          ctx.keywordDeclarator().tail
+            .map(c => ", " + visitKeywordDeclarator(c))
             .mkString
 
         s"$selector($head$tail)"
@@ -130,8 +130,8 @@ protected trait MethodVisitor {
    *
    * @param ctx the parse tree
    **/
-  override def visitKeyword_declarator(ctx: Keyword_declaratorContext): String =
-    visitKeyword_declarator(ctx, isHead = false)
+  override def visitKeywordDeclarator(ctx: KeywordDeclaratorContext): String =
+    visitKeywordDeclarator(ctx, isHead = false)
 
   /**
    * Returns translated text of keyword declarator
@@ -140,7 +140,7 @@ protected trait MethodVisitor {
    * @param isHead node index in branches
    * @return parameter code
    */
-  private def visitKeyword_declarator(ctx: Keyword_declaratorContext, isHead: Boolean): String = {
+  private def visitKeywordDeclarator(ctx: KeywordDeclaratorContext, isHead: Boolean): String = {
     // Parameter's Internal name
     val paramName = ctx.IDENTIFIER().getText
 
@@ -148,7 +148,7 @@ protected trait MethodVisitor {
     val selector = Option(ctx.selector()).map(visit).getOrElse("")
 
     // Parameter's Type
-    val it = ctx.method_type().toIterator
+    val it = ctx.methodType().toIterator
     val paramType = it.map(visit).find(_.nonEmpty).getOrElse("")
 
     selector match {
@@ -165,11 +165,11 @@ protected trait MethodVisitor {
    * @param ctx the parse tree
    * @return Swift method type
    */
-  override def visitMethod_type(ctx: Method_typeContext): String = {
+  override def visitMethodType(ctx: MethodTypeContext): String = {
     val retType = {
       for {
-        x <- Option(ctx.type_name().specifier_qualifier_list())
-        y <- Option(x.type_specifier())
+        x <- Option(ctx.typeName().specifierQualifierList())
+        y <- Option(x.typeSpecifier())
       } yield y
     }.map(concatType(_)).getOrElse("AnyObject")
 
@@ -178,38 +178,38 @@ protected trait MethodVisitor {
 
   /**
    * Returns method header text.
-   * @param sctx method_selector_context tree
-   * @param tctx method_type_context tree (Optional)
+   * @param sctx methodSelectorContext tree
+   * @param tctx methodTypeContext tree (Optional)
    * @return Translated text of method header contexts.
    */
-  private def createMethodHeader(sctx: Method_selectorContext, tctx: Option[Method_typeContext]): String =
+  private def createMethodHeader(sctx: MethodSelectorContext, tctx: Option[MethodTypeContext]): String =
     tctx.map(visit).map {
       case "IBAction" => s"@IBAction func ${visit(sctx)}" // IBAction
       case ""         => s"func ${visit(sctx)}" // void
       case s          => s"func ${visit(sctx)} -> $s"
     }.getOrElse(s"func ${visit(sctx)} -> AnyObject") // Default
 
-  def findCorrespondingMethodDefinition(declCtx: Method_declarationContext): Option[Method_definitionContext] = {
-    val selector = declCtx.method_selector.getText
+  def findCorrespondingMethodDefinition(declCtx: MethodDeclarationContext): Option[MethodDefinitionContext] = {
+    val selector = declCtx.methodSelector.getText
 
     {
       declCtx.parent.parent.parent match {
-        case classCtx: Class_interfaceContext =>
+        case classCtx: ClassInterfaceContext =>
           classCtx.correspondingClassImplementation(root)
-            .map(_.implementation_definition_list)
-        case catCtx: Category_interfaceContext =>
+            .map(_.implementationDefinitionList)
+        case catCtx: CategoryInterfaceContext =>
           catCtx.correspondingCategoryImplementation(root)
-            .map(_.implementation_definition_list)
+            .map(_.implementationDefinitionList)
         case _ => None
       }
     }.flatMap { implDefList =>
       declCtx.parent match {
-        case _: Instance_method_declarationContext =>
-          implDefList.instance_method_definition.map(_.method_definition())
-            .find(_.method_selector.getText == selector)
-        case _: Class_method_declarationContext =>
-          implDefList.class_method_definition.map(_.method_definition())
-            .find(_.method_selector.getText == selector)
+        case _: InstanceMethodDeclarationContext =>
+          implDefList.instanceMethodDefinition.map(_.methodDefinition())
+            .find(_.methodSelector.getText == selector)
+        case _: ClassMethodDeclarationContext =>
+          implDefList.classMethodDefinition.map(_.methodDefinition())
+            .find(_.methodSelector.getText == selector)
         case _ => None
       }
     }
