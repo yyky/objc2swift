@@ -44,4 +44,28 @@ trait ClassVisitor {
 
   // ignore implementation with no corresponding interface.
   override def visitClassImplementation(ctx: ClassImplementationContext): String = ""
+
+  override def visitCategoryName(ctx: CategoryNameContext) = ctx.getText
+
+  override def visitCategoryInterface(ctx: CategoryInterfaceContext): String = {
+    // TODO: convert unnamed-category members as private.
+    if(ctx.categoryName == null) {
+      return ""
+    }
+
+    val head = List(
+      ctx.className.toOption.map(visit).map{s => s"extension $s"},
+      ctx.protocolReferenceList.toOption.map(visit).map{s => s": $s"}
+    ).flatten.mkString("")
+
+    val body = List(
+      ctx.interfaceDeclarationList.toOption.map(visit),
+      ctx.correspondingCategoryImplementation(root).map(visit)
+    ).flatten.mkString("\n\n")
+
+    s"$head {\n$body\n}"
+  }
+
+  // ignore category implementation with no corresponding interface.
+  override def visitCategoryImplementation(ctx: CategoryImplementationContext): String = ""
 }

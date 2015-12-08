@@ -23,7 +23,6 @@ abstract class ObjC2SwiftBaseConverter extends ObjCBaseVisitor[String] {
 class ObjC2SwiftConverter(parser: ObjCParser) extends ObjC2SwiftBaseConverter
   with RootVisitor
   with ClassVisitor
-  with CategoryVisitor
   with ProtocolVisitor
   with PropertyVisitor
   with MethodVisitor

@@ -94,4 +94,43 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertCodeEqual(expected, convertSource(source))
   }
 
+  test("empty category") {
+    val source =
+      s"""
+         |@interface MyClass(MyCategory)
+         |@end
+         |
+         |@implementation MyClass(MyCategory)
+         |@end
+       """.stripMargin
+
+    val expected =
+      s"""
+         |extension MyClass {
+         |}
+       """.stripMargin
+
+    assertCodeEqual(expected, convertSource(source))
+  }
+
+  test("empty category with protocols") {
+    val source =
+      s"""
+         |@interface MyClass(MyCategory)<A, B, C>
+         |@end
+         |
+         |@implementation MyClass(MyCategory)
+         |@end
+       """.stripMargin
+
+    val expected =
+      s"""
+         |extension MyClass: A, B, C {
+         |}
+       """.stripMargin
+
+    assertCodeEqual(expected, convertSource(source))
+  }
+
+  // TODO test unnamed-cateogory (class extension)
 }
