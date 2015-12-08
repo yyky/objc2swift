@@ -1,4 +1,5 @@
 import org.junit.runner.RunWith
+import org.objc2swift.converter.{ObjCParser, ObjC2SwiftBaseConverter, RootVisitor, ClassVisitor, ProtocolVisitor}
 import org.scalatest.junit.JUnitRunner
 
 /**
@@ -6,6 +7,17 @@ import org.scalatest.junit.JUnitRunner
  */
 @RunWith(classOf[JUnitRunner])
 class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
+
+  override def converter(parser: ObjCParser): ObjC2SwiftBaseConverter =
+    new ObjC2SwiftBaseConverter
+      with RootVisitor
+      with ClassVisitor
+      with ProtocolVisitor {
+
+      override val root = parser.translationUnit()
+      override def getResult() = visit(root)
+    }
+
   test("empty class") {
     val source =
       s"""
@@ -81,4 +93,5 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
 
     assertCodeEqual(expected, convertSource(source))
   }
+
 }

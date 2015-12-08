@@ -9,20 +9,42 @@
  */
 
 import java.io.{InputStreamReader, SequenceInputStream, FileInputStream, PrintWriter}
-import org.junit.Ignore
 import org.objc2swift.converter.ObjC2SwiftConverter
 import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
-import org.scalatest.FunSuite
 
-import org.antlr.v4.runtime._
-import org.objc2swift._
+import collection.JavaConversions._
 import scala.io.Source
-
 import scala.sys.process._
 
 @RunWith(classOf[JUnitRunner])
 class CompleteMatchTestSuite extends ObjC2SwiftTestSuite {
+
+  private def loadFile(filename: String): String =
+    Source.fromFile(getFilePath(filename))(io.Codec("UTF-8")).mkString
+
+  private def convertFiles(filenames: String*): String = {
+    val files = filenames.map(getFilePath)
+    val fileStreams = files.map(new FileInputStream(_))
+    val inputStream = new SequenceInputStream(fileStreams.toIterator)
+    val parser = ObjC2SwiftConverter.generateParser(inputStream)
+    val converter = new ObjC2SwiftConverter(parser)
+    converter.getResult
+  }
+
+  private def diffResult(prefix: String, actual: String) = {
+    val expectedPath = getFilePath("/" + prefix + ".swift")
+    val actualPath = expectedPath.stripSuffix(".swift") + ".out"
+    val out = new PrintWriter(actualPath)
+    out.println(actual)
+    out.close()
+    println(s"#============ START DIFF: $prefix =============")
+    s"diff -u $expectedPath $actualPath".!
+    println(s"#============= END DIFF: $prefix ==============")
+  }
+
+  private def getFilePath(filename: String): String = getClass.getResource(filename).getPath
+
   test("sample complete match test") {
     val expected = loadFile("/sample.swift")
     val actual = convertFiles("/sample.h", "/sample.m")
