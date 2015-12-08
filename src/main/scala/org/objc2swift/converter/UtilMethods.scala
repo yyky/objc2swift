@@ -10,17 +10,6 @@ import org.objc2swift.converter.ObjCParser._
 trait UtilMethods {
   this: ObjC2SwiftConverter =>
 
-  /*
-   * Visited Flag
-   */
-  private val visited = new ParseTreeProperty[Boolean]
-
-  def isVisited(node: ParseTree): Boolean = Option(visited.get(node)).getOrElse(false)
-  def setVisited(node: ParseTree) = visited.put(node, true)
-
-  /*
-   * Indent
-   */
   protected val indentString = " " * 4
 
   def indentLevel(node: ParserRuleContext): Int = {
