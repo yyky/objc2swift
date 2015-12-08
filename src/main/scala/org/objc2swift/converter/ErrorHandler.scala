@@ -11,7 +11,7 @@
 package org.objc2swift.converter
 
 import java.io.{BufferedReader, StringReader}
-import java.util
+import java.util.BitSet
 
 import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.atn.ATNConfigSet
@@ -56,10 +56,10 @@ trait ErrorHandler extends ANTLRErrorListener {
     errors.put(line, (message, source))
   }
 
-  override def reportAmbiguity(recognizer: Parser, dfa: DFA, startIndex: Int, stopIndex: Int, exact: Boolean, ambigAlts: util.BitSet, configs: ATNConfigSet): Unit = {
+  override def reportAmbiguity(recognizer: Parser, dfa: DFA, startIndex: Int, stopIndex: Int, exact: Boolean, ambigAlts: BitSet, configs: ATNConfigSet): Unit = {
   }
 
-  override def reportAttemptingFullContext(recognizer: Parser, dfa: DFA, startIndex: Int, stopIndex: Int, conflictingAlts: util.BitSet, configs: ATNConfigSet): Unit = {
+  override def reportAttemptingFullContext(recognizer: Parser, dfa: DFA, startIndex: Int, stopIndex: Int, conflictingAlts: BitSet, configs: ATNConfigSet): Unit = {
   }
 
   override def reportContextSensitivity(recognizer: Parser, dfa: DFA, startIndex: Int, stopIndex: Int, prediction: Int, configs: ATNConfigSet): Unit = {

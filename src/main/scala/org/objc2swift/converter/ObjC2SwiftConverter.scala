@@ -49,7 +49,6 @@ class ObjC2SwiftConverter(parser: ObjCParser) extends ObjC2SwiftBaseConverter
   with EnumVisitor
   with TerminalNodeVisitor
   with UtilMethods
-  with UtilObjects
   with ErrorHandler {
 
   protected val root = parser.translationUnit()

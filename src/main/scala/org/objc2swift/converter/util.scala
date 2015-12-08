@@ -13,7 +13,7 @@ package org.objc2swift.converter
 import org.antlr.v4.runtime.tree.TerminalNode
 import org.objc2swift.converter.ObjCParser._
 
-protected trait UtilObjects {
+package object util {
   object TerminalText {
     def unapply(node: TerminalNode): Option[String] = Option(node.getSymbol.getText)
   }

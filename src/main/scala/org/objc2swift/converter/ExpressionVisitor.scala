@@ -21,6 +21,8 @@ import scala.collection.JavaConversions._
 protected trait ExpressionVisitor {
   this: ObjC2SwiftConverter =>
 
+  import org.objc2swift.converter.util._
+
   /**
    * Returns translated text of binary expression contexts (equality, relational, etc..)
    *

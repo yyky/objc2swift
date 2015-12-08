@@ -21,6 +21,8 @@ import scala.collection.JavaConversions._
 protected trait DeclarationVisitor {
   this: ObjC2SwiftConverter =>
 
+  import org.objc2swift.converter.util._
+
   /**
    * Returns translated text of declaration context.
    *

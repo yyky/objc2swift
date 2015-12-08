@@ -17,6 +17,8 @@ import scala.collection.JavaConversions._
 protected trait StatementVisitor {
   this: ObjC2SwiftConverter =>
 
+  import org.objc2swift.converter.util._
+
   /**
    * Returns translated text of compoundStatement context.
    *

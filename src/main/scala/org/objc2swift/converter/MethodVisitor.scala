@@ -19,8 +19,10 @@ import scala.collection.JavaConversions._
 /**
  * Implements visit methods for method-contexts.
  */
-protected trait MethodVisitor {
+trait MethodVisitor {
   this: ObjC2SwiftConverter =>
+
+  import org.objc2swift.converter.util._
 
   /**
    * Returns translated text of instance method declaration context.

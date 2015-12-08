@@ -19,9 +19,12 @@ import scala.collection.mutable
 /**
  * Implements visit methods for type contexts.
  */
-protected trait TypeVisitor {
-  this: ObjC2SwiftConverter =>
+trait TypeVisitor {
+  this: ObjC2SwiftBaseConverter =>
 
+  import org.objc2swift.converter.util._
+
+  @deprecated("", "")
   type TSContexts = mutable.Buffer[TypeSpecifierContext]
 
   /**
