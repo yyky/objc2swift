@@ -17,8 +17,8 @@ import org.objc2swift.util.antlr._
 
 import scala.collection.JavaConversions._
 
-protected trait ProtocolVisitor {
-  this: ObjC2SwiftConverter =>
+trait ProtocolVisitor {
+  this: ObjC2SwiftBaseConverter =>
 
   private val usSetters = new ParseTreeProperty[Boolean]()
 

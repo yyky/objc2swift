@@ -14,8 +14,13 @@ import java.io.{ByteArrayInputStream, InputStream}
 
 import org.antlr.v4.runtime.tree.ParseTree
 import org.antlr.v4.runtime.{ANTLRInputStream, CommonTokenStream, ParserRuleContext}
+import org.objc2swift.converter.ObjCParser.TranslationUnitContext
 
-class ObjC2SwiftConverter(parser: ObjCParser) extends ObjCBaseVisitor[String]
+abstract class ObjC2SwiftBaseConverter extends ObjCBaseVisitor[String] {
+  def getResult(): String
+}
+
+class ObjC2SwiftConverter(parser: ObjCParser) extends ObjC2SwiftBaseConverter
   with RootVisitor
   with ClassVisitor
   with CategoryVisitor
@@ -34,11 +39,12 @@ class ObjC2SwiftConverter(parser: ObjCParser) extends ObjCBaseVisitor[String]
   with UtilObjects
   with ErrorHandler {
 
+  protected val root = parser.translationUnit()
+
+  override def getResult() = visit(root)
+
   parser.removeErrorListeners()
   parser.addErrorListener(this)
-
-  protected val root = parser.translationUnit()
-  def getResult() = visit(root)
 
   override def visit(tree: ParseTree): String =
     if(!isVisited(tree)) {

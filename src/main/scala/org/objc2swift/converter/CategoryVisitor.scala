@@ -14,8 +14,8 @@ import org.objc2swift.converter.ObjCParser._
 import org.objc2swift.util.antlr._
 import scala.collection.JavaConversions._
 
-protected trait CategoryVisitor {
-  this: ObjC2SwiftConverter =>
+trait CategoryVisitor {
+  this: ObjC2SwiftBaseConverter with RootVisitor =>
 
   override def visitCategoryName(ctx: CategoryNameContext) = ctx.getText
 

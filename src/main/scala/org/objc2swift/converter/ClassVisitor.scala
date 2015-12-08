@@ -14,8 +14,8 @@ import org.objc2swift.util.antlr._
 import org.objc2swift.converter.ObjCParser._
 import scala.collection.JavaConversions._
 
-protected trait ClassVisitor {
-  this: ObjC2SwiftConverter =>
+trait ClassVisitor {
+  this: ObjC2SwiftBaseConverter with RootVisitor =>
 
   override def visitClassName(ctx: ClassNameContext): String = ctx.getText
 
@@ -36,11 +36,11 @@ protected trait ClassVisitor {
     s"${head} {\n${body}\n}"
   }
 
-  override def visitInterfaceDeclarationList(ctx: InterfaceDeclarationListContext): String =
-    concatChildResults(ctx, "\n\n")
+  override def visitInterfaceDeclarationList(ctx: InterfaceDeclarationListContext): String
+    = ctx.children.map(visit).mkString("\n\n")
 
-  override def visitImplementationDefinitionList(ctx: ImplementationDefinitionListContext): String =
-    concatChildResults(ctx, "\n\n")
+  override def visitImplementationDefinitionList(ctx: ImplementationDefinitionListContext): String
+    = ctx.children.map(visit).mkString("\n\n")
 
   // ignore implementation with no corresponding interface.
   override def visitClassImplementation(ctx: ClassImplementationContext): String = ""
