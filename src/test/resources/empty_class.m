@@ -1,2 +1,0 @@
-@implementation EmptyClass
-@end

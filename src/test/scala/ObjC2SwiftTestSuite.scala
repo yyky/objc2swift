@@ -21,13 +21,19 @@ trait ObjC2SwiftTestSuite extends FunSuite {
   def loadFile(filename: String): String =
     Source.fromFile(getFilePath(filename))(io.Codec("UTF-8")).mkString
 
+  def convertSource(source: String): String = {
+    val parser = ObjC2SwiftConverter.generateParser(source)
+    val converter = new ObjC2SwiftConverter(parser)
+    converter.getResult
+  }
+
   def convertFiles(filenames: String*): String = {
     val files = filenames.map(getFilePath)
     val fileStreams = files.map(new FileInputStream(_))
     val inputStream = new SequenceInputStream(fileStreams.toIterator)
     val parser = ObjC2SwiftConverter.generateParser(inputStream)
     val converter = new ObjC2SwiftConverter(parser)
-    converter.getResult + "\n"
+    converter.getResult
   }
 
   private def diffResult(prefix: String, actual: String) = {
