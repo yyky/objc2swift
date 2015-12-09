@@ -174,16 +174,12 @@ trait MethodVisitor {
    * @param ctx the parse tree
    * @return Swift method type
    */
-  override def visitMethodType(ctx: MethodTypeContext): String = {
-    val retType = {
-      for {
-        x <- Option(ctx.typeName().specifierQualifierList())
-        y <- Option(x.typeSpecifier())
-      } yield y
-    }.map(concatType(_)).getOrElse("AnyObject")
-
-    if (retType == "Void") "" else retType
-  }
+  override def visitMethodType(ctx: MethodTypeContext): String =
+    Option(ctx.typeName()).map(visit) match {
+      case Some("Void") => ""
+      case Some(t) => t
+      case None => "AnyObject"
+    }
 
   /**
    * Returns method header text.

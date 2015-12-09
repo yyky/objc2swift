@@ -213,6 +213,10 @@ class ExpressionVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess("(MyClass)x", "x as! MyClass")
   }
 
+  ignore("cast unsigned long long") {
+    assertConvertSuccess("(unsigned long long)x", "x as! UInt64")
+  }
+
   test("dot access") {
     assertConvertSuccess("x.y.z", "x.y.z")
   }

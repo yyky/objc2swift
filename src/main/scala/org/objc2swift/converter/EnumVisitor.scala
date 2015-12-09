@@ -64,16 +64,12 @@ trait EnumVisitor {
    */
   def visitEnumSpecifier(ctx: EnumSpecifierContext, identifier: String): String = {
     val builder = List.newBuilder[String]
-    val typeStr = for {
-      c1 <- Option(ctx.typeName())
-      c2 <- Option(c1.specifierQualifierList())
-      c3 <- Option(c2.typeSpecifier()).map(_.toList)
-    } yield processTypeSpecifierList(c3)
+    val typeStr = Option(ctx.typeName()).map(visit) getOrElse "Int"
 
     // save this enum id
     identifiers.put(ctx, identifier)
 
-    builder += s"enum $identifier : ${typeStr.getOrElse("Int")}"
+    builder += s"enum $identifier : $typeStr"
     builder += Option(ctx.enumeratorList()).map(visit).getOrElse("")
 
     builder.result().mkString

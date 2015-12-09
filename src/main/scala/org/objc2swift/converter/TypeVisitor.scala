@@ -24,12 +24,10 @@ trait TypeVisitor {
 
   import org.objc2swift.converter.util._
 
-  @deprecated("", "")
-  type TSContexts = mutable.Buffer[TypeSpecifierContext]
+  override def visitTypeName(ctx: TypeNameContext): String = ctx.children.map(visit).filter(_.nonEmpty).mkString(" ")
 
-  override def visitTypeName(ctx: TypeNameContext): String = ctx.children.map(visit).mkString(" ")
-
-  override def visitSpecifierQualifierList(ctx: SpecifierQualifierListContext): String = ctx.children.map(visit).mkString(" ")
+  override def visitSpecifierQualifierList(ctx: SpecifierQualifierListContext): String
+    = processTypeSpecifierList(ctx.typeSpecifier().toList)
 
   override def visitAbstractDeclarator(ctx: AbstractDeclaratorContext): String = "" // ?
 
@@ -58,11 +56,6 @@ trait TypeVisitor {
     }.mkString
   }
 
-  /**
-   * Returns translated text of pointer context.
-   *
-   * @param ctx the parse tree
-   **/
   override def visitPointer(ctx: PointerContext): String = {
     ctx.children.map {
       case TerminalText("*") => "" // NOOP
@@ -83,34 +76,4 @@ trait TypeVisitor {
       }
     }
   }
-
-  /**
-   * Returns concatenated number type text.
-   * @param prefix Prefix text of current types.
-   * @param ctx Current typeSpecifier context
-   * @return Concatenated and translated number type text
-   */
-  @deprecated("", "")
-  private def concatNumberType(prefix: String, ctx: TypeSpecifierContext): String =
-    (prefix, visit(ctx)) match {
-      case ("unsigned", "Int8") => "UInt8"
-      case ("unsigned", "Int")  => "UInt"
-      case ("Int", "Int")       => "Int64"
-      case ("UInt", "Int")      => "UInt64"
-      case ("signed", t)        => t
-      case (_, "")              => prefix
-      case (_, t)               => t
-    }
-
-  /**
-   * Return concatenated type text.
-   * @param types List of typeSpecifier context
-   * @return Concatenated and translated type text
-   */
-  @deprecated("", "")
-  def concatType(types: TSContexts): String =
-    types.foldLeft("")(concatNumberType) match {
-      case "unsigned" => "UInt"
-      case s          => s
-    }
 }
