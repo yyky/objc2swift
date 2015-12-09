@@ -277,8 +277,10 @@ trait PropertyVisitor {
         val setterSelectorText = getSetterSelectorText(i)
         val getterSelectorText = i.methodDefinition().methodSelector.getText
 
-        if (selector == setterSelectorText || selector == getterSelectorText)
+        if (selector == setterSelectorText || selector == getterSelectorText) {
+          setVisited(i)
           Some(visit(getCompoundStatement(i)))
+        }
         else
           None
       }

@@ -65,12 +65,6 @@ class CompleteMatchTestSuite extends ObjC2SwiftTestSuite {
     assertCodeEqual(actual, expected)
   }
 
-  test("property_sample complete match test") {
-    val expected = loadFile("/property_sample.swift")
-    val actual = convertFiles("/property_sample.h","/property_sample.m")
-    assertCodeEqual(actual, expected)
-  }
-
   test("non_implemented_property complete match test") {
     val expected = loadFile("/non_implemented_property.swift")
     val actual = convertFiles("/non_implemented_property.h")
