@@ -10,6 +10,7 @@
 
 import java.io.{InputStreamReader, SequenceInputStream, FileInputStream, PrintWriter}
 import org.objc2swift.converter.ObjC2SwiftConverter
+import org.scalatest.Ignore
 import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
 
@@ -18,6 +19,7 @@ import scala.io.Source
 import scala.sys.process._
 
 @RunWith(classOf[JUnitRunner])
+@Ignore
 class CompleteMatchTestSuite extends ObjC2SwiftTestSuite {
 
   private def loadFile(filename: String): String =
