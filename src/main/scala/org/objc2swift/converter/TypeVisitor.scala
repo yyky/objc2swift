@@ -38,7 +38,7 @@ trait TypeVisitor {
    */
   override def visitTypeSpecifier(ctx: TypeSpecifierContext): String = {
     ctx.children.map {
-      case TerminalText("void")           => "void"
+      case TerminalText("void")           => "Void"
       case TerminalText("id")             => "AnyObject"
       case TerminalText("short")          => "Int8"
       case TerminalText("int")            => "Int"
@@ -57,6 +57,19 @@ trait TypeVisitor {
       case _: ClassNameContext           => "AnyObject"
       case c: PointerContext              => visit(c)
       case c                              => c.getText
+    }.mkString
+  }
+
+  /**
+   * Returns translated text of pointer context.
+   *
+   * @param ctx the parse tree
+   **/
+  override def visitPointer(ctx: PointerContext): String = {
+    ctx.children.map {
+      case TerminalText("*") => "" // NOOP
+      case c: DeclarationSpecifiersContext => visit(c)
+      case c: PointerContext => "" // TODO: Do something if you need
     }.mkString
   }
 

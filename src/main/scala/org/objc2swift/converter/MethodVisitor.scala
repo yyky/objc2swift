@@ -182,7 +182,7 @@ trait MethodVisitor {
       } yield y
     }.map(concatType(_)).getOrElse("AnyObject")
 
-    if (retType == "void") "" else retType
+    if (retType == "Void") "" else retType
   }
 
   /**

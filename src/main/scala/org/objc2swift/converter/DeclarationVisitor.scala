@@ -157,19 +157,6 @@ protected trait DeclarationVisitor {
     }.getOrElse("")
 
   /**
-   * Returns translated text of pointer context.
-   *
-   * @param ctx the parse tree
-   **/
-  override def visitPointer(ctx: PointerContext): String = {
-    ctx.children.map {
-      case TerminalText("*") => "" // NOOP
-      case c: DeclarationSpecifiersContext => visit(c)
-      case c: PointerContext => "" // TODO: Do something if you need
-    }.mkString
-  }
-
-  /**
    * Returns translated text of declaration_specifiers context.
    *
    * @param ctx the parse tree
