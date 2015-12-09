@@ -22,7 +22,7 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
   test("var decl without init") {
     val source = "MyType x;"
     val expected = "var x: MyType"
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("multiple var decl without init") {
@@ -32,13 +32,13 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
          |var x: MyType
          |var y: MyType
        """.stripMargin
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("var decl with initializer") {
     val source = "MyType x = 1;"
     val expected = "var x: MyType = 1" // TODO emit type when initialized
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("multiple var decl with init") {
@@ -48,13 +48,13 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
          |var x: MyType = 1
          |var y: MyType = 2
        """.stripMargin
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("object-type var decl without init") {
     val source = "NSObject *x;"
     val expected = "var x: NSObject"
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("multiple object-type var decl without init") {
@@ -64,13 +64,13 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
          |var x: NSObject
          |var y: NSObject
        """.stripMargin
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("const var decl without init") {
     val source = "const MyType x;"
     val expected = "let x: MyType"
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("multiple const var decl without init") {
@@ -80,13 +80,13 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
          |let x: MyType
          |let y: MyType
        """.stripMargin
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("const var decl with init") {
     val source = "const MyType x = 1;"
     val expected = "let x: MyType = 1"
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("multiple const var decl with init") {
@@ -96,19 +96,19 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
          |let x: MyType = 1
          |let y: MyType = 2
        """.stripMargin
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("const object-type var decl without init") {
     val source = "MyType *const x;"
     val expected = "let x: MyType"
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("static var decl without init") {
     val source = "static MyType x;"
     val expected = "static var x: MyType"
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("multiple static var decl without init") {
@@ -118,13 +118,13 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
          |static var x: MyType
          |static var y: MyType
        """.stripMargin
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("static var decl with initializer") {
     val source = "static MyType x = 1;"
     val expected = "static var x: MyType = 1" // TODO emit type when initialized
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("multiple static var decl with init") {
@@ -134,13 +134,13 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
          |static var x: MyType = 1
          |static var y: MyType = 2
        """.stripMargin
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("static const var decl without init") {
     val source = "static const MyType x;"
     val expected = "static let x: MyType"
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("multiple static const var decl without init") {
@@ -150,13 +150,13 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
          |static let x: MyType
          |static let y: MyType
        """.stripMargin
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("static const var decl with init") {
     val source = "static const MyType x = 1;"
     val expected = "static let x: MyType = 1"
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("multiple static const var decl with init") {
@@ -166,43 +166,43 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
          |static let x: MyType = 1
          |static let y: MyType = 2
        """.stripMargin
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("static const object-type var decl without init") {
     val source = "static MyType *const x;"
     val expected = "static let x: MyType"
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("unsigned var decl") {
     val source = "unsigned x;"
     val expected = "var x: UInt"
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("unsigned int var decl") {
     val source = "unsigned int x;"
     val expected = "var x: UInt32"
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("long long var decl") {
     val source = "long long x;"
     val expected = "var x: Int64"
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("unsigned long long var decl") {
     val source = "unsigned long long x;"
     val expected = "var x: UInt64"
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   // TODO
   ignore("c-type array var decl without init") {
     val source = "MyType x[];"
     val expected = "var x: [MyType]"
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 }

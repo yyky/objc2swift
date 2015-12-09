@@ -38,7 +38,7 @@ class MethodVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("void method one arg") {
@@ -57,7 +57,7 @@ class MethodVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("void method two args") {
@@ -76,7 +76,7 @@ class MethodVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("void method two args when label-name = param-name") {
@@ -95,7 +95,7 @@ class MethodVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("void method three args") {
@@ -114,7 +114,7 @@ class MethodVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("return-type method no arg") {
@@ -133,7 +133,7 @@ class MethodVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("return-type method with args") {
@@ -152,7 +152,7 @@ class MethodVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("void class-method") {
@@ -171,7 +171,7 @@ class MethodVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("void class-method one arg") {
@@ -190,7 +190,7 @@ class MethodVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("void class-method two args") {
@@ -209,7 +209,7 @@ class MethodVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("void class-method two args when label-name = param-name") {
@@ -228,7 +228,7 @@ class MethodVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("void class-method three args") {
@@ -247,7 +247,7 @@ class MethodVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("return-type class-method no arg") {
@@ -266,7 +266,7 @@ class MethodVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("return-type class-method with args") {
@@ -285,7 +285,7 @@ class MethodVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("implementation with corresponding method") {
@@ -309,7 +309,7 @@ class MethodVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
 
@@ -333,7 +333,7 @@ class MethodVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
 }

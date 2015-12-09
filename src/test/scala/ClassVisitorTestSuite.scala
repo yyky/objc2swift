@@ -34,7 +34,7 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("empty class with superclass") {
@@ -53,7 +53,7 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("empty class with superclass and one protocol") {
@@ -72,7 +72,7 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("empty class with superclass and muptiple protocols") {
@@ -91,7 +91,7 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("empty category") {
@@ -110,7 +110,7 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   test("empty category with protocols") {
@@ -129,7 +129,7 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
          |}
        """.stripMargin
 
-    assertCodeEqual(expected, convertSource(source))
+    assertConvertSuccess(source, expected)
   }
 
   // TODO test unnamed-cateogory (class extension)

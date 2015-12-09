@@ -50,66 +50,66 @@ class CompleteMatchTestSuite extends ObjC2SwiftTestSuite {
   test("sample complete match test") {
     val expected = loadFile("/sample.swift")
     val actual = convertFiles("/sample.h", "/sample.m")
-    assertCodeEqual(expected, actual)
+    assertCodeEqual(actual, expected)
   }
 
   test("control_flow_sample complete match test") {
     val expected = loadFile("/control_flow_sample.swift")
     val actual = convertFiles("/control_flow_sample.h", "/control_flow_sample.m")
-    assertCodeEqual(expected, actual)
+    assertCodeEqual(actual, expected)
   }
 
   test("declaration_sample complete match test") {
     val expected = loadFile("/declaration_sample.swift")
     val actual = convertFiles("/declaration_sample.h", "/declaration_sample.m")
-    assertCodeEqual(expected, actual)
+    assertCodeEqual(actual, expected)
   }
 
   test("enum_sample complete match test") {
     val expected = loadFile("/enum_sample.swift")
     val actual = convertFiles("/enum_sample.h")
-    assertCodeEqual(expected, actual)
+    assertCodeEqual(actual, expected)
   }
 
   test("expression_sample complete match test") {
     val expected = loadFile("/expression_sample.swift")
     val actual = convertFiles("/expression_sample.h", "/expression_sample.m")
-    assertCodeEqual(expected, actual)
+    assertCodeEqual(actual, expected)
   }
 
   test("property_sample complete match test") {
     val expected = loadFile("/property_sample.swift")
     val actual = convertFiles("/property_sample.h","/property_sample.m")
-    assertCodeEqual(expected, actual)
+    assertCodeEqual(actual, expected)
   }
 
   test("non_implemented_property complete match test") {
     val expected = loadFile("/non_implemented_property.swift")
     val actual = convertFiles("/non_implemented_property.h")
-    assertCodeEqual(expected, actual)
+    assertCodeEqual(actual, expected)
   }
 
   ignore("protocol_sample complete match test") {
     val expected = loadFile("/protocol_sample.swift")
     val actual = convertFiles("/protocol_sample.h", "/protocol_sample.m")
-    assertCodeEqual(expected, actual)
+    assertCodeEqual(actual, expected)
   }
 
   test("string_with_format_sample complete match test") {
     val expected = loadFile("/string_with_format_sample.swift")
     val actual = convertFiles("/string_with_format_sample.h", "/string_with_format_sample.m")
-    assertCodeEqual(expected, actual)
+    assertCodeEqual(actual, expected)
   }
 
   test("IBAction complete match test") {
     val expected = loadFile("/ib_action_test.swift")
     val actual = convertFiles("/ib_action_test.h", "/ib_action_test.m")
-    assertCodeEqual(expected, actual)
+    assertCodeEqual(actual, expected)
   }
 
   test("if_statement complete match test") {
     val expected = loadFile("/if_statement_sample.swift")
     val actual = convertFiles("/if_statement_sample.h", "/if_statement_sample.m")
-    assertCodeEqual(expected, actual)
+    assertCodeEqual(actual, expected)
   }
 }

@@ -16,67 +16,67 @@ class TypeVisitorTestSuite extends ObjC2SwiftTestSuite {
     }
 
   test("type: void") {
-    assertCodeEqual("Void", convertSource("void"))
+    assertConvertSuccess("void", "Void")
   }
 
   test("type: id") {
-    assertCodeEqual("AnyObject", convertSource("id"))
+    assertConvertSuccess("id", "AnyObject")
   }
 
   test("type: char") {
-    assertCodeEqual("Int8", convertSource("char"))
+    assertConvertSuccess("char", "Int8")
   }
 
   test("type: short") {
-    assertCodeEqual("Int16", convertSource("short"))
+    assertConvertSuccess("short", "Int16")
   }
 
   test("type: int") {
-    assertCodeEqual("Int32", convertSource("int"))
+    assertConvertSuccess("int", "Int32")
   }
 
   test("type: long") {
-    assertCodeEqual("Int64", convertSource("long"))
+    assertConvertSuccess("long", "Int64")
   }
 
   test("type: float") {
-    assertCodeEqual("Float", convertSource("float"))
+    assertConvertSuccess("float", "Float")
   }
 
   test("type: double") {
-    assertCodeEqual("Double", convertSource("double"))
+    assertConvertSuccess("double", "Double")
   }
 
   test("type: NSInteger") {
-    assertCodeEqual("Int", convertSource("NSInteger"))
+    assertConvertSuccess("NSInteger", "Int")
   }
 
   test("type: NSUInteger") {
-    assertCodeEqual("UInt", convertSource("NSUInteger"))
+    assertConvertSuccess("NSUInteger", "UInt")
   }
 
   test("type: NSArray") {
-    assertCodeEqual("[AnyObject]", convertSource("NSArray"))
+    assertConvertSuccess("NSArray", "[AnyObject]")
   }
 
   test("type: NSDictionary") {
-    assertCodeEqual("[AnyObject: AnyObject]", convertSource("NSDictionary"))
+    assertConvertSuccess("NSDictionary", "[AnyObject: AnyObject]")
   }
 
   test("type: SEL") {
-    assertCodeEqual("Selector", convertSource("SEL"))
+    assertConvertSuccess("SEL", "Selector")
   }
 
   test("type: BOOL") {
-    assertCodeEqual("Bool", convertSource("BOOL"))
+    assertConvertSuccess("BOOL", "Bool")
   }
 
   test("type: object") {
-    assertCodeEqual("SomeClass", convertSource("SomeClass *"))
+    assertConvertSuccess("SomeClass *", "SomeClass")
   }
 
   ignore("type: NSError pointer") {
-    assertCodeEqual("NSErrorPointer", convertSource("NSError **"))
+    assertConvertSuccess("NSError **", "NSErrorPointer")
   }
 
   // TODO struct and union

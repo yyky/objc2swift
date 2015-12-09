@@ -16,11 +16,15 @@ trait ObjC2SwiftTestSuite extends FunSuite {
 
   def convertSource(source: String): String = converter(parser(source)).getResult
 
-  def assertCodeEqual(expected: String, actual: String): Unit = {
-    val expectedString = trimLines(expected.split("\n"))
+  def assertConvertSuccess(source: String, expected: String) = {
+    val converted = convertSource(source)
+    assertCodeEqual(converted, expected)
+  }
+  def assertCodeEqual(actual: String, expected: String) = {
     val actualString = trimLines(actual.split("\n"))
+    val expectedString = trimLines(expected.split("\n"))
     val result = expectedString == actualString
-    assert(result, failedMessage(expectedString, actualString))
+    assert(result, failedMessage(actual, expected))
   }
 
   private def trimLines(lines: Seq[String]): String = {
@@ -28,7 +32,7 @@ trait ObjC2SwiftTestSuite extends FunSuite {
     trimmedLines.filter(_.nonEmpty).mkString("\n")
   }
 
-  private def failedMessage(expected: String, actual: String): String =
+  private def failedMessage(actual: String, expected: String): String =
     s"""
        |=========================================
        |> Expected:
