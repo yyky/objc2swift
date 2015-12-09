@@ -13,7 +13,7 @@ package org.objc2swift.converter
 import java.io.{ByteArrayInputStream, InputStream}
 
 import org.antlr.v4.runtime.tree.{ParseTreeProperty, ParseTree}
-import org.antlr.v4.runtime.{ANTLRInputStream, CommonTokenStream, ParserRuleContext}
+import org.antlr.v4.runtime.{RuleContext, ANTLRInputStream, CommonTokenStream, ParserRuleContext}
 import org.objc2swift.converter.ObjCParser.TranslationUnitContext
 
 abstract class ObjC2SwiftBaseConverter extends ObjCBaseVisitor[String] {
@@ -41,12 +41,11 @@ class ObjC2SwiftConverter(parser: ObjCParser) extends ObjC2SwiftBaseConverter
   with PropertyVisitor
   with MethodVisitor
   with DeclarationVisitor
+  with EnumVisitor
   with StatementVisitor
   with ExpressionVisitor
   with MessageVisitor
-  with OperatorVisitor
   with TypeVisitor
-  with EnumVisitor
   with TerminalNodeVisitor
   with UtilMethods
   with ErrorHandler {

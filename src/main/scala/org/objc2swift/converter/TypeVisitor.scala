@@ -27,15 +27,12 @@ trait TypeVisitor {
   @deprecated("", "")
   type TSContexts = mutable.Buffer[TypeSpecifierContext]
 
-  /**
-   * Returns translated text of typeSpecifier context.
-   *
-   * @param ctx the parse tree
-   * @return Swift type strings
-   *
-   * TODO: Implement other types
-   *
-   */
+  override def visitTypeName(ctx: TypeNameContext): String = ctx.children.map(visit).mkString(" ")
+
+  override def visitSpecifierQualifierList(ctx: SpecifierQualifierListContext): String = ctx.children.map(visit).mkString(" ")
+
+  override def visitAbstractDeclarator(ctx: AbstractDeclaratorContext): String = "" // ?
+
   override def visitTypeSpecifier(ctx: TypeSpecifierContext): String = {
     ctx.children.map {
       case TerminalText("void")           => "Void"

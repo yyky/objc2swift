@@ -15,7 +15,33 @@ import org.objc2swift.converter.ObjCParser._
 import scala.collection.JavaConversions._
 
 trait MessageVisitor {
-  this: ObjC2SwiftConverter =>
+  this: ObjC2SwiftBaseConverter =>
+
+  /**
+   * Returns translated text of messageExpression context.
+   *
+   * @param ctx the parse tree
+   **/
+  override def visitMessageExpression(ctx: MessageExpressionContext): String =
+    ctx match {
+      case StringWithFormatMessageExpression(s) => s
+      case AllocMessageExpression(s)            => s
+      case InitMessageExpression(s)             => s
+      case _ => {
+        val sel = ctx.messageSelector()
+        val method = Option(sel.selector()) match {
+          case Some(s) => s"${s.getText}()" // no argument
+          case None => {
+            val head :: tail = sel.keywordArgument.toList
+            val firstArg = s"${head.selector.getText}(${visit(head.expression)}"
+            val restArgs = tail.map { c => s", ${c.selector.getText}: ${visit(c.expression)}" }
+            s"$firstArg${restArgs.mkString})"
+          }
+        }
+
+        s"${visit(ctx.receiver)}.$method"
+      }
+    }
 
   /**
    * Extractor for alloc method expression.
