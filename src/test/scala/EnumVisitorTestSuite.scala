@@ -137,6 +137,7 @@ class EnumVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
+  // TODO use OptionSetType
   test("typedef NS_OPTIONS") {
     val source =
       """
