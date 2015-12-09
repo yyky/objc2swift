@@ -175,6 +175,30 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertCodeEqual(expected, convertSource(source))
   }
 
+  test("unsigned var decl") {
+    val source = "unsigned x;"
+    val expected = "var x: UInt"
+    assertCodeEqual(expected, convertSource(source))
+  }
+
+  test("unsigned int var decl") {
+    val source = "unsigned int x;"
+    val expected = "var x: UInt32"
+    assertCodeEqual(expected, convertSource(source))
+  }
+
+  test("long long var decl") {
+    val source = "long long x;"
+    val expected = "var x: Int64"
+    assertCodeEqual(expected, convertSource(source))
+  }
+
+  test("unsigned long long var decl") {
+    val source = "unsigned long long x;"
+    val expected = "var x: UInt64"
+    assertCodeEqual(expected, convertSource(source))
+  }
+
   // TODO
   ignore("c-type array var decl without init") {
     val source = "MyType x[];"

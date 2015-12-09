@@ -76,12 +76,13 @@ trait TypeVisitor {
 
   def processTypeSpecifierList(ctxs: List[TypeSpecifierContext]): String = {
     ctxs.foldRight("") { (ctx, folded) =>
-      (folded, visit(ctx)) match {
+      (visit(ctx), folded) match {
         case ("Int64", "Int64") => "Int64" // long long
+        case ("unsigned", "") => "UInt" // unsigned only
         case ("unsigned", t) if t.startsWith("Int") => "U" + t
-        case ("signed", t)   => t
-        case (_, "")         => folded
-        case (_, t)          => t
+        case ("signed", t) if t.startsWith("Int")   => t
+        case (t, "") => t
+        case (_, t)  => t
       }
     }
   }

@@ -40,7 +40,7 @@ trait DeclarationVisitor {
     val prefixes = specifiers.result().filter(_.nonEmpty)
 
     // Type
-    Option(ds.typeSpecifier()).foreach { ls =>
+    Option(ds.typeSpecifier()).map(_.toList).foreach { ls =>
       // Support Enumeration
       Option(ls(0).enumSpecifier()).foreach { e =>
         builder += visit(e)
@@ -49,7 +49,7 @@ trait DeclarationVisitor {
       Option(ctx.initDeclaratorList()) match {
         case Some(c) =>
           // Single declaration with initializer, or list of declarations.
-          val currentType = concatType(ls)
+          val currentType = processTypeSpecifierList(ls)
           c.initDeclarator().foreach {
             builder += visitInitDeclarator(_, currentType, prefixes)
           }
@@ -83,12 +83,12 @@ trait DeclarationVisitor {
    * @param prefixes prefix specifiers
    * @return translated text
    */
-  private def buildShortDeclaration(ctxs: TSContexts, prefixes: List[String]): Option[String] = {
+  private def buildShortDeclaration(ctxs: List[TypeSpecifierContext], prefixes: List[String]): Option[String] = {
     Option(ctxs.last.className()).map(visit).filter(_.nonEmpty).map { name =>
       List(
         prefixes.mkString(" "),
         if (prefixes.mkString(" ").split(" ").contains("let")) "" else "var",
-        s"$name: ${concatType(ctxs.init)}").filter(_.nonEmpty).mkString(" ")
+        s"$name: ${processTypeSpecifierList(ctxs.init)}").filter(_.nonEmpty).mkString(" ")
     }
   }
 
@@ -153,9 +153,9 @@ trait DeclarationVisitor {
   override def visitInitializer(ctx: InitializerContext): String = concatChildResults(ctx, "")
 
   override def visitTypeVariableDeclarator(ctx: TypeVariableDeclaratorContext): String =
-    Option(ctx.declarationSpecifiers().typeSpecifier()).flatMap { ls =>
+    Option(ctx.declarationSpecifiers().typeSpecifier()).map(_.toList).flatMap { ls =>
       Option(ctx.declarator().directDeclarator().identifier())
-        .map(visit).map(_ + ": " + concatType(ls))
+        .map(visit).map(_ + ": " + processTypeSpecifierList(ls))
     }.getOrElse("")
 
   /**
