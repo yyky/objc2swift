@@ -14,8 +14,10 @@ import org.objc2swift.converter.ObjCParser._
 
 import scala.collection.JavaConversions._
 
-protected trait PropertyVisitor {
-  this: ObjC2SwiftConverter =>
+trait PropertyVisitor {
+  this: ObjC2SwiftBaseConverter
+    with RootVisitor
+    with UtilMethods =>
 
   object PropertyAttribute {
     def unapply(ctx: PropertyAttributeContext): Option[String] =
@@ -75,7 +77,7 @@ protected trait PropertyVisitor {
       var typeOfVariable = ""
       val specifierQualifierList = structDeclaration.specifierQualifierList()
       val structDeclaratorList = structDeclaration.structDeclaratorList()
-      var optional = "?"
+      var optional = ""
 
       typeOfVariable = getTypeSpecifier(specifierQualifierList, sb)
 
@@ -245,6 +247,11 @@ protected trait PropertyVisitor {
   }
 
   private def findGetterOrSetterMethod(declCtx: PropertyDeclarationContext,selector:String):(Boolean,String) = {
+    // TODO fix this
+    if(root == null) {
+      return (false, "")
+    }
+
     val buffer = for {
       extDclCtx <- root.externalDeclaration
       cl <- Option(extDclCtx.classImplementation)

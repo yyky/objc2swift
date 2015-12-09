@@ -14,6 +14,7 @@ class ProtocolVisitorTestSuite extends ObjC2SwiftTestSuite {
       with RootVisitor
       with ClassVisitor
       with MethodVisitor
+      with PropertyVisitor
       with TypeVisitor
       with TerminalNodeVisitor
       with UtilMethods
@@ -72,6 +73,44 @@ class ProtocolVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  // TODO implement & test @required / @optional
+  ignore("protocol with optional functions") {
+    // TODO implement & test @required / @optional
+  }
 
+  test("protocol with property") {
+    val source =
+      s"""
+         |@protocol MyProtocol
+         |@property(nonatomic) MyType a;
+         |@end
+       """.stripMargin
+
+    val expected =
+      s"""
+         |protocol MyProtocol {
+         |var a: MyType
+         |}
+       """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+  // MEMO doesn't work
+  ignore("protocol with readonly property") {
+    val source =
+      s"""
+         |@protocol MyProtocol
+         |@property(nonatomic, readonly) MyType a;
+         |@end
+       """.stripMargin
+
+    val expected =
+      s"""
+         |protocol MyProtocol {
+         |var a: MyType { get }
+         |}
+       """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
 }
