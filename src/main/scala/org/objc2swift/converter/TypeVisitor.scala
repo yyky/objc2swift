@@ -40,9 +40,10 @@ trait TypeVisitor {
     ctx.children.map {
       case TerminalText("void")           => "Void"
       case TerminalText("id")             => "AnyObject"
-      case TerminalText("short")          => "Int8"
-      case TerminalText("int")            => "Int"
-      case TerminalText("long")           => "Int"
+      case TerminalText("char")           => "Int8"
+      case TerminalText("short")          => "Int16"
+      case TerminalText("int")            => "Int32"
+      case TerminalText("long")           => "Int64"
       case TerminalText("float")          => "Float"
       case TerminalText("double")         => "Double"
       case TerminalText(s) if !s.isEmpty  => s
@@ -50,7 +51,7 @@ trait TypeVisitor {
       case ClassNameText("NSInteger")     => "Int"
       case ClassNameText("NSUInteger")    => "UInt"
       case ClassNameText("NSArray")       => "[AnyObject]"
-      case ClassNameText("NSDictionary")  => "[NSObject: AnyObject]"
+      case ClassNameText("NSDictionary")  => "[AnyObject: AnyObject]"
       case ClassNameText("SEL")           => "Selector"
       case ClassNameText("BOOL")          => "Bool"
       case ClassNameText(s) if !s.isEmpty => s
@@ -73,12 +74,25 @@ trait TypeVisitor {
     }.mkString
   }
 
+  def processTypeSpecifierList(ctxs: List[TypeSpecifierContext]): String = {
+    ctxs.foldRight("") { (ctx, folded) =>
+      (folded, visit(ctx)) match {
+        case ("Int64", "Int64") => "Int64" // long long
+        case ("unsigned", t) if t.startsWith("Int") => "U" + t
+        case ("signed", t)   => t
+        case (_, "")         => folded
+        case (_, t)          => t
+      }
+    }
+  }
+
   /**
    * Returns concatenated number type text.
    * @param prefix Prefix text of current types.
    * @param ctx Current typeSpecifier context
    * @return Concatenated and translated number type text
    */
+  @deprecated("", "")
   private def concatNumberType(prefix: String, ctx: TypeSpecifierContext): String =
     (prefix, visit(ctx)) match {
       case ("unsigned", "Int8") => "UInt8"
@@ -95,6 +109,7 @@ trait TypeVisitor {
    * @param types List of typeSpecifier context
    * @return Concatenated and translated type text
    */
+  @deprecated("", "")
   def concatType(types: TSContexts): String =
     types.foldLeft("")(concatNumberType) match {
       case "unsigned" => "UInt"
