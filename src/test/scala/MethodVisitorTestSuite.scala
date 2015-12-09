@@ -312,7 +312,6 @@ class MethodVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-
   test("implementation with no-corresponding method") {
     val source =
       s"""
@@ -336,4 +335,75 @@ class MethodVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
+  test("IBAction in interface and implementation") {
+    val source =
+      s"""
+         |@interface MyClass
+         |- (IBAction)hello;
+         |@end
+         |
+         |@implementation MyClass
+         |- (IBAction)hello {
+         |}
+         |@end
+       """.stripMargin
+
+    val expected =
+      s"""
+         |class MyClass {
+         |    @IBAction func hello() {
+         |    }
+         |}
+       """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+  ignore("IBAction only in interface") {
+    val source =
+      s"""
+         |@interface MyClass
+         |- (IBAction)hello;
+         |@end
+         |
+         |@implementation MyClass
+         |- (void)hello {
+         |}
+         |@end
+       """.stripMargin
+
+    val expected =
+      s"""
+         |class MyClass {
+         |    @IBAction func hello() {
+         |    }
+         |}
+       """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+  test("IBAction only in implementation") {
+    val source =
+      s"""
+         |@interface MyClass
+         |- (void)hello;
+         |@end
+         |
+         |@implementation MyClass
+         |- (IBAction)hello {
+         |}
+         |@end
+       """.stripMargin
+
+    val expected =
+      s"""
+         |class MyClass {
+         |    @IBAction func hello() {
+         |    }
+         |}
+       """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
 }
