@@ -18,8 +18,10 @@ import scala.collection.JavaConversions._
 /**
  * Implements visit methods for declaration contexts.
  */
-protected trait DeclarationVisitor {
-  this: ObjC2SwiftConverter =>
+trait DeclarationVisitor {
+  this: ObjC2SwiftBaseConverter
+    with TypeVisitor
+    with UtilMethods =>
 
   import org.objc2swift.converter.util._
 
