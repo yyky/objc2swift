@@ -19,8 +19,10 @@ import scala.collection.JavaConversions._
 /**
  * Implements visit methods for enum contexts.
  */
-protected trait EnumVisitor {
-  this: ObjC2SwiftConverter =>
+trait EnumVisitor {
+  this: ObjC2SwiftBaseConverter
+    with TypeVisitor
+    with UtilMethods =>
 
   private val identifiers = new ParseTreeProperty[String]()
 
@@ -65,8 +67,8 @@ protected trait EnumVisitor {
     val typeStr = for {
       c1 <- Option(ctx.typeName())
       c2 <- Option(c1.specifierQualifierList())
-      c3 <- Option(c2.typeSpecifier())
-    } yield concatType(c3)
+      c3 <- Option(c2.typeSpecifier()).map(_.toList)
+    } yield processTypeSpecifierList(c3)
 
     // save this enum id
     identifiers.put(ctx, identifier)
