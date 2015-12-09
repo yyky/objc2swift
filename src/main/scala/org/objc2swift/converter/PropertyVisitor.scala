@@ -262,17 +262,7 @@ protected trait PropertyVisitor {
       .getOrElse("")
   }
 
-  private def getCompoundStatement(ctx:InstanceMethodDefinitionContext):CompoundStatementContext = {
-    val compound = ctx.methodDefinition().compoundStatement()
-    for {
-      l <- compound.statementList()
-      m <- l.statement()
-      n <- Option(m.expression())
-      if n.getText.startsWith("_")
-    } setUSSetter(n)
-
-    compound
-  }
+  private def getCompoundStatement(ctx:InstanceMethodDefinitionContext):CompoundStatementContext = ctx.methodDefinition().compoundStatement()
 
   private def parseInstanceMethodDefinition(instanceMethodDefinition: Seq[InstanceMethodDefinitionContext], selector: String): (Boolean, String) = {
     val getterOrSetterStatements =

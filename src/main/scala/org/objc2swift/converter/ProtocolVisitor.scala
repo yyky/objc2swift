@@ -20,14 +20,6 @@ import scala.collection.JavaConversions._
 trait ProtocolVisitor {
   this: ObjC2SwiftBaseConverter =>
 
-  private val usSetters = new ParseTreeProperty[Boolean]()
-
-  def isUSSetter(node: ParseTree) =
-    Option(usSetters.get(node)).filter(identity).nonEmpty
-
-  def setUSSetter(node: ParseTree) =
-    usSetters.put(node, true)
-
   /**
    * Returns translated text of protocolDeclaration context.
    *

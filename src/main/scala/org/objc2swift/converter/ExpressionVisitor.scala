@@ -182,12 +182,7 @@ protected trait ExpressionVisitor {
 
   override def visitExpression(ctx: ExpressionContext) = concatChildResults(ctx, "")
   override def visitArgumentExpressionList(ctx: ArgumentExpressionListContext) = concatChildResults(ctx, ", ")
-  override def visitAssignmentExpression(ctx: AssignmentExpressionContext): String = {
-    if (isUSSetter(ctx.parent))
-      concatChildResults(ctx, " ").replaceFirst("_","self.")
-    else
-      concatChildResults(ctx, " ")
-  }
+  override def visitAssignmentExpression(ctx: AssignmentExpressionContext): String = concatChildResults(ctx, " ")
 
   override def visitEqualityExpression(ctx: EqualityExpressionContext)       = processBinaryExpression(ctx)
   override def visitRelationalExpression(ctx: RelationalExpressionContext)   = processBinaryExpression(ctx)
