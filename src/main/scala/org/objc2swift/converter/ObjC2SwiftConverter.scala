@@ -12,7 +12,7 @@ package org.objc2swift.converter
 
 import java.io.{ByteArrayInputStream, InputStream}
 
-import org.antlr.v4.runtime.tree.{ParseTreeProperty, ParseTree}
+import org.antlr.v4.runtime.tree.{RuleNode, ParseTreeProperty, ParseTree}
 import org.antlr.v4.runtime.{RuleContext, ANTLRInputStream, CommonTokenStream, ParserRuleContext}
 import org.objc2swift.converter.ObjCParser.TranslationUnitContext
 
@@ -26,12 +26,17 @@ abstract class ObjC2SwiftBaseConverter extends ObjCBaseVisitor[String] {
   override def visit(tree: ParseTree): String =
     if(!isVisited(tree)) {
       setVisited(tree)
-      visitImpl(tree)
+      super.visit(tree)
     } else {
-      ""
+      defaultResult()
     }
 
-  protected def visitImpl(tree: ParseTree): String = super.visit(tree)
+  override def visitChildren(node: RuleNode): String = visitChildren(node, " ")
+
+  def visitChildren(node: RuleNode, glue: String): String =
+    Range(0, node.getChildCount).map(node.getChild(_)).map(visit).filter(_.nonEmpty).mkString(glue)
+
+  override def defaultResult(): String = ""
 }
 
 class ObjC2SwiftConverter(parser: ObjCParser) extends ObjC2SwiftBaseConverter
@@ -58,20 +63,6 @@ class ObjC2SwiftConverter(parser: ObjCParser) extends ObjC2SwiftBaseConverter
 
   parser.removeErrorListeners()
   parser.addErrorListener(this)
-
-  override def visitImpl(tree: ParseTree): String =
-    lineError(tree) match {
-      case Some(error) =>
-        val ctx = tree.asInstanceOf[ParserRuleContext]
-        val (message, source) = error
-        s"""
-           |${indent(ctx)}// ${message}
-            |${indent(ctx)}// ${source}
-            |
-         """.stripMargin + super.visitImpl(tree)
-      case None =>
-        super.visitImpl(tree)
-    }
 }
 
 object ObjC2SwiftConverter {

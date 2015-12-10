@@ -10,6 +10,7 @@ class StatementVisitorTestSuite extends ObjC2SwiftTestSuite {
   override def converter(parser: ObjCParser): ObjC2SwiftBaseConverter =
     new ObjC2SwiftBaseConverter
       with StatementVisitor
+      with DeclarationVisitor
       with ExpressionVisitor
       with OperationVisitor
       with TypeVisitor
@@ -317,7 +318,7 @@ class StatementVisitorTestSuite extends ObjC2SwiftTestSuite {
 
     val expected =
       """
-        |for i in array {
+        |for i: Int in array {
         |  sayHello()
         |}
       """.stripMargin
@@ -334,7 +335,7 @@ class StatementVisitorTestSuite extends ObjC2SwiftTestSuite {
 
     val expected =
       """
-        |for i in array {
+        |for i: Int in array {
         |  sayHello()
         |}
       """.stripMargin
