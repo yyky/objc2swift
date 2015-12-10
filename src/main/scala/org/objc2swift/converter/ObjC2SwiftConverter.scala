@@ -36,6 +36,12 @@ abstract class ObjC2SwiftBaseConverter extends ObjCBaseVisitor[String] {
   def visitChildren(node: RuleNode, glue: String): String =
     Range(0, node.getChildCount).map(node.getChild(_)).map(visit).filter(_.nonEmpty).mkString(glue)
 
+  def visitChildrenAs(node: RuleNode)(pf: PartialFunction[ParseTree, String]): String =
+    visitChildrenAs(node, " ")(pf)
+
+  def visitChildrenAs(node: RuleNode, glue: String)(pf: PartialFunction[ParseTree, String]): String =
+    Range(0, node.getChildCount).map(node.getChild(_)).collect(pf).filter(_.nonEmpty).mkString(glue)
+
   override def defaultResult(): String = ""
 }
 
