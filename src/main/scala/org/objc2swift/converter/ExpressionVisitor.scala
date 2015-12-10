@@ -23,7 +23,7 @@ trait ExpressionVisitor {
 
   import org.objc2swift.converter.util._
 
-  override def visitExpression(ctx: ExpressionContext) = concatChildResults(ctx, "")
+  override def visitExpression(ctx: ExpressionContext) = visitChildren(ctx)
 
   override def visitSelectorExpression(ctx: SelectorExpressionContext): String =
     s""""${visit(ctx.selectorName())}""""
@@ -92,5 +92,5 @@ trait ExpressionVisitor {
     }
   }
 
-  override def visitArgumentExpressionList(ctx: ArgumentExpressionListContext) = concatChildResults(ctx, ", ")
+  override def visitArgumentExpressionList(ctx: ArgumentExpressionListContext) = visitChildren(ctx, ", ")
 }

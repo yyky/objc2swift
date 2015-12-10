@@ -25,8 +25,7 @@ trait StatementVisitor {
    *
    * @param ctx the parse tree
    **/
-  override def visitCompoundStatement(ctx: CompoundStatementContext): String =
-    concatChildResults(ctx, "")
+  override def visitCompoundStatement(ctx: CompoundStatementContext): String = visitChildren(ctx)
 
   /**
    * Returns translated text of statementList context.

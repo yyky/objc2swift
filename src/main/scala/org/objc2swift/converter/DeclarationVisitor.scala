@@ -150,7 +150,7 @@ trait DeclarationVisitor {
    *
    * @param ctx the parse tree
    **/
-  override def visitInitializer(ctx: InitializerContext): String = concatChildResults(ctx, "")
+  override def visitInitializer(ctx: InitializerContext): String = visitChildren(ctx)
 
   override def visitTypeVariableDeclarator(ctx: TypeVariableDeclaratorContext): String =
     Option(ctx.declarationSpecifiers().typeSpecifier()).map(_.toList).flatMap { ls =>

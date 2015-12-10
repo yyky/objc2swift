@@ -23,7 +23,7 @@ trait OperationVisitor {
 
   import org.objc2swift.converter.util._
 
-  override def visitAssignmentExpression(ctx: AssignmentExpressionContext): String = concatChildResults(ctx, " ")
+  override def visitAssignmentExpression(ctx: AssignmentExpressionContext): String = visitChildren(ctx)
 
   override def visitEqualityExpression(ctx: EqualityExpressionContext)       = processBinaryExpression(ctx)
   override def visitRelationalExpression(ctx: RelationalExpressionContext)   = processBinaryExpression(ctx)
