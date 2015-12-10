@@ -28,8 +28,8 @@ trait ProtocolVisitor {
   override def visitProtocolDeclaration(ctx: ProtocolDeclarationContext): String = {
 
     val head = List(
-      ctx.protocolName.toOption.map(visit).map{s => s"protocol $s"},
-      ctx.protocolReferenceList.toOption.map(visit).map{s => s": $s"}
+      Option(ctx.protocolName).map(visit).map{s => s"protocol $s"},
+      Option(ctx.protocolReferenceList).map(visit).map{s => s": $s"}
     ).flatten.mkString("")
 
     // TODO: support @optional annotation.

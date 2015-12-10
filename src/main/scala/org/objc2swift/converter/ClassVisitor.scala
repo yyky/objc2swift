@@ -23,14 +23,14 @@ trait ClassVisitor {
 
   override def visitClassInterface(ctx: ClassInterfaceContext): String = {
     val head = List(
-      ctx.className.toOption.map(visit).map { s => s"class $s" },
-      ctx.superclassName.toOption.map(visit).map { s => s": $s" },
-      ctx.protocolReferenceList.toOption.map(visit).map { s => s", $s"}
+      Option(ctx.className).map(visit).map { s => s"class $s" },
+      Option(ctx.superclassName).map(visit).map { s => s": $s" },
+      Option(ctx.protocolReferenceList).map(visit).map { s => s", $s"}
     ).flatten.mkString("")
 
     val body = List(
-      ctx.interfaceDeclarationList.toOption.map(visit),
-      ctx.correspondingClassImplementation(root).flatMap(_.implementationDefinitionList.toOption).map(visit)
+      Option(ctx.interfaceDeclarationList).map(visit),
+      ctx.correspondingClassImplementation(root).flatMap{c => Option(c.implementationDefinitionList)}.map(visit)
     ).flatten.mkString("\n")
 
     s"""
@@ -58,12 +58,12 @@ trait ClassVisitor {
     }
 
     val head = List(
-      ctx.className.toOption.map(visit).map{s => s"extension $s"},
-      ctx.protocolReferenceList.toOption.map(visit).map{s => s": $s"}
+      Option(ctx.className).map(visit).map{s => s"extension $s"},
+      Option(ctx.protocolReferenceList).map(visit).map{s => s": $s"}
     ).flatten.mkString("")
 
     val body = List(
-      ctx.interfaceDeclarationList.toOption.map(visit),
+      Option(ctx.interfaceDeclarationList).map(visit),
       ctx.correspondingCategoryImplementation(root).map(visit)
     ).flatten.mkString("\n\n")
 

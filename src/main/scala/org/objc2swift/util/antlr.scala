@@ -7,14 +7,6 @@ import org.objc2swift.converter.ObjCParser._
 import scala.language.implicitConversions
 
 package object antlr {
-  implicit class OptionTree[T <: Tree](value: T) {
-    def toOption: Option[T] = Option(value)
-  }
-
-  implicit class OptionList[T <: Tree](value: List[T]) {
-    def toList: List[T] = if (value != null) value else List()
-  }
-
   implicit class AClassInterfaceContext(ctx: ClassInterfaceContext) {
     def correspondingClassImplementation(root: TranslationUnitContext): Option[ClassImplementationContext] = {
       val className = ctx.className.getText
