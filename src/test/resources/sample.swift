@@ -1,33 +1,5 @@
-class MyClass: NSObject, SomeProtocol {
-
-    @IBOutlet var label: UILabel!
-
-    func doSomething() {
-        self.somethingWithArg1("hello", arg2: 0)
-
+class MyClass {
+    func sayHello() {
+        NSLog("Hello Swift, Goodbye Obj-C!") 
     }
-
-    func somethingWithArg1(arg1: AnyObject, arg2: Int) -> NSString {
-        return "something"
-
-    }
-
-    class func classMethod() {
-        "classMethod"
-
-    }
-
-    func privateMethod() {
-        "private"
-
-    }
-
-}
-
-extension MyClass {
-    func category1Method() {
-
-    }
-
-
 }

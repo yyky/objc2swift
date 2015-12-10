@@ -19,7 +19,6 @@ import scala.io.Source
 import scala.sys.process._
 
 @RunWith(classOf[JUnitRunner])
-@Ignore
 class CompleteMatchTestSuite extends ObjC2SwiftTestSuite {
 
   private def loadFile(filename: String): String =
@@ -34,22 +33,11 @@ class CompleteMatchTestSuite extends ObjC2SwiftTestSuite {
     converter.getResult
   }
 
-  private def diffResult(prefix: String, actual: String) = {
-    val expectedPath = getFilePath("/" + prefix + ".swift")
-    val actualPath = expectedPath.stripSuffix(".swift") + ".out"
-    val out = new PrintWriter(actualPath)
-    out.println(actual)
-    out.close()
-    println(s"#============ START DIFF: $prefix =============")
-    s"diff -u $expectedPath $actualPath".!
-    println(s"#============= END DIFF: $prefix ==============")
-  }
-
   private def getFilePath(filename: String): String = getClass.getResource(filename).getPath
 
   test("sample complete match test") {
+    val converted = convertFiles("/sample.h", "/sample.m")
     val expected = loadFile("/sample.swift")
-    val actual = convertFiles("/sample.h", "/sample.m")
-    assertCodeEqual(actual, expected)
+    assertCodeEqual(converted, expected)
   }
 }
