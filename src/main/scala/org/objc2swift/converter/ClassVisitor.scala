@@ -36,11 +36,11 @@ trait ClassVisitor {
     s"${head} {\n${body}\n}"
   }
 
-  override def visitInterfaceDeclarationList(ctx: InterfaceDeclarationListContext): String
-    = ctx.children.map(visit).mkString("\n\n")
+  override def visitInterfaceDeclarationList(ctx: InterfaceDeclarationListContext): String =
+    visitChildren(ctx, "\n\n")
 
-  override def visitImplementationDefinitionList(ctx: ImplementationDefinitionListContext): String
-    = ctx.children.map(visit).mkString("\n\n")
+  override def visitImplementationDefinitionList(ctx: ImplementationDefinitionListContext): String =
+    visitChildren(ctx, "\n\n")
 
   // ignore implementation with no corresponding interface.
   override def visitClassImplementation(ctx: ClassImplementationContext): String = ""

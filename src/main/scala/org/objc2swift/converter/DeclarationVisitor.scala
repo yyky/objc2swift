@@ -101,7 +101,7 @@ trait DeclarationVisitor {
    * @return translated text
    */
   private def buildInitDeclaration(ctx: InitDeclaratorContext, tp: String, prefixes: List[String]): Option[String] = {
-    ctx.children.map {
+    visitChildrenAs(ctx) {
       case TerminalText("=") => "" // NOOP
       case c: DeclaratorContext  => {
         val declarator = visit(c)
@@ -113,7 +113,7 @@ trait DeclarationVisitor {
           s"$declarator: $tp").filter(_.nonEmpty).mkString(" ")
       }
       case c: InitializerContext => s"= ${visit(c)}"
-    }.filter(_.nonEmpty).mkString(" ") match {
+    } match {
       case "" => None
       case s  => Some(s)
     }
@@ -124,26 +124,24 @@ trait DeclarationVisitor {
    *
    * @param ctx the parse tree
    **/
-  override def visitDeclarator(ctx: DeclaratorContext): String = {
-    ctx.children.collect {
+  override def visitDeclarator(ctx: DeclaratorContext): String =
+    visitChildrenAs(ctx) {
       case c: DirectDeclaratorContext => visit(c)
       case c: PointerContext           => visit(c)
-    }.filter(_.nonEmpty).mkString(" ")
-  }
+    }
 
   /**
    * Returns translated text of direct_declarator context.
    *
    * @param ctx the parse tree
    **/
-  override def visitDirectDeclarator(ctx: DirectDeclaratorContext): String = {
-    ctx.children.map {
+  override def visitDirectDeclarator(ctx: DirectDeclaratorContext): String =
+    visitChildrenAs(ctx, "") {
       case TerminalText("(") => "("
       case TerminalText(")") => ")"
       case _: TerminalNode   => "" // NOOP
       case c                 => visit(c)
-    }.mkString
-  }
+    }
 
   /**
    * Returns translated initializer context.
@@ -163,13 +161,11 @@ trait DeclarationVisitor {
    *
    * @param ctx the parse tree
    **/
-  override def visitDeclarationSpecifiers(ctx: DeclarationSpecifiersContext): String = {
-    ctx.children.map {
+  override def visitDeclarationSpecifiers(ctx: DeclarationSpecifiersContext): String =
+    visitChildrenAs(ctx) {
       case c: TypeQualifierContext          => visit(c)
       case c: StorageClassSpecifierContext => visit(c)
-      case _ => "" // TODO: Do something if you need
-    }.filter(_.nonEmpty).mkString(" ")
-  }
+    }
 
   /**
    * Returns translated text of type_qualifier context.
@@ -179,12 +175,10 @@ trait DeclarationVisitor {
    *
    * @param ctx the parse tree
    **/
-  override def visitTypeQualifier(ctx: TypeQualifierContext): String = {
-    ctx.children.map {
+  override def visitTypeQualifier(ctx: TypeQualifierContext): String =
+    visitChildrenAs(ctx) {
       case TerminalText("const") => "let"
-      case _ => "" // TODO: Do something if you need
-    }.mkString
-  }
+    }
 
   /**
    * Returns translated text of storage_class_specifier context.
@@ -194,11 +188,8 @@ trait DeclarationVisitor {
    *
    * @param ctx the parse tree
    **/
-  override def visitStorageClassSpecifier(ctx: StorageClassSpecifierContext): String = {
-    ctx.getText match {
-      case s @ "static" => s
-      case _ => "" // TODO: Do something if you need
+  override def visitStorageClassSpecifier(ctx: StorageClassSpecifierContext): String =
+    visitChildrenAs(ctx) {
+      case TerminalText("static") => "static"
     }
-  }
-
 }
