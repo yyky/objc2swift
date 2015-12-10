@@ -33,7 +33,11 @@ trait ClassVisitor {
       ctx.correspondingClassImplementation(root).flatMap(_.implementationDefinitionList.toOption).map(visit)
     ).flatten.mkString("\n")
 
-    s"${head} {\n${body}\n}"
+    s"""
+       |$head {
+       |${indent(body)}
+       |}
+     """.stripMargin
   }
 
   override def visitInterfaceDeclarationList(ctx: InterfaceDeclarationListContext): String =
@@ -63,7 +67,11 @@ trait ClassVisitor {
       ctx.correspondingCategoryImplementation(root).map(visit)
     ).flatten.mkString("\n\n")
 
-    s"$head {\n$body\n}"
+    s"""
+       |$head {
+       |${indent(body)}
+       |}
+     """.stripMargin
   }
 
   // ignore category implementation with no corresponding interface.

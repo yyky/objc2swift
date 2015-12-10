@@ -13,7 +13,6 @@ class BlockVisitorTestSuite extends ObjC2SwiftTestSuite {
       with BlockVisitor
       with TypeVisitor
       with TerminalNodeVisitor
-      with UtilMethods
     {
       override def getResult() = visit(parser.expression())
     }

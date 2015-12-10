@@ -43,6 +43,11 @@ abstract class ObjC2SwiftBaseConverter extends ObjCBaseVisitor[String] {
     Range(0, node.getChildCount).map(node.getChild(_)).collect(pf).filter(_.nonEmpty).mkString(glue)
 
   override def defaultResult(): String = ""
+
+  protected val indentString = " " * 4
+  protected def indent(source: String): String =
+    source.split("\n").map(indentString + _).mkString("\n")
+
 }
 
 class ObjC2SwiftConverter(parser: ObjCParser) extends ObjC2SwiftBaseConverter
@@ -60,7 +65,6 @@ class ObjC2SwiftConverter(parser: ObjCParser) extends ObjC2SwiftBaseConverter
   with OperationVisitor
   with TypeVisitor
   with TerminalNodeVisitor
-  with UtilMethods
   with ErrorHandler {
 
   protected val root = parser.translationUnit()

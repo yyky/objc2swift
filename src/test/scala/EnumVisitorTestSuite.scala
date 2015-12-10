@@ -14,7 +14,6 @@ class EnumVisitorTestSuite extends ObjC2SwiftTestSuite {
       with EnumVisitor
       with TypeVisitor
       with TerminalNodeVisitor
-      with UtilMethods
     {
       override def getResult() = visit(parser.declaration())
       override def visitClassName(ctx: ClassNameContext): String = ctx.getText

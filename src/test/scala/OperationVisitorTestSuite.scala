@@ -12,7 +12,6 @@ class OperationVisitorTestSuite extends ObjC2SwiftTestSuite {
       with ExpressionVisitor
       with OperationVisitor
       with TerminalNodeVisitor
-      with UtilMethods
     {
       override def getResult() = visit(parser.expression())
     }

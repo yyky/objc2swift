@@ -20,9 +20,7 @@ import scala.collection.JavaConversions._
  * Implements visit methods for enum contexts.
  */
 trait EnumVisitor {
-  this: ObjC2SwiftBaseConverter
-    with TypeVisitor
-    with UtilMethods =>
+  this: ObjC2SwiftBaseConverter with TypeVisitor =>
 
   private val identifiers = new ParseTreeProperty[String]()
 
@@ -63,16 +61,15 @@ trait EnumVisitor {
    * @return translated text
    */
   def visitEnumSpecifier(ctx: EnumSpecifierContext, identifier: String): String = {
-    val builder = List.newBuilder[String]
-    val typeStr = Option(ctx.typeName()).map(visit) getOrElse "Int"
-
     // save this enum id
     identifiers.put(ctx, identifier)
 
-    builder += s"enum $identifier : $typeStr"
-    builder += Option(ctx.enumeratorList()).map(visit).getOrElse("")
-
-    builder.result().mkString
+    val typeStr = Option(ctx.typeName()).map(visit) getOrElse "Int"
+    s"""
+       |enum $identifier : $typeStr {
+       |${indent(visit(ctx.enumeratorList()))}
+       |}
+     """.stripMargin
   }
 
   /**
@@ -81,7 +78,7 @@ trait EnumVisitor {
    * @param ctx the parse tree
    **/
   override def visitEnumeratorList(ctx: EnumeratorListContext): String =
-    s" {\n${ctx.enumerator().map(visit).mkString("\n")}\n}"
+    visitChildren(ctx, "\n")
 
   /**
    * Returns translated text of enumerator context.
@@ -89,7 +86,7 @@ trait EnumVisitor {
    * @param ctx the parse tree
    **/
   override def visitEnumerator(ctx: EnumeratorContext): String =
-    s"${indent(ctx)}case ${getEnumIdentifier(ctx)}${getEnumConstant(ctx)}"
+    s"case ${getEnumIdentifier(ctx)}${getEnumConstant(ctx)}"
 
   /**
    * Returns translated text of identifier under the enumerator context

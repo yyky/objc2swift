@@ -15,8 +15,7 @@ import org.objc2swift.converter.ObjCParser._
 import scala.collection.JavaConversions._
 
 trait StatementVisitor {
-  this: ObjC2SwiftBaseConverter
-    with UtilMethods =>
+  this: ObjC2SwiftBaseConverter =>
 
   import org.objc2swift.converter.util._
 
@@ -43,10 +42,7 @@ trait StatementVisitor {
   override def visitStatement(ctx: StatementContext): String =
     visitChildrenAs(ctx) {
       case TerminalText(";") => ""
-      case c: LabeledStatementContext =>
-        s"${indent(ctx)}${visit(c)}".stripPrefix(indentString)
-      case c =>
-        s"${indent(ctx)}${visit(c)}"
+      case c => visit(c)
     }
 
   /**
@@ -141,7 +137,7 @@ trait StatementVisitor {
   override def visitDoStatement(ctx: DoStatementContext): String =
     visitChildrenAs(ctx, "") {
       case TerminalText("do")    => "repeat {\n"
-      case TerminalText("while") => s"${indent(ctx)}} while"
+      case TerminalText("while") => s"} while"
       case c: ExpressionContext  => s" ${visit(c)}\n"
       case c: StatementContext   => visitChildren(c)
     }.mkString
@@ -152,8 +148,8 @@ trait StatementVisitor {
       else s"$indentString${visit(ctx)}"
 
     s"""|{
-        |${statements.stripLineEnd}
-        |${indent(ctx)}}
+        |${indent(statements.stripLineEnd)}
+        |}
         |""".stripMargin
   }
 

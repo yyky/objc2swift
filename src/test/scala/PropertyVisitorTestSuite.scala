@@ -17,7 +17,6 @@ class PropertyVisitorTestSuite extends ObjC2SwiftTestSuite {
       with PropertyVisitor
       with TypeVisitor
       with TerminalNodeVisitor
-      with UtilMethods
     {
       override val root = parser.translationUnit()
       override def getResult() = visit(root)

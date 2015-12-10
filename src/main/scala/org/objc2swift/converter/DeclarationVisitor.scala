@@ -19,9 +19,7 @@ import scala.collection.JavaConversions._
  * Implements visit methods for declaration contexts.
  */
 trait DeclarationVisitor {
-  this: ObjC2SwiftBaseConverter
-    with TypeVisitor
-    with UtilMethods =>
+  this: ObjC2SwiftBaseConverter with TypeVisitor =>
 
   import org.objc2swift.converter.util._
 
@@ -55,7 +53,7 @@ trait DeclarationVisitor {
           }
         case None =>
           // Short style declaration
-          builder += buildShortDeclaration(ls, prefixes).map(indent(ctx) + _).getOrElse("")
+          builder += buildShortDeclaration(ls, prefixes).getOrElse("")
       }
     }
 
@@ -65,11 +63,11 @@ trait DeclarationVisitor {
   private def visitInitDeclarator(ctx: InitDeclaratorContext, typeName: String, prefixes: List[String]): String = {
     {
       Option(ctx.declarator().directDeclarator().identifier()).map { _ =>
-        buildInitDeclaration(ctx, typeName, prefixes).map(indent(ctx) + _).getOrElse("")
+        buildInitDeclaration(ctx, typeName, prefixes).getOrElse("")
       } orElse
       // not variables declaration? ex) NSLog(foo)
       Option(ctx.declarator().directDeclarator().declarator()).map { s =>
-        s"$indentString$typeName(${visit(s)})"
+        s"$typeName(${visit(s)})"
       }
     }.getOrElse("")
   }

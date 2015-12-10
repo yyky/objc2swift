@@ -15,9 +15,7 @@ import org.objc2swift.converter.ObjCParser._
 import scala.collection.JavaConversions._
 
 trait PropertyVisitor {
-  this: ObjC2SwiftBaseConverter
-    with RootVisitor
-    with UtilMethods =>
+  this: ObjC2SwiftBaseConverter with RootVisitor =>
 
   object PropertyAttribute {
     def unapply(ctx: PropertyAttributeContext): Option[String] =
@@ -38,8 +36,6 @@ trait PropertyVisitor {
     var IsOriginalSetter = false
     var OriginalGetterStatement = ""
     var OriginalSetterStatement = ""
-
-    sb.append(indent(ctx))
 
     Option(ctx.propertyAttributesDeclaration()).foreach { p =>
       p.propertyAttributesList().propertyAttribute().foreach {

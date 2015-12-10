@@ -13,7 +13,6 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
       with DeclarationVisitor
       with TypeVisitor
       with TerminalNodeVisitor
-      with UtilMethods
     {
       override def getResult() = visit(parser.declaration())
       override def visitClassName(ctx: ClassNameContext): String = ctx.getText

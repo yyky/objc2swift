@@ -13,7 +13,6 @@ class MessageVisitorTestSuite extends ObjC2SwiftTestSuite {
       with MessageVisitor
       with OperationVisitor
       with TerminalNodeVisitor
-      with UtilMethods
     {
       override def getResult() = visit(parser.expression())
     }

@@ -18,8 +18,7 @@ import scala.collection.JavaConversions._
  * Implements visit methods for expression contexts.
  */
 trait ExpressionVisitor {
-  this: ObjC2SwiftBaseConverter
-    with UtilMethods =>
+  this: ObjC2SwiftBaseConverter =>
 
   import org.objc2swift.converter.util._
 

@@ -18,8 +18,7 @@ import scala.collection.JavaConversions._
  * Implements visit methods for expression contexts.
  */
 trait BlockVisitor {
-  this: ObjC2SwiftBaseConverter
-    with UtilMethods =>
+  this: ObjC2SwiftBaseConverter =>
 
   import org.objc2swift.converter.util._
 
@@ -35,8 +34,8 @@ trait BlockVisitor {
     }
 
     s"""|{$blockType
-        |${visit(ctx.compoundStatement)}
-        |${indent(ctx)}}""".stripMargin
+        |${indent(visit(ctx.compoundStatement))}
+        |}""".stripMargin
   }
 
   override def visitBlockParameters(ctx: BlockParametersContext): String =

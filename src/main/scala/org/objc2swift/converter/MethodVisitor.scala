@@ -24,8 +24,7 @@ trait MethodVisitor {
     with RootVisitor
     with ClassVisitor
     with TypeVisitor
-    with TerminalNodeVisitor
-    with UtilMethods =>
+    with TerminalNodeVisitor =>
 
   import org.objc2swift.converter.util._
 
@@ -37,7 +36,7 @@ trait MethodVisitor {
    */
   override def visitInstanceMethodDeclaration(ctx: InstanceMethodDeclarationContext): String =
     Option(ctx.methodDeclaration()).map { c =>
-      s"${indent(ctx)}${optional(ctx)}${visit(c)}".stripSuffix(" ")
+      s"${optional(ctx)}${visit(c)}".stripSuffix(" ")
     }.getOrElse("")
 
   /**
@@ -47,7 +46,7 @@ trait MethodVisitor {
    **/
   override def visitClassMethodDeclaration(ctx: ClassMethodDeclarationContext): String =
     Option(ctx.methodDeclaration()).map { c =>
-      s"${indent(ctx)}${optional(ctx)}class ${visit(c)}".stripSuffix(" ")
+      s"${optional(ctx)}class ${visit(c)}".stripSuffix(" ")
     }.getOrElse("")
 
   /**
@@ -58,7 +57,7 @@ trait MethodVisitor {
    */
   override def visitInstanceMethodDefinition(ctx: InstanceMethodDefinitionContext): String =
     ctx.methodDefinition() match {
-      case c if !isVisited(c) => s"${indent(ctx)}${visit(c)}".stripSuffix(" ")
+      case c if !isVisited(c) => s"${visit(c)}".stripSuffix(" ")
       case _ => "" // Already printed
     }
 
@@ -69,7 +68,7 @@ trait MethodVisitor {
    **/
   override def visitClassMethodDefinition(ctx: ClassMethodDefinitionContext): String =
     ctx.methodDefinition() match {
-      case c if !isVisited(c) => s"${indent(ctx)}class ${visit(c)}".stripSuffix(" ")
+      case c if !isVisited(c) => s"class ${visit(c)}".stripSuffix(" ")
       case _ => "" // Already printed
     }
 
@@ -91,7 +90,7 @@ trait MethodVisitor {
         // Check ancestor is protocol or not
         ctx.parent.parent.parent match {
           case _: ProtocolDeclarationContext => hd
-          case _ => s"$hd {\n${indent(ctx)}}"
+          case _ => s"$hd {\n}"
         }
     }
 
@@ -107,8 +106,8 @@ trait MethodVisitor {
     val body = Option(ctx.compoundStatement()).map(visit).getOrElse("")
 
     s"""|$hd {
-        |$body
-        |${indent(ctx)}}""".stripMargin
+        |${indent(body)}
+        |}""".stripMargin
   }
 
   /**
