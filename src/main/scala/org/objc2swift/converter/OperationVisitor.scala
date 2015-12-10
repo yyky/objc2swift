@@ -43,17 +43,15 @@ trait OperationVisitor {
   override def visitAssignmentOperator(ctx: AssignmentOperatorContext) = ctx.getText
   override def visitUnaryOperator(ctx: UnaryOperatorContext) = ctx.getText
 
-  private def processBinaryExpression(ctx: ParserRuleContext): String = {
-    ctx.children.map {
+  private def processBinaryExpression(ctx: ParserRuleContext): String =
+    visitChildrenAs(ctx) {
       case TerminalText(s) => s
       case c               => visit(c)
-    }.mkString(" ")
-  }
+    }
 
-  private def processUnaryExpression(ctx: ParserRuleContext): String = {
-    ctx.children.map {
+  private def processUnaryExpression(ctx: ParserRuleContext): String =
+    visitChildrenAs(ctx, "") {
       case TerminalText(s) => s
       case c               => visit(c)
-    }.mkString
-  }
+    }
 }

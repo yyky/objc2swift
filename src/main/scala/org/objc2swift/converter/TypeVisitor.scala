@@ -24,15 +24,15 @@ trait TypeVisitor {
 
   import org.objc2swift.converter.util._
 
-  override def visitTypeName(ctx: TypeNameContext): String = ctx.children.map(visit).filter(_.nonEmpty).mkString(" ")
+  override def visitTypeName(ctx: TypeNameContext): String = visitChildren(ctx)
 
   override def visitSpecifierQualifierList(ctx: SpecifierQualifierListContext): String
     = processTypeSpecifierList(ctx.typeSpecifier().toList)
 
   override def visitAbstractDeclarator(ctx: AbstractDeclaratorContext): String = "" // ?
 
-  override def visitTypeSpecifier(ctx: TypeSpecifierContext): String = {
-    ctx.children.map {
+  override def visitTypeSpecifier(ctx: TypeSpecifierContext): String =
+    visitChildrenAs(ctx) {
       case TerminalText("void")           => "Void"
       case TerminalText("id")             => "AnyObject"
       case TerminalText("char")           => "Int8"
@@ -53,16 +53,13 @@ trait TypeVisitor {
       case _: ClassNameContext           => "AnyObject"
       case c: PointerContext              => visit(c)
       case c                              => c.getText
-    }.mkString
-  }
+    }
 
-  override def visitPointer(ctx: PointerContext): String = {
-    ctx.children.map {
+  override def visitPointer(ctx: PointerContext): String =
+    visitChildrenAs(ctx) {
       case TerminalText("*") => "" // NOOP
       case c: DeclarationSpecifiersContext => visit(c)
-      case c: PointerContext => "" // TODO: Do something if you need
-    }.mkString
-  }
+    }
 
   def processTypeSpecifierList(ctxs: List[TypeSpecifierContext]): String = {
     ctxs.foldRight("") { (ctx, folded) =>

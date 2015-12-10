@@ -33,22 +33,21 @@ trait StatementVisitor {
    * @param ctx the parse tree
    **/
   override def visitStatementList(ctx: StatementListContext): String =
-    ctx.statement().map(visit).filter(_.nonEmpty).mkString("\n") + "\n"
+    visitChildren(ctx, "\n") + "\n"
 
   /**
    * Returns translated text of statement context.
    *
    * @param ctx the parse tree
    **/
-  override def visitStatement(ctx: StatementContext): String = {
-    ctx.children.map {
+  override def visitStatement(ctx: StatementContext): String =
+    visitChildrenAs(ctx) {
       case TerminalText(";") => ""
       case c: LabeledStatementContext =>
         s"${indent(ctx)}${visit(c)}".stripPrefix(indentString)
       case c =>
         s"${indent(ctx)}${visit(c)}"
-    }.mkString(" ")
-  }
+    }
 
   /**
    * Returns translated text of jumpStatement context.
@@ -67,92 +66,85 @@ trait StatementVisitor {
    *
    * @param ctx the parse tree
    **/
-  override def visitSelectionStatement(ctx: SelectionStatementContext): String = {
-    ctx.children.collect {
+  override def visitSelectionStatement(ctx: SelectionStatementContext): String =
+    visitChildrenAs(ctx) {
       case TerminalText("if")     => "if"
       case TerminalText("else")   => "else"
       case TerminalText("switch") => "switch"
       case c: ExpressionContext   => visit(c)
       case c: StatementContext    => visitBodyStatement(c).stripLineEnd
-    }.mkString(" ") + "\n"
-  }
+    } + "\n"
 
   /**
    * Returns translated text of labeledStatement context.
    *
    * @param ctx the parse tree
    **/
-  override def visitLabeledStatement(ctx: LabeledStatementContext): String = {
+  override def visitLabeledStatement(ctx: LabeledStatementContext): String =
     //TODO fix indent bug
-    ctx.children.map {
+    visitChildrenAs(ctx, "") {
       case TerminalText("case")    => "case "
       case TerminalText("default") => "default"
       case TerminalText(":")       => ":\n"
       case element                 => visit(element)
-    }.mkString
-  }
+    }
 
   /**
    * Returns translated text of forInStatement.
    *
    * @param ctx the parse tree
    **/
-  override def visitForInStatement(ctx: ForInStatementContext): String = {
-    ctx.children.collect {
+  override def visitForInStatement(ctx: ForInStatementContext): String =
+    visitChildrenAs(ctx) {
       case TerminalText("for")                => "for"
       case TerminalText("in")                 => "in"
       case c: ExpressionContext               => visit(c)
       case c: TypeVariableDeclaratorContext => visit(c)
       case c: StatementContext                => visitBodyStatement(c)
-    }.mkString(" ")
-  }
+    }
 
   /**
    * Returns translated text of forStatement context.
    *
    * @param ctx the parse tree
    **/
-  override def visitForStatement(ctx: ForStatementContext): String = {
-    ctx.children.flatMap {
-      case TerminalText("for")                   => Some("for ")
-      case TerminalText(";")                     => Some("; ")
-      case c: ExpressionContext                  => Some(visit(c))
+  override def visitForStatement(ctx: ForStatementContext): String =
+    visitChildrenAs(ctx, "") {
+      case TerminalText("for")                   => "for "
+      case TerminalText(";")                     => "; "
+      case c: ExpressionContext                  => visit(c)
       case d: DeclarationSpecifiersContext      =>
-        for {
+        (for {
           _ <- Option(d.typeSpecifier())
           y <- Option(ctx.initDeclaratorList())
-        } yield declaratorListString(y)
-      case c: StatementContext                   => Some(s" ${visitBodyStatement(c)}")
-      case _ => None
-    }.mkString
-  }
+        } yield declaratorListString(y)) getOrElse ""
+      case c: StatementContext                   => s" ${visitBodyStatement(c)}"
+    }
 
   /**
    * Returns translated text of whileStatement context.
    *
    * @param ctx the parse tree
    **/
-  override def visitWhileStatement(ctx: WhileStatementContext): String = {
-    ctx.children.collect {
+  override def visitWhileStatement(ctx: WhileStatementContext): String =
+    visitChildrenAs(ctx) {
       case TerminalText("while") => "while"
       case c: ExpressionContext  => visit(c)
       case c: StatementContext   => visitBodyStatement(c)
-    }.mkString(" ")
-  }
+    }
 
   /**
    * Returns translated text of doStatement context.
    *
    * @param ctx the parse tree
    **/
-  override def visitDoStatement(ctx: DoStatementContext): String = {
-    ctx.children.collect {
+  override def visitDoStatement(ctx: DoStatementContext): String =
+    visitChildrenAs(ctx, "") {
       case TerminalText("do")    => "repeat {\n"
       case TerminalText("while") => s"${indent(ctx)}} while"
       case c: ExpressionContext  => s" ${visit(c)}\n"
       case c: StatementContext   => visitChildren(c)
     }.mkString
-  }
 
   private def visitBodyStatement(ctx: StatementContext): String = {
     val statements =
