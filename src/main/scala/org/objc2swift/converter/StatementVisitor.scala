@@ -14,8 +14,9 @@ import org.objc2swift.converter.ObjCParser._
 
 import scala.collection.JavaConversions._
 
-protected trait StatementVisitor {
-  this: ObjC2SwiftConverter =>
+trait StatementVisitor {
+  this: ObjC2SwiftBaseConverter
+    with UtilMethods =>
 
   import org.objc2swift.converter.util._
 
@@ -147,7 +148,7 @@ protected trait StatementVisitor {
    **/
   override def visitDoStatement(ctx: DoStatementContext): String = {
     ctx.children.collect {
-      case TerminalText("do")    => "do {\n"
+      case TerminalText("do")    => "repeat {\n"
       case TerminalText("while") => s"${indent(ctx)}} while"
       case c: ExpressionContext  => s" ${visit(c)}\n"
       case c: StatementContext   => visitChildren(c)
