@@ -53,26 +53,6 @@ trait ExpressionVisitor {
       case PostfixExpressionBox(c) => s"(${visit(c)})"
     }
 
-  override def visitBlockExpression(ctx: BlockExpressionContext): String = {
-    val blockType = (ctx.blockParameters, ctx.typeSpecifier) match {
-      case (null, null) => ""
-      case (null, t) =>
-        s"() -> ${visit(t)} in"
-      case (b, null) =>
-        s"${visit(b)} in"
-      case (b, t) =>
-        s"${visit(b)} -> ${visit(t)} in"
-    }
-
-    s"""|{$blockType
-        |${visit(ctx.compoundStatement)}
-        |${indent(ctx)}}""".stripMargin
-  }
-
-  override def visitBlockParameters(ctx: BlockParametersContext): String =
-    s"(${ctx.typeVariableDeclarator.map(visit).mkString(", ")})"
-
-
   override def visitConditionalExpression(ctx: ConditionalExpressionContext): String = {
     val left = visit(ctx.logicalOrExpression())
     val conds = ctx.conditionalExpression()
@@ -113,37 +93,4 @@ trait ExpressionVisitor {
   }
 
   override def visitArgumentExpressionList(ctx: ArgumentExpressionListContext) = concatChildResults(ctx, ", ")
-  override def visitAssignmentExpression(ctx: AssignmentExpressionContext): String = concatChildResults(ctx, " ")
-
-  override def visitEqualityExpression(ctx: EqualityExpressionContext)       = processBinaryExpression(ctx)
-  override def visitRelationalExpression(ctx: RelationalExpressionContext)   = processBinaryExpression(ctx)
-  override def visitLogicalOrExpression(ctx: LogicalOrExpressionContext)   = processBinaryExpression(ctx)
-  override def visitLogicalAndExpression(ctx: LogicalAndExpressionContext) = processBinaryExpression(ctx)
-  override def visitAdditiveExpression(ctx: AdditiveExpressionContext)       = processBinaryExpression(ctx)
-  override def visitMultiplicativeExpression(ctx: MultiplicativeExpressionContext) = processBinaryExpression(ctx)
-
-  override def visitInclusiveOrExpression(ctx: InclusiveOrExpressionContext) = processBinaryExpression(ctx)
-  override def visitExclusiveOrExpression(ctx: ExclusiveOrExpressionContext) = processBinaryExpression(ctx)
-  override def visitAndExpression(ctx: AndExpressionContext) =  processBinaryExpression(ctx)
-  override def visitShiftExpression(ctx: ShiftExpressionContext) =  processBinaryExpression(ctx)
-
-  override def visitUnaryExpression(ctx: UnaryExpressionContext)             = processUnaryExpression(ctx)
-  override def visitPostfixExpression(ctx: PostfixExpressionContext)         = processUnaryExpression(ctx)
-
-  override def visitAssignmentOperator(ctx: AssignmentOperatorContext) = ctx.getText
-  override def visitUnaryOperator(ctx: UnaryOperatorContext) = ctx.getText
-
-  private def processBinaryExpression(ctx: ParserRuleContext): String = {
-    ctx.children.map {
-      case TerminalText(s) => s
-      case c               => visit(c)
-    }.mkString(" ")
-  }
-
-  private def processUnaryExpression(ctx: ParserRuleContext): String = {
-    ctx.children.map {
-      case TerminalText(s) => s
-      case c               => visit(c)
-    }.mkString
-  }
 }

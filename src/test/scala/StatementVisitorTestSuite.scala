@@ -11,6 +11,7 @@ class StatementVisitorTestSuite extends ObjC2SwiftTestSuite {
     new ObjC2SwiftBaseConverter
       with StatementVisitor
       with ExpressionVisitor
+      with OperationVisitor
       with TypeVisitor
       with TerminalNodeVisitor
       with UtilMethods
@@ -35,7 +36,7 @@ class StatementVisitorTestSuite extends ObjC2SwiftTestSuite {
   }
 
   test("return expression") {
-    assertConvertSuccess("return (1 + 2) * 3;", "return (1 + 2) * 3")
+    assertConvertSuccess("return sayHello();", "return sayHello()")
   }
 
   test("compound statement") {

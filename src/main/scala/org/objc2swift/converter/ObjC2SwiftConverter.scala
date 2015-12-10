@@ -44,7 +44,9 @@ class ObjC2SwiftConverter(parser: ObjCParser) extends ObjC2SwiftBaseConverter
   with EnumVisitor
   with StatementVisitor
   with ExpressionVisitor
+  with BlockVisitor
   with MessageVisitor
+  with OperationVisitor
   with TypeVisitor
   with TerminalNodeVisitor
   with UtilMethods

@@ -11,6 +11,7 @@ class MessageVisitorTestSuite extends ObjC2SwiftTestSuite {
     new ObjC2SwiftBaseConverter
       with ExpressionVisitor
       with MessageVisitor
+      with OperationVisitor
       with TerminalNodeVisitor
       with UtilMethods
     {
