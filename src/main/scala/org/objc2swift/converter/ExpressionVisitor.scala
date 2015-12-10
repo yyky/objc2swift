@@ -25,35 +25,37 @@ trait ExpressionVisitor {
   override def visitExpression(ctx: ExpressionContext) = visitChildren(ctx)
 
   override def visitSelectorExpression(ctx: SelectorExpressionContext): String =
-    s""""${visit(ctx.selectorName())}""""
+    visitChildrenAs(ctx) {
+      case c: SelectorNameContext => s""""${visit(c)}""""
+    }
 
   override def visitSelectorName(ctx: SelectorNameContext): String = ctx.getText
 
   override def visitArrayExpression(ctx: ArrayExpressionContext) = {
-    s"[${ctx.postfixExpression.map(visit).mkString(", ")}]"
+    s"[${ctx.postfixExpression().map(visit).mkString(", ")}]"
   }
 
   override def visitDictionaryExpression(ctx: DictionaryExpressionContext) =
-    ctx.dictionaryPair.toList match {
+    ctx.dictionaryPair() match {
       case Nil => "[:]"
       case list => s"[${list.map(visit).mkString(", ")}]"
     }
 
   override def visitDictionaryPair(ctx: DictionaryPairContext): String =
-    Option(ctx.expression()) match {
-      case Some(s) => s"${visit(ctx.postfixExpression(0))}: ${visit(ctx.expression())}"
+    ctx.expression() match {
+      case Some(s) => s"${visit(ctx.postfixExpression(0))}: ${ctx.expression().map(visit)}"
       case None    => s"${visit(ctx.postfixExpression(0))}: ${visit(ctx.postfixExpression(1))}"
     }
 
   override def visitBoxExpression(ctx: BoxExpressionContext): String =
-    ctx match {
-      case ConstantBox(c) => visit(c)
-      case ExpressionBox(c) => s"(${visit(c)})"
-      case PostfixExpressionBox(c) => s"(${visit(c)})"
+    visitChildrenAs(ctx) {
+      case c: ConstantContext => visit(c)
+      case c: ExpressionContext => s"(${visit(c)})"
+      case c: PostfixExpressionContext => s"(${visit(c)})"
     }
 
   override def visitConditionalExpression(ctx: ConditionalExpressionContext): String = {
-    val left = visit(ctx.logicalOrExpression())
+    val left = ctx.logicalOrExpression().map(visit) getOrElse ""
     val conds = ctx.conditionalExpression()
     conds.length match {
       case 0 => left
@@ -63,9 +65,9 @@ trait ExpressionVisitor {
   }
 
   override def visitCastExpression(ctx: CastExpressionContext): String =
-    Option(ctx.typeName()) match {
-      case Some(typeName) => s"${visit(ctx.castExpression)} as! ${visit(typeName)}"
-      case None => visit(ctx.unaryExpression())
+    (ctx.typeName(), ctx.castExpression()) match {
+      case (Some(typeName), Some(castExpression)) => s"${visit(castExpression)} as! ${visit(typeName)}"
+      case _ => visit(ctx.unaryExpression())
     }
 
   override def visitPrimaryExpression(ctx: PrimaryExpressionContext): String = {
@@ -74,15 +76,15 @@ trait ExpressionVisitor {
     }
 
     {
-      Option(ctx.IDENTIFIER).map { identifier =>
+      ctx.IDENTIFIER().map { identifier =>
         identifier.getText match {
           case "YES" => "true"
           case "NO"  => "false"
           case other => other
         }
       } orElse
-      Option(ctx.STRING_LITERAL).map(_.getText.substring(1)) orElse
-      Option(ctx.constant).map(visit)
+      ctx.STRING_LITERAL().map(_.getText.substring(1)) orElse
+      ctx.constant().map(visit)
     }.getOrElse {
       ctx.getText match {
         case x @ ("self" | "super") => x

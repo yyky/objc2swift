@@ -9,13 +9,13 @@ import scala.language.implicitConversions
 package object antlr {
   implicit class AClassInterfaceContext(ctx: ClassInterfaceContext) {
     def correspondingClassImplementation(root: TranslationUnitContext): Option[ClassImplementationContext] = {
-      val className = ctx.className.getText
+      val className = ctx.className.get.getText
 
       {
         for {
           extDclCtx <- root.externalDeclaration.toStream
-          implCtx <- Option(extDclCtx.classImplementation)
-          if implCtx.className.getText == className
+          implCtx <- extDclCtx.classImplementation
+          if implCtx.className.get.getText == className
         } yield implCtx
       }.headOption
     }
@@ -23,15 +23,15 @@ package object antlr {
 
   implicit class ACategoryInterfaceContext(ctx: CategoryInterfaceContext) {
     def correspondingCategoryImplementation(root: TranslationUnitContext): Option[CategoryImplementationContext] = {
-      val className = ctx.className.getText
-      val categoryName = ctx.categoryName.getText
+      val className = ctx.className.get.getText
+      val categoryName = ctx.categoryName.get.getText
 
       {
         for {
           extDclCtx <- root.externalDeclaration.toStream
-          implCtx <- Option(extDclCtx.categoryImplementation())
-          if implCtx.className.getText == className
-          if implCtx.categoryName.getText == categoryName
+          implCtx <- extDclCtx.categoryImplementation()
+          if implCtx.className.get.getText == className
+          if implCtx.categoryName.get.getText == categoryName
         } yield implCtx
       }.headOption
     }

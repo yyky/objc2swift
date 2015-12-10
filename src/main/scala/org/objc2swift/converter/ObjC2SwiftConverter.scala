@@ -42,6 +42,9 @@ abstract class ObjC2SwiftBaseConverter extends ObjCBaseVisitor[String] {
   def visitChildrenAs(node: RuleNode, glue: String)(pf: PartialFunction[ParseTree, String]): String =
     Range(0, node.getChildCount).map(node.getChild(_)).collect(pf).filter(_.nonEmpty).mkString(glue)
 
+  def visit(optionNode: Option[ParseTree]): String =
+    optionNode.map(visit).getOrElse("")
+
   override def defaultResult(): String = ""
 
   protected val indentString = " " * 4

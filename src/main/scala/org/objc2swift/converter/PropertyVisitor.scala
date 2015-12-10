@@ -37,8 +37,8 @@ trait PropertyVisitor {
     var OriginalGetterStatement = ""
     var OriginalSetterStatement = ""
 
-    Option(ctx.propertyAttributesDeclaration()).foreach { p =>
-      p.propertyAttributesList().propertyAttribute().foreach {
+    ctx.propertyAttributesDeclaration().foreach { p =>
+      p.propertyAttributesList().get.propertyAttribute().foreach {
         case PropertyAttribute("weak") => weak = "weak "
         case PropertyAttribute("readonly") =>
           readOnly.append(" { get{} }")
@@ -69,19 +69,19 @@ trait PropertyVisitor {
       getterSetterStatement.append("\n" + indentString + "}")
     }
 
-    Option(ctx.structDeclaration()).foreach { structDeclaration =>
+    ctx.structDeclaration().foreach { structDeclaration =>
       var typeOfVariable = ""
-      val specifierQualifierList = structDeclaration.specifierQualifierList()
-      val structDeclaratorList = structDeclaration.structDeclaratorList()
+      val specifierQualifierList = structDeclaration.specifierQualifierList().get
+      val structDeclaratorList = structDeclaration.structDeclaratorList().get
       var optional = ""
 
       typeOfVariable = getTypeSpecifier(specifierQualifierList, sb)
 
-      Option(ctx.ibOutletSpecifier()).foreach { o =>
-        o.IDENTIFIER().getText match {
+      ctx.ibOutletSpecifier().foreach { o =>
+        o.IDENTIFIER().get.getText match {
           case "IBOutletCollection" =>
             sb.append("@IBOutlet ")
-            typeOfVariable = "[" + o.className().getText + "]"
+            typeOfVariable = "[" + o.className().get.getText + "]"
             optional = "!"
           case "IBOutlet" =>
             sb.append("@IBOutlet ")
@@ -92,9 +92,9 @@ trait PropertyVisitor {
 
       for{
         typeSpecifier <- specifierQualifierList.typeSpecifier()
-        protocolReferenceList <- Option(typeSpecifier.protocolReferenceList())
+        protocolReferenceList <- typeSpecifier.protocolReferenceList()
       }{
-        val protocolName = protocolReferenceList.protocolList().protocolName()
+        val protocolName = protocolReferenceList.protocolList().get.protocolName()
         weak = "weak "
 
         if(protocolName.length == 1){
@@ -106,10 +106,10 @@ trait PropertyVisitor {
       }
 
       for{
-        list <- structDeclaratorList.structDeclarator
-        directDeclarator <- Option(list.declarator.directDeclarator())
+        list <- structDeclaratorList.structDeclarator()
+        directDeclarator <- list.declarator().flatMap(_.directDeclarator())
       }{
-        val identifier = directDeclarator.identifier().getText
+        val identifier = directDeclarator.identifier().get.getText
 
         getGetterAndSetterStatement(
           ctx,
@@ -130,7 +130,7 @@ trait PropertyVisitor {
     sb.toString()
   }
 
-  override def visitPropertyAttributesDeclaration(ctx: PropertyAttributesDeclarationContext) =visit(ctx.propertyAttributesList)
+  override def visitPropertyAttributesDeclaration(ctx: PropertyAttributesDeclarationContext) = visit(ctx.propertyAttributesList().get)
   override def visitPropertyAttributesList(ctx: PropertyAttributesListContext) = {
     ctx.propertyAttribute().map(visit).mkString(", ")
   }
@@ -184,7 +184,7 @@ trait PropertyVisitor {
                                   setterStatement:StringBuilder,
                                   getterSetterStatement:StringBuilder) {
 
-    val identifier = directDeclarator.identifier().getText
+    val identifier = directDeclarator.identifier().get.getText
     val getterStr = " {\n" + indentString * 2 + "get {\n" + indentString * 3 + "return self." + identifier + "\n" + indentString * 2 + "}\n"
     val defaultSetterStr = "set" + identifier.capitalize
 
@@ -249,9 +249,9 @@ trait PropertyVisitor {
     }
 
     val buffer = for {
-      extDclCtx <- root.externalDeclaration
-      cl <- Option(extDclCtx.classImplementation)
-      impl <- Option(cl.implementationDefinitionList())
+      extDclCtx <- root.externalDeclaration()
+      cl <- extDclCtx.classImplementation()
+      impl <- cl.implementationDefinitionList()
       instanceMethodDefinition = impl.instanceMethodDefinition()
     } yield parseInstanceMethodDefinition(instanceMethodDefinition, selector)
 
@@ -259,19 +259,19 @@ trait PropertyVisitor {
   }
 
   private def getSetterSelectorText(ctx:InstanceMethodDefinitionContext):String = {
-    ctx.methodDefinition().methodSelector.keywordDeclarator()
-      .flatMap(i => Option(i.selector.getText))
+    ctx.methodDefinition().get.methodSelector().get.keywordDeclarator()
+      .map(i => i.selector.get.getText)
       .lastOption
       .getOrElse("")
   }
 
-  private def getCompoundStatement(ctx:InstanceMethodDefinitionContext):CompoundStatementContext = ctx.methodDefinition().compoundStatement()
+  private def getCompoundStatement(ctx:InstanceMethodDefinitionContext):CompoundStatementContext = ctx.methodDefinition().get.compoundStatement().get
 
   private def parseInstanceMethodDefinition(instanceMethodDefinition: Seq[InstanceMethodDefinitionContext], selector: String): (Boolean, String) = {
     val getterOrSetterStatements =
       instanceMethodDefinition.flatMap { i =>
         val setterSelectorText = getSetterSelectorText(i)
-        val getterSelectorText = i.methodDefinition().methodSelector.getText
+        val getterSelectorText = i.methodDefinition().get.methodSelector().get.getText
 
         if (selector == setterSelectorText || selector == getterSelectorText) {
           setVisited(i)

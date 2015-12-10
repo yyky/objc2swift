@@ -16,8 +16,8 @@ object ObjCParser {
 	protected final val _sharedContextCache = new PredictionContextCache()
 
 	class TranslationUnitContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def EOF() = getToken(ObjCParser.EOF, 0)
-		def externalDeclaration() = getRuleContexts(classOf[ExternalDeclarationContext]).asScala
+		def EOF() = Option(getToken(ObjCParser.EOF, 0))
+		def externalDeclaration() = getRuleContexts(classOf[ExternalDeclarationContext]).asScala.toList
 		def externalDeclaration(i: Int) = getRuleContext(classOf[ExternalDeclarationContext], i)
 
 		override def getRuleIndex = RULE_translation_unit
@@ -39,18 +39,18 @@ object ObjCParser {
 
 
 	class ExternalDeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def COMMENT() = getToken(ObjCParser.COMMENT, 0)
-		def LINE_COMMENT() = getToken(ObjCParser.LINE_COMMENT, 0)
-		def preprocessorDeclaration() = getRuleContext(classOf[PreprocessorDeclarationContext], 0)
-		def functionDefinition() = getRuleContext(classOf[FunctionDefinitionContext], 0)
-		def declaration() = getRuleContext(classOf[DeclarationContext], 0)
-		def classInterface() = getRuleContext(classOf[ClassInterfaceContext], 0)
-		def classImplementation() = getRuleContext(classOf[ClassImplementationContext], 0)
-		def categoryInterface() = getRuleContext(classOf[CategoryInterfaceContext], 0)
-		def categoryImplementation() = getRuleContext(classOf[CategoryImplementationContext], 0)
-		def protocolDeclaration() = getRuleContext(classOf[ProtocolDeclarationContext], 0)
-		def protocolDeclarationList() = getRuleContext(classOf[ProtocolDeclarationListContext], 0)
-		def classDeclarationList() = getRuleContext(classOf[ClassDeclarationListContext], 0)
+		def COMMENT() = Option(getToken(ObjCParser.COMMENT, 0))
+		def LINE_COMMENT() = Option(getToken(ObjCParser.LINE_COMMENT, 0))
+		def preprocessorDeclaration() = Option(getRuleContext(classOf[PreprocessorDeclarationContext], 0))
+		def functionDefinition() = Option(getRuleContext(classOf[FunctionDefinitionContext], 0))
+		def declaration() = Option(getRuleContext(classOf[DeclarationContext], 0))
+		def classInterface() = Option(getRuleContext(classOf[ClassInterfaceContext], 0))
+		def classImplementation() = Option(getRuleContext(classOf[ClassImplementationContext], 0))
+		def categoryInterface() = Option(getRuleContext(classOf[CategoryInterfaceContext], 0))
+		def categoryImplementation() = Option(getRuleContext(classOf[CategoryImplementationContext], 0))
+		def protocolDeclaration() = Option(getRuleContext(classOf[ProtocolDeclarationContext], 0))
+		def protocolDeclarationList() = Option(getRuleContext(classOf[ProtocolDeclarationListContext], 0))
+		def classDeclarationList() = Option(getRuleContext(classOf[ClassDeclarationListContext], 0))
 
 		override def getRuleIndex = RULE_external_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -71,8 +71,8 @@ object ObjCParser {
 
 
 	class PreprocessorDeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def IMPORT() = getToken(ObjCParser.IMPORT, 0)
-		def INCLUDE() = getToken(ObjCParser.INCLUDE, 0)
+		def IMPORT() = Option(getToken(ObjCParser.IMPORT, 0))
+		def INCLUDE() = Option(getToken(ObjCParser.INCLUDE, 0))
 
 		override def getRuleIndex = RULE_preprocessor_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -93,11 +93,11 @@ object ObjCParser {
 
 
 	class ClassInterfaceContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def className() = getRuleContext(classOf[ClassNameContext], 0)
-		def superclassName() = getRuleContext(classOf[SuperclassNameContext], 0)
-		def protocolReferenceList() = getRuleContext(classOf[ProtocolReferenceListContext], 0)
-		def instanceVariables() = getRuleContext(classOf[InstanceVariablesContext], 0)
-		def interfaceDeclarationList() = getRuleContext(classOf[InterfaceDeclarationListContext], 0)
+		def className() = Option(getRuleContext(classOf[ClassNameContext], 0))
+		def superclassName() = Option(getRuleContext(classOf[SuperclassNameContext], 0))
+		def protocolReferenceList() = Option(getRuleContext(classOf[ProtocolReferenceListContext], 0))
+		def instanceVariables() = Option(getRuleContext(classOf[InstanceVariablesContext], 0))
+		def interfaceDeclarationList() = Option(getRuleContext(classOf[InterfaceDeclarationListContext], 0))
 
 		override def getRuleIndex = RULE_class_interface
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -118,11 +118,11 @@ object ObjCParser {
 
 
 	class CategoryInterfaceContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def className() = getRuleContext(classOf[ClassNameContext], 0)
-		def categoryName() = getRuleContext(classOf[CategoryNameContext], 0)
-		def protocolReferenceList() = getRuleContext(classOf[ProtocolReferenceListContext], 0)
-		def instanceVariables() = getRuleContext(classOf[InstanceVariablesContext], 0)
-		def interfaceDeclarationList() = getRuleContext(classOf[InterfaceDeclarationListContext], 0)
+		def className() = Option(getRuleContext(classOf[ClassNameContext], 0))
+		def categoryName() = Option(getRuleContext(classOf[CategoryNameContext], 0))
+		def protocolReferenceList() = Option(getRuleContext(classOf[ProtocolReferenceListContext], 0))
+		def instanceVariables() = Option(getRuleContext(classOf[InstanceVariablesContext], 0))
+		def interfaceDeclarationList() = Option(getRuleContext(classOf[InterfaceDeclarationListContext], 0))
 
 		override def getRuleIndex = RULE_category_interface
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -143,10 +143,10 @@ object ObjCParser {
 
 
 	class ClassImplementationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def className() = getRuleContext(classOf[ClassNameContext], 0)
-		def superclassName() = getRuleContext(classOf[SuperclassNameContext], 0)
-		def instanceVariables() = getRuleContext(classOf[InstanceVariablesContext], 0)
-		def implementationDefinitionList() = getRuleContext(classOf[ImplementationDefinitionListContext], 0)
+		def className() = Option(getRuleContext(classOf[ClassNameContext], 0))
+		def superclassName() = Option(getRuleContext(classOf[SuperclassNameContext], 0))
+		def instanceVariables() = Option(getRuleContext(classOf[InstanceVariablesContext], 0))
+		def implementationDefinitionList() = Option(getRuleContext(classOf[ImplementationDefinitionListContext], 0))
 
 		override def getRuleIndex = RULE_class_implementation
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -167,9 +167,9 @@ object ObjCParser {
 
 
 	class CategoryImplementationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def className() = getRuleContext(classOf[ClassNameContext], 0)
-		def categoryName() = getRuleContext(classOf[CategoryNameContext], 0)
-		def implementationDefinitionList() = getRuleContext(classOf[ImplementationDefinitionListContext], 0)
+		def className() = Option(getRuleContext(classOf[ClassNameContext], 0))
+		def categoryName() = Option(getRuleContext(classOf[CategoryNameContext], 0))
+		def implementationDefinitionList() = Option(getRuleContext(classOf[ImplementationDefinitionListContext], 0))
 
 		override def getRuleIndex = RULE_category_implementation
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -190,9 +190,9 @@ object ObjCParser {
 
 
 	class ProtocolDeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def protocolName() = getRuleContext(classOf[ProtocolNameContext], 0)
-		def protocolReferenceList() = getRuleContext(classOf[ProtocolReferenceListContext], 0)
-		def interfaceDeclarationList() = getRuleContexts(classOf[InterfaceDeclarationListContext]).asScala
+		def protocolName() = Option(getRuleContext(classOf[ProtocolNameContext], 0))
+		def protocolReferenceList() = Option(getRuleContext(classOf[ProtocolReferenceListContext], 0))
+		def interfaceDeclarationList() = getRuleContexts(classOf[InterfaceDeclarationListContext]).asScala.toList
 		def interfaceDeclarationList(i: Int) = getRuleContext(classOf[InterfaceDeclarationListContext], i)
 
 		override def getRuleIndex = RULE_protocol_declaration
@@ -214,7 +214,7 @@ object ObjCParser {
 
 
 	class ProtocolDeclarationListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def protocolList() = getRuleContext(classOf[ProtocolListContext], 0)
+		def protocolList() = Option(getRuleContext(classOf[ProtocolListContext], 0))
 
 		override def getRuleIndex = RULE_protocol_declaration_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -235,7 +235,7 @@ object ObjCParser {
 
 
 	class ClassDeclarationListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def classList() = getRuleContext(classOf[ClassListContext], 0)
+		def classList() = Option(getRuleContext(classOf[ClassListContext], 0))
 
 		override def getRuleIndex = RULE_class_declaration_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -256,7 +256,7 @@ object ObjCParser {
 
 
 	class ClassListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def className() = getRuleContexts(classOf[ClassNameContext]).asScala
+		def className() = getRuleContexts(classOf[ClassNameContext]).asScala.toList
 		def className(i: Int) = getRuleContext(classOf[ClassNameContext], i)
 
 		override def getRuleIndex = RULE_class_list
@@ -278,7 +278,7 @@ object ObjCParser {
 
 
 	class ProtocolReferenceListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def protocolList() = getRuleContext(classOf[ProtocolListContext], 0)
+		def protocolList() = Option(getRuleContext(classOf[ProtocolListContext], 0))
 
 		override def getRuleIndex = RULE_protocol_reference_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -299,7 +299,7 @@ object ObjCParser {
 
 
 	class ProtocolListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def protocolName() = getRuleContexts(classOf[ProtocolNameContext]).asScala
+		def protocolName() = getRuleContexts(classOf[ProtocolNameContext]).asScala.toList
 		def protocolName(i: Int) = getRuleContext(classOf[ProtocolNameContext], i)
 
 		override def getRuleIndex = RULE_protocol_list
@@ -321,9 +321,9 @@ object ObjCParser {
 
 
 	class PropertyDeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def structDeclaration() = getRuleContext(classOf[StructDeclarationContext], 0)
-		def propertyAttributesDeclaration() = getRuleContext(classOf[PropertyAttributesDeclarationContext], 0)
-		def ibOutletSpecifier() = getRuleContext(classOf[IbOutletSpecifierContext], 0)
+		def structDeclaration() = Option(getRuleContext(classOf[StructDeclarationContext], 0))
+		def propertyAttributesDeclaration() = Option(getRuleContext(classOf[PropertyAttributesDeclarationContext], 0))
+		def ibOutletSpecifier() = Option(getRuleContext(classOf[IbOutletSpecifierContext], 0))
 
 		override def getRuleIndex = RULE_property_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -344,7 +344,7 @@ object ObjCParser {
 
 
 	class PropertyAttributesDeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def propertyAttributesList() = getRuleContext(classOf[PropertyAttributesListContext], 0)
+		def propertyAttributesList() = Option(getRuleContext(classOf[PropertyAttributesListContext], 0))
 
 		override def getRuleIndex = RULE_property_attributes_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -365,7 +365,7 @@ object ObjCParser {
 
 
 	class PropertyAttributesListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def propertyAttribute() = getRuleContexts(classOf[PropertyAttributeContext]).asScala
+		def propertyAttribute() = getRuleContexts(classOf[PropertyAttributeContext]).asScala.toList
 		def propertyAttribute(i: Int) = getRuleContext(classOf[PropertyAttributeContext], i)
 
 		override def getRuleIndex = RULE_property_attributes_list
@@ -387,7 +387,7 @@ object ObjCParser {
 
 
 	class PropertyAttributeContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
+		def IDENTIFIER() = Option(getToken(ObjCParser.IDENTIFIER, 0))
 
 		override def getRuleIndex = RULE_property_attribute
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -408,8 +408,8 @@ object ObjCParser {
 
 
 	class IbOutletSpecifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
-		def className() = getRuleContext(classOf[ClassNameContext], 0)
+		def IDENTIFIER() = Option(getToken(ObjCParser.IDENTIFIER, 0))
+		def className() = Option(getRuleContext(classOf[ClassNameContext], 0))
 
 		override def getRuleIndex = RULE_ib_outlet_specifier
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -430,7 +430,7 @@ object ObjCParser {
 
 
 	class ClassNameContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
+		def IDENTIFIER() = Option(getToken(ObjCParser.IDENTIFIER, 0))
 
 		override def getRuleIndex = RULE_class_name
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -451,7 +451,7 @@ object ObjCParser {
 
 
 	class SuperclassNameContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
+		def IDENTIFIER() = Option(getToken(ObjCParser.IDENTIFIER, 0))
 
 		override def getRuleIndex = RULE_superclass_name
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -472,7 +472,7 @@ object ObjCParser {
 
 
 	class CategoryNameContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
+		def IDENTIFIER() = Option(getToken(ObjCParser.IDENTIFIER, 0))
 
 		override def getRuleIndex = RULE_category_name
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -493,7 +493,7 @@ object ObjCParser {
 
 
 	class ProtocolNameContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
+		def IDENTIFIER() = Option(getToken(ObjCParser.IDENTIFIER, 0))
 
 		override def getRuleIndex = RULE_protocol_name
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -514,10 +514,10 @@ object ObjCParser {
 
 
 	class InstanceVariablesContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def structDeclaration() = getRuleContexts(classOf[StructDeclarationContext]).asScala
+		def structDeclaration() = getRuleContexts(classOf[StructDeclarationContext]).asScala.toList
 		def structDeclaration(i: Int) = getRuleContext(classOf[StructDeclarationContext], i)
-		def visibilitySpecification() = getRuleContext(classOf[VisibilitySpecificationContext], 0)
-		def instanceVariables() = getRuleContext(classOf[InstanceVariablesContext], 0)
+		def visibilitySpecification() = Option(getRuleContext(classOf[VisibilitySpecificationContext], 0))
+		def instanceVariables() = Option(getRuleContext(classOf[InstanceVariablesContext], 0))
 
 		override def getRuleIndex = RULE_instance_variables
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -558,13 +558,13 @@ object ObjCParser {
 
 
 	class InterfaceDeclarationListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def declaration() = getRuleContexts(classOf[DeclarationContext]).asScala
+		def declaration() = getRuleContexts(classOf[DeclarationContext]).asScala.toList
 		def declaration(i: Int) = getRuleContext(classOf[DeclarationContext], i)
-		def classMethodDeclaration() = getRuleContexts(classOf[ClassMethodDeclarationContext]).asScala
+		def classMethodDeclaration() = getRuleContexts(classOf[ClassMethodDeclarationContext]).asScala.toList
 		def classMethodDeclaration(i: Int) = getRuleContext(classOf[ClassMethodDeclarationContext], i)
-		def instanceMethodDeclaration() = getRuleContexts(classOf[InstanceMethodDeclarationContext]).asScala
+		def instanceMethodDeclaration() = getRuleContexts(classOf[InstanceMethodDeclarationContext]).asScala.toList
 		def instanceMethodDeclaration(i: Int) = getRuleContext(classOf[InstanceMethodDeclarationContext], i)
-		def propertyDeclaration() = getRuleContexts(classOf[PropertyDeclarationContext]).asScala
+		def propertyDeclaration() = getRuleContexts(classOf[PropertyDeclarationContext]).asScala.toList
 		def propertyDeclaration(i: Int) = getRuleContext(classOf[PropertyDeclarationContext], i)
 
 		override def getRuleIndex = RULE_interface_declaration_list
@@ -586,7 +586,7 @@ object ObjCParser {
 
 
 	class ClassMethodDeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def methodDeclaration() = getRuleContext(classOf[MethodDeclarationContext], 0)
+		def methodDeclaration() = Option(getRuleContext(classOf[MethodDeclarationContext], 0))
 
 		override def getRuleIndex = RULE_class_method_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -607,7 +607,7 @@ object ObjCParser {
 
 
 	class InstanceMethodDeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def methodDeclaration() = getRuleContext(classOf[MethodDeclarationContext], 0)
+		def methodDeclaration() = Option(getRuleContext(classOf[MethodDeclarationContext], 0))
 
 		override def getRuleIndex = RULE_instance_method_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -628,8 +628,8 @@ object ObjCParser {
 
 
 	class MethodDeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def methodSelector() = getRuleContext(classOf[MethodSelectorContext], 0)
-		def methodType() = getRuleContext(classOf[MethodTypeContext], 0)
+		def methodSelector() = Option(getRuleContext(classOf[MethodSelectorContext], 0))
+		def methodType() = Option(getRuleContext(classOf[MethodTypeContext], 0))
 
 		override def getRuleIndex = RULE_method_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -650,15 +650,15 @@ object ObjCParser {
 
 
 	class ImplementationDefinitionListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def functionDefinition() = getRuleContexts(classOf[FunctionDefinitionContext]).asScala
+		def functionDefinition() = getRuleContexts(classOf[FunctionDefinitionContext]).asScala.toList
 		def functionDefinition(i: Int) = getRuleContext(classOf[FunctionDefinitionContext], i)
-		def declaration() = getRuleContexts(classOf[DeclarationContext]).asScala
+		def declaration() = getRuleContexts(classOf[DeclarationContext]).asScala.toList
 		def declaration(i: Int) = getRuleContext(classOf[DeclarationContext], i)
-		def classMethodDefinition() = getRuleContexts(classOf[ClassMethodDefinitionContext]).asScala
+		def classMethodDefinition() = getRuleContexts(classOf[ClassMethodDefinitionContext]).asScala.toList
 		def classMethodDefinition(i: Int) = getRuleContext(classOf[ClassMethodDefinitionContext], i)
-		def instanceMethodDefinition() = getRuleContexts(classOf[InstanceMethodDefinitionContext]).asScala
+		def instanceMethodDefinition() = getRuleContexts(classOf[InstanceMethodDefinitionContext]).asScala.toList
 		def instanceMethodDefinition(i: Int) = getRuleContext(classOf[InstanceMethodDefinitionContext], i)
-		def propertyImplementation() = getRuleContexts(classOf[PropertyImplementationContext]).asScala
+		def propertyImplementation() = getRuleContexts(classOf[PropertyImplementationContext]).asScala.toList
 		def propertyImplementation(i: Int) = getRuleContext(classOf[PropertyImplementationContext], i)
 
 		override def getRuleIndex = RULE_implementation_definition_list
@@ -680,7 +680,7 @@ object ObjCParser {
 
 
 	class ClassMethodDefinitionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def methodDefinition() = getRuleContext(classOf[MethodDefinitionContext], 0)
+		def methodDefinition() = Option(getRuleContext(classOf[MethodDefinitionContext], 0))
 
 		override def getRuleIndex = RULE_class_method_definition
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -701,7 +701,7 @@ object ObjCParser {
 
 
 	class InstanceMethodDefinitionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def methodDefinition() = getRuleContext(classOf[MethodDefinitionContext], 0)
+		def methodDefinition() = Option(getRuleContext(classOf[MethodDefinitionContext], 0))
 
 		override def getRuleIndex = RULE_instance_method_definition
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -722,10 +722,10 @@ object ObjCParser {
 
 
 	class MethodDefinitionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def methodSelector() = getRuleContext(classOf[MethodSelectorContext], 0)
-		def compoundStatement() = getRuleContext(classOf[CompoundStatementContext], 0)
-		def methodType() = getRuleContext(classOf[MethodTypeContext], 0)
-		def initDeclaratorList() = getRuleContext(classOf[InitDeclaratorListContext], 0)
+		def methodSelector() = Option(getRuleContext(classOf[MethodSelectorContext], 0))
+		def compoundStatement() = Option(getRuleContext(classOf[CompoundStatementContext], 0))
+		def methodType() = Option(getRuleContext(classOf[MethodTypeContext], 0))
+		def initDeclaratorList() = Option(getRuleContext(classOf[InitDeclaratorListContext], 0))
 
 		override def getRuleIndex = RULE_method_definition
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -746,10 +746,10 @@ object ObjCParser {
 
 
 	class MethodSelectorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def selector() = getRuleContext(classOf[SelectorContext], 0)
-		def keywordDeclarator() = getRuleContexts(classOf[KeywordDeclaratorContext]).asScala
+		def selector() = Option(getRuleContext(classOf[SelectorContext], 0))
+		def keywordDeclarator() = getRuleContexts(classOf[KeywordDeclaratorContext]).asScala.toList
 		def keywordDeclarator(i: Int) = getRuleContext(classOf[KeywordDeclaratorContext], i)
-		def parameterList() = getRuleContext(classOf[ParameterListContext], 0)
+		def parameterList() = Option(getRuleContext(classOf[ParameterListContext], 0))
 
 		override def getRuleIndex = RULE_method_selector
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -770,9 +770,9 @@ object ObjCParser {
 
 
 	class KeywordDeclaratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
-		def selector() = getRuleContext(classOf[SelectorContext], 0)
-		def methodType() = getRuleContexts(classOf[MethodTypeContext]).asScala
+		def IDENTIFIER() = Option(getToken(ObjCParser.IDENTIFIER, 0))
+		def selector() = Option(getRuleContext(classOf[SelectorContext], 0))
+		def methodType() = getRuleContexts(classOf[MethodTypeContext]).asScala.toList
 		def methodType(i: Int) = getRuleContext(classOf[MethodTypeContext], i)
 
 		override def getRuleIndex = RULE_keyword_declarator
@@ -794,7 +794,7 @@ object ObjCParser {
 
 
 	class SelectorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
+		def IDENTIFIER() = Option(getToken(ObjCParser.IDENTIFIER, 0))
 
 		override def getRuleIndex = RULE_selector
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -815,7 +815,7 @@ object ObjCParser {
 
 
 	class MethodTypeContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def typeName() = getRuleContext(classOf[TypeNameContext], 0)
+		def typeName() = Option(getRuleContext(classOf[TypeNameContext], 0))
 
 		override def getRuleIndex = RULE_method_type
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -836,7 +836,7 @@ object ObjCParser {
 
 
 	class PropertyImplementationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def propertySynthesizeList() = getRuleContext(classOf[PropertySynthesizeListContext], 0)
+		def propertySynthesizeList() = Option(getRuleContext(classOf[PropertySynthesizeListContext], 0))
 
 		override def getRuleIndex = RULE_property_implementation
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -857,7 +857,7 @@ object ObjCParser {
 
 
 	class PropertySynthesizeListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def propertySynthesizeItem() = getRuleContexts(classOf[PropertySynthesizeItemContext]).asScala
+		def propertySynthesizeItem() = getRuleContexts(classOf[PropertySynthesizeItemContext]).asScala.toList
 		def propertySynthesizeItem(i: Int) = getRuleContext(classOf[PropertySynthesizeItemContext], i)
 
 		override def getRuleIndex = RULE_property_synthesize_list
@@ -879,7 +879,7 @@ object ObjCParser {
 
 
 	class PropertySynthesizeItemContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def IDENTIFIER() = getTokens(ObjCParser.IDENTIFIER).asScala
+		def IDENTIFIER() = getTokens(ObjCParser.IDENTIFIER).asScala.toList
 		def IDENTIFIER(i: Int) = getToken(ObjCParser.IDENTIFIER, i)
 
 		override def getRuleIndex = RULE_property_synthesize_item
@@ -901,9 +901,9 @@ object ObjCParser {
 
 
 	class BlockTypeContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def typeSpecifier() = getRuleContexts(classOf[TypeSpecifierContext]).asScala
+		def typeSpecifier() = getRuleContexts(classOf[TypeSpecifierContext]).asScala.toList
 		def typeSpecifier(i: Int) = getRuleContext(classOf[TypeSpecifierContext], i)
-		def blockParameters() = getRuleContext(classOf[BlockParametersContext], 0)
+		def blockParameters() = Option(getRuleContext(classOf[BlockParametersContext], 0))
 
 		override def getRuleIndex = RULE_block_type
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -924,12 +924,12 @@ object ObjCParser {
 
 
 	class TypeSpecifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def protocolReferenceList() = getRuleContext(classOf[ProtocolReferenceListContext], 0)
-		def className() = getRuleContext(classOf[ClassNameContext], 0)
-		def structOrUnionSpecifier() = getRuleContext(classOf[StructOrUnionSpecifierContext], 0)
-		def enumSpecifier() = getRuleContext(classOf[EnumSpecifierContext], 0)
-		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
-		def pointer() = getRuleContext(classOf[PointerContext], 0)
+		def protocolReferenceList() = Option(getRuleContext(classOf[ProtocolReferenceListContext], 0))
+		def className() = Option(getRuleContext(classOf[ClassNameContext], 0))
+		def structOrUnionSpecifier() = Option(getRuleContext(classOf[StructOrUnionSpecifierContext], 0))
+		def enumSpecifier() = Option(getRuleContext(classOf[EnumSpecifierContext], 0))
+		def IDENTIFIER() = Option(getToken(ObjCParser.IDENTIFIER, 0))
+		def pointer() = Option(getRuleContext(classOf[PointerContext], 0))
 
 		override def getRuleIndex = RULE_type_specifier
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -950,7 +950,7 @@ object ObjCParser {
 
 
 	class TypeQualifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def protocolQualifier() = getRuleContext(classOf[ProtocolQualifierContext], 0)
+		def protocolQualifier() = Option(getRuleContext(classOf[ProtocolQualifierContext], 0))
 
 		override def getRuleIndex = RULE_type_qualifier
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -991,18 +991,18 @@ object ObjCParser {
 
 
 	class PrimaryExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
-		def constant() = getRuleContext(classOf[ConstantContext], 0)
-		def STRING_LITERAL() = getToken(ObjCParser.STRING_LITERAL, 0)
-		def expression() = getRuleContext(classOf[ExpressionContext], 0)
-		def messageExpression() = getRuleContext(classOf[MessageExpressionContext], 0)
-		def selectorExpression() = getRuleContext(classOf[SelectorExpressionContext], 0)
-		def protocolExpression() = getRuleContext(classOf[ProtocolExpressionContext], 0)
-		def encodeExpression() = getRuleContext(classOf[EncodeExpressionContext], 0)
-		def dictionaryExpression() = getRuleContext(classOf[DictionaryExpressionContext], 0)
-		def arrayExpression() = getRuleContext(classOf[ArrayExpressionContext], 0)
-		def boxExpression() = getRuleContext(classOf[BoxExpressionContext], 0)
-		def blockExpression() = getRuleContext(classOf[BlockExpressionContext], 0)
+		def IDENTIFIER() = Option(getToken(ObjCParser.IDENTIFIER, 0))
+		def constant() = Option(getRuleContext(classOf[ConstantContext], 0))
+		def STRING_LITERAL() = Option(getToken(ObjCParser.STRING_LITERAL, 0))
+		def expression() = Option(getRuleContext(classOf[ExpressionContext], 0))
+		def messageExpression() = Option(getRuleContext(classOf[MessageExpressionContext], 0))
+		def selectorExpression() = Option(getRuleContext(classOf[SelectorExpressionContext], 0))
+		def protocolExpression() = Option(getRuleContext(classOf[ProtocolExpressionContext], 0))
+		def encodeExpression() = Option(getRuleContext(classOf[EncodeExpressionContext], 0))
+		def dictionaryExpression() = Option(getRuleContext(classOf[DictionaryExpressionContext], 0))
+		def arrayExpression() = Option(getRuleContext(classOf[ArrayExpressionContext], 0))
+		def boxExpression() = Option(getRuleContext(classOf[BoxExpressionContext], 0))
+		def blockExpression() = Option(getRuleContext(classOf[BlockExpressionContext], 0))
 
 		override def getRuleIndex = RULE_primary_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1023,9 +1023,9 @@ object ObjCParser {
 
 
 	class DictionaryPairContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def postfixExpression() = getRuleContexts(classOf[PostfixExpressionContext]).asScala
+		def postfixExpression() = getRuleContexts(classOf[PostfixExpressionContext]).asScala.toList
 		def postfixExpression(i: Int) = getRuleContext(classOf[PostfixExpressionContext], i)
-		def expression() = getRuleContext(classOf[ExpressionContext], 0)
+		def expression() = Option(getRuleContext(classOf[ExpressionContext], 0))
 
 		override def getRuleIndex = RULE_dictionary_pair
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1046,7 +1046,7 @@ object ObjCParser {
 
 
 	class DictionaryExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def dictionaryPair() = getRuleContexts(classOf[DictionaryPairContext]).asScala
+		def dictionaryPair() = getRuleContexts(classOf[DictionaryPairContext]).asScala.toList
 		def dictionaryPair(i: Int) = getRuleContext(classOf[DictionaryPairContext], i)
 
 		override def getRuleIndex = RULE_dictionary_expression
@@ -1068,7 +1068,7 @@ object ObjCParser {
 
 
 	class ArrayExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def postfixExpression() = getRuleContexts(classOf[PostfixExpressionContext]).asScala
+		def postfixExpression() = getRuleContexts(classOf[PostfixExpressionContext]).asScala.toList
 		def postfixExpression(i: Int) = getRuleContext(classOf[PostfixExpressionContext], i)
 
 		override def getRuleIndex = RULE_array_expression
@@ -1090,9 +1090,9 @@ object ObjCParser {
 
 
 	class BoxExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def postfixExpression() = getRuleContext(classOf[PostfixExpressionContext], 0)
-		def expression() = getRuleContext(classOf[ExpressionContext], 0)
-		def constant() = getRuleContext(classOf[ConstantContext], 0)
+		def postfixExpression() = Option(getRuleContext(classOf[PostfixExpressionContext], 0))
+		def expression() = Option(getRuleContext(classOf[ExpressionContext], 0))
+		def constant() = Option(getRuleContext(classOf[ConstantContext], 0))
 
 		override def getRuleIndex = RULE_box_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1113,7 +1113,7 @@ object ObjCParser {
 
 
 	class BlockParametersContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def typeVariableDeclarator() = getRuleContexts(classOf[TypeVariableDeclaratorContext]).asScala
+		def typeVariableDeclarator() = getRuleContexts(classOf[TypeVariableDeclaratorContext]).asScala.toList
 		def typeVariableDeclarator(i: Int) = getRuleContext(classOf[TypeVariableDeclaratorContext], i)
 
 		override def getRuleIndex = RULE_block_parameters
@@ -1135,9 +1135,9 @@ object ObjCParser {
 
 
 	class BlockExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def compoundStatement() = getRuleContext(classOf[CompoundStatementContext], 0)
-		def typeSpecifier() = getRuleContext(classOf[TypeSpecifierContext], 0)
-		def blockParameters() = getRuleContext(classOf[BlockParametersContext], 0)
+		def compoundStatement() = Option(getRuleContext(classOf[CompoundStatementContext], 0))
+		def typeSpecifier() = Option(getRuleContext(classOf[TypeSpecifierContext], 0))
+		def blockParameters() = Option(getRuleContext(classOf[BlockParametersContext], 0))
 
 		override def getRuleIndex = RULE_block_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1158,8 +1158,8 @@ object ObjCParser {
 
 
 	class MessageExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def receiver() = getRuleContext(classOf[ReceiverContext], 0)
-		def messageSelector() = getRuleContext(classOf[MessageSelectorContext], 0)
+		def receiver() = Option(getRuleContext(classOf[ReceiverContext], 0))
+		def messageSelector() = Option(getRuleContext(classOf[MessageSelectorContext], 0))
 
 		override def getRuleIndex = RULE_message_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1180,8 +1180,8 @@ object ObjCParser {
 
 
 	class ReceiverContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def expression() = getRuleContext(classOf[ExpressionContext], 0)
-		def className() = getRuleContext(classOf[ClassNameContext], 0)
+		def expression() = Option(getRuleContext(classOf[ExpressionContext], 0))
+		def className() = Option(getRuleContext(classOf[ClassNameContext], 0))
 
 		override def getRuleIndex = RULE_receiver
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1202,8 +1202,8 @@ object ObjCParser {
 
 
 	class MessageSelectorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def selector() = getRuleContext(classOf[SelectorContext], 0)
-		def keywordArgument() = getRuleContexts(classOf[KeywordArgumentContext]).asScala
+		def selector() = Option(getRuleContext(classOf[SelectorContext], 0))
+		def keywordArgument() = getRuleContexts(classOf[KeywordArgumentContext]).asScala.toList
 		def keywordArgument(i: Int) = getRuleContext(classOf[KeywordArgumentContext], i)
 
 		override def getRuleIndex = RULE_message_selector
@@ -1225,8 +1225,8 @@ object ObjCParser {
 
 
 	class KeywordArgumentContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def expression() = getRuleContext(classOf[ExpressionContext], 0)
-		def selector() = getRuleContext(classOf[SelectorContext], 0)
+		def expression() = Option(getRuleContext(classOf[ExpressionContext], 0))
+		def selector() = Option(getRuleContext(classOf[SelectorContext], 0))
 
 		override def getRuleIndex = RULE_keyword_argument
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1247,7 +1247,7 @@ object ObjCParser {
 
 
 	class SelectorExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def selectorName() = getRuleContext(classOf[SelectorNameContext], 0)
+		def selectorName() = Option(getRuleContext(classOf[SelectorNameContext], 0))
 
 		override def getRuleIndex = RULE_selector_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1268,7 +1268,7 @@ object ObjCParser {
 
 
 	class SelectorNameContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def selector() = getRuleContexts(classOf[SelectorContext]).asScala
+		def selector() = getRuleContexts(classOf[SelectorContext]).asScala.toList
 		def selector(i: Int) = getRuleContext(classOf[SelectorContext], i)
 
 		override def getRuleIndex = RULE_selector_name
@@ -1290,7 +1290,7 @@ object ObjCParser {
 
 
 	class ProtocolExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def protocolName() = getRuleContext(classOf[ProtocolNameContext], 0)
+		def protocolName() = Option(getRuleContext(classOf[ProtocolNameContext], 0))
 
 		override def getRuleIndex = RULE_protocol_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1311,7 +1311,7 @@ object ObjCParser {
 
 
 	class EncodeExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def typeName() = getRuleContext(classOf[TypeNameContext], 0)
+		def typeName() = Option(getRuleContext(classOf[TypeNameContext], 0))
 
 		override def getRuleIndex = RULE_encode_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1332,8 +1332,8 @@ object ObjCParser {
 
 
 	class TypeVariableDeclaratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def declarationSpecifiers() = getRuleContext(classOf[DeclarationSpecifiersContext], 0)
-		def declarator() = getRuleContext(classOf[DeclaratorContext], 0)
+		def declarationSpecifiers() = Option(getRuleContext(classOf[DeclarationSpecifiersContext], 0))
+		def declarator() = Option(getRuleContext(classOf[DeclaratorContext], 0))
 
 		override def getRuleIndex = RULE_type_variable_declarator
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1354,7 +1354,7 @@ object ObjCParser {
 
 
 	class TryStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def compoundStatement() = getRuleContext(classOf[CompoundStatementContext], 0)
+		def compoundStatement() = Option(getRuleContext(classOf[CompoundStatementContext], 0))
 
 		override def getRuleIndex = RULE_try_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1375,8 +1375,8 @@ object ObjCParser {
 
 
 	class CatchStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def typeVariableDeclarator() = getRuleContext(classOf[TypeVariableDeclaratorContext], 0)
-		def compoundStatement() = getRuleContext(classOf[CompoundStatementContext], 0)
+		def typeVariableDeclarator() = Option(getRuleContext(classOf[TypeVariableDeclaratorContext], 0))
+		def compoundStatement() = Option(getRuleContext(classOf[CompoundStatementContext], 0))
 
 		override def getRuleIndex = RULE_catch_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1397,7 +1397,7 @@ object ObjCParser {
 
 
 	class FinallyStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def compoundStatement() = getRuleContext(classOf[CompoundStatementContext], 0)
+		def compoundStatement() = Option(getRuleContext(classOf[CompoundStatementContext], 0))
 
 		override def getRuleIndex = RULE_finally_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1418,7 +1418,7 @@ object ObjCParser {
 
 
 	class ThrowStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
+		def IDENTIFIER() = Option(getToken(ObjCParser.IDENTIFIER, 0))
 
 		override def getRuleIndex = RULE_throw_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1439,10 +1439,10 @@ object ObjCParser {
 
 
 	class TryBlockContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def tryStatement() = getRuleContext(classOf[TryStatementContext], 0)
-		def catchStatement() = getRuleContexts(classOf[CatchStatementContext]).asScala
+		def tryStatement() = Option(getRuleContext(classOf[TryStatementContext], 0))
+		def catchStatement() = getRuleContexts(classOf[CatchStatementContext]).asScala.toList
 		def catchStatement(i: Int) = getRuleContext(classOf[CatchStatementContext], i)
-		def finallyStatement() = getRuleContext(classOf[FinallyStatementContext], 0)
+		def finallyStatement() = Option(getRuleContext(classOf[FinallyStatementContext], 0))
 
 		override def getRuleIndex = RULE_try_block
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1463,8 +1463,8 @@ object ObjCParser {
 
 
 	class SynchronizedStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def primaryExpression() = getRuleContext(classOf[PrimaryExpressionContext], 0)
-		def compoundStatement() = getRuleContext(classOf[CompoundStatementContext], 0)
+		def primaryExpression() = Option(getRuleContext(classOf[PrimaryExpressionContext], 0))
+		def compoundStatement() = Option(getRuleContext(classOf[CompoundStatementContext], 0))
 
 		override def getRuleIndex = RULE_synchronized_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1485,7 +1485,7 @@ object ObjCParser {
 
 
 	class AutoreleaseStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def compoundStatement() = getRuleContext(classOf[CompoundStatementContext], 0)
+		def compoundStatement() = Option(getRuleContext(classOf[CompoundStatementContext], 0))
 
 		override def getRuleIndex = RULE_autorelease_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1506,9 +1506,9 @@ object ObjCParser {
 
 
 	class FunctionDefinitionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def declarator() = getRuleContext(classOf[DeclaratorContext], 0)
-		def compoundStatement() = getRuleContext(classOf[CompoundStatementContext], 0)
-		def declarationSpecifiers() = getRuleContext(classOf[DeclarationSpecifiersContext], 0)
+		def declarator() = Option(getRuleContext(classOf[DeclaratorContext], 0))
+		def compoundStatement() = Option(getRuleContext(classOf[CompoundStatementContext], 0))
+		def declarationSpecifiers() = Option(getRuleContext(classOf[DeclarationSpecifiersContext], 0))
 
 		override def getRuleIndex = RULE_function_definition
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1529,8 +1529,8 @@ object ObjCParser {
 
 
 	class DeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def declarationSpecifiers() = getRuleContext(classOf[DeclarationSpecifiersContext], 0)
-		def initDeclaratorList() = getRuleContext(classOf[InitDeclaratorListContext], 0)
+		def declarationSpecifiers() = Option(getRuleContext(classOf[DeclarationSpecifiersContext], 0))
+		def initDeclaratorList() = Option(getRuleContext(classOf[InitDeclaratorListContext], 0))
 
 		override def getRuleIndex = RULE_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1551,13 +1551,13 @@ object ObjCParser {
 
 
 	class DeclarationSpecifiersContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def arcBehaviourSpecifier() = getRuleContexts(classOf[ArcBehaviourSpecifierContext]).asScala
+		def arcBehaviourSpecifier() = getRuleContexts(classOf[ArcBehaviourSpecifierContext]).asScala.toList
 		def arcBehaviourSpecifier(i: Int) = getRuleContext(classOf[ArcBehaviourSpecifierContext], i)
-		def storageClassSpecifier() = getRuleContexts(classOf[StorageClassSpecifierContext]).asScala
+		def storageClassSpecifier() = getRuleContexts(classOf[StorageClassSpecifierContext]).asScala.toList
 		def storageClassSpecifier(i: Int) = getRuleContext(classOf[StorageClassSpecifierContext], i)
-		def typeSpecifier() = getRuleContexts(classOf[TypeSpecifierContext]).asScala
+		def typeSpecifier() = getRuleContexts(classOf[TypeSpecifierContext]).asScala.toList
 		def typeSpecifier(i: Int) = getRuleContext(classOf[TypeSpecifierContext], i)
-		def typeQualifier() = getRuleContexts(classOf[TypeQualifierContext]).asScala
+		def typeQualifier() = getRuleContexts(classOf[TypeQualifierContext]).asScala.toList
 		def typeQualifier(i: Int) = getRuleContext(classOf[TypeQualifierContext], i)
 
 		override def getRuleIndex = RULE_declaration_specifiers
@@ -1619,7 +1619,7 @@ object ObjCParser {
 
 
 	class InitDeclaratorListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def initDeclarator() = getRuleContexts(classOf[InitDeclaratorContext]).asScala
+		def initDeclarator() = getRuleContexts(classOf[InitDeclaratorContext]).asScala.toList
 		def initDeclarator(i: Int) = getRuleContext(classOf[InitDeclaratorContext], i)
 
 		override def getRuleIndex = RULE_init_declarator_list
@@ -1641,8 +1641,8 @@ object ObjCParser {
 
 
 	class InitDeclaratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def declarator() = getRuleContext(classOf[DeclaratorContext], 0)
-		def initializer() = getRuleContext(classOf[InitializerContext], 0)
+		def declarator() = Option(getRuleContext(classOf[DeclaratorContext], 0))
+		def initializer() = Option(getRuleContext(classOf[InitializerContext], 0))
 
 		override def getRuleIndex = RULE_init_declarator
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1663,8 +1663,8 @@ object ObjCParser {
 
 
 	class StructOrUnionSpecifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
-		def structDeclaration() = getRuleContexts(classOf[StructDeclarationContext]).asScala
+		def IDENTIFIER() = Option(getToken(ObjCParser.IDENTIFIER, 0))
+		def structDeclaration() = getRuleContexts(classOf[StructDeclarationContext]).asScala.toList
 		def structDeclaration(i: Int) = getRuleContext(classOf[StructDeclarationContext], i)
 
 		override def getRuleIndex = RULE_struct_or_union_specifier
@@ -1686,8 +1686,8 @@ object ObjCParser {
 
 
 	class StructDeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def specifierQualifierList() = getRuleContext(classOf[SpecifierQualifierListContext], 0)
-		def structDeclaratorList() = getRuleContext(classOf[StructDeclaratorListContext], 0)
+		def specifierQualifierList() = Option(getRuleContext(classOf[SpecifierQualifierListContext], 0))
+		def structDeclaratorList() = Option(getRuleContext(classOf[StructDeclaratorListContext], 0))
 
 		override def getRuleIndex = RULE_struct_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1708,11 +1708,11 @@ object ObjCParser {
 
 
 	class SpecifierQualifierListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def arcBehaviourSpecifier() = getRuleContexts(classOf[ArcBehaviourSpecifierContext]).asScala
+		def arcBehaviourSpecifier() = getRuleContexts(classOf[ArcBehaviourSpecifierContext]).asScala.toList
 		def arcBehaviourSpecifier(i: Int) = getRuleContext(classOf[ArcBehaviourSpecifierContext], i)
-		def typeSpecifier() = getRuleContexts(classOf[TypeSpecifierContext]).asScala
+		def typeSpecifier() = getRuleContexts(classOf[TypeSpecifierContext]).asScala.toList
 		def typeSpecifier(i: Int) = getRuleContext(classOf[TypeSpecifierContext], i)
-		def typeQualifier() = getRuleContexts(classOf[TypeQualifierContext]).asScala
+		def typeQualifier() = getRuleContexts(classOf[TypeQualifierContext]).asScala.toList
 		def typeQualifier(i: Int) = getRuleContext(classOf[TypeQualifierContext], i)
 
 		override def getRuleIndex = RULE_specifier_qualifier_list
@@ -1734,7 +1734,7 @@ object ObjCParser {
 
 
 	class StructDeclaratorListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def structDeclarator() = getRuleContexts(classOf[StructDeclaratorContext]).asScala
+		def structDeclarator() = getRuleContexts(classOf[StructDeclaratorContext]).asScala.toList
 		def structDeclarator(i: Int) = getRuleContext(classOf[StructDeclaratorContext], i)
 
 		override def getRuleIndex = RULE_struct_declarator_list
@@ -1756,8 +1756,8 @@ object ObjCParser {
 
 
 	class StructDeclaratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def declarator() = getRuleContext(classOf[DeclaratorContext], 0)
-		def constant() = getRuleContext(classOf[ConstantContext], 0)
+		def declarator() = Option(getRuleContext(classOf[DeclaratorContext], 0))
+		def constant() = Option(getRuleContext(classOf[ConstantContext], 0))
 
 		override def getRuleIndex = RULE_struct_declarator
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1778,10 +1778,10 @@ object ObjCParser {
 
 
 	class EnumSpecifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def identifier() = getRuleContext(classOf[IdentifierContext], 0)
-		def enumeratorList() = getRuleContext(classOf[EnumeratorListContext], 0)
-		def typeName() = getRuleContext(classOf[TypeNameContext], 0)
-		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
+		def identifier() = Option(getRuleContext(classOf[IdentifierContext], 0))
+		def enumeratorList() = Option(getRuleContext(classOf[EnumeratorListContext], 0))
+		def typeName() = Option(getRuleContext(classOf[TypeNameContext], 0))
+		def IDENTIFIER() = Option(getToken(ObjCParser.IDENTIFIER, 0))
 
 		override def getRuleIndex = RULE_enum_specifier
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1802,7 +1802,7 @@ object ObjCParser {
 
 
 	class EnumeratorListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def enumerator() = getRuleContexts(classOf[EnumeratorContext]).asScala
+		def enumerator() = getRuleContexts(classOf[EnumeratorContext]).asScala.toList
 		def enumerator(i: Int) = getRuleContext(classOf[EnumeratorContext], i)
 
 		override def getRuleIndex = RULE_enumerator_list
@@ -1824,8 +1824,8 @@ object ObjCParser {
 
 
 	class EnumeratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def identifier() = getRuleContext(classOf[IdentifierContext], 0)
-		def constantExpression() = getRuleContext(classOf[ConstantExpressionContext], 0)
+		def identifier() = Option(getRuleContext(classOf[IdentifierContext], 0))
+		def constantExpression() = Option(getRuleContext(classOf[ConstantExpressionContext], 0))
 
 		override def getRuleIndex = RULE_enumerator
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1846,8 +1846,8 @@ object ObjCParser {
 
 
 	class PointerContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def declarationSpecifiers() = getRuleContext(classOf[DeclarationSpecifiersContext], 0)
-		def pointer() = getRuleContext(classOf[PointerContext], 0)
+		def declarationSpecifiers() = Option(getRuleContext(classOf[DeclarationSpecifiersContext], 0))
+		def pointer() = Option(getRuleContext(classOf[PointerContext], 0))
 
 		override def getRuleIndex = RULE_pointer
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1868,8 +1868,8 @@ object ObjCParser {
 
 
 	class DeclaratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def directDeclarator() = getRuleContext(classOf[DirectDeclaratorContext], 0)
-		def pointer() = getRuleContext(classOf[PointerContext], 0)
+		def directDeclarator() = Option(getRuleContext(classOf[DirectDeclaratorContext], 0))
+		def pointer() = Option(getRuleContext(classOf[PointerContext], 0))
 
 		override def getRuleIndex = RULE_declarator
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1890,11 +1890,11 @@ object ObjCParser {
 
 
 	class DirectDeclaratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def identifier() = getRuleContext(classOf[IdentifierContext], 0)
-		def declaratorSuffix() = getRuleContexts(classOf[DeclaratorSuffixContext]).asScala
+		def identifier() = Option(getRuleContext(classOf[IdentifierContext], 0))
+		def declaratorSuffix() = getRuleContexts(classOf[DeclaratorSuffixContext]).asScala.toList
 		def declaratorSuffix(i: Int) = getRuleContext(classOf[DeclaratorSuffixContext], i)
-		def declarator() = getRuleContext(classOf[DeclaratorContext], 0)
-		def blockParameters() = getRuleContext(classOf[BlockParametersContext], 0)
+		def declarator() = Option(getRuleContext(classOf[DeclaratorContext], 0))
+		def blockParameters() = Option(getRuleContext(classOf[BlockParametersContext], 0))
 
 		override def getRuleIndex = RULE_direct_declarator
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1915,8 +1915,8 @@ object ObjCParser {
 
 
 	class DeclaratorSuffixContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def constantExpression() = getRuleContext(classOf[ConstantExpressionContext], 0)
-		def parameterList() = getRuleContext(classOf[ParameterListContext], 0)
+		def constantExpression() = Option(getRuleContext(classOf[ConstantExpressionContext], 0))
+		def parameterList() = Option(getRuleContext(classOf[ParameterListContext], 0))
 
 		override def getRuleIndex = RULE_declarator_suffix
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1937,7 +1937,7 @@ object ObjCParser {
 
 
 	class ParameterListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def parameterDeclarationList() = getRuleContext(classOf[ParameterDeclarationListContext], 0)
+		def parameterDeclarationList() = Option(getRuleContext(classOf[ParameterDeclarationListContext], 0))
 
 		override def getRuleIndex = RULE_parameter_list
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1958,9 +1958,9 @@ object ObjCParser {
 
 
 	class ParameterDeclarationContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def declarationSpecifiers() = getRuleContext(classOf[DeclarationSpecifiersContext], 0)
-		def abstractDeclarator() = getRuleContext(classOf[AbstractDeclaratorContext], 0)
-		def declarator() = getRuleContext(classOf[DeclaratorContext], 0)
+		def declarationSpecifiers() = Option(getRuleContext(classOf[DeclarationSpecifiersContext], 0))
+		def abstractDeclarator() = Option(getRuleContext(classOf[AbstractDeclaratorContext], 0))
+		def declarator() = Option(getRuleContext(classOf[DeclaratorContext], 0))
 
 		override def getRuleIndex = RULE_parameter_declaration
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -1981,8 +1981,8 @@ object ObjCParser {
 
 
 	class InitializerContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def assignmentExpression() = getRuleContext(classOf[AssignmentExpressionContext], 0)
-		def initializer() = getRuleContexts(classOf[InitializerContext]).asScala
+		def assignmentExpression() = Option(getRuleContext(classOf[AssignmentExpressionContext], 0))
+		def initializer() = getRuleContexts(classOf[InitializerContext]).asScala.toList
 		def initializer(i: Int) = getRuleContext(classOf[InitializerContext], i)
 
 		override def getRuleIndex = RULE_initializer
@@ -2004,9 +2004,9 @@ object ObjCParser {
 
 
 	class TypeNameContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def specifierQualifierList() = getRuleContext(classOf[SpecifierQualifierListContext], 0)
-		def abstractDeclarator() = getRuleContext(classOf[AbstractDeclaratorContext], 0)
-		def blockType() = getRuleContext(classOf[BlockTypeContext], 0)
+		def specifierQualifierList() = Option(getRuleContext(classOf[SpecifierQualifierListContext], 0))
+		def abstractDeclarator() = Option(getRuleContext(classOf[AbstractDeclaratorContext], 0))
+		def blockType() = Option(getRuleContext(classOf[BlockTypeContext], 0))
 
 		override def getRuleIndex = RULE_type_name
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -2027,11 +2027,11 @@ object ObjCParser {
 
 
 	class AbstractDeclaratorContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def pointer() = getRuleContext(classOf[PointerContext], 0)
-		def abstractDeclarator() = getRuleContext(classOf[AbstractDeclaratorContext], 0)
-		def abstractDeclaratorSuffix() = getRuleContexts(classOf[AbstractDeclaratorSuffixContext]).asScala
+		def pointer() = Option(getRuleContext(classOf[PointerContext], 0))
+		def abstractDeclarator() = Option(getRuleContext(classOf[AbstractDeclaratorContext], 0))
+		def abstractDeclaratorSuffix() = getRuleContexts(classOf[AbstractDeclaratorSuffixContext]).asScala.toList
 		def abstractDeclaratorSuffix(i: Int) = getRuleContext(classOf[AbstractDeclaratorSuffixContext], i)
-		def constantExpression() = getRuleContexts(classOf[ConstantExpressionContext]).asScala
+		def constantExpression() = getRuleContexts(classOf[ConstantExpressionContext]).asScala.toList
 		def constantExpression(i: Int) = getRuleContext(classOf[ConstantExpressionContext], i)
 
 		override def getRuleIndex = RULE_abstract_declarator
@@ -2053,8 +2053,8 @@ object ObjCParser {
 
 
 	class AbstractDeclaratorSuffixContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def constantExpression() = getRuleContext(classOf[ConstantExpressionContext], 0)
-		def parameterDeclarationList() = getRuleContext(classOf[ParameterDeclarationListContext], 0)
+		def constantExpression() = Option(getRuleContext(classOf[ConstantExpressionContext], 0))
+		def parameterDeclarationList() = Option(getRuleContext(classOf[ParameterDeclarationListContext], 0))
 
 		override def getRuleIndex = RULE_abstract_declarator_suffix
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -2075,7 +2075,7 @@ object ObjCParser {
 
 
 	class ParameterDeclarationListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def parameterDeclaration() = getRuleContexts(classOf[ParameterDeclarationContext]).asScala
+		def parameterDeclaration() = getRuleContexts(classOf[ParameterDeclarationContext]).asScala.toList
 		def parameterDeclaration(i: Int) = getRuleContext(classOf[ParameterDeclarationContext], i)
 
 		override def getRuleIndex = RULE_parameter_declaration_list
@@ -2097,7 +2097,7 @@ object ObjCParser {
 
 
 	class StatementListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def statement() = getRuleContexts(classOf[StatementContext]).asScala
+		def statement() = getRuleContexts(classOf[StatementContext]).asScala.toList
 		def statement(i: Int) = getRuleContext(classOf[StatementContext], i)
 
 		override def getRuleIndex = RULE_statement_list
@@ -2119,15 +2119,15 @@ object ObjCParser {
 
 
 	class StatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def labeledStatement() = getRuleContext(classOf[LabeledStatementContext], 0)
-		def expression() = getRuleContext(classOf[ExpressionContext], 0)
-		def compoundStatement() = getRuleContext(classOf[CompoundStatementContext], 0)
-		def selectionStatement() = getRuleContext(classOf[SelectionStatementContext], 0)
-		def iterationStatement() = getRuleContext(classOf[IterationStatementContext], 0)
-		def jumpStatement() = getRuleContext(classOf[JumpStatementContext], 0)
-		def synchronizedStatement() = getRuleContext(classOf[SynchronizedStatementContext], 0)
-		def autoreleaseStatement() = getRuleContext(classOf[AutoreleaseStatementContext], 0)
-		def tryBlock() = getRuleContext(classOf[TryBlockContext], 0)
+		def labeledStatement() = Option(getRuleContext(classOf[LabeledStatementContext], 0))
+		def expression() = Option(getRuleContext(classOf[ExpressionContext], 0))
+		def compoundStatement() = Option(getRuleContext(classOf[CompoundStatementContext], 0))
+		def selectionStatement() = Option(getRuleContext(classOf[SelectionStatementContext], 0))
+		def iterationStatement() = Option(getRuleContext(classOf[IterationStatementContext], 0))
+		def jumpStatement() = Option(getRuleContext(classOf[JumpStatementContext], 0))
+		def synchronizedStatement() = Option(getRuleContext(classOf[SynchronizedStatementContext], 0))
+		def autoreleaseStatement() = Option(getRuleContext(classOf[AutoreleaseStatementContext], 0))
+		def tryBlock() = Option(getRuleContext(classOf[TryBlockContext], 0))
 
 		override def getRuleIndex = RULE_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -2148,9 +2148,9 @@ object ObjCParser {
 
 
 	class LabeledStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def identifier() = getRuleContext(classOf[IdentifierContext], 0)
-		def statement() = getRuleContext(classOf[StatementContext], 0)
-		def constantExpression() = getRuleContext(classOf[ConstantExpressionContext], 0)
+		def identifier() = Option(getRuleContext(classOf[IdentifierContext], 0))
+		def statement() = Option(getRuleContext(classOf[StatementContext], 0))
+		def constantExpression() = Option(getRuleContext(classOf[ConstantExpressionContext], 0))
 
 		override def getRuleIndex = RULE_labeled_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -2171,9 +2171,9 @@ object ObjCParser {
 
 
 	class CompoundStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def declaration() = getRuleContexts(classOf[DeclarationContext]).asScala
+		def declaration() = getRuleContexts(classOf[DeclarationContext]).asScala.toList
 		def declaration(i: Int) = getRuleContext(classOf[DeclarationContext], i)
-		def statementList() = getRuleContexts(classOf[StatementListContext]).asScala
+		def statementList() = getRuleContexts(classOf[StatementListContext]).asScala.toList
 		def statementList(i: Int) = getRuleContext(classOf[StatementListContext], i)
 
 		override def getRuleIndex = RULE_compound_statement
@@ -2195,8 +2195,8 @@ object ObjCParser {
 
 
 	class SelectionStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def expression() = getRuleContext(classOf[ExpressionContext], 0)
-		def statement() = getRuleContexts(classOf[StatementContext]).asScala
+		def expression() = Option(getRuleContext(classOf[ExpressionContext], 0))
+		def statement() = getRuleContexts(classOf[StatementContext]).asScala.toList
 		def statement(i: Int) = getRuleContext(classOf[StatementContext], i)
 
 		override def getRuleIndex = RULE_selection_statement
@@ -2218,9 +2218,9 @@ object ObjCParser {
 
 
 	class ForInStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def typeVariableDeclarator() = getRuleContext(classOf[TypeVariableDeclaratorContext], 0)
-		def statement() = getRuleContext(classOf[StatementContext], 0)
-		def expression() = getRuleContext(classOf[ExpressionContext], 0)
+		def typeVariableDeclarator() = Option(getRuleContext(classOf[TypeVariableDeclaratorContext], 0))
+		def statement() = Option(getRuleContext(classOf[StatementContext], 0))
+		def expression() = Option(getRuleContext(classOf[ExpressionContext], 0))
 
 		override def getRuleIndex = RULE_for_in_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -2241,11 +2241,11 @@ object ObjCParser {
 
 
 	class ForStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def statement() = getRuleContext(classOf[StatementContext], 0)
-		def expression() = getRuleContexts(classOf[ExpressionContext]).asScala
+		def statement() = Option(getRuleContext(classOf[StatementContext], 0))
+		def expression() = getRuleContexts(classOf[ExpressionContext]).asScala.toList
 		def expression(i: Int) = getRuleContext(classOf[ExpressionContext], i)
-		def declarationSpecifiers() = getRuleContext(classOf[DeclarationSpecifiersContext], 0)
-		def initDeclaratorList() = getRuleContext(classOf[InitDeclaratorListContext], 0)
+		def declarationSpecifiers() = Option(getRuleContext(classOf[DeclarationSpecifiersContext], 0))
+		def initDeclaratorList() = Option(getRuleContext(classOf[InitDeclaratorListContext], 0))
 
 		override def getRuleIndex = RULE_for_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -2266,8 +2266,8 @@ object ObjCParser {
 
 
 	class WhileStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def expression() = getRuleContext(classOf[ExpressionContext], 0)
-		def statement() = getRuleContext(classOf[StatementContext], 0)
+		def expression() = Option(getRuleContext(classOf[ExpressionContext], 0))
+		def statement() = Option(getRuleContext(classOf[StatementContext], 0))
 
 		override def getRuleIndex = RULE_while_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -2288,8 +2288,8 @@ object ObjCParser {
 
 
 	class DoStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def statement() = getRuleContext(classOf[StatementContext], 0)
-		def expression() = getRuleContext(classOf[ExpressionContext], 0)
+		def statement() = Option(getRuleContext(classOf[StatementContext], 0))
+		def expression() = Option(getRuleContext(classOf[ExpressionContext], 0))
 
 		override def getRuleIndex = RULE_do_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -2310,10 +2310,10 @@ object ObjCParser {
 
 
 	class IterationStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def whileStatement() = getRuleContext(classOf[WhileStatementContext], 0)
-		def doStatement() = getRuleContext(classOf[DoStatementContext], 0)
-		def forStatement() = getRuleContext(classOf[ForStatementContext], 0)
-		def forInStatement() = getRuleContext(classOf[ForInStatementContext], 0)
+		def whileStatement() = Option(getRuleContext(classOf[WhileStatementContext], 0))
+		def doStatement() = Option(getRuleContext(classOf[DoStatementContext], 0))
+		def forStatement() = Option(getRuleContext(classOf[ForStatementContext], 0))
+		def forInStatement() = Option(getRuleContext(classOf[ForInStatementContext], 0))
 
 		override def getRuleIndex = RULE_iteration_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -2334,8 +2334,8 @@ object ObjCParser {
 
 
 	class JumpStatementContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def identifier() = getRuleContext(classOf[IdentifierContext], 0)
-		def expression() = getRuleContext(classOf[ExpressionContext], 0)
+		def identifier() = Option(getRuleContext(classOf[IdentifierContext], 0))
+		def expression() = Option(getRuleContext(classOf[ExpressionContext], 0))
 
 		override def getRuleIndex = RULE_jump_statement
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -2356,7 +2356,7 @@ object ObjCParser {
 
 
 	class ExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def assignmentExpression() = getRuleContexts(classOf[AssignmentExpressionContext]).asScala
+		def assignmentExpression() = getRuleContexts(classOf[AssignmentExpressionContext]).asScala.toList
 		def assignmentExpression(i: Int) = getRuleContext(classOf[AssignmentExpressionContext], i)
 
 		override def getRuleIndex = RULE_expression
@@ -2378,10 +2378,10 @@ object ObjCParser {
 
 
 	class AssignmentExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def conditionalExpression() = getRuleContext(classOf[ConditionalExpressionContext], 0)
-		def unaryExpression() = getRuleContext(classOf[UnaryExpressionContext], 0)
-		def assignmentOperator() = getRuleContext(classOf[AssignmentOperatorContext], 0)
-		def assignmentExpression() = getRuleContext(classOf[AssignmentExpressionContext], 0)
+		def conditionalExpression() = Option(getRuleContext(classOf[ConditionalExpressionContext], 0))
+		def unaryExpression() = Option(getRuleContext(classOf[UnaryExpressionContext], 0))
+		def assignmentOperator() = Option(getRuleContext(classOf[AssignmentOperatorContext], 0))
+		def assignmentExpression() = Option(getRuleContext(classOf[AssignmentExpressionContext], 0))
 
 		override def getRuleIndex = RULE_assignment_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -2422,8 +2422,8 @@ object ObjCParser {
 
 
 	class ConditionalExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def logicalOrExpression() = getRuleContext(classOf[LogicalOrExpressionContext], 0)
-		def conditionalExpression() = getRuleContexts(classOf[ConditionalExpressionContext]).asScala
+		def logicalOrExpression() = Option(getRuleContext(classOf[LogicalOrExpressionContext], 0))
+		def conditionalExpression() = getRuleContexts(classOf[ConditionalExpressionContext]).asScala.toList
 		def conditionalExpression(i: Int) = getRuleContext(classOf[ConditionalExpressionContext], i)
 
 		override def getRuleIndex = RULE_conditional_expression
@@ -2445,7 +2445,7 @@ object ObjCParser {
 
 
 	class ConstantExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def conditionalExpression() = getRuleContext(classOf[ConditionalExpressionContext], 0)
+		def conditionalExpression() = Option(getRuleContext(classOf[ConditionalExpressionContext], 0))
 
 		override def getRuleIndex = RULE_constant_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -2466,7 +2466,7 @@ object ObjCParser {
 
 
 	class LogicalOrExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def logicalAndExpression() = getRuleContexts(classOf[LogicalAndExpressionContext]).asScala
+		def logicalAndExpression() = getRuleContexts(classOf[LogicalAndExpressionContext]).asScala.toList
 		def logicalAndExpression(i: Int) = getRuleContext(classOf[LogicalAndExpressionContext], i)
 
 		override def getRuleIndex = RULE_logical_or_expression
@@ -2488,7 +2488,7 @@ object ObjCParser {
 
 
 	class LogicalAndExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def inclusiveOrExpression() = getRuleContexts(classOf[InclusiveOrExpressionContext]).asScala
+		def inclusiveOrExpression() = getRuleContexts(classOf[InclusiveOrExpressionContext]).asScala.toList
 		def inclusiveOrExpression(i: Int) = getRuleContext(classOf[InclusiveOrExpressionContext], i)
 
 		override def getRuleIndex = RULE_logical_and_expression
@@ -2510,7 +2510,7 @@ object ObjCParser {
 
 
 	class InclusiveOrExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def exclusiveOrExpression() = getRuleContexts(classOf[ExclusiveOrExpressionContext]).asScala
+		def exclusiveOrExpression() = getRuleContexts(classOf[ExclusiveOrExpressionContext]).asScala.toList
 		def exclusiveOrExpression(i: Int) = getRuleContext(classOf[ExclusiveOrExpressionContext], i)
 
 		override def getRuleIndex = RULE_inclusive_or_expression
@@ -2532,7 +2532,7 @@ object ObjCParser {
 
 
 	class ExclusiveOrExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def andExpression() = getRuleContexts(classOf[AndExpressionContext]).asScala
+		def andExpression() = getRuleContexts(classOf[AndExpressionContext]).asScala.toList
 		def andExpression(i: Int) = getRuleContext(classOf[AndExpressionContext], i)
 
 		override def getRuleIndex = RULE_exclusive_or_expression
@@ -2554,7 +2554,7 @@ object ObjCParser {
 
 
 	class AndExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def equalityExpression() = getRuleContexts(classOf[EqualityExpressionContext]).asScala
+		def equalityExpression() = getRuleContexts(classOf[EqualityExpressionContext]).asScala.toList
 		def equalityExpression(i: Int) = getRuleContext(classOf[EqualityExpressionContext], i)
 
 		override def getRuleIndex = RULE_and_expression
@@ -2576,7 +2576,7 @@ object ObjCParser {
 
 
 	class EqualityExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def relationalExpression() = getRuleContexts(classOf[RelationalExpressionContext]).asScala
+		def relationalExpression() = getRuleContexts(classOf[RelationalExpressionContext]).asScala.toList
 		def relationalExpression(i: Int) = getRuleContext(classOf[RelationalExpressionContext], i)
 
 		override def getRuleIndex = RULE_equality_expression
@@ -2598,7 +2598,7 @@ object ObjCParser {
 
 
 	class RelationalExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def shiftExpression() = getRuleContexts(classOf[ShiftExpressionContext]).asScala
+		def shiftExpression() = getRuleContexts(classOf[ShiftExpressionContext]).asScala.toList
 		def shiftExpression(i: Int) = getRuleContext(classOf[ShiftExpressionContext], i)
 
 		override def getRuleIndex = RULE_relational_expression
@@ -2620,7 +2620,7 @@ object ObjCParser {
 
 
 	class ShiftExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def additiveExpression() = getRuleContexts(classOf[AdditiveExpressionContext]).asScala
+		def additiveExpression() = getRuleContexts(classOf[AdditiveExpressionContext]).asScala.toList
 		def additiveExpression(i: Int) = getRuleContext(classOf[AdditiveExpressionContext], i)
 
 		override def getRuleIndex = RULE_shift_expression
@@ -2642,7 +2642,7 @@ object ObjCParser {
 
 
 	class AdditiveExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def multiplicativeExpression() = getRuleContexts(classOf[MultiplicativeExpressionContext]).asScala
+		def multiplicativeExpression() = getRuleContexts(classOf[MultiplicativeExpressionContext]).asScala.toList
 		def multiplicativeExpression(i: Int) = getRuleContext(classOf[MultiplicativeExpressionContext], i)
 
 		override def getRuleIndex = RULE_additive_expression
@@ -2664,7 +2664,7 @@ object ObjCParser {
 
 
 	class MultiplicativeExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def castExpression() = getRuleContexts(classOf[CastExpressionContext]).asScala
+		def castExpression() = getRuleContexts(classOf[CastExpressionContext]).asScala.toList
 		def castExpression(i: Int) = getRuleContext(classOf[CastExpressionContext], i)
 
 		override def getRuleIndex = RULE_multiplicative_expression
@@ -2686,9 +2686,9 @@ object ObjCParser {
 
 
 	class CastExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def typeName() = getRuleContext(classOf[TypeNameContext], 0)
-		def castExpression() = getRuleContext(classOf[CastExpressionContext], 0)
-		def unaryExpression() = getRuleContext(classOf[UnaryExpressionContext], 0)
+		def typeName() = Option(getRuleContext(classOf[TypeNameContext], 0))
+		def castExpression() = Option(getRuleContext(classOf[CastExpressionContext], 0))
+		def unaryExpression() = Option(getRuleContext(classOf[UnaryExpressionContext], 0))
 
 		override def getRuleIndex = RULE_cast_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -2709,11 +2709,11 @@ object ObjCParser {
 
 
 	class UnaryExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def postfixExpression() = getRuleContext(classOf[PostfixExpressionContext], 0)
-		def unaryExpression() = getRuleContext(classOf[UnaryExpressionContext], 0)
-		def unaryOperator() = getRuleContext(classOf[UnaryOperatorContext], 0)
-		def castExpression() = getRuleContext(classOf[CastExpressionContext], 0)
-		def typeName() = getRuleContext(classOf[TypeNameContext], 0)
+		def postfixExpression() = Option(getRuleContext(classOf[PostfixExpressionContext], 0))
+		def unaryExpression() = Option(getRuleContext(classOf[UnaryExpressionContext], 0))
+		def unaryOperator() = Option(getRuleContext(classOf[UnaryOperatorContext], 0))
+		def castExpression() = Option(getRuleContext(classOf[CastExpressionContext], 0))
+		def typeName() = Option(getRuleContext(classOf[TypeNameContext], 0))
 
 		override def getRuleIndex = RULE_unary_expression
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -2754,12 +2754,12 @@ object ObjCParser {
 
 
 	class PostfixExpressionContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def primaryExpression() = getRuleContext(classOf[PrimaryExpressionContext], 0)
-		def expression() = getRuleContexts(classOf[ExpressionContext]).asScala
+		def primaryExpression() = Option(getRuleContext(classOf[PrimaryExpressionContext], 0))
+		def expression() = getRuleContexts(classOf[ExpressionContext]).asScala.toList
 		def expression(i: Int) = getRuleContext(classOf[ExpressionContext], i)
-		def identifier() = getRuleContexts(classOf[IdentifierContext]).asScala
+		def identifier() = getRuleContexts(classOf[IdentifierContext]).asScala.toList
 		def identifier(i: Int) = getRuleContext(classOf[IdentifierContext], i)
-		def argumentExpressionList() = getRuleContexts(classOf[ArgumentExpressionListContext]).asScala
+		def argumentExpressionList() = getRuleContexts(classOf[ArgumentExpressionListContext]).asScala.toList
 		def argumentExpressionList(i: Int) = getRuleContext(classOf[ArgumentExpressionListContext], i)
 
 		override def getRuleIndex = RULE_postfix_expression
@@ -2781,7 +2781,7 @@ object ObjCParser {
 
 
 	class ArgumentExpressionListContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def assignmentExpression() = getRuleContexts(classOf[AssignmentExpressionContext]).asScala
+		def assignmentExpression() = getRuleContexts(classOf[AssignmentExpressionContext]).asScala.toList
 		def assignmentExpression(i: Int) = getRuleContext(classOf[AssignmentExpressionContext], i)
 
 		override def getRuleIndex = RULE_argument_expression_list
@@ -2803,7 +2803,7 @@ object ObjCParser {
 
 
 	class IdentifierContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def IDENTIFIER() = getToken(ObjCParser.IDENTIFIER, 0)
+		def IDENTIFIER() = Option(getToken(ObjCParser.IDENTIFIER, 0))
 
 		override def getRuleIndex = RULE_identifier
 		override def enterRule(listener: ParseTreeListener) = listener match {
@@ -2824,11 +2824,11 @@ object ObjCParser {
 
 
 	class ConstantContext(parent: ParserRuleContext, invokingState: Int) extends ParserRuleContext(parent, invokingState) {
-		def DECIMAL_LITERAL() = getToken(ObjCParser.DECIMAL_LITERAL, 0)
-		def HEX_LITERAL() = getToken(ObjCParser.HEX_LITERAL, 0)
-		def OCTAL_LITERAL() = getToken(ObjCParser.OCTAL_LITERAL, 0)
-		def CHARACTER_LITERAL() = getToken(ObjCParser.CHARACTER_LITERAL, 0)
-		def FLOATING_POINT_LITERAL() = getToken(ObjCParser.FLOATING_POINT_LITERAL, 0)
+		def DECIMAL_LITERAL() = Option(getToken(ObjCParser.DECIMAL_LITERAL, 0))
+		def HEX_LITERAL() = Option(getToken(ObjCParser.HEX_LITERAL, 0))
+		def OCTAL_LITERAL() = Option(getToken(ObjCParser.OCTAL_LITERAL, 0))
+		def CHARACTER_LITERAL() = Option(getToken(ObjCParser.CHARACTER_LITERAL, 0))
+		def FLOATING_POINT_LITERAL() = Option(getToken(ObjCParser.FLOATING_POINT_LITERAL, 0))
 
 		override def getRuleIndex = RULE_constant
 		override def enterRule(listener: ParseTreeListener) = listener match {

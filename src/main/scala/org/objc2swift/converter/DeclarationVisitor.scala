@@ -31,20 +31,20 @@ trait DeclarationVisitor {
   override def visitDeclaration(ctx: DeclarationContext): String = {
     val builder = List.newBuilder[String]
     val specifiers = List.newBuilder[String]
-    val ds = ctx.declarationSpecifiers()
+    val ds = ctx.declarationSpecifiers().get
 
     // prefixes: static, const, etc..
     specifiers += visit(ds)
     val prefixes = specifiers.result().filter(_.nonEmpty)
 
     // Type
-    Option(ds.typeSpecifier()).map(_.toList).foreach { ls =>
+    Option(ds.typeSpecifier()).foreach { ls =>
       // Support Enumeration
-      Option(ls(0).enumSpecifier()).foreach { e =>
+      ls(0).enumSpecifier().foreach { e =>
         builder += visit(e)
       }
 
-      Option(ctx.initDeclaratorList()) match {
+      ctx.initDeclaratorList() match {
         case Some(c) =>
           // Single declaration with initializer, or list of declarations.
           val currentType = processTypeSpecifierList(ls)
@@ -62,11 +62,11 @@ trait DeclarationVisitor {
 
   private def visitInitDeclarator(ctx: InitDeclaratorContext, typeName: String, prefixes: List[String]): String = {
     {
-      Option(ctx.declarator().directDeclarator().identifier()).map { _ =>
+      ctx.declarator().flatMap(_.directDeclarator()).flatMap(_.identifier()).map { _ =>
         buildInitDeclaration(ctx, typeName, prefixes).getOrElse("")
       } orElse
       // not variables declaration? ex) NSLog(foo)
-      Option(ctx.declarator().directDeclarator().declarator()).map { s =>
+      ctx.declarator().flatMap(_.directDeclarator()).flatMap(_.declarator()).map { s =>
         s"$typeName(${visit(s)})"
       }
     }.getOrElse("")
@@ -82,7 +82,7 @@ trait DeclarationVisitor {
    * @return translated text
    */
   private def buildShortDeclaration(ctxs: List[TypeSpecifierContext], prefixes: List[String]): Option[String] = {
-    Option(ctxs.last.className()).map(visit).filter(_.nonEmpty).map { name =>
+    ctxs.last.className().map(visit).filter(_.nonEmpty).map { name =>
       List(
         prefixes.mkString(" "),
         if (prefixes.mkString(" ").split(" ").contains("let")) "" else "var",
@@ -149,9 +149,8 @@ trait DeclarationVisitor {
   override def visitInitializer(ctx: InitializerContext): String = visitChildren(ctx)
 
   override def visitTypeVariableDeclarator(ctx: TypeVariableDeclaratorContext): String =
-    Option(ctx.declarationSpecifiers().typeSpecifier()).map(_.toList).flatMap { ls =>
-      Option(ctx.declarator().directDeclarator().identifier())
-        .map(visit).map(_ + ": " + processTypeSpecifierList(ls))
+    ctx.declarationSpecifiers().map(_.typeSpecifier()).flatMap { ls =>
+      ctx.declarator().flatMap(_.directDeclarator()).flatMap(_.identifier()).map(visit).map(_ + ": " + processTypeSpecifierList(ls))
     }.getOrElse("")
 
   /**

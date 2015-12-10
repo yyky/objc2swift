@@ -21,16 +21,4 @@ package object util {
   object ClassNameText {
     def unapply(node: ClassNameContext): Option[String] = Option(node.getText)
   }
-
-  object ConstantBox {
-    def unapply(ctx: BoxExpressionContext): Option[ConstantContext] = Option(ctx.constant())
-  }
-
-  object ExpressionBox {
-    def unapply(ctx: BoxExpressionContext): Option[ExpressionContext] = Option(ctx.expression())
-  }
-
-  object PostfixExpressionBox {
-    def unapply(ctx: BoxExpressionContext): Option[PostfixExpressionContext] = Option(ctx.postfixExpression())
-  }
 }

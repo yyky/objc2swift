@@ -28,12 +28,12 @@ trait ProtocolVisitor {
   override def visitProtocolDeclaration(ctx: ProtocolDeclarationContext): String = {
 
     val head = List(
-      Option(ctx.protocolName).map(visit).map{s => s"protocol $s"},
-      Option(ctx.protocolReferenceList).map(visit).map{s => s": $s"}
+      ctx.protocolName().map(visit).map{s => s"protocol $s"},
+      ctx.protocolReferenceList().map(visit).map{s => s": $s"}
     ).flatten.mkString("")
 
     // TODO: support @optional annotation.
-    val body = ctx.interfaceDeclarationList.toList.map(visit).mkString("\n")
+    val body = ctx.interfaceDeclarationList().map(visit).mkString("\n")
 
     s"$head {\n$body\n}"
   }
@@ -44,7 +44,7 @@ trait ProtocolVisitor {
    * @param ctx the parse tree
    **/
   override def visitProtocolReferenceList(ctx: ProtocolReferenceListContext): String =
-    visit(ctx.protocolList)
+    visit(ctx.protocolList().get)
 
   /**
    * Returns translated text of protocolList context.
@@ -52,7 +52,7 @@ trait ProtocolVisitor {
    * @param ctx the parse tree
    **/
   override def visitProtocolList(ctx: ProtocolListContext): String =
-    ctx.protocolName.map(visit).mkString(", ")
+    ctx.protocolName().map(visit).mkString(", ")
 
   /**
    * Returns translated text of protocolName context.

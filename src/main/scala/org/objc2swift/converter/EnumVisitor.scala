@@ -33,7 +33,7 @@ trait EnumVisitor {
 
   def getClassName(ctx: DeclarationSpecifiersContext): String =
     Option(ctx.typeSpecifier()).filter(_.size >= 2).flatMap { list =>
-      Option(list.last.className())
+      list.last.className()
     }.map(visit).getOrElse("")
 
   /**
@@ -43,7 +43,7 @@ trait EnumVisitor {
    */
   def getEnumName(ctx: EnumSpecifierContext): String =
     {
-      Option(ctx.identifier()).map(visit) orElse
+      ctx.identifier().map(visit) orElse
       findDeclarationSpecifiers(ctx).map(getClassName)
     }.getOrElse("")
 
@@ -64,10 +64,11 @@ trait EnumVisitor {
     // save this enum id
     identifiers.put(ctx, identifier)
 
-    val typeStr = Option(ctx.typeName()).map(visit) getOrElse "Int"
+    val typeStr = ctx.typeName().map(visit) getOrElse "Int"
+    val body = ctx.enumeratorList().map(visit) getOrElse ""
     s"""
        |enum $identifier : $typeStr {
-       |${indent(visit(ctx.enumeratorList()))}
+       |${indent(body)}
        |}
      """.stripMargin
   }
@@ -95,7 +96,7 @@ trait EnumVisitor {
    * @return translated text
    */
   private def getEnumIdentifier(ctx: EnumeratorContext): String = {
-    val origId = visit(ctx.identifier())
+    val origId = ctx.identifier().map(visit) getOrElse ""
     val enumId = identifiers.get(ctx.parent.parent)
     val digitId = "[0-9].*".r
 
@@ -113,5 +114,5 @@ trait EnumVisitor {
    * @return translated text
    */
   private def getEnumConstant(ctx: EnumeratorContext): String =
-    Option(ctx.constantExpression()).map(c => s" = ${visit(c)}").getOrElse("")
+    ctx.constantExpression().map(c => s" = ${visit(c)}") getOrElse ""
 }

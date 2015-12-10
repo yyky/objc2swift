@@ -23,7 +23,7 @@ trait BlockVisitor {
   import org.objc2swift.converter.util._
 
   override def visitBlockExpression(ctx: BlockExpressionContext): String = {
-    val blockType = (ctx.blockParameters, ctx.typeSpecifier) match {
+    val blockType = (ctx.blockParameters().get, ctx.typeSpecifier().get) match {
       case (null, null) => ""
       case (null, t) =>
         s"() -> ${visit(t)} in"
@@ -34,12 +34,12 @@ trait BlockVisitor {
     }
 
     s"""|{$blockType
-        |${indent(visit(ctx.compoundStatement))}
+        |${indent(visit(ctx.compoundStatement()))}
         |}""".stripMargin
   }
 
   override def visitBlockParameters(ctx: BlockParametersContext): String =
-    s"(${ctx.typeVariableDeclarator.map(visit).mkString(", ")})"
+    s"(${ctx.typeVariableDeclarator().map(visit).mkString(", ")})"
 
   override def visitBlockType(ctx: BlockTypeContext): String = "" // TODO
 }

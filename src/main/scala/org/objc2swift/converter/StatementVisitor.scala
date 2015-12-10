@@ -24,7 +24,8 @@ trait StatementVisitor {
    *
    * @param ctx the parse tree
    **/
-  override def visitCompoundStatement(ctx: CompoundStatementContext): String = visitChildren(ctx)
+  override def visitCompoundStatement(ctx: CompoundStatementContext): String =
+    visitChildren(ctx)
 
   /**
    * Returns translated text of statementList context.
@@ -32,7 +33,7 @@ trait StatementVisitor {
    * @param ctx the parse tree
    **/
   override def visitStatementList(ctx: StatementListContext): String =
-    visitChildren(ctx, "\n") + "\n"
+    visitChildren(ctx, "\n")
 
   /**
    * Returns translated text of statement context.
@@ -52,7 +53,7 @@ trait StatementVisitor {
    **/
   override def visitJumpStatement(ctx: JumpStatementContext): String =
     ctx.getChild(0).getText match {
-      case "return" => s"return ${Option(ctx.expression).map(visit).getOrElse("")}".stripSuffix(" ")
+      case "return" => s"return ${ctx.expression().map(visit).getOrElse("")}".stripSuffix(" ")
       case "break"  => "" // TODO not implemented
       case _        => "" // TODO
     }
@@ -69,7 +70,7 @@ trait StatementVisitor {
       case TerminalText("switch") => "switch"
       case c: ExpressionContext   => visit(c)
       case c: StatementContext    => visitBodyStatement(c).stripLineEnd
-    } + "\n"
+    }
 
   /**
    * Returns translated text of labeledStatement context.
@@ -109,11 +110,7 @@ trait StatementVisitor {
       case TerminalText("for")                   => "for "
       case TerminalText(";")                     => "; "
       case c: ExpressionContext                  => visit(c)
-      case d: DeclarationSpecifiersContext      =>
-        (for {
-          _ <- Option(d.typeSpecifier())
-          y <- Option(ctx.initDeclaratorList())
-        } yield declaratorListString(y)) getOrElse ""
+      case d: DeclarationSpecifiersContext       => ctx.initDeclaratorList().map(declaratorListString) getOrElse ""
       case c: StatementContext                   => s" ${visitBodyStatement(c)}"
     }
 
@@ -139,8 +136,8 @@ trait StatementVisitor {
       case TerminalText("do")    => "repeat {\n"
       case TerminalText("while") => s"} while"
       case c: ExpressionContext  => s" ${visit(c)}\n"
-      case c: StatementContext   => visitChildren(c)
-    }.mkString
+      case c: StatementContext   => indent(visitChildren(c)) + "\n"
+    }
 
   private def visitBodyStatement(ctx: StatementContext): String = {
     val statements =
@@ -155,8 +152,8 @@ trait StatementVisitor {
 
   private def declaratorOption(ctx: InitDeclaratorContext): Option[String] =
     for {
-      id <- Option(ctx.declarator().directDeclarator().identifier())
-      init <- Option(ctx.initializer())
+      id <- ctx.declarator().flatMap(_.directDeclarator()).flatMap(_.identifier())
+      init <- ctx.initializer()
     } yield s"${visit(id)} = ${visit(init)}"
 
   private def declaratorListString(ctx: InitDeclaratorListContext): String = {
