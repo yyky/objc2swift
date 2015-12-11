@@ -73,7 +73,9 @@ trait ClassVisitor {
    * @return
    */
   override def visitInterfaceDeclarationList(ctx: InterfaceDeclarationListContext): String =
-    visitChildren(ctx, "\n\n")
+    visitChildrenAs(ctx, "\n\n") {
+      case c if !isVisited(c) => visit(c)
+    }
 
   /**
    * implementation_definition_list:
@@ -89,7 +91,9 @@ trait ClassVisitor {
    * @return
    */
   override def visitImplementationDefinitionList(ctx: ImplementationDefinitionListContext): String =
-    visitChildren(ctx, "\n\n")
+    visitChildrenAs(ctx, "\n\n") {
+      case c if !isVisited(c) => visit(c)
+    }
 
 
   /**

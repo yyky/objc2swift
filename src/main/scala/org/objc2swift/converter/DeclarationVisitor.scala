@@ -39,21 +39,20 @@ trait DeclarationVisitor {
 
     // Type
     Option(ds.typeSpecifier()).foreach { ls =>
-      // Support Enumeration
-      ls(0).enumSpecifier().foreach { e =>
-        builder += visit(e)
-      }
-
-      ctx.initDeclaratorList() match {
-        case Some(c) =>
-          // Single declaration with initializer, or list of declarations.
-          val currentType = processTypeSpecifierList(ls)
-          c.initDeclarator().foreach {
-            builder += visitInitDeclarator(_, currentType, prefixes)
-          }
-        case None =>
-          // Short style declaration
-          builder += buildShortDeclaration(ls, prefixes).getOrElse("")
+      if(ls(0).enumSpecifier().nonEmpty) {
+        builder += visit(ls(0).enumSpecifier())
+      } else {
+        ctx.initDeclaratorList() match {
+          case Some(c) =>
+            // Single declaration with initializer, or list of declarations.
+            val currentType = processTypeSpecifierList(ls)
+            c.initDeclarator().foreach {
+              builder += visitInitDeclarator(_, currentType, prefixes)
+            }
+          case None =>
+            // Short style declaration
+            builder += buildShortDeclaration(ls, prefixes).getOrElse("")
+        }
       }
     }
 

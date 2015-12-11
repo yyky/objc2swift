@@ -25,13 +25,10 @@ abstract class ObjC2SwiftBaseConverter extends ObjCBaseVisitor[String] {
 
   override def defaultResult(): String = ""
 
-  override def visit(tree: ParseTree): String =
-    if(!isVisited(tree)) {
-      setVisited(tree)
-      super.visit(tree)
-    } else {
-      defaultResult()
-    }
+  override def visit(tree: ParseTree): String = {
+    setVisited(tree)
+    super.visit(tree)
+  }
 
   def visit(optionNode: Option[ParseTree]): String =
     optionNode.map(visit).getOrElse("")
