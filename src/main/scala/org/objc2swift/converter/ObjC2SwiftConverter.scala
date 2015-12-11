@@ -75,7 +75,6 @@ class ObjC2SwiftConverter(parser: ObjCParser) extends ObjC2SwiftBaseConverter
   with BlockVisitor
   with MessageVisitor
   with OperationVisitor
-  with TypeVisitor
   with TerminalNodeVisitor
   with ErrorHandler {
 

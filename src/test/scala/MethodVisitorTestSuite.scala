@@ -13,7 +13,7 @@ class MethodVisitorTestSuite extends ObjC2SwiftTestSuite {
       with RootVisitor
       with ClassVisitor
       with MethodVisitor
-      with TypeVisitor
+      with DeclarationVisitor
       with TerminalNodeVisitor
     {
       override val root = parser.translationUnit()

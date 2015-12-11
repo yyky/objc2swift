@@ -20,7 +20,7 @@ import scala.collection.JavaConversions._
  * Implements visit methods for enum contexts.
  */
 trait EnumVisitor {
-  this: ObjC2SwiftBaseConverter with TypeVisitor =>
+  this: ObjC2SwiftBaseConverter =>
 
   private val identifiers = new ParseTreeProperty[String]()
 

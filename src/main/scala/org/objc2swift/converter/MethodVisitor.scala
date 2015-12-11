@@ -21,9 +21,7 @@ import scala.collection.JavaConversions._
 trait MethodVisitor {
   this: ObjC2SwiftBaseConverter
     with RootVisitor
-    with ClassVisitor
-    with TypeVisitor
-    with TerminalNodeVisitor =>
+    with ClassVisitor =>
 
   import org.objc2swift.converter.util._
 

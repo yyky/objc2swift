@@ -9,9 +9,9 @@ import org.scalatest.junit.JUnitRunner
 class ExpressionVisitorTestSuite extends ObjC2SwiftTestSuite {
   override def converter(parser: ObjCParser): ObjC2SwiftBaseConverter =
     new ObjC2SwiftBaseConverter
+      with DeclarationVisitor
       with ExpressionVisitor
       with OperationVisitor
-      with TypeVisitor
       with TerminalNodeVisitor
     {
       override def getResult() = visit(parser.expression())

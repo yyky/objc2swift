@@ -12,7 +12,6 @@ class EnumVisitorTestSuite extends ObjC2SwiftTestSuite {
     new ObjC2SwiftBaseConverter
       with DeclarationVisitor
       with EnumVisitor
-      with TypeVisitor
       with TerminalNodeVisitor
     {
       override def getResult() = visit(parser.declaration())

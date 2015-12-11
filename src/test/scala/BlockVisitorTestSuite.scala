@@ -12,7 +12,6 @@ class BlockVisitorTestSuite extends ObjC2SwiftTestSuite {
       with ExpressionVisitor
       with BlockVisitor
       with DeclarationVisitor
-      with TypeVisitor
       with TerminalNodeVisitor
     {
       override def getResult() = visit(parser.expression())

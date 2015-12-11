@@ -15,7 +15,7 @@ class ProtocolVisitorTestSuite extends ObjC2SwiftTestSuite {
       with ClassVisitor
       with MethodVisitor
       with PropertyVisitor
-      with TypeVisitor
+      with DeclarationVisitor
       with TerminalNodeVisitor
     {
       override val root = null
