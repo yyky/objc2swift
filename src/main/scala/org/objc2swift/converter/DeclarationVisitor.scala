@@ -10,6 +10,7 @@
 
 package org.objc2swift.converter
 
+import org.antlr.v4.runtime.RuleContext
 import org.antlr.v4.runtime.tree.TerminalNode
 import org.objc2swift.converter.ObjCParser._
 
@@ -38,71 +39,6 @@ trait DeclarationVisitor {
       ""
   }
 
-  private def processAsFunctionCall(ctx: DeclarationContext): Option[String] =
-    for {
-      declSpec <- ctx.declarationSpecifiers()
-      firstTypeSpec <- declSpec.typeSpecifier().headOption
-      funcName <- firstTypeSpec.className()
-
-      initDeclList <- ctx.initDeclaratorList()
-      initDecl <- initDeclList.initDeclarator().headOption
-      decl <- initDecl.declarator()
-      dirDecl <- decl.directDeclarator()
-      decl2 <- dirDecl.declarator()
-      dirDecl2 <- decl2.directDeclarator()
-    } yield s"${visit(funcName)}(${visit(dirDecl2)})"
-
-
-  private def processAsEnum(ctx: DeclarationContext): Option[String] =
-    for {
-      declSpec <- ctx.declarationSpecifiers()
-      firstTypeSpec <- declSpec.typeSpecifier().headOption
-      enumSpec <- firstTypeSpec.enumSpecifier()
-    } yield visit(enumSpec)
-
-  private def buildShortDeclaration(ctxs: List[TypeSpecifierContext], prefix: String): Option[String] = {
-    ctxs.last.className().map(visit).filter(_.nonEmpty).map { name =>
-      List(
-        prefix,
-        if (prefix.split(" ").contains("let")) "" else "var",
-        s"$name: ${processTypeSpecifierList(ctxs.init)}").filter(_.nonEmpty).mkString(" ")
-    }
-  }
-
-  private def processAsSingleVarDeclaration(ctx: DeclarationContext): Option[String] = {
-    for {
-      declSpec <- ctx.declarationSpecifiers()
-      lastTypeSpec <- declSpec.typeSpecifier().lastOption
-      varName <- lastTypeSpec.className()
-    } yield List(
-      visit(declSpec),
-      letOrVar(ctx),
-      s"${visit(varName)}:",
-      processTypeSpecifierList(declSpec.typeSpecifier().init)
-    ).filter(_.nonEmpty).mkString(" ")
-  }
-
-  private def processAsVarDeclaration(ctx: DeclarationContext): Option[String] = {
-    val declSpec = ctx.declarationSpecifiers().get // required
-    val typeSpecs = declSpec.typeSpecifier()
-    val builder = List.newBuilder[String]
-
-    // prefixes: static, const, etc..
-    val prefix = visit(declSpec)
-
-    // Type
-    ctx.initDeclaratorList().map{ c =>
-      // Single declaration with initializer, or list of declarations.
-      val currentType = processTypeSpecifierList(typeSpecs)
-      c.initDeclarator().foreach {
-        builder += visitInitDeclarator(_, currentType, prefix)
-      }
-      "" // FIXME
-    }.map { _ =>
-      builder.result().filter(_.nonEmpty).mkString("\n")
-    }
-  }
-
   /**
    * declaration_specifiers:
    *   (arc_behaviour_specifier | storage_class_specifier | type_specifier | type_qualifier)+ ;
@@ -112,9 +48,8 @@ trait DeclarationVisitor {
    **/
   override def visitDeclarationSpecifiers(ctx: DeclarationSpecifiersContext): String =
     visitChildrenAs(ctx) {
-      case c: TypeQualifierContext          => visit(c)
+      case c: TypeQualifierContext         => visit(c)
       case c: StorageClassSpecifierContext => visit(c)
-      case c: TypeSpecifierContext => "" // do not process here
     }
 
   /**
@@ -123,10 +58,7 @@ trait DeclarationVisitor {
    * @param ctx the parse tree
    **/
   override def visitDeclarator(ctx: DeclaratorContext): String =
-    visitChildrenAs(ctx) {
-      case c: DirectDeclaratorContext => visit(c)
-      case c: PointerContext           => visit(c)
-    }
+    visitChildren(ctx)
 
   /**
    * Returns translated text of direct_declarator context.
@@ -146,7 +78,8 @@ trait DeclarationVisitor {
    *
    * @param ctx the parse tree
    **/
-  override def visitInitializer(ctx: InitializerContext): String = visitChildren(ctx)
+  override def visitInitializer(ctx: InitializerContext): String =
+    visitChildren(ctx)
 
   override def visitTypeVariableDeclarator(ctx: TypeVariableDeclaratorContext): String =
     ctx.declarationSpecifiers().map(_.typeSpecifier()).flatMap { ls =>
@@ -176,29 +109,62 @@ trait DeclarationVisitor {
       case TerminalText("static") => "static"
     }
 
-  private def visitInitDeclarator(ctx: InitDeclaratorContext, typeName: String, prefix: String): String = {
-    {
-      ctx.declarator().flatMap(_.directDeclarator()).flatMap(_.identifier()).map { _ =>
-        buildInitDeclaration(ctx, typeName, prefix).getOrElse("")
-      }
-    }.getOrElse("")
+
+  private def processAsFunctionCall(ctx: DeclarationContext): Option[String] = {
+    for {
+      declSpec <- ctx.declarationSpecifiers()
+      firstTypeSpec <- declSpec.typeSpecifier().headOption
+      funcName <- firstTypeSpec.className() // MEMO this is strange
+
+      initDeclList <- ctx.initDeclaratorList()
+      initDecl <- initDeclList.initDeclarator().headOption
+      decl <- initDecl.declarator()
+      dirDecl <- decl.directDeclarator()
+      decl2 <- dirDecl.declarator()
+      dirDecl2 <- decl2.directDeclarator()
+    } yield s"${visit(funcName)}(${visit(dirDecl2)})"
   }
 
-  private def buildInitDeclaration(ctx: InitDeclaratorContext, tp: String, prefix: String): Option[String] = {
-    visitChildrenAs(ctx) {
-      case TerminalText("=") => "" // NOOP
-      case c: DeclaratorContext  => {
-        val declarator = visit(c)
-        List(
-          prefix,
-          letOrVar(ctx.parent.parent.asInstanceOf[DeclarationContext]), // FIXME
-          s"$declarator: $tp").filter(_.nonEmpty).mkString(" ")
+  private def processAsEnum(ctx: DeclarationContext): Option[String] = {
+    for {
+      declSpec <- ctx.declarationSpecifiers()
+      firstTypeSpec <- declSpec.typeSpecifier().headOption
+      enumSpec <- firstTypeSpec.enumSpecifier()
+    } yield visit(enumSpec)
+  }
+
+
+  private def processAsVarDeclaration(ctx: DeclarationContext): Option[String] = {
+    for {
+      declSpec <- ctx.declarationSpecifiers()
+      initDeclList <- ctx.initDeclaratorList()
+    } yield initDeclList.initDeclarator().map { // foreach init-declarator
+      visitChildrenAs(_) {
+        case c: DeclaratorContext  => varDeclaration(ctx, declSpec, declSpec.typeSpecifier(), c)
+        case TerminalText("=") => "="
+        case c: InitializerContext => visit(c)
       }
-      case c: InitializerContext => s"= ${visit(c)}"
-    } match {
-      case "" => None
-      case s  => Some(s)
-    }
+    }.mkString("\n")
+  }
+
+
+  private def processAsSingleVarDeclaration(ctx: DeclarationContext): Option[String] = {
+    for {
+      declSpec <- ctx.declarationSpecifiers()
+      lastTypeSpec <- declSpec.typeSpecifier().lastOption
+      varName <- lastTypeSpec.className() // MEMO this is strange
+    } yield varDeclaration(ctx, declSpec, declSpec.typeSpecifier().init, varName)
+  }
+
+
+  private def varDeclaration(ctx: DeclarationContext, declSpec: DeclarationSpecifiersContext,
+                             typeSpecs: List[TypeSpecifierContext], varName: RuleContext): String = {
+    List(
+      visit(declSpec),
+      letOrVar(ctx),
+      visit(varName) + ":",
+      processTypeSpecifierList(typeSpecs)
+    ).filter(_.nonEmpty).mkString(" ")
   }
 
   private def letOrVar(ctx: DeclarationContext): String =
