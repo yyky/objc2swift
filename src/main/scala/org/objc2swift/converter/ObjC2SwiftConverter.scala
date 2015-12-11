@@ -23,6 +23,8 @@ abstract class ObjC2SwiftBaseConverter extends ObjCBaseVisitor[String] {
   protected def isVisited(node: ParseTree): Boolean = Option(visited.get(node)).getOrElse(false)
   protected def setVisited(node: ParseTree) = visited.put(node, true)
 
+  override def defaultResult(): String = ""
+
   override def visit(tree: ParseTree): String =
     if(!isVisited(tree)) {
       setVisited(tree)
@@ -31,21 +33,31 @@ abstract class ObjC2SwiftBaseConverter extends ObjCBaseVisitor[String] {
       defaultResult()
     }
 
+  def visit(optionNode: Option[ParseTree]): String =
+    optionNode.map(visit).getOrElse("")
+
+  def visitList(nodes: List[ParseTree]): String =
+    visitList(nodes, " ")
+
+  def visitList(nodes: List[ParseTree], glue: String): String =
+    nodes.map(visit).filter(_.nonEmpty).mkString(glue)
+
+  def visitListAs(nodes: List[ParseTree])(pf: PartialFunction[ParseTree, String]): String =
+    visitListAs(nodes, " ")(pf)
+
+  def visitListAs(nodes: List[ParseTree], glue: String)(pf: PartialFunction[ParseTree, String]): String =
+    nodes.collect(pf).filter(_.nonEmpty).mkString(glue)
+
   override def visitChildren(node: RuleNode): String = visitChildren(node, " ")
 
   def visitChildren(node: RuleNode, glue: String): String =
-    Range(0, node.getChildCount).map(node.getChild(_)).map(visit).filter(_.nonEmpty).mkString(glue)
+    visitList(Range(0, node.getChildCount).toList.map(node.getChild(_)), glue)
 
   def visitChildrenAs(node: RuleNode)(pf: PartialFunction[ParseTree, String]): String =
     visitChildrenAs(node, " ")(pf)
 
   def visitChildrenAs(node: RuleNode, glue: String)(pf: PartialFunction[ParseTree, String]): String =
-    Range(0, node.getChildCount).map(node.getChild(_)).collect(pf).filter(_.nonEmpty).mkString(glue)
-
-  def visit(optionNode: Option[ParseTree]): String =
-    optionNode.map(visit).getOrElse("")
-
-  override def defaultResult(): String = ""
+    visitListAs(Range(0, node.getChildCount).toList.map(node.getChild(_)), glue)(pf)
 
   protected val indentString = " " * 4
   protected def indent(source: String): String =
