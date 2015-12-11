@@ -10,9 +10,7 @@
 
 package org.objc2swift.converter
 
-import org.objc2swift.util.antlr._
 import org.objc2swift.converter.ObjCParser._
-import scala.collection.JavaConversions._
 
 trait ClassVisitor {
   this: ObjC2SwiftBaseConverter with RootVisitor =>
@@ -30,7 +28,7 @@ trait ClassVisitor {
     val body = List(
       ctx.interfaceDeclarationList().map(visit),
       for {
-        classImpl <- ctx.correspondingClassImplementation(root)
+        classImpl <- findClassImplementation(ctx)
         implDefList <- classImpl.implementationDefinitionList()
       } yield visit(implDefList)
     ).flatten.mkString("\n")
@@ -66,7 +64,7 @@ trait ClassVisitor {
 
     val body = List(
       ctx.interfaceDeclarationList().map(visit),
-      ctx.correspondingCategoryImplementation(root).map(visit)
+      findCategoryImplementation(ctx).map(visit)
     ).flatten.mkString("\n\n")
 
     s"""
@@ -78,4 +76,30 @@ trait ClassVisitor {
 
   // ignore category implementation with no corresponding interface.
   override def visitCategoryImplementation(ctx: CategoryImplementationContext): String = ""
+
+  protected def findClassImplementation(ctx: ClassInterfaceContext): Option[ClassImplementationContext] = {
+    val className = ctx.className.get.getText
+
+    {
+      for {
+        extDclCtx <- root.externalDeclaration.toStream
+        implCtx <- extDclCtx.classImplementation
+        if implCtx.className.get.getText == className
+      } yield implCtx
+    }.headOption
+  }
+
+  protected def findCategoryImplementation(ctx: CategoryInterfaceContext): Option[CategoryImplementationContext] = {
+    val className = ctx.className.get.getText
+    val categoryName = ctx.categoryName.get.getText
+
+    {
+      for {
+        extDclCtx <- root.externalDeclaration.toStream
+        implCtx <- extDclCtx.categoryImplementation()
+        if implCtx.className.get.getText == className
+        if implCtx.categoryName.get.getText == categoryName
+      } yield implCtx
+    }.headOption
+  }
 }

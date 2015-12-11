@@ -13,9 +13,6 @@ package org.objc2swift.converter
 import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeProperty, TerminalNode}
 import org.antlr.v4.runtime.{ParserRuleContext, RuleContext}
 import org.objc2swift.converter.ObjCParser._
-import org.objc2swift.util.antlr._
-
-import scala.collection.JavaConversions._
 
 trait ProtocolVisitor {
   this: ObjC2SwiftBaseConverter =>

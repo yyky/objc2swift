@@ -12,7 +12,6 @@ package org.objc2swift.converter
 
 import org.antlr.v4.runtime.ParserRuleContext
 import org.objc2swift.converter.ObjCParser._
-import org.objc2swift.util.antlr._
 
 import scala.collection.JavaConversions._
 
@@ -199,9 +198,9 @@ trait MethodVisitor {
     {
       declCtx.parent.parent.parent match {
         case classCtx: ClassInterfaceContext =>
-          classCtx.correspondingClassImplementation(root).flatMap(_.implementationDefinitionList())
+          findClassImplementation(classCtx).flatMap(_.implementationDefinitionList())
         case catCtx: CategoryInterfaceContext =>
-          catCtx.correspondingCategoryImplementation(root).flatMap(_.implementationDefinitionList())
+          findCategoryImplementation(catCtx).flatMap(_.implementationDefinitionList())
         case _ => None
       }
     }.flatMap { implDefList =>
