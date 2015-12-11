@@ -88,9 +88,15 @@ object Main {
     val lines = List.newBuilder[String]
     new ParseTreeWalker().walk(new ObjCBaseListener() {
       override def enterEveryRule(ctx: ParserRuleContext) {
-        lines +=
-          (ctx.depth - 1) + "  " * ctx.depth +
-            parser.getRuleNames()(ctx.getRuleIndex) + ": " + "'" + ctx.getStart.getText.replace("\n\r\t", " ") + "'"
+        lines += List(
+          (ctx.depth - 1) + "  " * ctx.depth,
+          parser.getRuleNames()(ctx.getRuleIndex),
+          ": ",
+          if(ctx.getStart.getTokenIndex == ctx.getStop.getTokenIndex)
+            ctx.getStart.getText.replace("\n\r\t", " ")
+          else
+            s"${ctx.getStart.getText} .. ${ctx.getStop.getText}".replace("\n\r\t", " ")
+        ).mkString
       }
     }, parser.translationUnit())
     lines.result().mkString("\n")
