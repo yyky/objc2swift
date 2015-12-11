@@ -11,11 +11,124 @@ class BlockVisitorTestSuite extends ObjC2SwiftTestSuite {
     new ObjC2SwiftBaseConverter
       with ExpressionVisitor
       with BlockVisitor
+      with DeclarationVisitor
       with TypeVisitor
       with TerminalNodeVisitor
     {
       override def getResult() = visit(parser.expression())
     }
 
-  // TODO block expression test
+  test("empty block") {
+    val source =
+      """
+        |^{
+        |}
+      """.stripMargin
+
+    val expected =
+      """
+        |{
+        |}
+      """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+  test("block with one param") {
+    val source =
+      """
+        |^(MyType a){
+        |}
+      """.stripMargin
+
+    val expected =
+      """
+        |{(a: MyType) in
+        |}
+      """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+  test("block with params") {
+    val source =
+      """
+        |^(MyTypeA a, MyTypeB b){
+        |}
+      """.stripMargin
+
+    val expected =
+      """
+        |{(a: MyTypeA, b: MyTypeB) in
+        |}
+      """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+  test("block with return type") {
+    val source =
+      """
+        |^NSString *{
+        |}
+      """.stripMargin
+
+    val expected =
+      """
+        |{() -> NSString in
+        |}
+      """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+  test("block with return type and params") {
+    val source =
+      """
+        |^NSString *(NSInteger i, NSInteger j){
+        |}
+      """.stripMargin
+
+    val expected =
+      """
+        |{(i: Int, j: Int) -> NSString in
+        |}
+      """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+  test("block with void param") {
+    val source =
+      """
+        |^(void){
+        |}
+      """.stripMargin
+
+    val expected =
+      """
+        |{() in
+        |}
+      """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+  test("block with void return type") {
+    val source =
+      """
+        |^void {
+        |}
+      """.stripMargin
+
+    val expected =
+      """
+        |{() -> Void in
+        |}
+      """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+  // TODO block type test
 }
