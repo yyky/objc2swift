@@ -98,7 +98,7 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  test("const object-type var decl without init") {
+  ignore("const object-type var decl without init") {
     val source = "MyType *const x;"
     val expected = "let x: MyType"
     assertConvertSuccess(source, expected)
@@ -168,7 +168,7 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  test("static const object-type var decl without init") {
+  ignore("static const object-type var decl without init") {
     val source = "static MyType *const x;"
     val expected = "static let x: MyType"
     assertConvertSuccess(source, expected)

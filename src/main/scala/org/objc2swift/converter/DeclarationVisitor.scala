@@ -33,7 +33,8 @@ trait DeclarationVisitor {
   override def visitDeclaration(ctx: DeclarationContext): String = {
     processAsFunctionCall(ctx) orElse
       processAsEnum(ctx) orElse
-      processAsVarDeclaration(ctx) getOrElse
+      processAsVarDeclaration(ctx) orElse
+      processAsSingleVarDeclaration(ctx) getOrElse
       ""
   }
 
@@ -59,6 +60,27 @@ trait DeclarationVisitor {
       enumSpec <- firstTypeSpec.enumSpecifier()
     } yield visit(enumSpec)
 
+  private def buildShortDeclaration(ctxs: List[TypeSpecifierContext], prefix: String): Option[String] = {
+    ctxs.last.className().map(visit).filter(_.nonEmpty).map { name =>
+      List(
+        prefix,
+        if (prefix.split(" ").contains("let")) "" else "var",
+        s"$name: ${processTypeSpecifierList(ctxs.init)}").filter(_.nonEmpty).mkString(" ")
+    }
+  }
+
+  private def processAsSingleVarDeclaration(ctx: DeclarationContext): Option[String] = {
+    for {
+      declSpec <- ctx.declarationSpecifiers()
+      lastTypeSpec <- declSpec.typeSpecifier().lastOption
+      varName <- lastTypeSpec.className()
+    } yield List(
+      visit(declSpec),
+      letOrVar(ctx),
+      s"${visit(varName)}:",
+      processTypeSpecifierList(declSpec.typeSpecifier().init)
+    ).filter(_.nonEmpty).mkString(" ")
+  }
 
   private def processAsVarDeclaration(ctx: DeclarationContext): Option[String] = {
     val declSpec = ctx.declarationSpecifiers().get // required
@@ -69,20 +91,16 @@ trait DeclarationVisitor {
     val prefix = visit(declSpec)
 
     // Type
-    ctx.initDeclaratorList() match {
-      case Some(c) =>
-        // Single declaration with initializer, or list of declarations.
-        val currentType = processTypeSpecifierList(typeSpecs)
-        c.initDeclarator().foreach {
-          builder += visitInitDeclarator(_, currentType, prefix)
-        }
-      case None =>
-        // Short style declaration
-        builder += buildShortDeclaration(typeSpecs, prefix).getOrElse("")
+    ctx.initDeclaratorList().map{ c =>
+      // Single declaration with initializer, or list of declarations.
+      val currentType = processTypeSpecifierList(typeSpecs)
+      c.initDeclarator().foreach {
+        builder += visitInitDeclarator(_, currentType, prefix)
+      }
+      "" // FIXME
+    }.map { _ =>
+      builder.result().filter(_.nonEmpty).mkString("\n")
     }
-
-    val result = builder.result().filter(_.nonEmpty).mkString("\n")
-    Option(result)
   }
 
   /**
@@ -96,6 +114,7 @@ trait DeclarationVisitor {
     visitChildrenAs(ctx) {
       case c: TypeQualifierContext          => visit(c)
       case c: StorageClassSpecifierContext => visit(c)
+      case c: TypeSpecifierContext => "" // do not process here
     }
 
   /**
@@ -142,10 +161,7 @@ trait DeclarationVisitor {
    *
    * @param ctx the parse tree
    **/
-  override def visitTypeQualifier(ctx: TypeQualifierContext): String =
-    visitChildrenAs(ctx) {
-      case TerminalText("const") => "let"
-    }
+  override def visitTypeQualifier(ctx: TypeQualifierContext): String = ""
 
   /**
    * Returns translated text of storage_class_specifier context.
@@ -160,14 +176,14 @@ trait DeclarationVisitor {
       case TerminalText("static") => "static"
     }
 
-  /**
-   * Returns translated text of init_declarator context.
-   *
-   * @param ctx init_declarator context
-   * @param tp type name
-   * @param prefix Prefix specifiers
-   * @return translated text
-   */
+  private def visitInitDeclarator(ctx: InitDeclaratorContext, typeName: String, prefix: String): String = {
+    {
+      ctx.declarator().flatMap(_.directDeclarator()).flatMap(_.identifier()).map { _ =>
+        buildInitDeclaration(ctx, typeName, prefix).getOrElse("")
+      }
+    }.getOrElse("")
+  }
+
   private def buildInitDeclaration(ctx: InitDeclaratorContext, tp: String, prefix: String): Option[String] = {
     visitChildrenAs(ctx) {
       case TerminalText("=") => "" // NOOP
@@ -175,9 +191,7 @@ trait DeclarationVisitor {
         val declarator = visit(c)
         List(
           prefix,
-          if (
-            prefix.split(" ").contains("let") ||
-              declarator.split(" ").contains("let")) "" else "var",
+          letOrVar(ctx.parent.parent.asInstanceOf[DeclarationContext]), // FIXME
           s"$declarator: $tp").filter(_.nonEmpty).mkString(" ")
       }
       case c: InitializerContext => s"= ${visit(c)}"
@@ -187,30 +201,14 @@ trait DeclarationVisitor {
     }
   }
 
-  private def visitInitDeclarator(ctx: InitDeclaratorContext, typeName: String, prefix: String): String = {
-    {
-      ctx.declarator().flatMap(_.directDeclarator()).flatMap(_.identifier()).map { _ =>
-        buildInitDeclaration(ctx, typeName, prefix).getOrElse("")
+  private def letOrVar(ctx: DeclarationContext): String =
+    if(ctx.declarationSpecifiers().exists(isConstantDeclaration)) "let" else "var"
+
+  private def isConstantDeclaration(ctx: DeclarationSpecifiersContext): Boolean =
+    ctx.typeQualifier().exists {
+      _.children.exists {
+        case TerminalText("const") => true
+        case _ => false
       }
-    }.getOrElse("")
-  }
-
-  /**
-   * Returns translated text of short style declaration.
-   *
-   * Called for single and no initializer declaration. Find id from class_name
-   *
-   * @param ctxs List of type_specifier contexts.
-   * @param prefix prefix specifiers
-   * @return translated text
-   */
-  private def buildShortDeclaration(ctxs: List[TypeSpecifierContext], prefix: String): Option[String] = {
-    ctxs.last.className().map(visit).filter(_.nonEmpty).map { name =>
-      List(
-        prefix,
-        if (prefix.split(" ").contains("let")) "" else "var",
-        s"$name: ${processTypeSpecifierList(ctxs.init)}").filter(_.nonEmpty).mkString(" ")
     }
-  }
-
 }
