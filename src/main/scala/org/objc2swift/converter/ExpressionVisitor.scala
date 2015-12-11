@@ -11,7 +11,9 @@
 package org.objc2swift.converter
 
 import org.antlr.v4.runtime._
+import org.antlr.v4.runtime.tree.{TerminalNode, ParseTree}
 import org.objc2swift.converter.ObjCParser._
+import org.objc2swift.converter.util.{NSStringLiteral, IdentifierText, TerminalText}
 import scala.collection.JavaConversions._
 
 /**
@@ -20,16 +22,16 @@ import scala.collection.JavaConversions._
 trait ExpressionVisitor {
   this: ObjC2SwiftBaseConverter =>
 
-  import org.objc2swift.converter.util._
-
-  override def visitExpression(ctx: ExpressionContext) = visitChildren(ctx)
+  override def visitExpression(ctx: ExpressionContext) =
+    visitChildren(ctx)
 
   override def visitSelectorExpression(ctx: SelectorExpressionContext): String =
     visitChildrenAs(ctx) {
       case c: SelectorNameContext => s""""${visit(c)}""""
     }
 
-  override def visitSelectorName(ctx: SelectorNameContext): String = ctx.getText
+  override def visitSelectorName(ctx: SelectorNameContext): String =
+    ctx.getText
 
   override def visitArrayExpression(ctx: ArrayExpressionContext) = {
     s"[${ctx.postfixExpression().map(visit).mkString(", ")}]"
@@ -55,12 +57,11 @@ trait ExpressionVisitor {
     }
 
   override def visitConditionalExpression(ctx: ConditionalExpressionContext): String = {
-    val left = ctx.logicalOrExpression().map(visit) getOrElse ""
-    val conds = ctx.conditionalExpression()
-    conds.length match {
-      case 0 => left
-      case 1 => s"$left ?? ${visit(conds(0))}"
-      case 2 => s"$left ? ${visit(conds(0))} : ${visit(conds(1))}"
+    val cond = ctx.logicalOrExpression().map(visit) getOrElse defaultResult()
+    ctx.conditionalExpression() match {
+      case List() => cond
+      case List(right) => s"$cond ?? ${visit(right)}"
+      case List(left, right) => s"$cond ? ${visit(left)} : ${visit(right)}"
     }
   }
 
@@ -71,27 +72,26 @@ trait ExpressionVisitor {
     }
 
   override def visitPrimaryExpression(ctx: PrimaryExpressionContext): String = {
-    if (ctx.getChildCount == 3 && ctx.getChild(0).getText == "(" && ctx.getChild(2).getText == ")") {
-      return s"(${visit(ctx.getChild(1))})"
-    }
+    ctx.children.toList match {
+      case List(TerminalText("("), c: ExpressionContext, TerminalText(")")) =>
+        s"(${visit(c)})"
 
-    {
-      ctx.IDENTIFIER().map { identifier =>
-        identifier.getText match {
+      case List(c) => c match {
+        case IdentifierText(t) => t match {
           case "YES" => "true"
-          case "NO"  => "false"
-          case other => other
+          case "NO" => "false"
+          case _ => t
         }
-      } orElse
-      ctx.STRING_LITERAL().map(_.getText.substring(1)) orElse
-      ctx.constant().map(visit)
-    }.getOrElse {
-      ctx.getText match {
-        case x @ ("self" | "super") => x
+
+        case c: ConstantContext => visit(c)
+        case NSStringLiteral(t) => t.substring(1)
+        case TerminalText("self")  => "self"
+        case TerminalText("super") => "super"
         case _ => visitChildren(ctx)
       }
     }
   }
 
-  override def visitArgumentExpressionList(ctx: ArgumentExpressionListContext) = visitChildren(ctx, ", ")
+  override def visitArgumentExpressionList(ctx: ArgumentExpressionListContext) =
+    visitChildren(ctx, ", ")
 }

@@ -18,6 +18,22 @@ package object util {
     def unapply(node: TerminalNode): Option[String] = Option(node.getSymbol.getText)
   }
 
+  object IdentifierText {
+    def unapply(node: TerminalNode): Option[String] =
+      if(node.getSymbol.getType == IDENTIFIER)
+        Some(node.getSymbol.getText)
+      else
+        None
+  }
+
+  object NSStringLiteral {
+    def unapply(node: TerminalNode): Option[String] =
+      if(node.getSymbol.getType == STRING_LITERAL)
+        Some(node.getSymbol.getText)
+      else
+        None
+  }
+
   object ClassNameText {
     def unapply(node: ClassNameContext): Option[String] = Option(node.getText)
   }
