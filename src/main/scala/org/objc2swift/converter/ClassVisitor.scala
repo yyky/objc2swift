@@ -22,15 +22,17 @@ trait ClassVisitor {
   override def visitSuperclassName(ctx: SuperclassNameContext): String = ctx.getText
 
   override def visitClassInterface(ctx: ClassInterfaceContext): String = {
-    val head = List(
-      ctx.className().map(visit).map { s => s"class $s" },
-      ctx.superclassName().map(visit).map { s => s": $s" },
-      ctx.protocolReferenceList().map(visit).map { s => s", $s"}
-    ).flatten.mkString("")
+    val head = s"class ${visit(ctx.className())}" + List(
+      ctx.superclassName().map(c => s": ${visit(c)}"),
+      ctx.protocolReferenceList().map(c => s", ${visit(c)}")
+    ).flatten.mkString
 
     val body = List(
       ctx.interfaceDeclarationList().map(visit),
-      ctx.correspondingClassImplementation(root).flatMap(_.implementationDefinitionList).map(visit)
+      for {
+        classImpl <- ctx.correspondingClassImplementation(root)
+        implDefList <- classImpl.implementationDefinitionList()
+      } yield visit(implDefList)
     ).flatten.mkString("\n")
 
     s"""
@@ -53,14 +55,14 @@ trait ClassVisitor {
 
   override def visitCategoryInterface(ctx: CategoryInterfaceContext): String = {
     // TODO: convert unnamed-category members as private.
-    if(ctx.categoryName == null) {
+    if(ctx.categoryName().isEmpty) {
       return ""
     }
 
     val head = List(
-      ctx.className().map(visit).map{s => s"extension $s"},
-      ctx.protocolReferenceList().map(visit).map{s => s": $s"}
-    ).flatten.mkString("")
+      ctx.className().map( c => s"extension ${visit(c)}" ),
+      ctx.protocolReferenceList().map( c => s": ${visit(c)}" )
+    ).flatten.mkString
 
     val body = List(
       ctx.interfaceDeclarationList().map(visit),
