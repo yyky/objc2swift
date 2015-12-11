@@ -178,16 +178,13 @@ trait ClassVisitor {
    * @return Some implementation context when found, else None.
    */
   protected def findClassImplementation(ctx: ClassInterfaceContext): Option[ClassImplementationContext] = {
-    val className = ctx.className().get.getText
-
-    {
-      for {
-        extDclCtx <- root.externalDeclaration().toStream
-        implCtx <- extDclCtx.classImplementation()
-        if implCtx.className().get.getText == className
-      } yield implCtx
-    }.headOption
-  }
+    val className = visit(ctx.className())
+    for {
+      extDclCtx <- root.externalDeclaration().toStream
+      implCtx <- extDclCtx.classImplementation()
+      if visit(implCtx.className()) == className
+    } yield implCtx
+  }.headOption
 
   /**
    * finds the corresponding class implementation with the same class name.
@@ -196,16 +193,14 @@ trait ClassVisitor {
    * @return Some implementation context when found, else None.
    */
   protected def findCategoryImplementation(ctx: CategoryInterfaceContext): Option[CategoryImplementationContext] = {
-    val className = ctx.className().get.getText
-    val categoryName = ctx.categoryName().get.getText
+    val className = visit(ctx.className())
+    val categoryName = visit(ctx.categoryName())
 
-    {
-      for {
-        extDclCtx <- root.externalDeclaration().toStream
-        implCtx <- extDclCtx.categoryImplementation()
-        if implCtx.className().get.getText == className
-        if implCtx.categoryName().get.getText == categoryName
-      } yield implCtx
-    }.headOption
-  }
+    for {
+      extDclCtx <- root.externalDeclaration().toStream
+      implCtx <- extDclCtx.categoryImplementation()
+      if visit(implCtx.className()) == className &&
+         visit(implCtx.categoryName()) == categoryName
+    } yield implCtx
+  }.headOption
 }
