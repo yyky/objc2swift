@@ -10,7 +10,6 @@ class OperationVisitorTestSuite extends ObjC2SwiftTestSuite {
   override def converter(parser: ObjCParser): ObjC2SwiftBaseConverter =
     new ObjC2SwiftBaseConverter
       with ExpressionVisitor
-      with OperationVisitor
       with TerminalNodeVisitor
     {
       override def getResult() = visit(parser.expression())

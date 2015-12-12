@@ -12,7 +12,6 @@ class StatementVisitorTestSuite extends ObjC2SwiftTestSuite {
       with StatementVisitor
       with DeclarationVisitor
       with ExpressionVisitor
-      with OperationVisitor
       with TerminalNodeVisitor
     {
       override def getResult() = visit(parser.statement())

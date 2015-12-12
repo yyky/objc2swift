@@ -11,7 +11,6 @@ class ExpressionVisitorTestSuite extends ObjC2SwiftTestSuite {
     new ObjC2SwiftBaseConverter
       with DeclarationVisitor
       with ExpressionVisitor
-      with OperationVisitor
       with TerminalNodeVisitor
     {
       override def getResult() = visit(parser.expression())

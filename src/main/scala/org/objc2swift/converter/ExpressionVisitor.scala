@@ -27,7 +27,7 @@ trait ExpressionVisitor {
 
   override def visitSelectorExpression(ctx: SelectorExpressionContext): String =
     visitChildrenAs(ctx) {
-      case c: SelectorNameContext => s""""${visit(c)}""""
+      case c: SelectorNameContext => "\"" + visit(c) + "\""
     }
 
   override def visitSelectorName(ctx: SelectorNameContext): String =
@@ -94,4 +94,61 @@ trait ExpressionVisitor {
 
   override def visitArgumentExpressionList(ctx: ArgumentExpressionListContext) =
     visitChildren(ctx, ", ")
+
+  override def visitAssignmentExpression(ctx: AssignmentExpressionContext): String =
+    visitChildren(ctx)
+
+  override def visitEqualityExpression(ctx: EqualityExpressionContext) =
+    processBinaryExpression(ctx)
+
+  override def visitRelationalExpression(ctx: RelationalExpressionContext) =
+    processBinaryExpression(ctx)
+
+  override def visitLogicalOrExpression(ctx: LogicalOrExpressionContext) =
+    processBinaryExpression(ctx)
+
+  override def visitLogicalAndExpression(ctx: LogicalAndExpressionContext) =
+    processBinaryExpression(ctx)
+
+  override def visitAdditiveExpression(ctx: AdditiveExpressionContext) =
+    processBinaryExpression(ctx)
+
+  override def visitMultiplicativeExpression(ctx: MultiplicativeExpressionContext) =
+    processBinaryExpression(ctx)
+
+  override def visitInclusiveOrExpression(ctx: InclusiveOrExpressionContext) =
+    processBinaryExpression(ctx)
+
+  override def visitExclusiveOrExpression(ctx: ExclusiveOrExpressionContext) =
+    processBinaryExpression(ctx)
+
+  override def visitAndExpression(ctx: AndExpressionContext) =
+    processBinaryExpression(ctx)
+
+  override def visitShiftExpression(ctx: ShiftExpressionContext) =
+    processBinaryExpression(ctx)
+
+  override def visitUnaryExpression(ctx: UnaryExpressionContext) =
+    processUnaryExpression(ctx)
+
+  override def visitPostfixExpression(ctx: PostfixExpressionContext) =
+    processUnaryExpression(ctx)
+
+  override def visitAssignmentOperator(ctx: AssignmentOperatorContext) =
+    ctx.getText
+
+  override def visitUnaryOperator(ctx: UnaryOperatorContext) =
+    ctx.getText
+
+  private def processBinaryExpression(ctx: ParserRuleContext): String =
+    visitChildrenAs(ctx) {
+      case TerminalText(s) => s
+      case c               => visit(c)
+    }
+
+  private def processUnaryExpression(ctx: ParserRuleContext): String =
+    visitChildrenAs(ctx, "") {
+      case TerminalText(s) => s
+      case c               => visit(c)
+    }
 }
