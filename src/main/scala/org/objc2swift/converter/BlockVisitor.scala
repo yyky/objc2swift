@@ -14,9 +14,6 @@ import org.antlr.v4.runtime._
 import org.objc2swift.converter.ObjCParser._
 import scala.collection.JavaConversions._
 
-/**
- * Implements visit methods for expression contexts.
- */
 trait BlockVisitor {
   this: ObjC2SwiftBaseConverter =>
 

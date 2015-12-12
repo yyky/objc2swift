@@ -16,9 +16,6 @@ import org.objc2swift.converter.ObjCParser._
 
 import scala.collection.JavaConversions._
 
-/**
- * Implements visit methods for declaration contexts.
- */
 trait DeclarationVisitor {
   this: ObjC2SwiftBaseConverter =>
 
