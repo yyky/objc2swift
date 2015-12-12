@@ -21,14 +21,14 @@ class EnumVisitorTestSuite extends ObjC2SwiftTestSuite {
   test("simple enum") {
     val source =
       s"""
-         |enum A {
+         |enum MyEnum {
          |  A0
          |};
        """.stripMargin
 
     val expected =
       s"""
-         |enum A : Int {
+         |enum MyEnum : Int {
          |  case A0
          |}
        """.stripMargin // TODO no raw-value type when not specified
@@ -39,7 +39,7 @@ class EnumVisitorTestSuite extends ObjC2SwiftTestSuite {
   test("simple enum with multiple choices") {
     val source =
       s"""
-         |enum A {
+         |enum MyEnum {
          |  A0,
          |  A1,
          |  A2,
@@ -48,7 +48,7 @@ class EnumVisitorTestSuite extends ObjC2SwiftTestSuite {
 
     val expected =
       s"""
-         |enum A : Int {
+         |enum MyEnum : Int {
          |  case A0
          |  case A1
          |  case A2
@@ -61,14 +61,14 @@ class EnumVisitorTestSuite extends ObjC2SwiftTestSuite {
   test("enum with init value") {
     val source =
       s"""
-         |enum A {
+         |enum MyEnum {
          |  A0 = 1
          |};
        """.stripMargin
 
     val expected =
       s"""
-         |enum A : Int {
+         |enum MyEnum : Int {
          |  case A0 = 1
          |}
        """.stripMargin // TODO no raw-value type when not specified
@@ -79,7 +79,7 @@ class EnumVisitorTestSuite extends ObjC2SwiftTestSuite {
   test("enum with init value, multiple choices ") {
     val source =
       s"""
-         |enum A {
+         |enum MyEnum {
          |  A0 = 0,
          |  A1,
          |  A2 = 99
@@ -88,7 +88,7 @@ class EnumVisitorTestSuite extends ObjC2SwiftTestSuite {
 
     val expected =
       s"""
-         |enum A : Int {
+         |enum MyEnum : Int {
          |  case A0 = 0
          |  case A1
          |  case A2 = 99
@@ -98,17 +98,17 @@ class EnumVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  test("enum with type specifier") {
+  test("typedef enum") {
     val source =
       """
         |typedef enum : NSUInteger {
         |  A0
-        |} A;
+        |} MyEnum;
       """.stripMargin
 
     val expected =
       """
-        |enum A : UInt {
+        |enum MyEnum : UInt {
         |  case A0
         |}
       """.stripMargin
@@ -119,14 +119,14 @@ class EnumVisitorTestSuite extends ObjC2SwiftTestSuite {
   test("typedef NS_ENUM") {
     val source =
       """
-        |typedef NS_ENUM(NSUInteger, A) {
+        |typedef NS_ENUM(NSUInteger, MyEnum) {
         |  A0
         |};
       """.stripMargin
 
     val expected =
       """
-        |enum A : UInt {
+        |enum MyEnum : UInt {
         |  case A0
         |}
       """.stripMargin
@@ -139,7 +139,7 @@ class EnumVisitorTestSuite extends ObjC2SwiftTestSuite {
   test("typedef NS_OPTIONS") {
     val source =
       """
-        |typedef NS_OPTIONS(NSInteger, A) {
+        |typedef NS_OPTIONS(NSInteger, MyEnum) {
         |  A0 = 0,
         |  A1 = 1,
         |  A2 = 2,
@@ -149,13 +149,35 @@ class EnumVisitorTestSuite extends ObjC2SwiftTestSuite {
 
     val expected =
       """
-        |enum A : Int {
+        |enum MyEnum : Int {
         |  case A0 = 0
         |  case A1 = 1
         |  case A2 = 2
         |  case A3 = 4
         |}
       """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+  test("enum cases with same prefix") {
+    val source =
+      s"""
+         |enum MyEnum {
+         |  MyEnum0,
+         |  MyEnum1,
+         |  MyEnum2,
+         |};
+       """.stripMargin
+
+    val expected =
+      s"""
+         |enum MyEnum : Int {
+         |  case _0
+         |  case _1
+         |  case _2
+         |}
+       """.stripMargin // TODO no raw-value type when not specified
 
     assertConvertSuccess(source, expected)
   }

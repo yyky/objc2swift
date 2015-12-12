@@ -13,103 +13,91 @@ package org.objc2swift.converter
 import org.antlr.v4.runtime.RuleContext
 import org.antlr.v4.runtime.tree.ParseTreeProperty
 import org.objc2swift.converter.ObjCParser._
+import org.objc2swift.converter.util.TerminalText
 
 import scala.collection.JavaConversions._
 
 trait EnumVisitor {
   this: ObjC2SwiftBaseConverter =>
 
-  private val identifiers = new ParseTreeProperty[String]()
-
-  def findDeclarationSpecifiers(ctx: RuleContext): Option[DeclarationSpecifiersContext] =
-    ctx match {
-      case c: DeclarationSpecifiersContext => Some(c)
-      case c: TranslationUnitContext => None
-      case _ => findDeclarationSpecifiers(ctx.parent)
-    }
-
-  def getClassName(ctx: DeclarationSpecifiersContext): String =
-    Option(ctx.typeSpecifier()).filter(_.size >= 2).flatMap { list =>
-      list.last.className()
-    }.map(visit).getOrElse("")
-
   /**
-   * Get name of enumerator.
-   * @param ctx parse tree
+   * enum_specifier:
+   *   'enum' (IDENTIFIER? ':' type_name)?
+   *     ( identifier ('{' enumerator_list '}')?
+   *     | '{' enumerator_list '}')
+   *     | 'NS_OPTIONS' '(' type_name ',' identifier ')' '{' enumerator_list '}'
+   *     | 'NS_ENUM' '(' type_name ',' identifier ')' '{' enumerator_list '}' ;
+   *
+   * @param ctx
    * @return
    */
-  def getEnumName(ctx: EnumSpecifierContext): String =
-    {
-      ctx.identifier().map(visit) orElse
-      findDeclarationSpecifiers(ctx).map(getClassName)
-    }.getOrElse("")
-
   override def visitEnumSpecifier(ctx: EnumSpecifierContext): String =
-    Some(getEnumName(ctx))
-      .filter(_.nonEmpty)
-      .map(visitEnumSpecifier(ctx, _))
-      .getOrElse("")
-
-  /**
-   * Return translated text of enum_specifier context.
-   *
-   * @param ctx parse tree
-   * @param identifier enum id
-   * @return translated text
-   */
-  def visitEnumSpecifier(ctx: EnumSpecifierContext, identifier: String): String = {
-    // save this enum id
-    identifiers.put(ctx, identifier)
-
-    val typeStr = ctx.typeName().map(visit) getOrElse "Int"
-    val body = ctx.enumeratorList().map(visit) getOrElse ""
     s"""
-       |enum $identifier : $typeStr {
-       |${indent(body)}
+       |enum ${enumIdentifier(ctx)} : ${enumType(ctx)} {
+       |${indent(visit(ctx.enumeratorList()))}
        |}
      """.stripMargin
-  }
+
 
   /**
-   * Returns translated text of enumerator_list context.
+   * enumerator_list:
+   *   enumerator (',' enumerator)* ','? ;
    *
-   * @param ctx the parse tree
-   **/
+   * @param ctx
+   * @return
+   */
   override def visitEnumeratorList(ctx: EnumeratorListContext): String =
     visitChildren(ctx, "\n")
 
   /**
-   * Returns translated text of enumerator context.
+   * enumerator:
+   *   identifier ('=' constant_expression)?;
    *
-   * @param ctx the parse tree
-   **/
-  override def visitEnumerator(ctx: EnumeratorContext): String =
-    s"case ${getEnumIdentifier(ctx)}${getEnumConstant(ctx)}"
-
-  /**
-   * Returns translated text of identifier under the enumerator context
-   *
-   * @param ctx the parse tree
-   * @return translated text
+   * @param ctx
+   * @return
    */
-  private def getEnumIdentifier(ctx: EnumeratorContext): String = {
-    val origId = ctx.identifier().map(visit) getOrElse ""
-    val enumId = identifiers.get(ctx.parent.parent)
-    val digitId = "[0-9].*".r
+  override def visitEnumerator(ctx: EnumeratorContext): String =
+    "case " + visitChildrenAs(ctx) {
+      case c: IdentifierContext => enumCaseIdentifier(c)
+      case TerminalText("=") => "="
+      case c: ConstantExpressionContext => visit(c)
+    }
 
-    // Trim duplicate prefix
-    origId.stripPrefix(enumId) match {
-      case digitId() => origId
-      case s         => s
+  private def enumIdentifier(ctx: EnumSpecifierContext): String = {
+    ctx.identifier() match {
+      case Some(c: IdentifierContext) => visit(c)
+
+      // MEMO case: typedef enum{ ... } identifier;
+      case None =>
+        // declaration_specifiers > type_specifier > enum_specifier
+        Option(ctx.parent.parent) flatMap {
+          case c: DeclarationSpecifiersContext =>
+            for {
+              typeSpec <- c.typeSpecifier().lastOption
+              className <- typeSpec.className()
+            } yield visit(className)
+          case _ => None
+        } getOrElse defaultResult()
     }
   }
 
-  /**
-   * Returns translated text of constant_expression under the enumerator context
-   *
-   * @param ctx the parse tree
-   * @return translated text
-   */
-  private def getEnumConstant(ctx: EnumeratorContext): String =
-    ctx.constantExpression().map(c => s" = ${visit(c)}") getOrElse ""
+  private def enumType(ctx: EnumSpecifierContext): String =
+    ctx.typeName().map(visit) getOrElse "Int"
+
+  private def enumCaseIdentifier(ctx: IdentifierContext): String = {
+    ctx.parent.parent.parent match {
+      case e: EnumSpecifierContext =>
+        val origId = visit(ctx)
+        val enumId = enumIdentifier(e)
+        val strippedId = origId.stripPrefix(enumId)
+
+        if(strippedId.matches("[0-9].*"))
+          "_" + strippedId
+        else
+          strippedId
+
+      case _ =>
+        defaultResult()
+    }
+  }
 }
