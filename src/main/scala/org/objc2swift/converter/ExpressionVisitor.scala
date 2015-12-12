@@ -30,7 +30,10 @@ trait ExpressionVisitor {
    * @return
    */
   override def visitExpression(ctx: ExpressionContext) =
-    visitChildren(ctx)
+    visitChildrenAs(ctx, "") {
+      case TerminalText(",") => ", "
+      case c => visit(c)
+    }
 
   /**
    * selector_expression:

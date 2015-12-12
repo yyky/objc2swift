@@ -11,6 +11,7 @@
 package org.objc2swift.converter
 
 import org.objc2swift.converter.ObjCParser._
+import org.objc2swift.converter.util.{NSStringLiteral, TerminalText}
 
 import scala.collection.JavaConversions._
 
@@ -18,87 +19,140 @@ trait MessageVisitor {
   this: ObjC2SwiftBaseConverter =>
 
   /**
-   * Returns translated text of messageExpression context.
+   * message_expression:
+   *   '[' receiver message_selector ']' ;
    *
    * @param ctx the parse tree
+   * @return
    **/
   override def visitMessageExpression(ctx: MessageExpressionContext): String =
     ctx match {
+      case AllocMessageExpression(s) => s
+      case InitMessageExpression(s) => s
       case StringWithFormatMessageExpression(s) => s
-      case AllocMessageExpression(s)            => s
-      case InitMessageExpression(s)             => s
-      case _ => {
-        val sel = ctx.messageSelector().get
-        val method = sel.selector() match {
-          case Some(s) => s"${s.getText}()" // no argument
-          case None => {
-            val head :: tail = sel.keywordArgument
-            val firstArg = s"${head.selector.get.getText}(${visit(head.expression)}"
-            val restArgs = tail.map { c => s", ${c.selector.get.getText}: ${visit(c.expression)}" }
-            s"$firstArg${restArgs.mkString})"
-          }
-        }
-
-        s"${visit(ctx.receiver)}.$method"
-      }
+      case _ => visitChildren(ctx, ".")
     }
 
   /**
-   * Extractor for alloc method expression.
+   * receiver:
+   *   expression | class_name | 'super';
+   *
+   * @param ctx
+   * @return
    */
-  object AllocMessageExpression {
+  override def visitReceiver(ctx: ReceiverContext): String =
+    visitChildren(ctx)
+
+  /**
+   * message_selector:
+   *   selector | keyword_argument+;
+   *
+   * @param ctx
+   * @return
+   */
+  override def visitMessageSelector(ctx: MessageSelectorContext): String =
+    ctx.selector() match {
+      case Some(SelectorText(s)) => s"$s()" // no argument
+      case None =>
+        val head :: tail = ctx.keywordArgument()
+        List(
+          visit(head.selector()),
+          "(",
+          visit(head.expression()),
+          tail.foldLeft("")(_ + ", " + visit(_)),
+          ")"
+        ).mkString
+    }
+
+
+  /**
+   * keyword_argument:
+   *   selector? ':' expression;
+   *
+   * @param ctx
+   * @return
+   */
+  override def visitKeywordArgument(ctx: KeywordArgumentContext): String =
+    visitChildrenAs(ctx, "") {
+      case TerminalText(":") => ": "
+      case c => visit(c)
+    }
+
+
+  private object AllocMessageExpression {
     def unapply(ctx: MessageExpressionContext): Option[String] =
-      ctx.messageSelector.flatMap(_.selector)
-        .filter(_.getText == "alloc")
-        .map(_ => visit(ctx.receiver))
+      for{
+        receiver <- ctx.receiver()
+        msgSel <- ctx.messageSelector()
+        sel <- msgSel.selector()
+        if visit(sel) == "alloc"
+      } yield visit(receiver)
   }
 
-  object InitMessageExpression {
-    def unapply(ctx: MessageExpressionContext): Option[String] = {
-      ctx.messageSelector().flatMap(_.selector()) match {
-        case Some(s) =>
-          if (s.getText == "init") Some(s"${visit(ctx.receiver)}()")
-          else None
-        case None =>
-          val params = ctx.messageSelector().map(_.keywordArgument).get
-          Some(params.head.selector.get.getText).filter(_.startsWith("initWith")).map { _ =>
-            val builder = List.newBuilder[String]
-            val head :: tail = params.toList
-            val firstParam = {
-              val selector = head.selector.get.getText
-              val oldName = selector.stripPrefix("initWith")
-              val newName = oldName.head.toLower + oldName.tail
-              s"$newName: ${visit(head.expression.get)}"
-            }
-            val restParams =
-              tail.map(c => s", ${c.selector.get.getText}: ${visit(c.expression)}")
 
-            s"${visit(ctx.receiver)}($firstParam${restParams.mkString})"
-          }
-      }
-    }
-  }
-
-  /**
-   * Extractor for stringWithFormat message expression.
-   */
-  object StringWithFormatMessageExpression {
+  private object InitMessageExpression {
     def unapply(ctx: MessageExpressionContext): Option[String] = {
-      Option(ctx.messageSelector().get.keywordArgument()).filter(_.nonEmpty).flatMap { a =>
-        visit(a.head.selector()) match {
-          case "stringWithFormat" =>
-            val exps = a.head.expression().get.assignmentExpression()
-            Some(exps.head.getText).filter(_.matches("^@\".*\"$")).flatMap { _ =>
-              convertComplexFormat(exps).filter(_.nonEmpty) orElse
-              convertSimpleFormat(exps).filter(_.nonEmpty)
+      ctx.messageSelector().flatMap { msgSel =>
+        msgSel.selector() match {
+          case Some(SelectorText(s)) if s == "init" =>
+            Some(visit(ctx.receiver()) + "()")
+          case None =>
+            val headArg :: tailArgs = msgSel.keywordArgument()
+            for {
+              sel <- headArg.selector()
+              selName = visit(sel)
+              if selName startsWith "initWith"
+            } yield {
+              val stripped = selName.stripPrefix("initWith")
+              List(
+                visit(ctx.receiver()),
+                "(",
+                stripped.head.toLower,
+                stripped.tail,
+                ": ",
+                visit(headArg.expression()),
+                tailArgs.foldLeft("")(_ + ", " + visit(_)),
+                ")"
+              ).mkString
             }
-          case "initWithFormat" =>
-            val exps = a.head.expression().get.assignmentExpression()
-            Some(s"String(format: ${exps.map(visit).mkString(", ")})")
-          case _ => None
+          case Some(_) =>
+            None
         }
       }
     }
+  }
+
+
+  private object StringWithFormatMessageExpression {
+    def unapply(ctx: MessageExpressionContext): Option[String] = {
+      (for {
+        rcv <- ctx.receiver()
+        msgSel <- ctx.messageSelector()
+        kwArg <- msgSel.keywordArgument().headOption
+        sel <- kwArg.selector()
+        arg <- kwArg.expression().flatMap(_.assignmentExpression().headOption)
+      } yield (rcv, sel) match {
+          case (ReceiverText("NSString"), SelectorText("stringWithFormat")) |
+               (ReceiverText("NSString"), SelectorText("initWithFormat")) =>
+            if(arg.getText.matches("^@\".*\"$")) {
+              convertComplexFormat(kwArg.expression().get.assignmentExpression()) orElse
+                convertSimpleFormat(kwArg.expression().get.assignmentExpression())
+            } else {
+              None
+            }
+
+          case _ =>
+            None
+      }).flatten
+    }
+  }
+
+  private object ReceiverText {
+    def unapply(ctx: ReceiverContext): Option[String] = Some(visit(ctx))
+  }
+
+  private object SelectorText {
+    def unapply(ctx: SelectorContext): Option[String] = Some(visit(ctx))
   }
 
   private[this] def convertSimpleFormat(exps: List[AssignmentExpressionContext]): Option[String] = {
