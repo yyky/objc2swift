@@ -27,9 +27,10 @@ trait MessageVisitor {
    **/
   override def visitMessageExpression(ctx: MessageExpressionContext): String =
     ctx match {
-      case AllocMessageExpression(s) => s
-      case InitMessageExpression(s) => s
-      case StringWithFormatMessageExpression(s) => s
+      case AllocExpression(result) => result
+      case InitExpression(result) => result
+      case NSStringFormatExpression(result) => result
+      case ConvenienceConstructorExpression(result) => result
       case _ => visitChildren(ctx, ".")
     }
 
@@ -55,13 +56,10 @@ trait MessageVisitor {
       case Some(SelectorText(s)) => s"$s()" // no argument
       case None =>
         val head :: tail = ctx.keywordArgument()
-        List(
-          visit(head.selector()),
-          "(",
-          visit(head.expression()),
-          tail.foldLeft("")(_ + ", " + visit(_)),
-          ")"
-        ).mkString
+        val funcName = visit(head.selector())
+        val firstArg = visit(head.expression())
+        val rest = tail.foldLeft("")(_ + ", " + visit(_))
+        s"$funcName($firstArg$rest)"
     }
 
 
@@ -79,72 +77,99 @@ trait MessageVisitor {
     }
 
 
-  private object AllocMessageExpression {
+  private object AllocExpression {
     def unapply(ctx: MessageExpressionContext): Option[String] =
-      for{
-        receiver <- ctx.receiver()
-        msgSel <- ctx.messageSelector()
-        sel <- msgSel.selector()
-        if visit(sel) == "alloc"
-      } yield visit(receiver)
+      ctx match {
+        case ReceiverAndFirstSelector(r, s) if s == "alloc" => Some(r)
+        case _ => None
+      }
   }
 
 
-  private object InitMessageExpression {
-    def unapply(ctx: MessageExpressionContext): Option[String] = {
-      ctx.messageSelector().flatMap { msgSel =>
-        msgSel.selector() match {
-          case Some(SelectorText(s)) if s == "init" =>
-            Some(visit(ctx.receiver()) + "()")
-          case None =>
-            val headArg :: tailArgs = msgSel.keywordArgument()
-            for {
-              sel <- headArg.selector()
-              selName = visit(sel)
-              if selName startsWith "initWith"
-            } yield {
-              val stripped = selName.stripPrefix("initWith")
-              List(
-                visit(ctx.receiver()),
-                "(",
-                stripped.head.toLower,
-                stripped.tail,
-                ": ",
-                visit(headArg.expression()),
-                tailArgs.foldLeft("")(_ + ", " + visit(_)),
-                ")"
-              ).mkString
-            }
-          case Some(_) =>
-            None
-        }
+  private object InitExpression {
+    def unapply(ctx: MessageExpressionContext): Option[String] =
+      ctx match {
+        case ReceiverAndFirstSelector(r, s) if s == "init" =>
+          Some(s"$r()")
+
+        case ReceiverAndFirstSelector(r, s) if s matches "initWith.*?:" =>
+          val stripped = s.stripPrefix("initWith")
+          val firstLabel = stripped.head.toLower + stripped.tail
+          val kwArgs = ctx.messageSelector().get.keywordArgument()
+          val firstArg = visit(kwArgs.head.expression())
+          val rest = kwArgs.tail.foldLeft("")(_ + ", " + visit(_))
+          Some(s"$r($firstLabel $firstArg$rest)")
+
+        case _ => None
       }
+  }
+
+
+  // TODO support more
+  private object ConvenienceConstructorExpression {
+    def unapply(ctx: MessageExpressionContext): Option[String] =
+      (ctx match {
+        case ReceiverAndFirstSelector(r, s) => (r, s) match {
+          case ("UIImage", "imageNamed:") => Some(r, "named:")
+          case _ => None
+        }
+      }) map { case (r, s) =>
+        val msgSel = ctx.messageSelector().get
+        val head :: tail = msgSel.keywordArgument()
+        val headArg = visit(head.expression())
+        val rest = tail.foldLeft("")(_ + ", " + visit(_))
+        s"$r($s $headArg$rest)"
+      }
+  }
+
+  private object NSStringFormatExpression {
+    def unapply(ctx: MessageExpressionContext): Option[String] =
+      ctx match {
+        case ReceiverAndFirstSelector("NSString", "stringWithFormat:") =>
+          (for {
+            msgSel <- ctx.messageSelector()
+            kwArg <- msgSel.keywordArgument().headOption
+            expr <- kwArg.expression()
+            exps = expr.assignmentExpression() // MEMO this is mostly NOT list of assignment-exprs.
+          } yield {
+              val r1 = """(%[0-9.]+[a-z@]+)""".r
+              val r2 = """(%[a-z@]+)""".r
+
+              r1.findFirstIn(exps.head.getText).map { _ =>
+                val head :: tail = exps.toList
+                val format = s"format: ${visit(head)}"
+                val args = tail.map(c => s", ${visit(c)}")
+                s"String($format${args.mkString})"
+              } orElse r2.findFirstIn(exps.head.getText).map { _ =>
+                val format = visit(exps.head)
+                val params = exps.tail.map(visit).map(i => s"""\\($i)""")
+                (("" +: params) zip r2.split(format)).map(i => i._1 + i._2).mkString
+              }
+            }).flatten
+
+        case _ =>
+          None
     }
   }
 
-
-  private object StringWithFormatMessageExpression {
-    def unapply(ctx: MessageExpressionContext): Option[String] = {
+  private object ReceiverAndFirstSelector {
+    def unapply(ctx: MessageExpressionContext): Option[(String, String)] =
       (for {
         rcv <- ctx.receiver()
+        r = visit(rcv)
         msgSel <- ctx.messageSelector()
-        kwArg <- msgSel.keywordArgument().headOption
-        sel <- kwArg.selector()
-        arg <- kwArg.expression().flatMap(_.assignmentExpression().headOption)
-      } yield (rcv, sel) match {
-          case (ReceiverText("NSString"), SelectorText("stringWithFormat")) |
-               (ReceiverText("NSString"), SelectorText("initWithFormat")) =>
-            if(arg.getText.matches("^@\".*\"$")) {
-              convertComplexFormat(kwArg.expression().get.assignmentExpression()) orElse
-                convertSimpleFormat(kwArg.expression().get.assignmentExpression())
-            } else {
-              None
-            }
+      } yield msgSel.selector() match {
+          case Some(SelectorText(s)) =>
+            Some(r, s)
 
-          case _ =>
-            None
-      }).flatten
-    }
+          case None =>
+            for {
+              head <- msgSel.keywordArgument().headOption
+              sel <- head.selector()
+            } yield (r, visit(sel) + ":")
+
+          case _ => None
+        }).flatten
   }
 
   private object ReceiverText {
@@ -154,24 +179,4 @@ trait MessageVisitor {
   private object SelectorText {
     def unapply(ctx: SelectorContext): Option[String] = Some(visit(ctx))
   }
-
-  private[this] def convertSimpleFormat(exps: List[AssignmentExpressionContext]): Option[String] = {
-    val r = """(%[a-z@]+)""".r
-    r.findFirstIn(exps.head.getText).map { _ =>
-      val format = visit(exps.head)
-      val params = exps.tail.map(visit).map(i => s"""\\($i)""")
-      (("" +: params) zip r.split(format)).map(i => i._1 + i._2).mkString
-    }
-  }
-
-  private[this] def convertComplexFormat(exps: List[AssignmentExpressionContext]): Option[String] = {
-    val r = """(%[0-9.]+[a-z@]+)""".r
-    r.findFirstIn(exps.head.getText).map { _ =>
-      val head :: tail = exps.toList
-      val format = s"format: ${visit(head)}"
-      val args = tail.map(c => s", ${visit(c)}")
-      s"String($format${args.mkString})"
-    }
-  }
-
 }

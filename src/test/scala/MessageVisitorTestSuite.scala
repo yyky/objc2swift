@@ -36,17 +36,20 @@ class MessageVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess("[[MyClass alloc] initWithName:n age:a]", "MyClass(name: n, age: a)")
   }
 
-  test("stringWithFormat") {
+  test("NSString stringWithFormat") {
     assertConvertSuccess("[NSString stringWithFormat:@\"hello, %@-san\", name]", "\"hello, \\(name)-san\"")
   }
 
-  test("dictionary access in stringWithFormat") {
+  test("dictionary access in NSString stringWithFormat") {
     assertConvertSuccess("[NSString stringWithFormat:@\"hello, %@-san\", d[@\"name\"]]", "\"hello, \\(d[\"name\"])-san\"")
   }
 
-  test("stringWithFormat with precision") {
+  test("NSString stringWithFormat with precision") {
     assertConvertSuccess("[NSString stringWithFormat:@\"%02i\", age]", "String(format: \"%02i\", age)")
   }
 
-  // TODO support more convenience constructors
+  test("UIImage imageNamed") {
+    assertConvertSuccess("[UIImage imageNamed:name]", "UIImage(named: name)")
+  }
+
 }
