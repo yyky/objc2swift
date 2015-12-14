@@ -12,7 +12,7 @@ trait ObjC2SwiftTestSuite extends FunSuite {
   def parser(source: String): ObjCParser = ObjC2SwiftConverter.generateParser(source)
 
   // override point
-  def converter(parser: ObjCParser): ObjC2SwiftBaseConverter = new ObjC2SwiftConverter(parser)
+  def converter(parser: ObjCParser): ObjC2SwiftBaseConverter
 
   def convertSource(source: String): String = converter(parser(source)).getResult
 
@@ -20,6 +20,7 @@ trait ObjC2SwiftTestSuite extends FunSuite {
     val converted = convertSource(source)
     assertCodeEqual(converted, expected)
   }
+
   def assertCodeEqual(actual: String, expected: String) = {
     val actualString = trimLines(actual.split("\n"))
     val expectedString = trimLines(expected.split("\n"))

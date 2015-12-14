@@ -201,7 +201,7 @@ trait StatementVisitor {
     }
 
 
-  private def isInsideSwitchStatement(ctx: ParserRuleContext): Boolean = {
+  private def isInsideSwitchStatement(ctx: ParserRuleContext): Boolean =
     Stream.from(0)
       .scanLeft(ctx.parent) { (list, _) => list.parent }
       .takeWhile(_ != null)
@@ -215,7 +215,6 @@ trait StatementVisitor {
       case _ =>
         false
     }
-  }
 
 
   private def processBlock(ctx: StatementContext): String =

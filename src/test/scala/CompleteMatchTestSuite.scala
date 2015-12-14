@@ -9,7 +9,7 @@
  */
 
 import java.io.{InputStreamReader, SequenceInputStream, FileInputStream, PrintWriter}
-import org.objc2swift.converter.ObjC2SwiftConverter
+import org.objc2swift.converter.{ObjCParser, ObjC2SwiftConverter}
 import org.scalatest.Ignore
 import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
@@ -21,6 +21,8 @@ import scala.sys.process._
 @RunWith(classOf[JUnitRunner])
 class CompleteMatchTestSuite extends ObjC2SwiftTestSuite {
 
+  override def converter(parser: ObjCParser) = new ObjC2SwiftConverter(parser)
+
   private def loadFile(filename: String): String =
     Source.fromFile(getFilePath(filename))(io.Codec("UTF-8")).mkString
 
@@ -29,8 +31,7 @@ class CompleteMatchTestSuite extends ObjC2SwiftTestSuite {
     val fileStreams = files.map(new FileInputStream(_))
     val inputStream = new SequenceInputStream(fileStreams.toIterator)
     val parser = ObjC2SwiftConverter.generateParser(inputStream)
-    val converter = new ObjC2SwiftConverter(parser)
-    converter.getResult
+    converter(parser).getResult()
   }
 
   private def getFilePath(filename: String): String = getClass.getResource(filename).getPath
