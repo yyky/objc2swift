@@ -94,8 +94,7 @@ class ProtocolVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  // MEMO doesn't work
-  ignore("protocol with readonly property") {
+  test("protocol with readonly property") {
     val source =
       s"""
          |@protocol MyProtocol

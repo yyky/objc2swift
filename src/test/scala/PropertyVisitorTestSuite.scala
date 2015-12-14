@@ -146,7 +146,7 @@ class PropertyVisitorTestSuite extends ObjC2SwiftTestSuite {
     val expected =
       """
         |class MyClass {
-        |  weak var a: MyType
+        |  weak var a: MyType?
         |}
       """.stripMargin
 

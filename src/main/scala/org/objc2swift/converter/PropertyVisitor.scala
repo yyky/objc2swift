@@ -51,9 +51,10 @@ trait PropertyVisitor {
     } getOrElse defaultResult()
 
   private def processPropertyDeclarator(ctx: PropertyDeclarationContext, specCtx: SpecifierQualifierListContext, declCtx: DeclaratorContext): String = {
-    val attrsList = propertyAttributesList(ctx)
-
+    val isProtocol = isDefinedInProtocol(ctx)
     val propertyName = visit(declCtx)
+
+    val attrsList = propertyAttributesList(ctx)
 
     val isWeak = attrsList.exists {
       case PropertyAttribute("weak") => true
@@ -75,64 +76,23 @@ trait PropertyVisitor {
             (true, s"[${visit(s.className())}]!")
         }
         case None =>
-          (false, visit(specCtx))
+          if(isWeak)
+            (false, s"${visit(specCtx)}?")
+          else
+            (false, visit(specCtx))
       }
     }
 
-    val getter = {
-      val getterName = attrsList.collectFirst {
-        case c @ PropertyAttribute("getter") => c.getChild(2).getText
-      } getOrElse propertyName
-
-      findMethodDefinition(getterName)
-    }
-
-    val setter = if(!isReadonly) {
-      val setterName = attrsList.collectFirst {
-        case c @ PropertyAttribute("setter") => s"${c.getChild(2).getText}:"
-      } getOrElse s"set${propertyName.head.toUpper}${propertyName.tail}:"
-
-      findMethodDefinition(setterName)
+    val accessorBlock = if(!isProtocol) {
+      val getter = propertyGetter(propertyName, attrsList)
+      val setter = if (!isReadonly) propertySetter(propertyName, attrsList) else None
+      processAccessors(getter, setter)
     } else {
-      None
-    }
-
-    List(getter, setter).flatten.map(visit)
-
-    val accessorBlock = (getter, setter) match {
-      case (Some(getter), Some(setter)) =>
-        s"""{
-           |  get {
-           |    ${visit(getter.compoundStatement())}
-           |  }
-           |  set(${setterParamName(setter)}) {
-           |    ${visit(setter.compoundStatement())}
-           |  }
-           |}
-         """.stripMargin
-
-      case (Some(getter), None) =>
-        s"""{
-           |  ${visit(getter.compoundStatement())}
-           |}
-         """.stripMargin
-
-      case (None, Some(setter)) =>
-        s"""{
-           |  get {
-           |    // FIXME: implement getter
-           |  }
-           |  set(${setterParamName(setter)}) {
-           |    ${visit(setter.compoundStatement())}
-           |  }
-           |}
-         """.stripMargin
-
-      case _ => ""
+      if(isReadonly) "{ get }" else ""
     }
 
     List(
-      if(isReadonly && getter.isEmpty) "private(set)" else "",
+      if(isReadonly && accessorBlock.isEmpty && !isProtocol) "private(set)" else "",
       if(isIBOutlet) "@IBOutlet" else "",
       if(isWeak) "weak" else "",
       s"var $propertyName: $typeSpec",
@@ -154,6 +114,29 @@ trait PropertyVisitor {
         case Some(c) => Some(c.getText)
         case None => None
       }
+  }
+
+  private def isDefinedInProtocol(ctx: PropertyDeclarationContext): Boolean =
+    ctx.parent.parent match {
+      case _: ProtocolDeclarationContext => true
+      case _ => false
+    }
+
+
+  private def propertyGetter(propertyName: String, attrsList: List[PropertyAttributeContext]): Option[MethodDefinitionContext] = {
+    val getterName = attrsList.collectFirst {
+      case c @ PropertyAttribute("getter") => c.getChild(2).getText
+    } getOrElse propertyName
+
+    findMethodDefinition(getterName)
+  }
+
+  private def propertySetter(propertyName: String, attrsList: List[PropertyAttributeContext]): Option[MethodDefinitionContext] = {
+    val setterName = attrsList.collectFirst {
+      case c @ PropertyAttribute("setter") => s"${c.getChild(2).getText}:"
+    } getOrElse s"set${propertyName.head.toUpper}${propertyName.tail}:"
+
+    findMethodDefinition(setterName)
   }
 
   private def findMethodDefinition(selector: String): Option[MethodDefinitionContext] = {
@@ -184,6 +167,42 @@ trait PropertyVisitor {
         }
       case None =>
         ""
+    }
+  }
+
+  private def processAccessors(getter: Option[MethodDefinitionContext], setter: Option[MethodDefinitionContext]): String = {
+    List(getter, setter).flatten.map(visit)
+
+    (getter, setter) match {
+      case (Some(getter), Some(setter)) =>
+        s"""{
+           |  get {
+           |    ${visit(getter.compoundStatement())}
+           |  }
+           |  set(${setterParamName(setter)}) {
+           |    ${visit(setter.compoundStatement())}
+           |  }
+           |}
+         """.stripMargin
+
+      case (Some(getter), None) =>
+        s"""{
+           |  ${visit(getter.compoundStatement())}
+           |}
+         """.stripMargin
+
+      case (None, Some(setter)) =>
+        s"""{
+           |  get {
+           |    // FIXME: implement getter
+           |  }
+           |  set(${setterParamName(setter)}) {
+           |    ${visit(setter.compoundStatement())}
+           |  }
+           |}
+         """.stripMargin
+
+      case _ => ""
     }
   }
 
