@@ -340,4 +340,44 @@ class PropertyVisitorTestSuite extends ObjC2SwiftTestSuite {
 
     assertConvertSuccess(source, expected)
   }
+
+  test("listed property") {
+    val source =
+      """
+        |@interface MyClass
+        |@property MyType a, b;
+        |@end
+      """.stripMargin
+
+    val expected =
+      """
+        |class MyClass {
+        |  var a: MyType
+        |  var b: MyType
+        |}
+      """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+  test("listed IBOutlet property") {
+    val source =
+      """
+        |@interface MyClass
+        |@property IBOutlet MyType a, b;
+        |@end
+      """.stripMargin
+
+    val expected =
+      """
+        |class MyClass {
+        |  @IBOutlet var a: MyType!
+        |  @IBOutlet var b: MyType!
+        |}
+      """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+
 }
