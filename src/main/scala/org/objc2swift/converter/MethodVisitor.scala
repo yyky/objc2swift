@@ -24,14 +24,35 @@ trait MethodVisitor {
     with ClassVisitor =>
 
 
+  /**
+   * instance_method_declaration:
+   *   ('-' method_declaration);
+   *
+   * @param ctx
+   * @return
+   */
   override def visitInstanceMethodDeclaration(ctx: InstanceMethodDeclarationContext): String =
     s"${optional(ctx)}${visit(ctx.methodDeclaration())}"
 
 
+  /**
+   * class_method_declaration:
+   *   ('+' method_declaration);
+   *
+   * @param ctx
+   * @return
+   */
   override def visitClassMethodDeclaration(ctx: ClassMethodDeclarationContext): String =
     s"${optional(ctx)}class ${visit(ctx.methodDeclaration())}"
 
 
+  /**
+   * method_declaration:
+	 *   ( method_type )? method_selector ';' ;
+   *
+   * @param ctx
+   * @return
+   */
   override def visitMethodDeclaration(ctx: MethodDeclarationContext): String =
     findMethodDefinition(ctx) match {
       case Some(impl: MethodDefinitionContext) =>
@@ -51,6 +72,13 @@ trait MethodVisitor {
     }
 
 
+  /**
+   * instance_method_definition:
+   *   ('-' method_definition) ;
+   *
+   * @param ctx
+   * @return
+   */
   override def visitInstanceMethodDefinition(ctx: InstanceMethodDefinitionContext): String =
     ctx.methodDefinition() match {
       case Some(c) if !isVisited(c) => visit(c)
@@ -58,6 +86,13 @@ trait MethodVisitor {
     }
 
 
+  /**
+   * class_method_definition:
+	 *   ('+' method_definition);
+   *
+   * @param ctx
+   * @return
+   */
   override def visitClassMethodDefinition(ctx: ClassMethodDefinitionContext): String =
     ctx.methodDefinition() match {
       case Some(c) if !isVisited(c) => s"class ${visit(c)}"
@@ -65,6 +100,13 @@ trait MethodVisitor {
     }
 
 
+  /**
+   * method_definition:
+   *   (method_type)? method_selector (init_declarator_list)? ';'? compound_statement;
+   *
+   * @param ctx
+   * @return
+   */
   override def visitMethodDefinition(ctx: MethodDefinitionContext): String = {
     val sel = ctx.methodSelector().get
     val mType = ctx.methodType()
@@ -77,10 +119,26 @@ trait MethodVisitor {
   }
 
 
+  /**
+   * method_type:
+   *   '(' type_name ')';
+   *
+   * @param ctx
+   * @return
+   */
   override def visitMethodType(ctx: MethodTypeContext): String =
     visitChildren(ctx)
 
 
+  /**
+   * method_selector:
+   *   selector
+   *   |  (keyword_declarator+ (parameter_list)? )
+   *   ;
+   *
+   * @param ctx
+   * @return
+   */
   override def visitMethodSelector(ctx: MethodSelectorContext): String =
     ctx.selector() match {
       case Some(s) => s"${visit(s)}()" // No parameters
@@ -93,11 +151,18 @@ trait MethodVisitor {
     }
 
 
+  /**
+   * keyword_declarator:
+   *   selector? ':' method_type* IDENTIFIER;
+   *
+   * @param ctx
+   * @return
+   */
   override def visitKeywordDeclarator(ctx: KeywordDeclaratorContext): String =
     processKeywordDeclarator(ctx, isHead = false)
 
 
-  def findMethodDefinition(declCtx: MethodDeclarationContext): Option[MethodDefinitionContext] = {
+  private def findMethodDefinition(declCtx: MethodDeclarationContext): Option[MethodDefinitionContext] = {
     val selector = visit(declCtx.methodSelector())
     (declCtx.parent.parent.parent match {
       case classCtx: ClassInterfaceContext =>
@@ -127,7 +192,7 @@ trait MethodVisitor {
     }
   }
 
-  
+
   private def optional(ctx: ParserRuleContext): String = {
     // TODO: check if the method is declared in a protocol, and marked as @optional
     ""
