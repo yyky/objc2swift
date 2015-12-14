@@ -11,6 +11,7 @@
 package org.objc2swift.converter
 
 import org.objc2swift.converter.ObjCParser._
+import org.objc2swift.converter.util.TerminalText
 
 import scala.collection.JavaConversions._
 
@@ -25,12 +26,27 @@ trait PropertyVisitor {
       }
   }
 
+  /**
+   * property_declaration:
+   *   '@property' property_attributes_declaration? ib_outlet_specifier? struct_declaration;
+   *
+   * @param ctx
+   * @return
+   */
   override def visitPropertyDeclaration(ctx: PropertyDeclarationContext): String = {
+    val weak = if(propertyAttributesList(ctx).exists{
+      case PropertyAttribute("weak") => true
+      case _ => false
+    } || ctx.ibOutletSpecifier().exists {
+      case TerminalText("IBOutlet") => true
+      case TerminalText("IBOutletCollection") => true
+      case _ => false
+    }) "weak " else "" //TODO remove space
+
     val sb = new StringBuilder()
     val getterSetterStatement = new StringBuilder()
     val getterStatement = new StringBuilder()
     val setterStatement = new StringBuilder()
-    var weak = ""
     val readOnly = new StringBuilder()
     var IsOriginalGetter = false
     var IsOriginalSetter = false
@@ -39,7 +55,6 @@ trait PropertyVisitor {
 
     ctx.propertyAttributesDeclaration().foreach { p =>
       p.propertyAttributesList().get.propertyAttribute().foreach {
-        case PropertyAttribute("weak") => weak = "weak "
         case PropertyAttribute("readonly") =>
           readOnly.append(" { get{} }")
         case PropertyAttribute(s) if s.split("=")(0) == "getter" =>
@@ -95,7 +110,6 @@ trait PropertyVisitor {
         protocolReferenceList <- typeSpecifier.protocolReferenceList()
       }{
         val protocolName = protocolReferenceList.protocolList().get.protocolName()
-        weak = "weak "
 
         if(protocolName.length == 1){
           typeOfVariable = visit(protocolName.head)
@@ -130,11 +144,42 @@ trait PropertyVisitor {
     sb.toString()
   }
 
-  override def visitPropertyAttributesDeclaration(ctx: PropertyAttributesDeclarationContext) = visit(ctx.propertyAttributesList().get)
-  override def visitPropertyAttributesList(ctx: PropertyAttributesListContext) = {
-    ctx.propertyAttribute().map(visit).mkString(", ")
-  }
-  override def visitPropertyAttribute(ctx: PropertyAttributeContext) = ctx.getText
+  /**
+   * property_attributes_declaration:
+   *   '(' property_attributes_list ')' ;
+   *
+   * @param ctx
+   * @return
+   */
+  override def visitPropertyAttributesDeclaration(ctx: PropertyAttributesDeclarationContext) =
+    visitChildren(ctx)
+
+
+  /**
+   * property_attributes_list:
+   *   property_attribute (',' property_attribute)* ;
+   *
+   * @param ctx
+   * @return
+   */
+  override def visitPropertyAttributesList(ctx: PropertyAttributesListContext) =
+    visitChildren(ctx, ", ")
+
+  /**
+   * property_attribute
+   *  : 'nonatomic' | 'assign' | 'weak' | 'strong' | 'retain' | 'readonly' | 'readwrite' |
+   *  | 'getter' '=' IDENTIFIER //  getter
+   *  | 'setter' '=' IDENTIFIER ':' // setter
+   *  | IDENTIFIER
+   *  ;
+   *
+   * MEMO this result will not be used.
+   *
+   * @param ctx
+   * @return
+   */
+  override def visitPropertyAttribute(ctx: PropertyAttributeContext) =
+    ctx.getText
 
   private def getTypeSpecifier(ctx: SpecifierQualifierListContext, sb: StringBuilder): String = {
     var typeOfVariable = ""
@@ -282,5 +327,13 @@ trait PropertyVisitor {
       }
 
     (getterOrSetterStatements.nonEmpty, getterOrSetterStatements.mkString)
+  }
+
+  private def propertyAttributesList(ctx: PropertyDeclarationContext): List[PropertyAttributeContext] = {
+    (for {
+      attrsDecl <- ctx.propertyAttributesDeclaration()
+      attrsList <- attrsDecl.propertyAttributesList()
+      attrs = attrsList.propertyAttribute()
+    } yield attrs ) getOrElse List()
   }
 }
