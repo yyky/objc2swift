@@ -27,7 +27,7 @@ trait StatementVisitor {
    * @param ctx the parse tree
    **/
   override def visitCompoundStatement(ctx: CompoundStatementContext): String =
-    visitChildren(ctx)
+    visitChildren(ctx, "\n")
 
   /**
    * statement_list:

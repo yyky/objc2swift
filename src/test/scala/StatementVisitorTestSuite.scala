@@ -1,4 +1,5 @@
 import org.junit.runner.RunWith
+import org.objc2swift.converter.ObjCParser.ClassNameContext
 import org.objc2swift.converter._
 import org.scalatest.junit.JUnitRunner
 
@@ -15,6 +16,7 @@ class StatementVisitorTestSuite extends ObjC2SwiftTestSuite {
       with TerminalNodeVisitor
     {
       override def getResult() = visit(parser.statement())
+      override def visitClassName(ctx: ClassNameContext): String = ctx.getText
     }
 
   test("empty statement") {
@@ -48,6 +50,28 @@ class StatementVisitorTestSuite extends ObjC2SwiftTestSuite {
 
     val expected =
       """
+        |sayHello()
+        |sayGoodbye()
+      """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+  test("compound statement with declaration") {
+    val source =
+      """
+        |{
+        |  int a;
+        |  int b = 2;
+        |  sayHello();
+        |  sayGoodbye();
+        |}
+      """.stripMargin
+
+    val expected =
+      """
+        |var a: Int32
+        |var b: Int32 = 2
         |sayHello()
         |sayGoodbye()
       """.stripMargin
