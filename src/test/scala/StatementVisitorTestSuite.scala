@@ -110,10 +110,8 @@ class StatementVisitorTestSuite extends ObjC2SwiftTestSuite {
       """
         |if cond1 {
         |  sayHello()
-        |} else {
-        |  if cond2 {
-        |    sayGoodbye()
-        |  }
+        |} else if cond2 {
+        |  sayGoodbye()
         |}
       """.stripMargin
 
@@ -136,12 +134,10 @@ class StatementVisitorTestSuite extends ObjC2SwiftTestSuite {
       """
         |if cond1 {
         |  sayHello()
+        |} else if cond2 {
+        |  sayGoodbye()
         |} else {
-        |  if cond2 {
-        |    sayGoodbye()
-        |  } else {
-        |    sayNothing()
-        |  }
+        |  sayNothing()
         |}
       """.stripMargin
 

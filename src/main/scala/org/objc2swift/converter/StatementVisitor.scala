@@ -20,7 +20,8 @@ trait StatementVisitor {
   import org.objc2swift.converter.util._
 
   /**
-   * Returns translated text of compoundStatement context.
+   * compound_statement:
+   *   '{' (declaration|statement_list)* '}' ;
    *
    * @param ctx the parse tree
    **/
@@ -28,7 +29,8 @@ trait StatementVisitor {
     visitChildren(ctx)
 
   /**
-   * Returns translated text of statementList context.
+   * statement_list:
+   *   statement+ ;
    *
    * @param ctx the parse tree
    **/
@@ -36,41 +38,75 @@ trait StatementVisitor {
     visitChildren(ctx, "\n")
 
   /**
-   * Returns translated text of statement context.
+   * statement
+   *   : labeled_statement
+   *   | expression ';'
+   *   | compound_statement
+   *   | selection_statement
+   *   | iteration_statement
+   *   | jump_statement
+   *   | synchronized_statement
+   *   | autorelease_statement
+   *   | try_block
+   *   | ';'
+   *   ;
    *
    * @param ctx the parse tree
    **/
   override def visitStatement(ctx: StatementContext): String =
-    visitChildrenAs(ctx) {
-      case TerminalText(";") => ""
-      case c => visit(c)
-    }
+    visitChildren(ctx)
+
 
   /**
-   * Returns translated text of jumpStatement context.
+   * jump_statement
+   *   : 'goto' identifier ';'
+   *   | 'continue' ';'
+   *   | 'break' ';'
+   *   | 'return' expression? ';'
+   *   ;
+   *
+   * MEMO: no support for 'goto'
    *
    * @param ctx the parse tree
    **/
   override def visitJumpStatement(ctx: JumpStatementContext): String =
-    ctx.getChild(0).getText match {
-      case "return" => s"return ${ctx.expression().map(visit).getOrElse("")}".stripSuffix(" ")
-      case "break"  => "" // TODO not implemented
-      case _        => "" // TODO
+    ctx.getChild(0) match {
+      case TerminalText("return") =>
+        List("return", visit(ctx.expression())).filter(_.nonEmpty).mkString(" ")
+      case TerminalText("break") =>
+        "" // TODO
+      case TerminalText("continue") =>
+        "continue"
+      case _ =>
+        ""
     }
 
   /**
-   * Returns translated text of selectionStatement context.
+   * selection_statement
+   *   : 'if' '(' expression ')' statement ('else' statement)?
+   *   | 'switch' '(' expression ')' statement
+   *   ;
    *
    * @param ctx the parse tree
    **/
   override def visitSelectionStatement(ctx: SelectionStatementContext): String =
     visitChildrenAs(ctx) {
       case TerminalText("if")     => "if"
-      case TerminalText("else")   => "else"
+      case TerminalText("else")   => extractElseIf(ctx.statement(1))
       case TerminalText("switch") => "switch"
       case c: ExpressionContext   => visit(c)
-      case c: StatementContext    => visitBodyStatement(c).stripLineEnd
+      case c: StatementContext if !isVisited(c) => visitBodyStatement(c)
     }
+
+  private def extractElseIf(ctx: StatementContext): String = {
+    ctx.children.toList match {
+      case List(c: SelectionStatementContext) if c.getChild(0).getText == "if" =>
+        setVisited(ctx)
+        s"else ${visit(c)}"
+      case _ =>
+        "else"
+    }
+  }
 
   /**
    * Returns translated text of labeledStatement context.
@@ -146,8 +182,7 @@ trait StatementVisitor {
 
     s"""|{
         |${indent(statements.stripLineEnd)}
-        |}
-        |""".stripMargin
+        |}""".stripMargin
   }
 
   private def declaratorOption(ctx: InitDeclaratorContext): Option[String] =
