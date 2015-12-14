@@ -95,8 +95,9 @@ trait StatementVisitor {
       case TerminalText("else")   => extractElseIf(ctx.statement(1))
       case TerminalText("switch") => "switch"
       case c: ExpressionContext   => visit(c)
-      case c: StatementContext if !isVisited(c) => visitBodyStatement(c)
+      case c: StatementContext if !isVisited(c) => processBlock(c)
     }
+
 
   private def extractElseIf(ctx: StatementContext): String = {
     ctx.children.toList match {
@@ -109,7 +110,11 @@ trait StatementVisitor {
   }
 
   /**
-   * Returns translated text of labeledStatement context.
+   * labeled_statement
+   *   : identifier ':' statement
+   *   | 'case' constant_expression ':' statement
+   *   | 'default' ':' statement
+   *   ;
    *
    * @param ctx the parse tree
    **/
@@ -119,39 +124,46 @@ trait StatementVisitor {
       case TerminalText("case")    => "case "
       case TerminalText("default") => "default"
       case TerminalText(":")       => ":\n"
-      case element                 => visit(element)
+      case c: ConstantExpressionContext => visit(c)
+      case c: StatementContext => indent(visit(c))
     }
 
   /**
-   * Returns translated text of forInStatement.
+   * for_in_statement:
+   *   'for' '(' type_variable_declarator 'in' expression? ')' statement;
    *
    * @param ctx the parse tree
    **/
   override def visitForInStatement(ctx: ForInStatementContext): String =
     visitChildrenAs(ctx) {
-      case TerminalText("for")                => "for"
-      case TerminalText("in")                 => "in"
-      case c: ExpressionContext               => visit(c)
+      case TerminalText("for")              => "for"
+      case TerminalText("in")               => "in"
+      case c: ExpressionContext             => visit(c)
       case c: TypeVariableDeclaratorContext => visit(c)
-      case c: StatementContext                => visitBodyStatement(c)
+      case c: StatementContext              => processBlock(c)
     }
 
   /**
-   * Returns translated text of forStatement context.
+   * for_statement:
+   *   'for' '(' ( (declaration_specifiers init_declarator_list) | expression)? ';'
+   *             expression? ';'
+   *             expression? ')'
+   *   statement;
    *
    * @param ctx the parse tree
    **/
   override def visitForStatement(ctx: ForStatementContext): String =
     visitChildrenAs(ctx, "") {
-      case TerminalText("for")                   => "for "
-      case TerminalText(";")                     => "; "
-      case c: ExpressionContext                  => visit(c)
-      case d: DeclarationSpecifiersContext       => ctx.initDeclaratorList().map(declaratorListString) getOrElse ""
-      case c: StatementContext                   => s" ${visitBodyStatement(c)}"
+      case TerminalText("for")             => "for "
+      case TerminalText(";")               => "; "
+      case c: ExpressionContext            => visit(c)
+      case d: DeclarationSpecifiersContext => processForInitializer(d, ctx.initDeclaratorList().get)
+      case c: StatementContext             => s" ${processBlock(c)}"
     }
 
   /**
-   * Returns translated text of whileStatement context.
+   * while_statement:
+   *   'while' '(' expression ')' statement;
    *
    * @param ctx the parse tree
    **/
@@ -159,11 +171,12 @@ trait StatementVisitor {
     visitChildrenAs(ctx) {
       case TerminalText("while") => "while"
       case c: ExpressionContext  => visit(c)
-      case c: StatementContext   => visitBodyStatement(c)
+      case c: StatementContext   => processBlock(c)
     }
 
   /**
-   * Returns translated text of doStatement context.
+   * do_statement:
+   *   'do' statement 'while' '(' expression ')' ';';
    *
    * @param ctx the parse tree
    **/
@@ -175,28 +188,27 @@ trait StatementVisitor {
       case c: StatementContext   => indent(visitChildren(c)) + "\n"
     }
 
-  private def visitBodyStatement(ctx: StatementContext): String = {
-    val statements =
-      if (ctx.compoundStatement() != null) visitChildren(ctx)
-      else s"$indentString${visit(ctx)}"
 
+  private def processBlock(ctx: StatementContext): String =
     s"""|{
-        |${indent(statements.stripLineEnd)}
+        |${indent(visit(ctx))}
         |}""".stripMargin
+
+
+  private def processForInitializer(d: DeclarationSpecifiersContext, i: InitDeclaratorListContext): String = {
+    i.initDeclarator() match {
+      case Nil =>
+        ""
+      case list =>
+        "var " + list.flatMap(processForInitDeclarator(d, _)).mkString(", ")
+    }
   }
 
-  private def declaratorOption(ctx: InitDeclaratorContext): Option[String] =
+  private def processForInitDeclarator(d: DeclarationSpecifiersContext, ctx: InitDeclaratorContext): Option[String] =
     for {
-      id <- ctx.declarator().flatMap(_.directDeclarator()).flatMap(_.identifier())
+      decl <- ctx.declarator()
+      dirDecl <- decl.directDeclarator()
+      id <- dirDecl.identifier()
       init <- ctx.initializer()
-    } yield s"${visit(id)} = ${visit(init)}"
-
-  private def declaratorListString(ctx: InitDeclaratorListContext): String = {
-    val list =
-      ctx.initDeclarator()
-        .flatMap(declaratorOption(_))
-        .mkString(", ")
-
-    if (list.nonEmpty) s"var $list" else ""
-  }
+    } yield s"${visit(id)} = ${visit(init)}" // TODO consider declarationSpecifiers
 }
