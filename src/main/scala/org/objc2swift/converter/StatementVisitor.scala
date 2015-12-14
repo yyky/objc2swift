@@ -10,6 +10,7 @@
 
 package org.objc2swift.converter
 
+import org.antlr.v4.runtime.ParserRuleContext
 import org.objc2swift.converter.ObjCParser._
 
 import scala.collection.JavaConversions._
@@ -72,9 +73,9 @@ trait StatementVisitor {
   override def visitJumpStatement(ctx: JumpStatementContext): String =
     ctx.getChild(0) match {
       case TerminalText("return") =>
-        List("return", visit(ctx.expression())).filter(_.nonEmpty).mkString(" ")
+        "return" + ctx.expression().map(" " + visit(_)).getOrElse("")
       case TerminalText("break") =>
-        "" // TODO
+        if(isInsideSwitchStatement(ctx)) "" else "break"
       case TerminalText("continue") =>
         "continue"
       case _ =>
@@ -119,7 +120,6 @@ trait StatementVisitor {
    * @param ctx the parse tree
    **/
   override def visitLabeledStatement(ctx: LabeledStatementContext): String =
-    //TODO fix indent bug
     visitChildrenAs(ctx, "") {
       case TerminalText("case")    => "case "
       case TerminalText("default") => "default"
@@ -127,6 +127,18 @@ trait StatementVisitor {
       case c: ConstantExpressionContext => visit(c)
       case c: StatementContext => indent(visit(c))
     }
+
+
+  /**
+   * iteration_statement
+   *   : while_statement
+   *   | do_statement
+   *   | for_statement
+   *   | for_in_statement
+   *   ;
+   */
+  override def visitIterationStatement(ctx: IterationStatementContext): String =
+    visitChildren(ctx)
 
   /**
    * for_in_statement:
@@ -189,10 +201,33 @@ trait StatementVisitor {
     }
 
 
+  private def isInsideSwitchStatement(ctx: ParserRuleContext): Boolean = {
+    Stream.from(0)
+      .scanLeft(ctx.parent) { (list, _) => list.parent }
+      .takeWhile(_ != null)
+      .find {
+        case _: SelectionStatementContext => true
+        case _: IterationStatementContext => true
+        case _ => false
+      } match {
+      case Some(c: SelectionStatementContext) =>
+        c.getChild(0).getText == "switch"
+      case _ =>
+        false
+    }
+  }
+
+
   private def processBlock(ctx: StatementContext): String =
-    s"""|{
-        |${indent(visit(ctx))}
-        |}""".stripMargin
+    if(isInsideSwitchStatement(ctx))
+      s"""|{
+         |${visit(ctx)}
+         |}""".stripMargin
+  else
+      s"""|{
+         |${indent(visit(ctx))}
+         |}""".stripMargin
+
 
 
   private def processForInitializer(d: DeclarationSpecifiersContext, i: InitDeclaratorListContext): String = {

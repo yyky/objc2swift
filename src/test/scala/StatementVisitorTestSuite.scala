@@ -388,4 +388,31 @@ class StatementVisitorTestSuite extends ObjC2SwiftTestSuite {
 
     assertConvertSuccess(source, expected)
   }
+
+  test("break/continue in loop") {
+    val source =
+      """
+        |while(cond) {
+        |  if(breakCond)
+        |    break;
+        |  if(continueCond)
+        |    continue;
+        |}
+      """.stripMargin
+
+    val expected =
+      """
+        |while cond {
+        |  if breakCond {
+        |    break
+        |  }
+        |  if continueCond {
+        |    continue
+        |  }
+        |}
+      """.stripMargin
+
+    assertConvertSuccess(source, expected)
+
+  }
 }
