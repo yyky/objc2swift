@@ -1,6 +1,7 @@
 import org.junit.runner.RunWith
 import org.objc2swift.converter.ObjCParser.CompoundStatementContext
 import org.objc2swift.converter._
+import org.scalatest.Ignore
 import org.scalatest.junit.JUnitRunner
 
 /**
@@ -15,12 +16,13 @@ class PropertyVisitorTestSuite extends ObjC2SwiftTestSuite {
       with ClassVisitor
       with MethodVisitor
       with PropertyVisitor
+      with StatementVisitor
       with DeclarationVisitor
+      with ExpressionVisitor
       with TerminalNodeVisitor
     {
       override val root = parser.translationUnit()
       override def getResult() = visit(root)
-      override def visitCompoundStatement(ctx: CompoundStatementContext): String = ""
     }
 
   test("plain property") {
@@ -59,7 +61,7 @@ class PropertyVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  ignore("readonly property") {
+  test("readonly property") {
     // TODO not supported
 
     val source =
@@ -170,7 +172,6 @@ class PropertyVisitorTestSuite extends ObjC2SwiftTestSuite {
   }
 
   test("IBOutletCollection property") {
-    // TODO not supported
     val source =
       """
         |@interface MyClass
@@ -197,6 +198,36 @@ class PropertyVisitorTestSuite extends ObjC2SwiftTestSuite {
         |
         |@implementation MyClass
         |- (MyType)prop {
+        |  return _prop;
+        |}
+        |@end
+      """.stripMargin
+
+    val expected =
+      """
+        |class MyClass {
+        |  var prop: MyType {
+        |    return _prop
+        |  }
+        |}
+      """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+  test("property with corresponding getter and setter") {
+    val source =
+      """
+        |@interface MyClass
+        |@property(nonatomic) MyType prop;
+        |@end
+        |
+        |@implementation MyClass
+        |- (MyType)prop {
+        |  return _prop;
+        |}
+        |- (void)setProp:(MyType)value {
+        |  _prop = value;
         |}
         |@end
       """.stripMargin
@@ -206,36 +237,10 @@ class PropertyVisitorTestSuite extends ObjC2SwiftTestSuite {
         |class MyClass {
         |  var prop: MyType {
         |    get {
+        |      return _prop
         |    }
-        |  }
-        |}
-      """.stripMargin
-
-    assertConvertSuccess(source, expected)
-  }
-
-  ignore("property with corresponding getter and setter") {
-    val source =
-      """
-        |@interface MyClass
-        |@property(nonatomic) MyType prop;
-        |@end
-        |
-        |@implementation MyClass
-        |- (MyType)prop {
-        |}
-        |- (void)setProp:(MyType)value {
-        |}
-        |@end
-      """.stripMargin
-
-    val expected =
-      """
-        |class MyClass {
-        |  var prop: Bool {
-        |    get {
-        |    }
-        |    set {
+        |    set(value) {
+        |      _prop = value
         |    }
         |  }
         |}
@@ -245,7 +250,7 @@ class PropertyVisitorTestSuite extends ObjC2SwiftTestSuite {
   }
 
   // TODO what should we do about the getter?
-  ignore("property with corresponding setter") {
+  test("property with corresponding setter") {
     val source =
       """
         |@interface MyClass
@@ -254,6 +259,7 @@ class PropertyVisitorTestSuite extends ObjC2SwiftTestSuite {
         |
         |@implementation MyClass
         |- (void)setProp:(MyType)value {
+        |  _prop = value;
         |}
         |@end
       """.stripMargin
@@ -261,10 +267,12 @@ class PropertyVisitorTestSuite extends ObjC2SwiftTestSuite {
     val expected =
       """
         |class MyClass {
-        |  var prop: Bool {
+        |  var prop: MyType {
         |    get {
+        |      // FIXME: implement getter
         |    }
-        |    set {
+        |    set(value) {
+        |      _prop = value
         |    }
         |  }
         |}
@@ -282,6 +290,7 @@ class PropertyVisitorTestSuite extends ObjC2SwiftTestSuite {
         |
         |@implementation MyClass
         |- (MyType)getProp {
+        |  return _prop;
         |}
         |@end
       """.stripMargin
@@ -290,8 +299,7 @@ class PropertyVisitorTestSuite extends ObjC2SwiftTestSuite {
       """
         |class MyClass {
         |  var prop: MyType {
-        |    get {
-        |    }
+        |    return _prop
         |  }
         |}
       """.stripMargin
@@ -308,8 +316,10 @@ class PropertyVisitorTestSuite extends ObjC2SwiftTestSuite {
         |
         |@implementation MyClass
         |- (MyType)getProp {
+        |  return _prop;
         |}
         |- (void)setMyProp:(MyType)value {
+        |  _prop = value;
         |}
         |@end
       """.stripMargin
@@ -319,8 +329,10 @@ class PropertyVisitorTestSuite extends ObjC2SwiftTestSuite {
         |class MyClass {
         |  var prop: MyType {
         |    get {
+        |      return _prop
         |    }
-        |    set {
+        |    set(value) {
+        |      _prop = value
         |    }
         |  }
         |}
