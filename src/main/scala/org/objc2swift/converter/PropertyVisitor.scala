@@ -88,7 +88,7 @@ trait PropertyVisitor {
       val setter = if (!isReadonly) propertySetter(propertyName, attrsList) else None
       processAccessors(getter, setter)
     } else {
-      if(isReadonly) "{ get }" else ""
+      if(isReadonly) "{ get }" else "{ get set }"
     }
 
     List(

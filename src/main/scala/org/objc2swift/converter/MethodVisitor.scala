@@ -32,7 +32,7 @@ trait MethodVisitor {
    * @return
    */
   override def visitInstanceMethodDeclaration(ctx: InstanceMethodDeclarationContext): String =
-    s"${optional(ctx)}${visit(ctx.methodDeclaration())}"
+    s"${visit(ctx.methodDeclaration())}"
 
 
   /**
@@ -43,7 +43,7 @@ trait MethodVisitor {
    * @return
    */
   override def visitClassMethodDeclaration(ctx: ClassMethodDeclarationContext): String =
-    s"${optional(ctx)}class ${visit(ctx.methodDeclaration())}"
+    s"class ${visit(ctx.methodDeclaration())}"
 
 
   /**
@@ -192,11 +192,6 @@ trait MethodVisitor {
     }
   }
 
-
-  private def optional(ctx: ParserRuleContext): String = {
-    // TODO: check if the method is declared in a protocol, and marked as @optional
-    ""
-  }
 
   private def methodDeclaration(mSel: MethodSelectorContext, mType: Option[MethodTypeContext]): String = {
     val mSelText = visit(mSel)

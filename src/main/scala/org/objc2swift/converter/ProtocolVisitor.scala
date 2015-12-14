@@ -13,58 +13,82 @@ package org.objc2swift.converter
 import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeProperty, TerminalNode}
 import org.antlr.v4.runtime.{ParserRuleContext, RuleContext}
 import org.objc2swift.converter.ObjCParser._
+import org.objc2swift.converter.util.TerminalText
 
 trait ProtocolVisitor {
   this: ObjC2SwiftBaseConverter =>
 
   /**
-   * Returns translated text of protocolDeclaration context.
+   * protocol_declaration:
+   *   '@protocol' ( protocol_name ( protocol_reference_list )?
+   *     (interface_declaration_list | '@optional' | '@required')*
+   *   )
+   *   '@end';
    *
    * @param ctx the parse tree
    **/
   override def visitProtocolDeclaration(ctx: ProtocolDeclarationContext): String = {
 
-    val head = List(
-      ctx.protocolName().map(visit).map{s => s"protocol $s"},
-      ctx.protocolReferenceList().map(visit).map{s => s": $s"}
-    ).flatten.mkString("")
+    val head =
+      s"protocol ${visit(ctx.protocolName())}" +
+      ctx.protocolReferenceList().map {": " + visit(_)}.mkString
 
-    // TODO: support @optional annotation.
-    val body = ctx.interfaceDeclarationList().map(visit).mkString("\n")
+    var optional = false
+    val body = visitChildrenAs(ctx, "\n") {
+      case c: InterfaceDeclarationListContext =>
+        if(optional)
+          visit(c).split("\n").map("optional " + _).mkString("\n")
+        else
+          visit(c)
+      case TerminalText("@optional") =>
+        optional = true
+        ""
+      case TerminalText("@required") =>
+        optional = false
+        ""
+    }
 
-    s"$head {\n$body\n}"
+    s"""$head {
+       |${indent(body)}
+       |}""".stripMargin
   }
 
   /**
-   * Returns translated text of protocolReferenceList context.
+   * protocol_reference_list:
+   *   ('<' protocol_list '>');
    *
    * @param ctx the parse tree
    **/
   override def visitProtocolReferenceList(ctx: ProtocolReferenceListContext): String =
-    visit(ctx.protocolList().get)
+    visitChildren(ctx)
 
   /**
-   * Returns translated text of protocolList context.
+   * protocol_list:
+   *   protocol_name (',' protocol_name)*;
    *
    * @param ctx the parse tree
    **/
   override def visitProtocolList(ctx: ProtocolListContext): String =
-    ctx.protocolName().map(visit).mkString(", ")
+    visitList(ctx.protocolName(), ", ")
 
   /**
-   * Returns translated text of protocolName context.
+   * protocol_name:
+   *   IDENTIFIER;
    *
    * @param ctx the parse tree
    **/
-  override def visitProtocolName(ctx: ProtocolNameContext): String = ctx.getText
+  override def visitProtocolName(ctx: ProtocolNameContext): String =
+    ctx.getText
 
   /**
-   * Returns translated text of protocolDeclarationList context.
+   * protocol_declaration_list:
+   *   ('@protocol' protocol_list';') ;
    *
-   * NOTE: Forward declaration is not needed on swift.
+   * MEMO: Forward declaration is not needed on swift.
    *
    * @param ctx the parse tree
    **/
-  override def visitProtocolDeclarationList(ctx: ProtocolDeclarationListContext): String = ""
+  override def visitProtocolDeclarationList(ctx: ProtocolDeclarationListContext): String =
+    ""
 
 }

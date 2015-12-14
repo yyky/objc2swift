@@ -73,7 +73,51 @@ class ProtocolVisitorTestSuite extends ObjC2SwiftTestSuite {
   }
 
   ignore("protocol with optional functions") {
-    // TODO implement & test @required / @optional
+    val source =
+      s"""
+         |@protocol MyProtocol
+         |@optional
+         |- (void)hello;
+         |- (void)goodbye;
+         |+ (void)jajaja;
+         |@end
+       """.stripMargin
+
+    val expected =
+      s"""
+         |protocol MyProtocol {
+         |  optional func hello()
+         |  optional func goodbye()
+         |  optional class func jajaja()
+         |}
+       """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+  ignore("protocol with required/optional functions") {
+    val source =
+      s"""
+         |@protocol MyProtocol
+         |@required
+         |- (void)hello;
+         |@optional
+         |- (void)nihao;
+         |@required
+         |- (void)goodbye;
+         |@end
+       """.stripMargin
+
+    val expected =
+      s"""
+         |protocol MyProtocol {
+         |  func hello()
+         |  optional func goodbye()
+         |  func goodbye()
+         |}
+       """.stripMargin
+
+    assertConvertSuccess(source, expected)
   }
 
   test("protocol with property") {
@@ -87,7 +131,7 @@ class ProtocolVisitorTestSuite extends ObjC2SwiftTestSuite {
     val expected =
       s"""
          |protocol MyProtocol {
-         |var a: MyType
+         |var a: MyType { get set }
          |}
        """.stripMargin
 
