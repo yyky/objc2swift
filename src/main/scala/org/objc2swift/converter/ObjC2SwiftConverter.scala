@@ -12,6 +12,7 @@ package org.objc2swift.converter
 
 import java.io.{ByteArrayInputStream, InputStream}
 
+import org.antlr.v4.runtime.tree.ParseTree
 import org.antlr.v4.runtime.{ANTLRInputStream, CommonTokenStream}
 
 class ObjC2SwiftConverter(parser: ObjCParser) extends ObjC2SwiftBaseConverter
@@ -29,12 +30,19 @@ class ObjC2SwiftConverter(parser: ObjCParser) extends ObjC2SwiftBaseConverter
   with TerminalNodeVisitor
   with ErrorHandler {
 
-  protected val root = parser.translationUnit()
-
-  override def getResult() = visit(root)
-
   parser.removeErrorListeners()
   parser.addErrorListener(this)
+
+  protected val root = parser.translationUnit()
+  override def getResult() = visit(root)
+
+  override def visit(tree: ParseTree): String = {
+    setVisited(tree)
+    lineError(tree) match {
+      case Some(Error(message)) => s"// $message"
+      case None => super.visit(tree)
+    }
+  }
 }
 
 object ObjC2SwiftConverter {

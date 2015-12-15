@@ -16,6 +16,12 @@ trait ObjC2SwiftTestSuite extends FunSuite {
 
   def convertSource(source: String): String = converter(parser(source)).getResult
 
+  def assertConvertPass(source: String) = {
+    val result = convertSource(source)
+    println(result)
+    assert(result != null)
+  }
+
   def assertConvertSuccess(source: String, expected: String) = {
     val converted = convertSource(source)
     assertCodeEqual(converted, expected)

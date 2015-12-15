@@ -20,12 +20,14 @@ import org.antlr.v4.runtime.tree.ParseTree
 
 import scala.collection.mutable
 
+case class Error(message: String)
+
 trait ErrorHandler extends ANTLRErrorListener {
   this: ObjC2SwiftConverter =>
 
-  protected val errors = mutable.Map[Int, (String, String)]()
+  protected val errors = mutable.Map[Int, Error]()
 
-  def lineError(tree: ParseTree): Option[(String, String)] = tree match {
+  def lineError(tree: ParseTree): Option[Error] = tree match {
     case ctx: ParserRuleContext =>
       val line = ctx.getStart.getLine
       if(errors.contains(line)) {
@@ -45,15 +47,13 @@ trait ErrorHandler extends ANTLRErrorListener {
                            msg: String,
                            e: RecognitionException): Unit = {
 
-    val message = s"[error ${line}:${pos}] ${msg}"
+    //    val tokens = recognizer.getInputStream.asInstanceOf[CommonTokenStream]
+    //    val input = tokens.getTokenSource.getInputStream.toString
+    //    val reader = new BufferedReader(new StringReader(input))
+    //    for(_ <- 0 until line - 1) reader.readLine()
+    //    val source = reader.readLine()
 
-    val tokens = recognizer.getInputStream.asInstanceOf[CommonTokenStream]
-    val input = tokens.getTokenSource.getInputStream.toString
-    val reader = new BufferedReader(new StringReader(input))
-    for(_ <- 0 until line - 1) reader.readLine()
-    val source = reader.readLine()
-
-    errors.put(line, (message, source))
+    errors.put(line, Error(s"[error $line:$pos] $msg"))
   }
 
   override def reportAmbiguity(recognizer: Parser, dfa: DFA, startIndex: Int, stopIndex: Int, exact: Boolean, ambigAlts: BitSet, configs: ATNConfigSet): Unit = {
