@@ -33,12 +33,4 @@ package object util {
     case _ =>
       v.defaultResult()
   }
-
-  object Token {
-    def unapply(node: TerminalNode): Option[Int] = Option(node.getSymbol.getType)
-  }
-
-  object TokenString {
-    def unapply(node: TerminalNode): Option[(Int, String)] = Option(node.getSymbol).map(s => (s.getType, s.getText))
-  }
 }

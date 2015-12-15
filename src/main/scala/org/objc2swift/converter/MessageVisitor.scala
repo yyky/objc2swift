@@ -11,7 +11,7 @@
 package org.objc2swift.converter
 
 import org.objc2swift.converter.ObjCParser._
-import org.objc2swift.converter.util.{Token, stringFormat}
+import org.objc2swift.converter.util.stringFormat
 
 import scala.collection.JavaConversions._
 

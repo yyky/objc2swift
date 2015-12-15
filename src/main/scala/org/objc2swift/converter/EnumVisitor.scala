@@ -13,7 +13,6 @@ package org.objc2swift.converter
 import org.antlr.v4.runtime.RuleContext
 import org.antlr.v4.runtime.tree.ParseTreeProperty
 import org.objc2swift.converter.ObjCParser._
-import org.objc2swift.converter.util.Token
 
 import scala.collection.JavaConversions._
 

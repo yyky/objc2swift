@@ -11,10 +11,7 @@
 package org.objc2swift.converter
 
 import org.antlr.v4.runtime._
-import org.antlr.v4.runtime.tree.{TerminalNode, ParseTree}
 import org.objc2swift.converter.ObjCParser._
-import org.objc2swift.converter.util.Token
-import org.objc2swift.converter.util._
 import scala.collection.JavaConversions._
 
 /**

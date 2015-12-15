@@ -12,7 +12,7 @@ package org.objc2swift.converter
 
 import java.io.{ByteArrayInputStream, InputStream}
 
-import org.antlr.v4.runtime.tree.{RuleNode, ParseTreeProperty, ParseTree}
+import org.antlr.v4.runtime.tree.{TerminalNode, RuleNode, ParseTreeProperty, ParseTree}
 import org.antlr.v4.runtime.{RuleContext, ANTLRInputStream, CommonTokenStream, ParserRuleContext}
 import org.objc2swift.converter.ObjCParser.TranslationUnitContext
 
@@ -60,6 +60,14 @@ abstract class ObjC2SwiftBaseConverter extends ObjCBaseVisitor[String] {
   protected def indent(source: String): String =
     source.split("\n").map(indentString + _).mkString("\n")
 
+
+  protected object Token {
+    def unapply(node: TerminalNode): Option[Int] = Option(node.getSymbol.getType)
+  }
+
+  protected object TokenString {
+    def unapply(node: TerminalNode): Option[(Int, String)] = Option(node.getSymbol).map(s => (s.getType, s.getText))
+  }
 }
 
 class ObjC2SwiftConverter(parser: ObjCParser) extends ObjC2SwiftBaseConverter

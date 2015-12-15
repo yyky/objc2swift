@@ -11,7 +11,6 @@
 package org.objc2swift.converter
 
 import org.objc2swift.converter.ObjCParser._
-import org.objc2swift.converter.util.TokenString
 
 import scala.collection.JavaConversions._
 
