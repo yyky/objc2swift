@@ -10,6 +10,7 @@
 
 package org.objc2swift.converter
 
+import org.antlr.v4.runtime.ParserRuleContext
 import org.objc2swift.converter.ObjCParser._
 
 trait ClassVisitor {
@@ -213,4 +214,16 @@ trait ClassVisitor {
          visit(implCtx.categoryName()) == categoryName
     } yield implCtx
   }.headOption
+
+
+  protected def currentClassName(ctx: ParserRuleContext): Option[String] =
+    Stream.from(0)
+      .scanLeft(ctx.parent) { (list, _) => list.parent }
+      .takeWhile(_ != null)
+      .collectFirst {
+        case c: ClassInterfaceContext => visit(c.className())
+        case c: ClassImplementationContext => visit(c.className())
+        case c: CategoryInterfaceContext => visit(c.className())
+        case c: CategoryImplementationContext => visit(c.className())
+      }
 }

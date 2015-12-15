@@ -15,7 +15,7 @@ import org.objc2swift.converter.ObjCParser._
 import scala.collection.JavaConversions._
 
 trait PropertyVisitor {
-  this: ObjC2SwiftBaseConverter with RootVisitor =>
+  this: ObjC2SwiftBaseConverter with RootVisitor with ClassVisitor =>
 
   /**
    * property_declaration:
@@ -83,8 +83,8 @@ trait PropertyVisitor {
     }
 
     val accessorBlock = if(!isProtocol) {
-      val getter = propertyGetter(propertyName, attrsList)
-      val setter = if (!isReadonly) propertySetter(propertyName, attrsList) else None
+      val getter = propertyGetter(ctx, propertyName, attrsList)
+      val setter = if (!isReadonly) propertySetter(ctx, propertyName, attrsList) else None
       processAccessors(getter, setter)
     } else {
       if(isReadonly) "{ get }" else "{ get set }"
@@ -122,25 +122,27 @@ trait PropertyVisitor {
     }
 
 
-  private def propertyGetter(propertyName: String, attrsList: List[PropertyAttributeContext]): Option[MethodDefinitionContext] = {
+  private def propertyGetter(ctx: PropertyDeclarationContext, propertyName: String, attrsList: List[PropertyAttributeContext]): Option[MethodDefinitionContext] = {
     val getterName = attrsList.collectFirst {
       case c @ PropertyAttribute("getter") => c.getChild(2).getText
     } getOrElse propertyName
 
-    findMethodDefinition(getterName)
+    findMethodDefinition(ctx, getterName)
   }
 
-  private def propertySetter(propertyName: String, attrsList: List[PropertyAttributeContext]): Option[MethodDefinitionContext] = {
+  private def propertySetter(ctx: PropertyDeclarationContext, propertyName: String, attrsList: List[PropertyAttributeContext]): Option[MethodDefinitionContext] = {
     val setterName = attrsList.collectFirst {
       case c @ PropertyAttribute("setter") => s"${c.getChild(2).getText}:"
     } getOrElse s"set${propertyName.head.toUpper}${propertyName.tail}:"
 
-    findMethodDefinition(setterName)
+    findMethodDefinition(ctx, setterName)
   }
 
-  private def findMethodDefinition(selector: String): Option[MethodDefinitionContext] = {
+  private def findMethodDefinition(ctx: PropertyDeclarationContext, selector: String): Option[MethodDefinitionContext] = {
     if(root == null)
       return None
+
+    val currClass = currentClassName(ctx) getOrElse ""
 
     {
       for {
@@ -149,10 +151,13 @@ trait PropertyVisitor {
         impl <- cl.implementationDefinitionList().toList
         imDef <- impl.instanceMethodDefinition()
         mDef <- imDef.methodDefinition().toList
-      } yield mDef
-    } find {
-      methodSelectorString(_) == selector
-    }
+      } yield {
+        if (visit(cl.className()) == currClass && methodSelectorString(mDef) == selector)
+          Some(mDef)
+        else
+          None
+      }
+    }.flatten.headOption
   }
 
   private def methodSelectorString(ctx: MethodDefinitionContext): String = {
