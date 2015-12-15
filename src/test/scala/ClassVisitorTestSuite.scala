@@ -132,5 +132,28 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  // TODO test unnamed-cateogory (class extension)
+  test("empty class with unnamed category") {
+    val source =
+      s"""
+         |@interface MyClass
+         |@end
+         |
+         |@interface MyClass()
+         |@end
+         |
+         |@implementation MyClass
+         |@end
+       """.stripMargin
+
+    val expected =
+      s"""
+         |class MyClass {
+         |}
+         |
+         |private extension MyClass {
+         |}
+       """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
 }

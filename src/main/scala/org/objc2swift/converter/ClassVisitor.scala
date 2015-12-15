@@ -142,12 +142,8 @@ trait ClassVisitor {
    * @return
    */
   override def visitCategoryInterface(ctx: CategoryInterfaceContext): String = {
-    // TODO: convert unnamed-category members as private.
-    if(ctx.categoryName().isEmpty) {
-      return ""
-    }
-
     val head = List(
+      if(ctx.categoryName().isEmpty) Some("private ") else None,
       ctx.className().map( c => s"extension ${visit(c)}" ),
       ctx.protocolReferenceList().map( c => s": ${visit(c)}" )
     ).flatten.mkString
