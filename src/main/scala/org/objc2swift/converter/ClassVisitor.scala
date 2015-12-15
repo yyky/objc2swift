@@ -17,20 +17,21 @@ trait ClassVisitor {
   this: ObjC2SwiftBaseConverter with RootVisitor =>
 
   /**
-   * class_name: IDENTIFIER;
+   * interface_declaration_list:
+   *   (declaration | class_method_declaration | instance_method_declaration | property_declaration)+
+   *   ;
    *
    * @param ctx
    * @return
    */
-  override def visitClassName(ctx: ClassNameContext): String = ctx.getText
-
-  /**
-   * superclass_name: IDENTIFIER;
-   *
-   * @param ctx
-   * @return
-   */
-  override def visitSuperclassName(ctx: SuperclassNameContext): String = ctx.getText
+  override def visitInterfaceDeclarationList(ctx: InterfaceDeclarationListContext): String =
+    visitChildrenAs(ctx, "\n") {
+      case c if !isVisited(c) =>
+        visit(c) match {
+          case r if r.lines.size > 1 => r + "\n"
+          case r => r
+        }
+    }
 
   /**
    * class_interface:
@@ -51,34 +52,27 @@ trait ClassVisitor {
     ).flatten.mkString
 
     val body = List(
+      for {
+        extCat <- findClassExtensionCategoryInterface(ctx)
+        intf <- extCat.interfaceDeclarationList()
+        props = intf.propertyDeclaration()
+      } yield visitListAs(props, "\n") {
+        case c => visit(c).replaceAll("(^@IBOutlet |^)", "$1private ")
+      },
+
       ctx.interfaceDeclarationList().map(visit),
+
       for {
         classImpl <- findClassImplementation(ctx)
         implDefList <- classImpl.implementationDefinitionList()
       } yield visit(implDefList)
+
     ).flatten.mkString("\n")
 
     s"""$head {
        |${indent(body)}
        |}""".stripMargin
   }
-
-  /**
-   * interface_declaration_list:
-	 *   (declaration | class_method_declaration | instance_method_declaration | property_declaration)+
-	 *   ;
-   *
-   * @param ctx
-   * @return
-   */
-  override def visitInterfaceDeclarationList(ctx: InterfaceDeclarationListContext): String =
-    visitChildrenAs(ctx, "\n") {
-      case c if !isVisited(c) =>
-        visit(c) match {
-          case r if r.lines.size > 1 => r + "\n"
-          case r => r
-        }
-    }
 
   /**
    * implementation_definition_list:
@@ -121,13 +115,20 @@ trait ClassVisitor {
   override def visitClassImplementation(ctx: ClassImplementationContext): String = ""
 
   /**
-   * category_name:
-	 *   IDENTIFIER;
+   * class_name: IDENTIFIER;
    *
    * @param ctx
    * @return
    */
-  override def visitCategoryName(ctx: CategoryNameContext) = ctx.getText
+  override def visitClassName(ctx: ClassNameContext): String = ctx.getText
+
+  /**
+   * superclass_name: IDENTIFIER;
+   *
+   * @param ctx
+   * @return
+   */
+  override def visitSuperclassName(ctx: SuperclassNameContext): String = ctx.getText
 
   /**
    * category_interface:
@@ -142,20 +143,25 @@ trait ClassVisitor {
    * @return
    */
   override def visitCategoryInterface(ctx: CategoryInterfaceContext): String = {
+    val isClassExtension = ctx.categoryName().isEmpty
     val head = List(
-      if(ctx.categoryName().isEmpty) Some("private ") else None,
+      if(isClassExtension) Some("private ") else None,
       ctx.className().map( c => s"extension ${visit(c)}" ),
       ctx.protocolReferenceList().map( c => s": ${visit(c)}" )
     ).flatten.mkString
 
-    val body = List(
-      ctx.interfaceDeclarationList().map(visit),
-      findCategoryImplementation(ctx).map(visit)
-    ).flatten.mkString("\n\n")
+    if(isClassExtension)
+      s"$head {\n}"
+    else {
+      val body = List(
+        ctx.interfaceDeclarationList().map(visit),
+        findCategoryImplementation(ctx).map(visit)
+      ).flatten.mkString("\n\n")
 
-    s"""$head {
-       |${indent(body)}
-       |}""".stripMargin
+      s"""$head {
+         |${indent(body)}
+         |}""".stripMargin
+    }
   }
 
   /**
@@ -171,6 +177,16 @@ trait ClassVisitor {
    * @return
    */
   override def visitCategoryImplementation(ctx: CategoryImplementationContext): String = ""
+
+  /**
+   * category_name:
+   *   IDENTIFIER;
+   *
+   * @param ctx
+   * @return
+   */
+  override def visitCategoryName(ctx: CategoryNameContext) = ctx.getText
+
 
   /**
    * finds the corresponding class implementation with the same class name.
@@ -189,6 +205,28 @@ trait ClassVisitor {
       if visit(implCtx.className()) == className
     } yield implCtx
   }.headOption
+
+
+  /**
+   * finds the corresponding class implementation with the same class name.
+   *
+   * @param ctx the interface context
+   * @return Some implementation context when found, else None.
+   */
+  protected def findClassExtensionCategoryInterface(ctx: ClassInterfaceContext): Option[CategoryInterfaceContext] = {
+    if(root == null)
+      return None
+
+    val className = visit(ctx.className())
+
+    for {
+      extDclCtx <- root.externalDeclaration().toStream
+      implCtx <- extDclCtx.categoryInterface()
+      if visit(implCtx.className()) == className && implCtx.categoryName().isEmpty
+    } yield implCtx
+  }.headOption
+
+
 
   /**
    * finds the corresponding class implementation with the same class name.

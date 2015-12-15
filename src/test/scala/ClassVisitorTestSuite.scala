@@ -1,5 +1,5 @@
 import org.junit.runner.RunWith
-import org.objc2swift.converter.{ObjCParser, ObjC2SwiftBaseConverter, RootVisitor, ClassVisitor, ProtocolVisitor}
+import org.objc2swift.converter._
 import org.scalatest.junit.JUnitRunner
 
 /**
@@ -12,7 +12,11 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
     new ObjC2SwiftBaseConverter
       with RootVisitor
       with ClassVisitor
-      with ProtocolVisitor {
+      with MethodVisitor
+      with DeclarationVisitor
+      with ProtocolVisitor
+      with PropertyVisitor
+      with TerminalNodeVisitor {
 
       override val root = parser.translationUnit()
       override def getResult() = visit(root)
@@ -148,6 +152,72 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
     val expected =
       s"""
          |class MyClass {
+         |}
+         |
+         |private extension MyClass {
+         |}
+       """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+  test("unnamed category with properties") {
+    val source =
+      s"""
+         |@interface MyClass
+         |@end
+         |
+         |@interface MyClass()
+         |
+         |@property(nonatomic) MyType a;
+         |@property(nonatomic, weak) MyType b;
+         |
+         |@end
+         |
+         |@implementation MyClass
+         |@end
+       """.stripMargin
+
+    val expected =
+      s"""
+         |class MyClass {
+         |
+         |  private var a: MyType
+         |  private weak var b: MyType?
+         |
+         |}
+         |
+         |private extension MyClass {
+         |}
+       """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+  test("unnamed category with IBOutlet properties") {
+    val source =
+      s"""
+         |@interface MyClass
+         |@end
+         |
+         |@interface MyClass()
+         |
+         |@property(nonatomic) IBOutlet MyType a;
+         |@property(nonatomic, weak) IBOutlet MyType b;
+         |
+         |@end
+         |
+         |@implementation MyClass
+         |@end
+       """.stripMargin
+
+    val expected =
+      s"""
+         |class MyClass {
+         |
+         |  @IBOutlet private var a: MyType!
+         |  @IBOutlet private weak var b: MyType!
+         |
          |}
          |
          |private extension MyClass {
