@@ -197,8 +197,13 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  // TODO
-  ignore("c-type array var decl without init") {
+  ignore("typedef declaration") { // not supported yet
+  val source = "typedef NewType = OldType;"
+    val expected = "typealias NewType = OldType"
+    assertConvertSuccess(source, expected)
+  }
+
+  ignore("c-type array var decl without init") { // not supported yet
     val source = "MyType x[];"
     val expected = "var x: [MyType]"
     assertConvertSuccess(source, expected)
