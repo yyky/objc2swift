@@ -245,7 +245,7 @@ box_expression:
         '@' '(' (postfix_expression | expression) ')' |
         '@'constant;
 
-block_parameters: '(' (type_variable_declarator | 'void')? (',' type_variable_declarator)* ')';
+block_parameters: '(' (type_variable_declarator | type_name | 'void')? (',' (type_variable_declarator | type_name))* ')';
 
 block_expression:'^' type_specifier? block_parameters? compound_statement;
 
