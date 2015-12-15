@@ -53,8 +53,4 @@ package object util {
       else
         None
   }
-
-  object ClassNameText {
-    def unapply(node: ClassNameContext): Option[String] = Option(node.getText)
-  }
 }

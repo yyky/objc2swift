@@ -105,18 +105,23 @@ trait DeclarationVisitor {
       case TerminalText("double")         => "Double"
       case TerminalText(s) if !s.isEmpty  => s
       case _: TerminalNode                => "AnyObject"
-      case ClassNameText("NSInteger")     => "Int"
-      case ClassNameText("NSUInteger")    => "UInt"
-      case ClassNameText("NSArray")       => "[AnyObject]"
-      case ClassNameText("NSDictionary")  => "[AnyObject: AnyObject]"
-      case ClassNameText("SEL")           => "Selector"
-      case ClassNameText("BOOL")          => "Bool"
-      case ClassNameText(s) if !s.isEmpty => s
+      case ClassName("NSInteger")     => "Int"
+      case ClassName("NSUInteger")    => "UInt"
+      case ClassName("NSArray")       => "[AnyObject]"
+      case ClassName("NSDictionary")  => "[AnyObject: AnyObject]"
+      case ClassName("SEL")           => "Selector"
+      case ClassName("BOOL")          => "Bool"
+      case ClassName(s) if !s.isEmpty => s
       case _: ClassNameContext           => "AnyObject"
       case c: PointerContext              => visit(c)
       case c                              => c.getText
     }
 
+
+
+  private object ClassName {
+    def unapply(node: ClassNameContext): Option[String] = Option(node.getText)
+  }
 
   /**
    * type_qualifier:
