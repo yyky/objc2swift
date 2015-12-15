@@ -171,7 +171,7 @@ trait PropertyVisitor {
   }
 
   private def processAccessors(getter: Option[MethodDefinitionContext], setter: Option[MethodDefinitionContext]): String = {
-    List(getter, setter).flatten.map(visit)
+    List(getter, setter).flatten.foreach(c => setVisited(c.parent))
 
     (getter, setter) match {
       case (Some(getter), Some(setter)) =>
@@ -182,14 +182,12 @@ trait PropertyVisitor {
            |  set(${setterParamName(setter)}) {
            |    ${visit(setter.compoundStatement())}
            |  }
-           |}
-         """.stripMargin
+           |}""".stripMargin
 
       case (Some(getter), None) =>
         s"""{
            |  ${visit(getter.compoundStatement())}
-           |}
-         """.stripMargin
+           |}""".stripMargin
 
       case (None, Some(setter)) =>
         s"""{
@@ -199,8 +197,7 @@ trait PropertyVisitor {
            |  set(${setterParamName(setter)}) {
            |    ${visit(setter.compoundStatement())}
            |  }
-           |}
-         """.stripMargin
+           |}""".stripMargin
 
       case _ => ""
     }
