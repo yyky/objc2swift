@@ -25,7 +25,8 @@ trait DeclarationVisitor {
    * MEMO: strangely, this rule matches:
    * - one param function call like: f(x)
    * - enum type declaration
-   * - variable declaration like: int i = 0, j = 1;
+   * - block declaration: retType (^blockName)(...);
+   * - variable declaration: int i = 0, j = 1;
    * - single variable declaration without initial value: int i;
    *
    * declaration:
@@ -37,6 +38,7 @@ trait DeclarationVisitor {
   override def visitDeclaration(ctx: DeclarationContext): String = {
     processAsFunctionCall(ctx) orElse
       processAsEnum(ctx) orElse
+      processAsBlockDeclaration(ctx) orElse
       processAsVarDeclaration(ctx) orElse
       processAsSingleVarDeclaration(ctx) getOrElse
       defaultResult()
@@ -264,6 +266,45 @@ trait DeclarationVisitor {
       firstTypeSpec <- declSpec.typeSpecifier().headOption
       enumSpec <- firstTypeSpec.enumSpecifier()
     } yield visit(enumSpec)
+  }
+
+
+  // TODO add grammer pattern and move this part to BlockVisitor
+  private def processAsBlockDeclaration(ctx: DeclarationContext): Option[String] = {
+    for {
+      declSpec <- ctx.declarationSpecifiers()
+      typeSpec <- declSpec.typeSpecifier().headOption
+      initDeclList <- ctx.initDeclaratorList()
+      initDecl <- initDeclList.initDeclarator().headOption
+      decl <- initDecl.declarator()
+      dirDecl <- decl.directDeclarator()
+      id <- dirDecl.identifier()
+      blockParam <- dirDecl.blockParameters()
+    } yield {
+      val typeSpecListList = if(blockParam.typeVariableDeclarator().nonEmpty) { // when with param-name
+        for {
+          typeVarDecl <- blockParam.typeVariableDeclarator()
+          declSpecs <- typeVarDecl.declarationSpecifiers()
+        } yield declSpecs.typeSpecifier()
+      } else if(blockParam.typeName().nonEmpty) { // when without param-name
+        for {
+          typeName <- blockParam.typeName()
+          specQualList <- typeName.specifierQualifierList()
+        } yield specQualList.typeSpecifier()
+      } else {
+        List()
+      }
+
+      val blockParamStr = typeSpecListList match {
+        case Nil => "Void"
+        case _ => s"(${typeSpecListList.map(processTypeSpecifierList).mkString(", ")})"
+      }
+      val declStr = s"var ${visit(id)}: $blockParamStr -> ${visit(typeSpec)}"
+      initDecl.initializer() match {
+        case Some(c) => s"$declStr = ${visit(c)}"
+        case None => declStr
+      }
+    }
   }
 
 

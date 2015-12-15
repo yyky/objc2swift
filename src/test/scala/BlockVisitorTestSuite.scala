@@ -1,5 +1,6 @@
 import org.junit.runner.RunWith
 import org.objc2swift.converter._
+import org.scalatest.Ignore
 import org.scalatest.junit.JUnitRunner
 
 /**
@@ -9,6 +10,7 @@ import org.scalatest.junit.JUnitRunner
 class BlockVisitorTestSuite extends ObjC2SwiftTestSuite {
   override def converter(parser: ObjCParser): ObjC2SwiftBaseConverter =
     new ObjC2SwiftBaseConverter
+      with StatementVisitor
       with ExpressionVisitor
       with BlockVisitor
       with DeclarationVisitor
@@ -18,116 +20,145 @@ class BlockVisitorTestSuite extends ObjC2SwiftTestSuite {
     }
 
   test("empty block") {
-    val source =
-      """
-        |^{
-        |}
-      """.stripMargin
-
-    val expected =
-      """
-        |{
-        |}
-      """.stripMargin
-
+    val source = "^{}"
+    val expected = "{}"
     assertConvertSuccess(source, expected)
   }
 
-  test("block with one param") {
-    val source =
-      """
-        |^(MyType a){
-        |}
-      """.stripMargin
-
-    val expected =
-      """
-        |{(a: MyType) in
-        |}
-      """.stripMargin
-
+  test("empty param empty block") {
+    val source = "^(){}"
+    val expected = "{}"
     assertConvertSuccess(source, expected)
   }
 
-  test("block with params") {
-    val source =
-      """
-        |^(MyTypeA a, MyTypeB b){
-        |}
-      """.stripMargin
-
-    val expected =
-      """
-        |{(a: MyTypeA, b: MyTypeB) in
-        |}
-      """.stripMargin
-
+  test("void param block") {
+    val source = "^(void){}"
+    val expected = "{}"
     assertConvertSuccess(source, expected)
   }
 
-  test("block with return type") {
-    val source =
-      """
-        |^NSString *{
-        |}
-      """.stripMargin
-
-    val expected =
-      """
-        |{() -> NSString in
-        |}
-      """.stripMargin
-
+  test("void return type block") {
+    val source = "^void{}"
+    val expected = "{}"
     assertConvertSuccess(source, expected)
   }
 
-  test("block with return type and params") {
-    val source =
-      """
-        |^NSString *(NSInteger i, NSInteger j){
-        |}
-      """.stripMargin
-
-    val expected =
-      """
-        |{(i: Int, j: Int) -> NSString in
-        |}
-      """.stripMargin
-
+  test("void return type and empty param block") {
+    val source = "^void(){}"
+    val expected = "{}"
     assertConvertSuccess(source, expected)
   }
 
-  test("block with void param") {
-    val source =
-      """
-        |^(void){
-        |}
-      """.stripMargin
-
-    val expected =
-      """
-        |{() in
-        |}
-      """.stripMargin
-
+  test("void return type and void param block ") {
+    val source = "^void(void){}"
+    val expected = "{}"
     assertConvertSuccess(source, expected)
   }
 
-  test("block with void return type") {
-    val source =
-      """
-        |^void {
-        |}
-      """.stripMargin
-
-    val expected =
-      """
-        |{() -> Void in
-        |}
-      """.stripMargin
-
+  test("one param block") {
+    val source = "^(MyType a){}"
+    val expected = "{ (a: MyType) in }"
     assertConvertSuccess(source, expected)
   }
 
-  // TODO block type test
+  test("multi-params block") {
+    val source = "^(MyTypeA a, MyTypeB b){}"
+    val expected = "{ (a: MyTypeA, b: MyTypeB) in }"
+    assertConvertSuccess(source, expected)
+  }
+
+  test("return type block") {
+    val source = "^MyType{}"
+    val expected = "{ Void -> MyType in }"
+    assertConvertSuccess(source, expected)
+  }
+
+  test("return type and empty param block") {
+    val source = "^MyType(){}"
+    val expected = "{ Void -> MyType in }"
+    assertConvertSuccess(source, expected)
+  }
+
+  test("return type and void param block") {
+    val source = "^MyType(void){}"
+    val expected = "{ Void -> MyType in }"
+    assertConvertSuccess(source, expected)
+  }
+
+  test("return type and multi-params block") {
+    val source = "^MyType(MyTypeA a, MyTypeB b){ }"
+    val expected = "{ (a: MyTypeA, b: MyTypeB) -> MyType in }"
+    assertConvertSuccess(source, expected)
+  }
+
+  test("block with single statement") {
+    val source = "^{ doSomething(); }"
+    val expected = "{ doSomething() }"
+    assertConvertSuccess(source, expected)
+  }
+
+  test("block with single return statement") {
+    val source = "^MyType{ return getSomething(); }"
+    val expected = "{ Void -> MyType in getSomething() }"
+    assertConvertSuccess(source, expected)
+  }
+
+  test("block with multiple statements") {
+    val source =
+      """^MyType(MyTypeA a, MyTypeB b) {
+        |  doSomething();
+        |  return getSomething();
+        |}""".stripMargin
+
+    val expected =
+      """{ (a: MyTypeA, b: MyTypeB) -> MyType in
+        |  doSomething()
+        |  return getSomething()
+        |}""".stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+}
+
+@RunWith(classOf[JUnitRunner])
+class BlockDeclarationTestSuite extends ObjC2SwiftTestSuite {
+  override def converter(parser: ObjCParser): ObjC2SwiftBaseConverter =
+    new ObjC2SwiftBaseConverter
+      with ExpressionVisitor
+      with BlockVisitor
+      with DeclarationVisitor
+      with TerminalNodeVisitor
+    {
+      override def getResult() = visit(parser.declaration())
+    }
+
+  test("void block decl") {
+    val source = "void (^blockName)();"
+    val expected = "var blockName: Void -> Void"
+    assertConvertSuccess(source, expected)
+  }
+
+  test("param-name-less block decl") {
+    val source = "void (^blockName)(MyTypeA, MyTypeB);"
+    val expected = "var blockName: (MyTypeA, MyTypeB) -> Void"
+    assertConvertSuccess(source, expected)
+  }
+
+  test("param-named block decl") {
+    val source = "void (^blockName)(MyTypeA a, MyTypeB b);"
+    val expected = "var blockName: (MyTypeA, MyTypeB) -> Void"
+    assertConvertSuccess(source, expected)
+  }
+
+  test("void block decl with init") {
+    val source = "void (^blockName)() = ^{};"
+    val expected = "var blockName: Void -> Void = {}"
+    assertConvertSuccess(source, expected)
+  }
+
+  test("normal block decl with init") {
+    val source = "RetType (^blockName)(MyTypeA, MyTypeB) = ^(MyTypeA a, MyTypeB b){};"
+    val expected = "var blockName: (MyTypeA, MyTypeB) -> RetType = { (a: MyTypeA, b: MyTypeB) in }"
+    assertConvertSuccess(source, expected)
+  }
 }

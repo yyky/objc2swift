@@ -21,25 +21,38 @@ trait BlockVisitor {
 
   /**
    * block_expression:
-   *   '&#94;' type_specifier? block_parameters? compound_statement;
+   *   '^' type_specifier? block_parameters? compound_statement;
    *
    * @param ctx
    * @return
    */
   override def visitBlockExpression(ctx: BlockExpressionContext): String = {
-    val blockType = (ctx.blockParameters(), ctx.typeSpecifier()) match {
-      case (Some(b), Some(t)) =>
-        s"${visit(b)} -> ${visit(t)} in"
-      case (Some(b), None) =>
-        s"${visit(b)} in"
-      case (None, Some(t)) =>
-        s"() -> ${visit(t)} in"
+    val voidToNone = {s: String => if(s == "Void") None else Some(s)}
+    val params = ctx.blockParameters().map(visit).flatMap(voidToNone)
+    val retType = ctx.typeSpecifier().map(visit).flatMap(voidToNone)
+
+    val blockType = (params, retType) match {
+      case (Some(p), Some(r)) =>
+        s"$p -> $r in"
+      case (Some(p), None) =>
+        s"$p in"
+      case (None, Some(r)) =>
+        s"Void -> $r in"
       case _ => ""
     }
 
-    s"""|{$blockType
-        |${indent(visit(ctx.compoundStatement()))}
-        |}""".stripMargin
+    val body = visit(ctx.compoundStatement())
+
+    (blockType, body) match {
+      case ("", "") =>
+        "{}"
+      case (t, b) if b.lines.size <= 1 =>
+        s"{ ${List(t, b.stripPrefix("return ")).filter(_.nonEmpty).mkString(" ")} }"
+      case _ =>
+        s"""|{ $blockType
+           |${indent(body)}
+           |}""".stripMargin
+    }
   }
 
   /**
@@ -50,16 +63,24 @@ trait BlockVisitor {
    * @return
    */
   override def visitBlockParameters(ctx: BlockParametersContext): String =
-    s"(${
-      visitList(ctx.typeVariableDeclarator(), ", ")
-    })"
+    ctx.typeVariableDeclarator() match {
+      case Nil => "Void"
+      case list => s"(${visitList(list, ", ")})"
+    }
 
   /**
    * block_type:
-   *   type_specifier '(''&#94;' type_specifier? ')' block_parameters? ;
+   *   type_specifier '(' '^' type_specifier? ')' block_parameters? ;
    *
    * @param ctx
    * @return
    */
-  override def visitBlockType(ctx: BlockTypeContext): String = "" // TODO
+  override def visitBlockType(ctx: BlockTypeContext): String = ctx.typeSpecifier() match {
+    case List(returnType, blockName) =>
+      "var " + s"${visit(blockName)}: ${visit(ctx.blockParameters())} -> ${visit(returnType)}"
+    case List(returnType) =>
+      s"${visit(ctx.blockParameters())} -> ${visit(returnType)}"
+    case _ =>
+      defaultResult()
+  }
 }
