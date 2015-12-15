@@ -1,4 +1,5 @@
 import org.junit.runner.RunWith
+import org.objc2swift.converter.ObjCParser.CompoundStatementContext
 import org.objc2swift.converter._
 import org.scalatest.Ignore
 import org.scalatest.junit.JUnitRunner
@@ -156,9 +157,51 @@ class BlockDeclarationTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  test("normal block decl with init") {
+  test("arbitrary block decl with init") {
     val source = "RetType (^blockName)(MyTypeA, MyTypeB) = ^(MyTypeA a, MyTypeB b){};"
     val expected = "var blockName: (MyTypeA, MyTypeB) -> RetType = { (a: MyTypeA, b: MyTypeB) in }"
+    assertConvertSuccess(source, expected)
+  }
+}
+
+
+@RunWith(classOf[JUnitRunner])
+class MethodWithBlockTestSuite extends ObjC2SwiftTestSuite {
+  override def converter(parser: ObjCParser): ObjC2SwiftBaseConverter =
+    new ObjC2SwiftBaseConverter
+      with RootVisitor
+      with ClassVisitor
+      with MethodVisitor
+      with ExpressionVisitor
+      with BlockVisitor
+      with DeclarationVisitor
+      with TerminalNodeVisitor
+    {
+      override val root = null
+      override def getResult() = visit(parser.methodDeclaration())
+    }
+
+  test("method with block param") {
+    val source = "(void)doSomething:(void (^)())block;"
+    val expected = "func doSomething(block: Void -> Void) {\n}"
+    assertConvertSuccess(source, expected)
+  }
+
+  ignore("method with arbitrary block param") {
+    val source = "(void)doSomething:(MyType (^)(MyTypeA a, MyTypeB b))block;"
+    val expected = "func doSomething(block: (MyTypeA, MyTypeB) -> MyType) {\n}"
+    assertConvertSuccess(source, expected)
+  }
+
+  test("method with block return type") {
+    val source = "(void (^)())getBlock;"
+    val expected = "func getBlock() -> Void -> Void {\n}"
+    assertConvertSuccess(source, expected)
+  }
+
+  ignore("method with arbitrary block return type") {
+    val source = "(MyType (^)(MyTypeA a, MyTypeB b))getBlock;"
+    val expected = "func getBlock() -> (MyTypeA, MyTypeB) -> MyType {\n}"
     assertConvertSuccess(source, expected)
   }
 }

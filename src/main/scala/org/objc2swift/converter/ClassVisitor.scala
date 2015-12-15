@@ -178,6 +178,9 @@ trait ClassVisitor {
    * @return Some implementation context when found, else None.
    */
   protected def findClassImplementation(ctx: ClassInterfaceContext): Option[ClassImplementationContext] = {
+    if(root == null)
+      return None
+
     val className = visit(ctx.className())
     for {
       extDclCtx <- root.externalDeclaration().toStream
@@ -193,6 +196,9 @@ trait ClassVisitor {
    * @return Some implementation context when found, else None.
    */
   protected def findCategoryImplementation(ctx: CategoryInterfaceContext): Option[CategoryImplementationContext] = {
+    if(root == null)
+      return None
+
     val className = visit(ctx.className())
     val categoryName = visit(ctx.categoryName())
 

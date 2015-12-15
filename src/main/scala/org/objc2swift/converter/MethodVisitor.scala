@@ -64,11 +64,10 @@ trait MethodVisitor {
         val mType = ctx.methodType()
         val mDecl = methodDeclaration(sel, mType)
 
-        // Check ancestor is protocol or not
-        ctx.parent.parent.parent match {
-          case _: ProtocolDeclarationContext => mDecl
-          case _ => s"$mDecl {\n}"
-        }
+        if(isInsideProtocolDeclaration(ctx))
+          mDecl
+        else
+          s"$mDecl {\n}"
     }
 
 
@@ -163,6 +162,9 @@ trait MethodVisitor {
 
 
   private def findMethodDefinition(declCtx: MethodDeclarationContext): Option[MethodDefinitionContext] = {
+    if(root == null)
+      return None
+
     val selector = visit(declCtx.methodSelector())
     (declCtx.parent.parent.parent match {
       case classCtx: ClassInterfaceContext =>
@@ -214,5 +216,14 @@ trait MethodVisitor {
     else
       s"$selector $paramName: $paramType"
   }
+
+  private def isInsideProtocolDeclaration(ctx: ParserRuleContext): Boolean =
+    Stream.from(0)
+      .scanLeft(ctx.parent) { (list, _) => list.parent }
+      .takeWhile(_ != null)
+      .exists {
+        case _: ProtocolDeclarationContext => true
+        case _ => false
+      }
 
 }
