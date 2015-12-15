@@ -37,7 +37,11 @@ class MessageVisitorTestSuite extends ObjC2SwiftTestSuite {
   }
 
   test("NSString stringWithFormat") {
-    assertConvertSuccess("[NSString stringWithFormat:@\"hello, %@-san\", name]", "\"hello, \\(name)-san\"")
+    assertConvertSuccess("[NSString stringWithFormat:@\"hello %@\", name]", "\"hello \\(name)\"")
+  }
+
+  test("NSString stringWithFormat2") {
+    assertConvertSuccess("[NSString stringWithFormat:@\"hello %@, %@\", name1, name2]", "\"hello \\(name1), \\(name2)\"")
   }
 
   test("dictionary access in NSString stringWithFormat") {

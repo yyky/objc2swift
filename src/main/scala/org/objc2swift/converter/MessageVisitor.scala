@@ -131,21 +131,21 @@ trait MessageVisitor {
             kwArg <- msgSel.keywordArgument().headOption
             expr <- kwArg.expression()
             exps = expr.assignmentExpression() // MEMO this is mostly NOT list of assignment-exprs.
-          } yield {
-              val r1 = """(%[0-9.]+[a-z@]+)""".r
-              val r2 = """(%[a-z@]+)""".r
+          } yield exps) flatMap { exps =>
+            val head :: tail = exps
+            val r1 = """(%[0-9.]+[a-z@]+)""".r
+            val r2 = """(%[a-z@]+)""".r
 
-              r1.findFirstIn(exps.head.getText).map { _ =>
-                val head :: tail = exps.toList
-                val format = s"format: ${visit(head)}"
-                val args = tail.map(c => s", ${visit(c)}")
-                s"String($format${args.mkString})"
-              } orElse r2.findFirstIn(exps.head.getText).map { _ =>
-                val format = visit(exps.head)
-                val params = exps.tail.map(visit).map(i => s"""\\($i)""")
-                (("" +: params) zip r2.split(format)).map(i => i._1 + i._2).mkString
-              }
-            }).flatten
+            r1.findFirstIn(head.getText).map { _ =>
+              val format = s"format: ${visit(head)}"
+              val args = tail.map(c => s", ${visit(c)}")
+              s"String($format${args.mkString})"
+            } orElse r2.findFirstIn(head.getText).map { _ =>
+              val format = visit(head)
+              val params = tail.map(c => s"""\\(${visit(c)})""")
+              (("" +: params) zip r2.split(format)).map(i => i._1 + i._2).mkString
+            }
+          }
 
         case _ =>
           None
