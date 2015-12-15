@@ -319,19 +319,26 @@ trait ExpressionVisitor {
   /**
    * postfix_expression:
    *   primary_expression
-   *   ('[' expression ']'
-   *   | '(' argument_expression_list? ')'
-   *   | '.' identifier
-   *   | '->' identifier
-   *   | '++'
-   *   | '--'
-   *   )* ;
+   *     ( '[' expression ']'
+   *     | '(' argument_expression_list? ')'
+   *     | '.' identifier
+   *     | '->' identifier
+   *     | '++'
+   *     | '--'
+   *     )* ;
    *
    * @param ctx
    * @return
    */
   override def visitPostfixExpression(ctx: PostfixExpressionContext) =
-    processUnaryExpression(ctx)
+    ctx.children.toList match {
+      case List(c: PrimaryExpressionContext, TerminalText("("),  (args: ArgumentExpressionListContext), TerminalText(")")) =>
+        processFunctionCall(c, args.assignmentExpression())
+      case List(c: PrimaryExpressionContext, TerminalText("("),  TerminalText(")")) =>
+        processFunctionCall(c, Nil)
+      case _ => processUnaryExpression(ctx)
+    }
+
 
   /**
    * assignment_operator:
@@ -353,15 +360,28 @@ trait ExpressionVisitor {
   override def visitUnaryOperator(ctx: UnaryOperatorContext) =
     ctx.getText
 
+
   private def processBinaryExpression(ctx: ParserRuleContext): String =
     visitChildrenAs(ctx) {
       case TerminalText(s) => s
       case c               => visit(c)
     }
 
+
   private def processUnaryExpression(ctx: ParserRuleContext): String =
     visitChildrenAs(ctx, "") {
       case TerminalText(s) => s
       case c               => visit(c)
     }
+
+  private def processFunctionCall(ctx: PrimaryExpressionContext, args: List[_ <: RuleContext]): String = {
+    import org.objc2swift.converter.util.stringFormat
+
+    visit(ctx) match {
+      case "NSLog" =>
+        s"print(${stringFormat(this, args)})"
+      case f =>
+        s"$f(${visitList(args, ", ")})"
+    }
+  }
 }

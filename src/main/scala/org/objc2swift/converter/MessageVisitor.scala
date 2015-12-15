@@ -11,7 +11,7 @@
 package org.objc2swift.converter
 
 import org.objc2swift.converter.ObjCParser._
-import org.objc2swift.converter.util.{NSStringLiteral, TerminalText}
+import org.objc2swift.converter.util.{stringFormat, NSStringLiteral, TerminalText}
 
 import scala.collection.JavaConversions._
 
@@ -131,22 +131,7 @@ trait MessageVisitor {
             kwArg <- msgSel.keywordArgument().headOption
             expr <- kwArg.expression()
             exps = expr.assignmentExpression() // MEMO this is mostly NOT list of assignment-exprs.
-          } yield exps) flatMap { exps =>
-            val head :: tail = exps
-            val r1 = """(%[0-9.]+[a-z@]+)""".r
-            val r2 = """(%[a-z@]+)""".r
-
-            r1.findFirstIn(head.getText).map { _ =>
-              val format = s"format: ${visit(head)}"
-              val args = tail.map(c => s", ${visit(c)}")
-              s"String($format${args.mkString})"
-            } orElse r2.findFirstIn(head.getText).map { _ =>
-              val format = visit(head)
-              val params = tail.map(c => s"""\\(${visit(c)})""")
-              (("" +: params) zip r2.split(format)).map(i => i._1 + i._2).mkString
-            }
-          }
-
+          } yield exps) map { stringFormat(MessageVisitor.this, _) }
         case _ =>
           None
     }

@@ -52,6 +52,10 @@ class MessageVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess("[NSString stringWithFormat:@\"%02i\", age]", "String(format: \"%02i\", age)")
   }
 
+  test("NSString stringWithFormat with precision2") {
+    assertConvertSuccess("[NSString stringWithFormat:@\"%02i %#x\", age, value]", "String(format: \"%02i %#x\", age, value)")
+  }
+
   test("UIImage imageNamed") {
     assertConvertSuccess("[UIImage imageNamed:name]", "UIImage(named: name)")
   }
