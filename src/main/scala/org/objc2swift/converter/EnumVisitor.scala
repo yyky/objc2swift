@@ -13,7 +13,7 @@ package org.objc2swift.converter
 import org.antlr.v4.runtime.RuleContext
 import org.antlr.v4.runtime.tree.ParseTreeProperty
 import org.objc2swift.converter.ObjCParser._
-import org.objc2swift.converter.util.TerminalText
+import org.objc2swift.converter.util.Token
 
 import scala.collection.JavaConversions._
 
@@ -57,7 +57,7 @@ trait EnumVisitor {
   override def visitEnumerator(ctx: EnumeratorContext): String =
     "case " + visitChildrenAs(ctx) {
       case c: IdentifierContext => enumCaseIdentifier(c)
-      case TerminalText("=") => "="
+      case Token(ASSIGN) => "="
       case c: ConstantExpressionContext => visit(c)
     }
 

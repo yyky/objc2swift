@@ -72,11 +72,11 @@ trait StatementVisitor {
    **/
   override def visitJumpStatement(ctx: JumpStatementContext): String =
     ctx.getChild(0) match {
-      case TerminalText("return") =>
+      case Token(RETURN) =>
         "return" + ctx.expression().map(" " + visit(_)).getOrElse("")
-      case TerminalText("break") =>
+      case Token(BREAK) =>
         if(isInsideSwitchStatement(ctx)) "" else "break"
-      case TerminalText("continue") =>
+      case Token(CONTINUE) =>
         "continue"
       case _ =>
         ""
@@ -92,9 +92,9 @@ trait StatementVisitor {
    **/
   override def visitSelectionStatement(ctx: SelectionStatementContext): String =
     visitChildrenAs(ctx) {
-      case TerminalText("if")     => "if"
-      case TerminalText("else")   => extractElseIf(ctx.statement(1))
-      case TerminalText("switch") => "switch"
+      case Token(IF)     => "if"
+      case Token(ELSE)   => extractElseIf(ctx.statement(1))
+      case Token(SWITCH) => "switch"
       case c: ExpressionContext   => visit(c)
       case c: StatementContext if !isVisited(c) => processBlock(c)
     }
@@ -121,9 +121,9 @@ trait StatementVisitor {
    **/
   override def visitLabeledStatement(ctx: LabeledStatementContext): String =
     visitChildrenAs(ctx, "") {
-      case TerminalText("case")    => "case "
-      case TerminalText("default") => "default"
-      case TerminalText(":")       => ":\n"
+      case Token(CASE)    => "case "
+      case Token(DEFAULT) => "default"
+      case Token(COLON)       => ":\n"
       case c: ConstantExpressionContext => visit(c)
       case c: StatementContext => indent(visit(c))
     }
@@ -148,8 +148,8 @@ trait StatementVisitor {
    **/
   override def visitForInStatement(ctx: ForInStatementContext): String =
     visitChildrenAs(ctx) {
-      case TerminalText("for")              => "for"
-      case TerminalText("in")               => "in"
+      case Token(FOR)              => "for"
+      case Token(IN)               => "in"
       case c: ExpressionContext             => visit(c)
       case c: TypeVariableDeclaratorContext => visit(c)
       case c: StatementContext              => processBlock(c)
@@ -166,8 +166,8 @@ trait StatementVisitor {
    **/
   override def visitForStatement(ctx: ForStatementContext): String =
     visitChildrenAs(ctx, "") {
-      case TerminalText("for")             => "for "
-      case TerminalText(";")               => "; "
+      case Token(FOR)             => "for "
+      case Token(SEMI)            => "; "
       case c: ExpressionContext            => visit(c)
       case d: DeclarationSpecifiersContext => processForInitializer(d, ctx.initDeclaratorList().get)
       case c: StatementContext             => s" ${processBlock(c)}"
@@ -181,7 +181,7 @@ trait StatementVisitor {
    **/
   override def visitWhileStatement(ctx: WhileStatementContext): String =
     visitChildrenAs(ctx) {
-      case TerminalText("while") => "while"
+      case Token(WHILE) => "while"
       case c: ExpressionContext  => visit(c)
       case c: StatementContext   => processBlock(c)
     }
@@ -194,8 +194,8 @@ trait StatementVisitor {
    **/
   override def visitDoStatement(ctx: DoStatementContext): String =
     visitChildrenAs(ctx, "") {
-      case TerminalText("do")    => "repeat {\n"
-      case TerminalText("while") => s"} while"
+      case Token(DO)    => "repeat {\n"
+      case Token(WHILE) => s"} while"
       case c: ExpressionContext  => s" ${visit(c)}\n"
       case c: StatementContext   => indent(visitChildren(c)) + "\n"
     }
@@ -211,7 +211,10 @@ trait StatementVisitor {
         case _ => false
       } match {
       case Some(c: SelectionStatementContext) =>
-        c.getChild(0).getText == "switch"
+        c.getChild(0) match {
+          case Token(SWITCH) => true
+          case _ => false
+        }
       case _ =>
         false
     }

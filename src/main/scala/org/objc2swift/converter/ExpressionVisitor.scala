@@ -13,7 +13,8 @@ package org.objc2swift.converter
 import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree.{TerminalNode, ParseTree}
 import org.objc2swift.converter.ObjCParser._
-import org.objc2swift.converter.util.{NSStringLiteral, IdentifierText, TerminalText}
+import org.objc2swift.converter.util.Token
+import org.objc2swift.converter.util._
 import scala.collection.JavaConversions._
 
 /**
@@ -31,7 +32,7 @@ trait ExpressionVisitor {
    */
   override def visitExpression(ctx: ExpressionContext) =
     visitChildrenAs(ctx, "") {
-      case TerminalText(",") => ", "
+      case Token(COLON) => ", "
       case c => visit(c)
     }
 
@@ -152,20 +153,20 @@ trait ExpressionVisitor {
    */
   override def visitPrimaryExpression(ctx: PrimaryExpressionContext): String = {
     ctx.children.toList match {
-      case List(TerminalText("("), c: ExpressionContext, TerminalText(")")) =>
+      case List(Token(LPAREN), c: ExpressionContext, Token(RPAREN)) =>
         s"(${visit(c)})"
 
       case List(c) => c match {
-        case IdentifierText(t) => t match {
+        case TokenString(IDENTIFIER, t) => t match {
           case "YES" => "true"
           case "NO" => "false"
           case _ => t
         }
 
         case c: ConstantContext => visit(c)
-        case NSStringLiteral(t) => t.substring(1)
-        case TerminalText("self")  => "self"
-        case TerminalText("super") => "super"
+        case TokenString(STRING_LITERAL, t) => t.substring(1)
+        case Token(SELF)  => "self"
+        case Token(SUPER) => "super"
         case _ => visitChildren(ctx)
       }
     }
@@ -332,9 +333,9 @@ trait ExpressionVisitor {
    */
   override def visitPostfixExpression(ctx: PostfixExpressionContext) =
     ctx.children.toList match {
-      case List(c: PrimaryExpressionContext, TerminalText("("),  (args: ArgumentExpressionListContext), TerminalText(")")) =>
+      case List(c: PrimaryExpressionContext, Token(LPAREN),  (args: ArgumentExpressionListContext), Token(RPAREN)) =>
         processFunctionCall(c, args.assignmentExpression())
-      case List(c: PrimaryExpressionContext, TerminalText("("),  TerminalText(")")) =>
+      case List(c: PrimaryExpressionContext, Token(LPAREN),  Token(RPAREN)) =>
         processFunctionCall(c, Nil)
       case _ => processUnaryExpression(ctx)
     }
@@ -363,15 +364,15 @@ trait ExpressionVisitor {
 
   private def processBinaryExpression(ctx: ParserRuleContext): String =
     visitChildrenAs(ctx) {
-      case TerminalText(s) => s
-      case c               => visit(c)
+      case TokenString(_, s) => s
+      case c => visit(c)
     }
 
 
   private def processUnaryExpression(ctx: ParserRuleContext): String =
     visitChildrenAs(ctx, "") {
-      case TerminalText(s) => s
-      case c               => visit(c)
+      case TokenString(_, s) => s
+      case c => visit(c)
     }
 
   private def processFunctionCall(ctx: PrimaryExpressionContext, args: List[_ <: RuleContext]): String = {

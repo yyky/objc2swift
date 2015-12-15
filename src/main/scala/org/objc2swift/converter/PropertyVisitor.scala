@@ -11,7 +11,7 @@
 package org.objc2swift.converter
 
 import org.objc2swift.converter.ObjCParser._
-import org.objc2swift.converter.util.TerminalText
+import org.objc2swift.converter.util.TokenString
 
 import scala.collection.JavaConversions._
 
@@ -69,10 +69,10 @@ trait PropertyVisitor {
     val (isIBOutlet, typeSpec) = {
       ctx.ibOutletSpecifier() match {
         case Some(s) => s.getChild(0) match {
-          case TerminalText("IBOutlet") =>
+          case TokenString(IDENTIFIER, "IBOutlet") => // TODO add new token
             (true, s"${visit(specCtx)}!")
 
-          case TerminalText("IBOutletCollection") =>
+          case TokenString(IDENTIFIER, "IBOutletCollection") => // TODO add new token
             (true, s"[${visit(s.className())}]!")
         }
         case None =>
@@ -174,28 +174,28 @@ trait PropertyVisitor {
     List(getter, setter).flatten.foreach(c => setVisited(c.parent))
 
     (getter, setter) match {
-      case (Some(getter), Some(setter)) =>
+      case (Some(g), Some(s)) =>
         s"""{
            |  get {
-           |    ${visit(getter.compoundStatement())}
+           |    ${visit(g.compoundStatement())}
            |  }
-           |  set(${setterParamName(setter)}) {
-           |    ${visit(setter.compoundStatement())}
+           |  set(${setterParamName(s)}) {
+           |    ${visit(s.compoundStatement())}
            |  }
            |}""".stripMargin
 
-      case (Some(getter), None) =>
+      case (Some(g), None) =>
         s"""{
-           |  ${visit(getter.compoundStatement())}
+           |  ${visit(g.compoundStatement())}
            |}""".stripMargin
 
-      case (None, Some(setter)) =>
+      case (None, Some(s)) =>
         s"""{
            |  get {
            |    // FIXME: implement getter
            |  }
-           |  set(${setterParamName(setter)}) {
-           |    ${visit(setter.compoundStatement())}
+           |  set(${setterParamName(s)}) {
+           |    ${visit(s.compoundStatement())}
            |  }
            |}""".stripMargin
 

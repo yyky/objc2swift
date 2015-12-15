@@ -11,7 +11,6 @@
 package org.objc2swift.converter
 
 import org.antlr.v4.runtime.RuleContext
-import org.antlr.v4.runtime.tree.TerminalNode
 import org.objc2swift.converter.ObjCParser._
 
 import scala.collection.JavaConversions._
@@ -75,7 +74,7 @@ trait DeclarationVisitor {
    **/
   override def visitStorageClassSpecifier(ctx: StorageClassSpecifierContext): String =
     visitChildrenAs(ctx) {
-      case TerminalText("static") => "static"
+      case Token(STATIC) => "static"
     }
 
 
@@ -95,26 +94,24 @@ trait DeclarationVisitor {
    */
   override def visitTypeSpecifier(ctx: TypeSpecifierContext): String =
     visitChildrenAs(ctx) {
-      case TerminalText("void")           => "Void"
-      case TerminalText("id")             => "AnyObject"
-      case TerminalText("char")           => "Int8"
-      case TerminalText("short")          => "Int16"
-      case TerminalText("int")            => "Int32"
-      case TerminalText("long")           => "Int64"
-      case TerminalText("float")          => "Float"
-      case TerminalText("double")         => "Double"
-      case TerminalText(s) if !s.isEmpty  => s
-      case _: TerminalNode                => "AnyObject"
+      case Token(VOID)           => "Void"
+      case Token(ID)             => "AnyObject"
+      case Token(CHAR)           => "Int8"
+      case Token(SHORT)          => "Int16"
+      case Token(INT)            => "Int32"
+      case Token(LONG)           => "Int64"
+      case Token(FLOAT)          => "Float"
+      case Token(DOUBLE)         => "Double"
+      case TokenString(_, s)     => s
       case ClassName("NSInteger")     => "Int"
       case ClassName("NSUInteger")    => "UInt"
       case ClassName("NSArray")       => "[AnyObject]"
       case ClassName("NSDictionary")  => "[AnyObject: AnyObject]"
       case ClassName("SEL")           => "Selector"
       case ClassName("BOOL")          => "Bool"
-      case ClassName(s) if !s.isEmpty => s
-      case _: ClassNameContext           => "AnyObject"
-      case c: PointerContext              => visit(c)
-      case c                              => c.getText
+      case ClassName(s)               => s
+      case c: PointerContext          => visit(c)
+      case c                          => c.getText
     }
 
 
@@ -189,9 +186,9 @@ trait DeclarationVisitor {
    **/
   override def visitDirectDeclarator(ctx: DirectDeclaratorContext) =
     visitChildrenAs(ctx, "") {
-      case TerminalText("(") => "("
-      case TerminalText(")") => ")"
-      case c                 => visit(c)
+      case Token(LPAREN) => "("
+      case Token(RPAREN) => ")"
+      case c             => visit(c)
     }
 
   /**
@@ -303,7 +300,7 @@ trait DeclarationVisitor {
     } yield initDeclList.initDeclarator().map { // foreach init-declarator
       visitChildrenAs(_) {
         case c: DeclaratorContext  => varDeclaration(ctx, declSpec, declSpec.typeSpecifier(), c)
-        case TerminalText("=") => "="
+        case Token(ASSIGN) => "="
         case c: InitializerContext => visit(c)
       }
     }.mkString("\n")
@@ -348,7 +345,7 @@ trait DeclarationVisitor {
   private def isConstantDeclaration(ctx: DeclarationSpecifiersContext): Boolean =
     ctx.typeQualifier().exists {
       _.children.exists {
-        case TerminalText("const") => true
+        case Token(CONST) => true
         case _ => false
       }
     }

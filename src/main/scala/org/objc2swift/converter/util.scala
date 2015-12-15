@@ -24,7 +24,7 @@ package object util {
           .map{ case (s, p) => s + p }
           .mkString
       } else {
-        s"String(format: ${format}, ${v.visitList(tail, ", ")})"
+        s"String(format: $format, ${v.visitList(tail, ", ")})"
       }
 
     case head :: Nil =>
@@ -34,23 +34,11 @@ package object util {
       v.defaultResult()
   }
 
-  object TerminalText {
-    def unapply(node: TerminalNode): Option[String] = Option(node.getSymbol.getText)
+  object Token {
+    def unapply(node: TerminalNode): Option[Int] = Option(node.getSymbol.getType)
   }
 
-  object IdentifierText {
-    def unapply(node: TerminalNode): Option[String] =
-      if(node.getSymbol.getType == IDENTIFIER)
-        Some(node.getSymbol.getText)
-      else
-        None
-  }
-
-  object NSStringLiteral {
-    def unapply(node: TerminalNode): Option[String] =
-      if(node.getSymbol.getType == STRING_LITERAL)
-        Some(node.getSymbol.getText)
-      else
-        None
+  object TokenString {
+    def unapply(node: TerminalNode): Option[(Int, String)] = Option(node.getSymbol).map(s => (s.getType, s.getText))
   }
 }

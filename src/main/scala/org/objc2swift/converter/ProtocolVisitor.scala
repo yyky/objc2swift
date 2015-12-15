@@ -13,7 +13,7 @@ package org.objc2swift.converter
 import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeProperty, TerminalNode}
 import org.antlr.v4.runtime.{ParserRuleContext, RuleContext}
 import org.objc2swift.converter.ObjCParser._
-import org.objc2swift.converter.util.TerminalText
+import org.objc2swift.converter.util.{TokenString, Token}
 
 trait ProtocolVisitor {
   this: ObjC2SwiftBaseConverter =>
@@ -43,10 +43,10 @@ trait ProtocolVisitor {
             .mkString("\n")
         else
           visit(c)
-      case TerminalText("@optional") =>
+      case Token(OPTIONAL) =>
         optional = true
         ""
-      case TerminalText("@required") =>
+      case TokenString(_, "@required") => // TODO add new token
         optional = false
         ""
     }

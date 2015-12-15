@@ -11,7 +11,7 @@
 package org.objc2swift.converter
 
 import org.objc2swift.converter.ObjCParser._
-import org.objc2swift.converter.util.{stringFormat, NSStringLiteral, TerminalText}
+import org.objc2swift.converter.util.{Token, stringFormat}
 
 import scala.collection.JavaConversions._
 
@@ -72,7 +72,7 @@ trait MessageVisitor {
    */
   override def visitKeywordArgument(ctx: KeywordArgumentContext): String =
     visitChildrenAs(ctx, "") {
-      case TerminalText(":") => ": "
+      case Token(COLON) => ": "
       case c => visit(c)
     }
 
