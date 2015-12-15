@@ -37,7 +37,10 @@ trait ProtocolVisitor {
     val body = visitChildrenAs(ctx, "\n") {
       case c: InterfaceDeclarationListContext =>
         if(optional)
-          visit(c).split("\n").map("optional " + _).mkString("\n")
+          visit(c)
+            .split("\n")
+            .map(s => if(s.nonEmpty) s"optional $s" else s)
+            .mkString("\n")
         else
           visit(c)
       case TerminalText("@optional") =>

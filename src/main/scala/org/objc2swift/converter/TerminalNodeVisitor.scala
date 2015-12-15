@@ -19,7 +19,7 @@ trait TerminalNodeVisitor {
     ctx.getChild(0) match {
       case c: TerminalNode => c.getSymbol.getType match {
         case OCTAL_LITERAL => s"0o${c.getText.substring(1)}"
-        case CHARACTER_LITERAL => s""""${c.getText.substring(1, 2)}""""
+        case CHARACTER_LITERAL => "\"" + c.getText.substring(1, 2) + "\""
         case _ => c.getText
       }
     }

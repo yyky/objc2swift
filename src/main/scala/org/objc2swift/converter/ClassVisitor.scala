@@ -57,11 +57,9 @@ trait ClassVisitor {
       } yield visit(implDefList)
     ).flatten.mkString("\n")
 
-    s"""
-       |$head {
+    s"""$head {
        |${indent(body)}
-       |}
-     """.stripMargin
+       |}""".stripMargin
   }
 
   /**
@@ -150,11 +148,9 @@ trait ClassVisitor {
       findCategoryImplementation(ctx).map(visit)
     ).flatten.mkString("\n\n")
 
-    s"""
-       |$head {
+    s"""$head {
        |${indent(body)}
-       |}
-     """.stripMargin
+       |}""".stripMargin
   }
 
   /**

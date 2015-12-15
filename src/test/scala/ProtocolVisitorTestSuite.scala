@@ -72,7 +72,7 @@ class ProtocolVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  ignore("protocol with optional functions") {
+  test("protocol with optional functions") {
     val source =
       s"""
          |@protocol MyProtocol
@@ -95,7 +95,7 @@ class ProtocolVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  ignore("protocol with required/optional functions") {
+  test("protocol with required/optional functions") {
     val source =
       s"""
          |@protocol MyProtocol
@@ -112,7 +112,7 @@ class ProtocolVisitorTestSuite extends ObjC2SwiftTestSuite {
       s"""
          |protocol MyProtocol {
          |  func hello()
-         |  optional func goodbye()
+         |  optional func nihao()
          |  func goodbye()
          |}
        """.stripMargin

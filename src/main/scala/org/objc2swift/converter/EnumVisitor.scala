@@ -32,11 +32,9 @@ trait EnumVisitor {
    * @return
    */
   override def visitEnumSpecifier(ctx: EnumSpecifierContext): String =
-    s"""
-       |enum ${enumIdentifier(ctx)} : ${enumType(ctx)} {
+    s"""enum ${enumIdentifier(ctx)} : ${enumType(ctx)} {
        |${indent(visit(ctx.enumeratorList()))}
-       |}
-     """.stripMargin
+       |}""".stripMargin
 
 
   /**
