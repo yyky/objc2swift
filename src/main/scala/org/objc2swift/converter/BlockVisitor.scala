@@ -57,15 +57,17 @@ trait BlockVisitor {
 
   /**
    * block_parameters:
-   *   '(' (type_variable_declarator | 'void')? (',' type_variable_declarator)* ')';
+   *   '(' (type_variable_declarator | type_name | 'void')?
+   *       (',' (type_variable_declarator | type_name) )*
+   *   ')';
    *
    * @param ctx
    * @return
    */
   override def visitBlockParameters(ctx: BlockParametersContext): String =
-    ctx.typeVariableDeclarator() match {
-      case Nil => "Void"
-      case list => s"(${visitList(list, ", ")})"
+    visitChildren(ctx, ", ") match {
+      case "Void" | "" => "Void"
+      case s => s"($s)"
     }
 
   /**
@@ -79,7 +81,8 @@ trait BlockVisitor {
     case List(returnType, blockName) =>
       "var " + s"${visit(blockName)}: ${visit(ctx.blockParameters())} -> ${visit(returnType)}"
     case List(returnType) =>
-      s"${visit(ctx.blockParameters())} -> ${visit(returnType)}"
+      val params = visit(ctx.blockParameters()).replaceAll("[a-zA-Z0-9]+: ", "") // strip param-name
+      s"$params -> ${visit(returnType)}"
     case _ =>
       defaultResult()
   }

@@ -187,7 +187,7 @@ class MethodWithBlockTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  ignore("method with arbitrary block param") {
+  test("method with arbitrary block param") {
     val source = "(void)doSomething:(MyType (^)(MyTypeA a, MyTypeB b))block;"
     val expected = "func doSomething(block: (MyTypeA, MyTypeB) -> MyType) {\n}"
     assertConvertSuccess(source, expected)
@@ -199,7 +199,7 @@ class MethodWithBlockTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  ignore("method with arbitrary block return type") {
+  test("method with arbitrary block return type") {
     val source = "(MyType (^)(MyTypeA a, MyTypeB b))getBlock;"
     val expected = "func getBlock() -> (MyTypeA, MyTypeB) -> MyType {\n}"
     assertConvertSuccess(source, expected)

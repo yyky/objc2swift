@@ -281,24 +281,7 @@ trait DeclarationVisitor {
       id <- dirDecl.identifier()
       blockParam <- dirDecl.blockParameters()
     } yield {
-      val typeSpecListList = if(blockParam.typeVariableDeclarator().nonEmpty) { // when with param-name
-        for {
-          typeVarDecl <- blockParam.typeVariableDeclarator()
-          declSpecs <- typeVarDecl.declarationSpecifiers()
-        } yield declSpecs.typeSpecifier()
-      } else if(blockParam.typeName().nonEmpty) { // when without param-name
-        for {
-          typeName <- blockParam.typeName()
-          specQualList <- typeName.specifierQualifierList()
-        } yield specQualList.typeSpecifier()
-      } else {
-        List()
-      }
-
-      val blockParamStr = typeSpecListList match {
-        case Nil => "Void"
-        case _ => s"(${typeSpecListList.map(processTypeSpecifierList).mkString(", ")})"
-      }
+      val blockParamStr = visit(blockParam).replaceAll("[a-zA-Z0-9]+: ", "") // strip param-name
       val declStr = s"var ${visit(id)}: $blockParamStr -> ${visit(typeSpec)}"
       initDecl.initializer() match {
         case Some(c) => s"$declStr = ${visit(c)}"
