@@ -41,7 +41,7 @@ trait BlockVisitor {
       case _ => ""
     }
 
-    val body = visit(ctx.compoundStatement())
+    val body = visitOption(ctx.compoundStatement())
 
     (blockType, body) match {
       case ("", "") =>
@@ -79,9 +79,9 @@ trait BlockVisitor {
    */
   override def visitBlockType(ctx: BlockTypeContext): String = ctx.typeSpecifier() match {
     case List(returnType, blockName) =>
-      "var " + s"${visit(blockName)}: ${visit(ctx.blockParameters())} -> ${visit(returnType)}"
+      "var " + s"${visit(blockName)}: ${visitOption(ctx.blockParameters())} -> ${visit(returnType)}"
     case List(returnType) =>
-      val params = visit(ctx.blockParameters()).replaceAll("[a-zA-Z0-9]+: ", "") // strip param-name
+      val params = visitOption(ctx.blockParameters()).replaceAll("[a-zA-Z0-9]+: ", "") // strip param-name
       s"$params -> ${visit(returnType)}"
     case _ =>
       defaultResult()

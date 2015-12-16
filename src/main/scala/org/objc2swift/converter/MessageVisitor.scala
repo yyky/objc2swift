@@ -57,8 +57,8 @@ trait MessageVisitor {
       case Some(SelectorText(s)) => s"$s()" // no argument
       case None =>
         val head :: tail = ctx.keywordArgument()
-        val funcName = visit(head.selector())
-        val firstArg = visit(head.expression())
+        val funcName = visitOption(head.selector())
+        val firstArg = visitOption(head.expression())
         val rest = tail.foldLeft("")(_ + ", " + visit(_))
         s"$funcName($firstArg$rest)"
     }
@@ -107,7 +107,7 @@ trait MessageVisitor {
           val stripped = s.stripPrefix("initWith")
           val firstLabel = stripped.head.toLower + stripped.tail
           val kwArgs = ctx.messageSelector().get.keywordArgument()
-          val firstArg = visit(kwArgs.head.expression())
+          val firstArg = visitOption(kwArgs.head.expression())
           val rest = kwArgs.tail.foldLeft("")(_ + ", " + visit(_))
           Some(s"$r($firstLabel $firstArg$rest)")
 
@@ -127,7 +127,7 @@ trait MessageVisitor {
       }) map { case (r, s) =>
         val msgSel = ctx.messageSelector().get
         val head :: tail = msgSel.keywordArgument()
-        val headArg = visit(head.expression())
+        val headArg = visitOption(head.expression())
         val rest = tail.foldLeft("")(_ + ", " + visit(_))
         s"$r($s $headArg$rest)"
       }

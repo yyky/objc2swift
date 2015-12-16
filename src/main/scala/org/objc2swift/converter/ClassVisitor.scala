@@ -232,11 +232,11 @@ trait ClassVisitor {
     if(root == null)
       return None
 
-    val className = visit(ctx.className())
+    val className = visitOption(ctx.className())
     for {
       extDclCtx <- root.externalDeclaration().toStream
       implCtx <- extDclCtx.classImplementation()
-      if visit(implCtx.className()) == className
+      if visitOption(implCtx.className()) == className
     } yield implCtx
   }.headOption
 
@@ -251,12 +251,12 @@ trait ClassVisitor {
     if(root == null)
       return None
 
-    val className = visit(ctx.className())
+    val className = visitOption(ctx.className())
 
     for {
       extDclCtx <- root.externalDeclaration().toStream
       implCtx <- extDclCtx.categoryInterface()
-      if visit(implCtx.className()) == className && implCtx.categoryName().isEmpty
+      if visitOption(implCtx.className()) == className && implCtx.categoryName().isEmpty
     } yield implCtx
   }.headOption
 
@@ -272,14 +272,14 @@ trait ClassVisitor {
     if(root == null)
       return None
 
-    val className = visit(ctx.className())
-    val categoryName = visit(ctx.categoryName())
+    val className = visitOption(ctx.className())
+    val categoryName = visitOption(ctx.categoryName())
 
     for {
       extDclCtx <- root.externalDeclaration().toStream
       implCtx <- extDclCtx.categoryImplementation()
-      if visit(implCtx.className()) == className &&
-         visit(implCtx.categoryName()) == categoryName
+      if visitOption(implCtx.className()) == className &&
+        visitOption(implCtx.categoryName()) == categoryName
     } yield implCtx
   }.headOption
 
@@ -289,10 +289,10 @@ trait ClassVisitor {
       .scanLeft(ctx.parent) { (list, _) => list.parent }
       .takeWhile(_ != null)
       .collectFirst {
-        case c: ClassInterfaceContext => visit(c.className())
-        case c: ClassImplementationContext => visit(c.className())
-        case c: CategoryInterfaceContext => visit(c.className())
-        case c: CategoryImplementationContext => visit(c.className())
+        case c: ClassInterfaceContext => visitOption(c.className())
+        case c: ClassImplementationContext => visitOption(c.className())
+        case c: CategoryInterfaceContext => visitOption(c.className())
+        case c: CategoryImplementationContext => visitOption(c.className())
       }
 
   private def toPrivate(result: String): String =

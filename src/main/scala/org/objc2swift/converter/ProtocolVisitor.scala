@@ -27,7 +27,7 @@ trait ProtocolVisitor {
   override def visitProtocolDeclaration(ctx: ProtocolDeclarationContext): String = {
 
     val head =
-      s"protocol ${visit(ctx.protocolName())}" +
+      s"protocol ${visitOption(ctx.protocolName())}" +
       ctx.protocolReferenceList().map {": " + visit(_)}.mkString
 
     var optional = false

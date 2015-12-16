@@ -32,7 +32,7 @@ trait MethodVisitor {
    * @return
    */
   override def visitInstanceMethodDeclaration(ctx: InstanceMethodDeclarationContext): String =
-    s"${visit(ctx.methodDeclaration())}"
+    s"${visitOption(ctx.methodDeclaration())}"
 
 
   /**
@@ -43,7 +43,7 @@ trait MethodVisitor {
    * @return
    */
   override def visitClassMethodDeclaration(ctx: ClassMethodDeclarationContext): String =
-    s"class ${visit(ctx.methodDeclaration())}"
+    s"class ${visitOption(ctx.methodDeclaration())}"
 
 
   /**
@@ -110,7 +110,7 @@ trait MethodVisitor {
     val sel = ctx.methodSelector().get
     val mType = ctx.methodType()
     val mDecl = methodDeclaration(sel, mType)
-    val body = visit(ctx.compoundStatement())
+    val body = visitOption(ctx.compoundStatement())
 
     s"""|$mDecl {
         |${indent(body)}
@@ -142,7 +142,7 @@ trait MethodVisitor {
     ctx.selector() match {
       case Some(s) => s"${visit(s)}()" // No parameters
       case None =>
-        val name = visit(ctx.keywordDeclarator(0).selector())
+        val name = visitOption(ctx.keywordDeclarator(0).selector())
         val headParam = processKeywordDeclarator(ctx.keywordDeclarator(0), isHead = true)
         val rest = ctx.keywordDeclarator().tail.foldLeft("")(_ + ", " + visitKeywordDeclarator(_))
 
@@ -165,7 +165,7 @@ trait MethodVisitor {
     if(root == null)
       return None
 
-    val selector = visit(declCtx.methodSelector())
+    val selector = visitOption(declCtx.methodSelector())
     (declCtx.parent.parent.parent match {
       case classCtx: ClassInterfaceContext =>
         for {
@@ -186,10 +186,10 @@ trait MethodVisitor {
       declCtx.parent match {
         case _: InstanceMethodDeclarationContext =>
           val insMethDefList = implDefList.instanceMethodDefinition().flatMap(_.methodDefinition())
-          insMethDefList.find(d => visit(d.methodSelector()) == selector)
+          insMethDefList.find(d => visitOption(d.methodSelector()) == selector)
         case _: ClassMethodDeclarationContext =>
           val clsMethDefList = implDefList.instanceMethodDefinition().flatMap(_.methodDefinition())
-          clsMethDefList.find(d => visit(d.methodSelector()) == selector)
+          clsMethDefList.find(d => visitOption(d.methodSelector()) == selector)
       }
     }
   }
@@ -222,7 +222,7 @@ trait MethodVisitor {
   private def processKeywordDeclarator(ctx: KeywordDeclaratorContext, isHead: Boolean = false): String = {
     val paramName = ctx.IDENTIFIER().get.getText
     val paramType = visitList(ctx.methodType())
-    val selector = visit(ctx.selector())
+    val selector = visitOption(ctx.selector())
 
     if(isHead || selector == paramName)
       s"$paramName: $paramType"

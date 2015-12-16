@@ -135,7 +135,7 @@ trait ExpressionVisitor {
   override def visitCastExpression(ctx: CastExpressionContext): String =
     (ctx.typeName(), ctx.castExpression()) match {
       case (Some(typeName), Some(castExpression)) => s"${visit(castExpression)} as! ${visit(typeName)}"
-      case _ => visit(ctx.unaryExpression())
+      case _ => visitOption(ctx.unaryExpression())
     }
 
   /**

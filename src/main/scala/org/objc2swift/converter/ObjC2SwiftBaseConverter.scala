@@ -26,8 +26,11 @@ abstract class ObjC2SwiftBaseConverter extends ObjCBaseVisitor[String] {
     super.visit(tree)
   }
 
-  def visit(optionNode: Option[ParseTree]): String =
-    optionNode.map(visit).getOrElse("")
+  def visitOption(optionNode: Option[ParseTree]): String =
+    optionNode.map(visit).getOrElse(defaultResult())
+
+  def visitOptionAs(optionNode: Option[ParseTree])(pf: PartialFunction[ParseTree, String]): String =
+    optionNode.collect(pf).getOrElse(defaultResult())
 
   def visitList(nodes: List[ParseTree]): String =
     visitList(nodes, " ")
@@ -44,13 +47,13 @@ abstract class ObjC2SwiftBaseConverter extends ObjCBaseVisitor[String] {
   override def visitChildren(node: RuleNode): String = visitChildren(node, " ")
 
   def visitChildren(node: RuleNode, glue: String): String =
-    visitList(Range(0, node.getChildCount).toList.map(node.getChild(_)), glue)
+    visitList(Range(0, node.getChildCount).toList.map(node.getChild), glue)
 
   def visitChildrenAs(node: RuleNode)(pf: PartialFunction[ParseTree, String]): String =
     visitChildrenAs(node, " ")(pf)
 
   def visitChildrenAs(node: RuleNode, glue: String)(pf: PartialFunction[ParseTree, String]): String =
-    visitListAs(Range(0, node.getChildCount).toList.map(node.getChild(_)), glue)(pf)
+    visitListAs(Range(0, node.getChildCount).toList.map(node.getChild), glue)(pf)
 
   protected val indentString = " " * 4
   protected def indent(source: String): String =

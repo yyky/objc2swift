@@ -72,7 +72,7 @@ trait PropertyVisitor {
             (true, s"${visit(specCtx)}!")
 
           case TokenString(IDENTIFIER, "IBOutletCollection") => // TODO add new token
-            (true, s"[${visit(s.className())}]!")
+            (true, s"[${visitOption(s.className())}]!")
         }
         case None =>
           if(isWeak)
@@ -152,7 +152,7 @@ trait PropertyVisitor {
         imDef <- impl.instanceMethodDefinition()
         mDef <- imDef.methodDefinition().toList
       } yield {
-        if (visit(cl.className()) == currClass && methodSelectorString(mDef) == selector)
+        if (visitOption(cl.className()) == currClass && methodSelectorString(mDef) == selector)
           Some(mDef)
         else
           None
@@ -167,7 +167,7 @@ trait PropertyVisitor {
           case Some(s) =>
             visit(s)
           case None =>
-            m.keywordDeclarator().map(_.selector()).foldLeft("")(_ + visit(_) + ":")
+            m.keywordDeclarator().map(_.selector()).foldLeft("")(_ + visitOption(_) + ":")
         }
       case None =>
         ""
@@ -181,16 +181,16 @@ trait PropertyVisitor {
       case (Some(g), Some(s)) =>
         s"""{
            |  get {
-           |    ${visit(g.compoundStatement())}
+           |    ${visitOption(g.compoundStatement())}
            |  }
            |  set(${setterParamName(s)}) {
-           |    ${visit(s.compoundStatement())}
+           |    ${visitOption(s.compoundStatement())}
            |  }
            |}""".stripMargin
 
       case (Some(g), None) =>
         s"""{
-           |  ${visit(g.compoundStatement())}
+           |  ${visitOption(g.compoundStatement())}
            |}""".stripMargin
 
       case (None, Some(s)) =>
@@ -199,7 +199,7 @@ trait PropertyVisitor {
            |    // FIXME: implement getter
            |  }
            |  set(${setterParamName(s)}) {
-           |    ${visit(s.compoundStatement())}
+           |    ${visitOption(s.compoundStatement())}
            |  }
            |}""".stripMargin
 
