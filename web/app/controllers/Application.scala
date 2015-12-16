@@ -6,20 +6,38 @@ import org.objc2swift.converter.ObjC2SwiftConverter
 
 class Application extends Controller {
 
+  val MaxSourceLength = 30000
+
   def index = Action { implicit request =>
-    Ok(views.html.index("objc2swift-web", defaultInput, convertSource(defaultInput)))
+    val input = DefaultInput
+    val result = convertSource(input)
+    Ok(views.html.index("objc2swift-web", input, result))
   }
 
   def convert = Action { implicit request =>
-    val result = {
-      for {
-        form <- request.body.asFormUrlEncoded
-        input <- form.get("source").flatMap(_.headOption)
-      } yield convertSource(input)
-    } getOrElse ""
+    if (isValidAccess) {
+      val result = {
+        for {
+          form <- request.body.asFormUrlEncoded
+          input <- form.get("source").flatMap(_.headOption)
+        } yield {
+          if(input.size <= MaxSourceLength)
+            convertSource(input)
+          else
+            TooLong
+        }
+      } getOrElse "invalid access."
 
-    Ok(result).as(HTML)
+      Ok(result).as(HTML)
+    } else {
+      Forbidden
+    }
   }
+
+  private def isValidAccess(implicit request: Request[AnyContent]): Boolean = {
+    request.headers.get("referer").map(_.contains(request.host)).exists(identity)
+  }
+
 
   private def convertSource(source: String): String = {
     val parser = ObjC2SwiftConverter.generateParser(source)
@@ -27,7 +45,7 @@ class Application extends Controller {
     converter.getResult()
   }
 
-  private val defaultInput =
+  private val DefaultInput =
     """@interface MyClass
       |
       |- (void)sayHello;
@@ -41,5 +59,12 @@ class Application extends Controller {
       |}
       |
       |@end""".stripMargin
+
+  private val TooLong =
+    """Input code is too long :(
+      |Please run this app in your environment.
+      |
+      |https://github.com/yahoojapan/objc2swift
+    """.stripMargin
 
 }
