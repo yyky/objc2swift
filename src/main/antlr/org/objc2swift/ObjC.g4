@@ -182,7 +182,7 @@ keyword_declarator:
 	selector? ':' method_type* IDENTIFIER;
 
 selector:
-IDENTIFIER;
+IDENTIFIER | 'retain';
 
 method_type: '(' type_name ')';
 

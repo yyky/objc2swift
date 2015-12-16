@@ -28,6 +28,7 @@ trait MessageVisitor {
   override def visitMessageExpression(ctx: MessageExpressionContext): String =
     ctx match {
       case AllocExpression(result) => result
+      case RetainReleaseExpression(result) => result
       case InitExpression(result) => result
       case NSStringFormatExpression(result) => result
       case ConvenienceConstructorExpression(result) => result
@@ -81,6 +82,16 @@ trait MessageVisitor {
     def unapply(ctx: MessageExpressionContext): Option[String] =
       ctx match {
         case ReceiverAndFirstSelector(r, s) if s == "alloc" => Some(r)
+        case _ => None
+      }
+  }
+
+
+  private object RetainReleaseExpression {
+    def unapply(ctx: MessageExpressionContext): Option[String] =
+      ctx match {
+        case ReceiverAndFirstSelector(r, s)
+          if List("retain", "release", "autorelease") contains s => Some(r)
         case _ => None
       }
   }

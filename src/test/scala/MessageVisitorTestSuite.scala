@@ -36,6 +36,22 @@ class MessageVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess("[[MyClass alloc] initWithName:n age:a]", "MyClass(name: n, age: a)")
   }
 
+  test("ignore retain") {
+    assertConvertSuccess("[a retain]", "a")
+  }
+
+  test("ignore release") {
+    assertConvertSuccess("[a release]", "a")
+  }
+
+  test("ignore autorelease") {
+    assertConvertSuccess("[a autorelease]", "a")
+  }
+
+  test("alloc init autorelease") {
+    assertConvertSuccess("[[[MyClass alloc] init] autorelease]", "MyClass()")
+  }
+
   test("NSString stringWithFormat") {
     assertConvertSuccess("[NSString stringWithFormat:@\"hello %@\", name]", "\"hello \\(name)\"")
   }
