@@ -26,22 +26,22 @@ abstract class ObjC2SwiftBaseConverter extends ObjCBaseVisitor[String] {
     super.visit(tree)
   }
 
-  def visitOption(optionNode: Option[ParseTree]): String =
+  def visitOption[T <: ParseTree](optionNode: Option[ParseTree]): String =
     optionNode.map(visit).getOrElse(defaultResult())
 
-  def visitOptionAs(optionNode: Option[ParseTree])(pf: PartialFunction[ParseTree, String]): String =
+  def visitOptionAs[T <: ParseTree](optionNode: Option[T])(pf: PartialFunction[T, String]): String =
     optionNode.collect(pf).getOrElse(defaultResult())
 
-  def visitList(nodes: List[ParseTree]): String =
+  def visitList[T <: ParseTree](nodes: List[T]): String =
     visitList(nodes, " ")
 
-  def visitList(nodes: List[ParseTree], glue: String): String =
+  def visitList[T <: ParseTree](nodes: List[T], glue: String): String =
     nodes.map(visit).filter(_.nonEmpty).mkString(glue)
 
-  def visitListAs(nodes: List[ParseTree])(pf: PartialFunction[ParseTree, String]): String =
+  def visitListAs[T <: ParseTree](nodes: List[T])(pf: PartialFunction[T, String]): String =
     visitListAs(nodes, " ")(pf)
 
-  def visitListAs(nodes: List[ParseTree], glue: String)(pf: PartialFunction[ParseTree, String]): String =
+  def visitListAs[T <: ParseTree](nodes: List[T], glue: String)(pf: PartialFunction[T, String]): String =
     nodes.collect(pf).filter(_.nonEmpty).mkString(glue)
 
   override def visitChildren(node: RuleNode): String = visitChildren(node, " ")
