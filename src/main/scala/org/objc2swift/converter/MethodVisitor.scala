@@ -158,7 +158,7 @@ trait MethodVisitor {
    * @return
    */
   override def visitKeywordDeclarator(ctx: KeywordDeclaratorContext): String =
-    processKeywordDeclarator(ctx, isHead = false)
+    processKeywordDeclarator(ctx)
 
 
   private def findMethodDefinition(declCtx: MethodDeclarationContext): Option[MethodDefinitionContext] = {
@@ -196,17 +196,30 @@ trait MethodVisitor {
 
 
   private def methodDeclaration(mSel: MethodSelectorContext, mType: Option[MethodTypeContext]): String = {
-    val mSelText = visit(mSel)
-    mType.map(visit) match {
-      case Some("IBAction") => s"@IBAction func $mSelText" // IBAction
-      case Some("Void")     => s"func $mSelText" // void
-      case Some(retType)    => s"func $mSelText -> $retType"
-      case None             => s"func $mSelText -> AnyObject"
+    visit(mSel) match {
+      case "init()" =>
+        "init()"
+      case s if s.startsWith("initWith") && mSel.keywordDeclarator().nonEmpty =>
+        val kds = mSel.keywordDeclarator()
+        val args = List(
+          kds.headOption.map(processKeywordDeclarator(_, isHead = true)).toList,
+          kds.tail.map(processKeywordDeclarator(_))
+        ).flatten.mkString(", ")
+        s"init($args)"
+      case "dealloc()" =>
+        "deinit"
+      case mSelText =>
+        mType.map(visit) match {
+          case Some("IBAction") => s"@IBAction func $mSelText" // IBAction
+          case Some("Void")     => s"func $mSelText" // void
+          case Some(retType)    => s"func $mSelText -> $retType"
+          case None             => s"func $mSelText -> AnyObject"
+        }
     }
   }
 
 
-  private def processKeywordDeclarator(ctx: KeywordDeclaratorContext, isHead: Boolean): String = {
+  private def processKeywordDeclarator(ctx: KeywordDeclaratorContext, isHead: Boolean = false): String = {
     val paramName = ctx.IDENTIFIER().get.getText
     val paramType = visitList(ctx.methodType())
     val selector = visit(ctx.selector())

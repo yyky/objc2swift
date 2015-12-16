@@ -405,4 +405,78 @@ class MethodVisitorTestSuite extends ObjC2SwiftTestSuite {
 
     assertConvertSuccess(source, expected)
   }
+
+
+  test("init method") {
+    val source =
+      s"""
+         |@interface MyClass
+         |@end
+         |
+         |@implementation MyClass
+         |- (id)init {
+         |}
+         |@end
+       """.stripMargin
+
+    val expected =
+      s"""
+         |class MyClass {
+         |    init() {
+         |    }
+         |}
+       """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+
+  test("initWith method") {
+    val source =
+      s"""
+         |@interface MyClass
+         |@end
+         |
+         |@implementation MyClass
+         |- (id)initWithA:(MyTypeA)a b:(MyTypeB)b {
+         |}
+         |@end
+       """.stripMargin
+
+    val expected =
+      s"""
+         |class MyClass {
+         |    init(a: MyTypeA, b: MyTypeB) {
+         |    }
+         |}
+       """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+
+  test("dealloc method") {
+    val source =
+      s"""
+         |@interface MyClass
+         |@end
+         |
+         |@implementation MyClass
+         |- (void)dealloc {
+         |}
+         |@end
+       """.stripMargin
+
+    val expected =
+      s"""
+         |class MyClass {
+         |    deinit {
+         |    }
+         |}
+       """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+
 }
