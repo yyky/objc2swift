@@ -280,6 +280,92 @@ trait DeclarationVisitor {
   override def visitStructDeclarator(ctx: StructDeclaratorContext): String =
     ""
 
+
+  /**
+   * function_definition :
+   *   declaration_specifiers? declarator compound_statement ;
+   *
+   * @param ctx
+   * @return
+   */
+  override def visitFunctionDefinition(ctx: FunctionDefinitionContext): String =
+    {
+      for {
+        decl <- ctx.declarator()
+        dirDecl <- decl.directDeclarator()
+        id <- dirDecl.identifier()
+        dirSuf <- dirDecl.declaratorSuffix().headOption
+      } yield {
+        val retType = {
+          for {
+            declSpec <- ctx.declarationSpecifiers()
+            typeSpecs = declSpec.typeSpecifier()
+          } yield processTypeSpecifierList(typeSpecs)
+        }.getOrElse("") match {
+          case "Void" | "" => ""
+          case r => s" -> $r"
+        }
+
+        s"""func ${visit(id)}(${visitOption(dirSuf.parameterList())})$retType {
+           |${indent(visitOption(ctx.compoundStatement()))}
+           |}""".stripMargin
+      }
+    } getOrElse defaultResult()
+
+
+  /**
+   * parameter_list:
+   *   parameter_declaration_list ( ',' '...' )? ;
+   *
+   * @param ctx
+   * @return
+   */
+  override def visitParameterList(ctx: ParameterListContext): String =
+    visitOption(ctx.parameterDeclarationList()) +
+      ctx.children.toList.lastOption.collect{ case Token(ELIPSIS) => "..." }.getOrElse("")
+
+
+  /**
+   * parameter_declaration_list:
+   * parameter_declaration ( ',' parameter_declaration )* ;
+   *
+   * @param ctx
+   * @return
+   */
+  override def visitParameterDeclarationList(ctx: ParameterDeclarationListContext): String = {
+    val list = ctx.parameterDeclaration()
+    visitListAs(list, ", ") {
+      case c if c == list.head => visit(c)
+      case c => "_ " + visit(c) // ignore parameter name after second
+    }
+  }
+
+
+  /**
+   * parameter_declaration:
+   *   declaration_specifiers (declarator? | abstract_declarator) ;
+   *
+   * @param ctx
+   * @return
+   */
+  override def visitParameterDeclaration(ctx: ParameterDeclarationContext): String =
+    {
+      for {
+        declSpec <- ctx.declarationSpecifiers()
+        typeSpecs = declSpec.typeSpecifier()
+        lastTypeSpec <- typeSpecs.lastOption
+        varName <- lastTypeSpec.className() // MEMO this is strange
+      } yield s"${visit(varName)}: ${processTypeSpecifierList(typeSpecs.init)}"
+    } orElse {
+      for {
+        declSpec <- ctx.declarationSpecifiers()
+        typeSpecs = declSpec.typeSpecifier()
+        decl <- ctx.declarator()
+        varName <- decl.directDeclarator().flatMap(_.identifier())
+      } yield s"${visit(varName)}: ${processTypeSpecifierList(typeSpecs)}"
+    } getOrElse defaultResult()
+
+
   private def processAsFunctionCall(ctx: DeclarationContext): Option[String] = {
     for {
       declSpec <- ctx.declarationSpecifiers()
@@ -294,6 +380,7 @@ trait DeclarationVisitor {
       dirDecl2 <- decl2.directDeclarator()
     } yield s"${visit(funcName)}(${visit(dirDecl2)})"
   }
+
 
   private def processAsEnum(ctx: DeclarationContext): Option[String] = {
     for {

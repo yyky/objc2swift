@@ -209,3 +209,44 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 }
+
+@RunWith(classOf[JUnitRunner])
+class FunctionDefinitionTestSuite extends ObjC2SwiftTestSuite {
+  override def converter(parser: ObjCParser): ObjC2SwiftBaseConverter =
+    new ObjC2SwiftBaseConverter
+      with DeclarationVisitor
+      with TerminalNodeVisitor {
+      override def getResult() = visit(parser.functionDefinition())
+      override def visitClassName(ctx: ClassNameContext): String = ctx.getText
+    }
+
+  test("function without return type") {
+    val source = "f(){ }"
+    val expected = "func f() {\n}"
+    assertConvertSuccess(source, expected)
+  }
+
+  test("void function") {
+    val source = "void f(){ }"
+    val expected = "func f() {\n}"
+    assertConvertSuccess(source, expected)
+  }
+
+  test("function with return Type") {
+    val source = "MyType f(){ }"
+    val expected = "func f() -> MyType {\n}"
+    assertConvertSuccess(source, expected)
+  }
+
+  test("function with params") {
+    val source = "f(MyTypeA a, MyTypeB b){ }"
+    val expected = "func f(a: MyTypeA, _ b: MyTypeB) {\n}"
+    assertConvertSuccess(source, expected)
+  }
+
+  test("void function with varidic params") {
+    val source = "f(MyTypeA a, MyTypeB b, ...){ }"
+    val expected = "func f(a: MyTypeA, _ b: MyTypeB...) {\n}"
+    assertConvertSuccess(source, expected)
+  }
+}
