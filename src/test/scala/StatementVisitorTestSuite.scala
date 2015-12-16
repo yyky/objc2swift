@@ -245,25 +245,48 @@ class StatementVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  ignore("switch multiple-case") { // TODO not supported yet
-  val source =
-    """
-      |switch(value) {
-      |case A:
-      |case B:
-      |  doSomething();
-      |  break;
-      |default:
-      |  doDefault();
-      |  break;
-      |}
-    """.stripMargin
+  test("switch consecutive cases") {
+    val source =
+      """
+        |switch(value) {
+        |case A:
+        |case B:
+        |  doSomething();
+        |  break;
+        |default:
+        |  doDefault();
+        |  break;
+        |}
+      """.stripMargin
 
     val expected =
       """
         |switch value {
         |case A, B:
         |  doSomething()
+        |default:
+        |  doDefault()
+        |}
+      """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+  test("switch consecutive cases that falls to default") {
+    val source =
+      """
+        |switch(value) {
+        |case A:
+        |case B:
+        |default:
+        |  doDefault();
+        |  break;
+        |}
+      """.stripMargin
+
+    val expected =
+      """
+        |switch value {
         |default:
         |  doDefault()
         |}

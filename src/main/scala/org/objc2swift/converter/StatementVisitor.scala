@@ -120,14 +120,66 @@ trait StatementVisitor {
    * @param ctx the parse tree
    **/
   override def visitLabeledStatement(ctx: LabeledStatementContext): String =
-    visitChildrenAs(ctx, "") {
-      case Token(CASE)    => "case "
-      case Token(DEFAULT) => "default"
-      case Token(COLON)       => ":\n"
-      case c: ConstantExpressionContext => visit(c)
-      case c: StatementContext => indent(visit(c))
+    ctx match {
+      case CaseLabel(name, st) =>
+        val labels = takeConsecutiveLabels(ctx)
+        labels.lastOption match {
+          case Some(c @ DefaultLabel(lst)) =>
+            visit(c)
+          case Some(c @ CaseLabel(_, lst)) =>
+            val labelStr = labels.flatMap(_.constantExpression()).map(visit).mkString(", ")
+            s"""case $labelStr:
+               |${indent(visit(lst))}
+           """.stripMargin
+
+          case _ =>
+            defaultResult()
+        }
+
+      case DefaultLabel(st) =>
+        s"""default:
+           |${indent(visit(st))}
+         """.stripMargin
+
+      case _ =>
+        defaultResult()
+
     }
 
+  private object CaseLabel {
+    def unapply(ctx: LabeledStatementContext): Option[(String, StatementContext)] =
+      (ctx.getChild(0), ctx.constantExpression(), ctx.statement()) match {
+        case (Token(CASE), Some(c), Some(s)) => Option(visit(c), s)
+        case _ => None
+      }
+  }
+
+  private object DefaultLabel {
+    def unapply(ctx: LabeledStatementContext): Option[StatementContext] =
+      (ctx.getChild(0), ctx.statement()) match {
+        case (Token(DEFAULT), Some(s)) => Option(s)
+        case _ => None
+      }
+  }
+
+  /**
+   * group consecutive cases
+   *
+   * @param ctx
+   * @return
+   */
+  private def takeConsecutiveLabels(ctx: LabeledStatementContext): List[LabeledStatementContext] =
+    Stream.from(0)
+      .scanLeft(Option(ctx)) { (lblOpt, _) =>
+        for {
+          lbl <- lblOpt
+          st <- lbl.statement()
+          cLbl <- st.labeledStatement()
+        } yield cLbl
+      }
+      .takeWhile(_.nonEmpty)
+      .flatten
+      .toList
 
   /**
    * iteration_statement
