@@ -36,13 +36,13 @@
       <div class="wrapper">
         <section class="main">
           <div class="objcBox">
-            <form action="." method="POST">
+            <form id="convertForm" action="/convert" method="POST">
               <div class="titleArea">
                 <p class="titleObjc">Objective-C</p>&nbsp;
                 <input type="checkbox" id="auto" checked="checked"/> Auto
               </div>
               <textarea id="editorObjc" name="source" rows="20" class="objcTextArea">@input</textarea>
-              <input type="submit" value="convert" class="convertBtn">
+              <input type="button" value="convert" id="convertBtn" class="convertBtn">
             </form>
           </div><div class="swiftBox">
             @if(!result.isEmpty) {
