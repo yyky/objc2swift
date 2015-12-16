@@ -103,73 +103,9 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  test("static var decl without init") {
+  test("ignore static") {
     val source = "static MyType x;"
-    val expected = "static var x: MyType"
-    assertConvertSuccess(source, expected)
-  }
-
-  test("multiple static var decl without init") {
-    val source = "static MyType x, y;"
-    val expected =
-      s"""
-         |static var x: MyType
-         |static var y: MyType
-       """.stripMargin
-    assertConvertSuccess(source, expected)
-  }
-
-  test("static var decl with initializer") {
-    val source = "static MyType x = 1;"
-    val expected = "static var x: MyType = 1" // TODO emit type when initialized
-    assertConvertSuccess(source, expected)
-  }
-
-  test("multiple static var decl with init") {
-    val source = "static MyType x = 1, y = 2;"
-    val expected =
-      s"""
-         |static var x: MyType = 1
-         |static var y: MyType = 2
-       """.stripMargin
-    assertConvertSuccess(source, expected)
-  }
-
-  test("static const var decl without init") {
-    val source = "static const MyType x;"
-    val expected = "static let x: MyType"
-    assertConvertSuccess(source, expected)
-  }
-
-  test("multiple static const var decl without init") {
-    val source = "static const MyType x, y;"
-    val expected =
-      s"""
-         |static let x: MyType
-         |static let y: MyType
-       """.stripMargin
-    assertConvertSuccess(source, expected)
-  }
-
-  test("static const var decl with init") {
-    val source = "static const MyType x = 1;"
-    val expected = "static let x: MyType = 1"
-    assertConvertSuccess(source, expected)
-  }
-
-  test("multiple static const var decl with init") {
-    val source = "static const MyType x = 1, y = 2;"
-    val expected =
-      s"""
-         |static let x: MyType = 1
-         |static let y: MyType = 2
-       """.stripMargin
-    assertConvertSuccess(source, expected)
-  }
-
-  ignore("static const object-type var decl without init") {
-    val source = "static MyType *const x;"
-    val expected = "static let x: MyType"
+    val expected = "var x: MyType"
     assertConvertSuccess(source, expected)
   }
 

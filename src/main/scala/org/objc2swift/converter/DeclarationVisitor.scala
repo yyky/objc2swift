@@ -70,12 +70,14 @@ trait DeclarationVisitor {
    * storage_class_specifier:
    *   'auto' | 'register' | 'static' | 'extern' | 'typedef';
    *
+   * MEMO: 'static' var / func should be converted as plain one in Swift.
+   * TODO: support typedef
+   *
    * @param ctx the parse tree
+   * @return
    **/
   override def visitStorageClassSpecifier(ctx: StorageClassSpecifierContext): String =
-    visitChildrenAs(ctx) {
-      case Token(STATIC) => "static"
-    }
+    ""
 
 
   /**
