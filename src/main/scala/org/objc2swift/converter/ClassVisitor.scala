@@ -31,7 +31,7 @@ trait ClassVisitor {
           case r if r.lines.size > 1 => r + "\n"
           case r => r
         }
-    }
+    }.trim
 
   /**
    * class_interface:
