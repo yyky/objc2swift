@@ -249,6 +249,30 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
+  test("ivars in @implementation") {
+    val source =
+      s"""
+         |@interface MyClass
+         |@end
+         |
+         |@implementation MyClass {
+         |  MyType a;
+         |  MyType b;
+         |}
+         |@end
+       """.stripMargin
+
+    val expected =
+      s"""
+         |class MyClass {
+         |  private var a: MyType
+         |  private var b: MyType
+         |}
+       """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
   test("ivars in unnamed category") {
     val source =
       s"""
@@ -269,8 +293,8 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
     val expected =
       s"""
          |class MyClass {
-         |  private var a: MyType!
-         |  private var b: MyType!
+         |  private var a: MyType
+         |  private var b: MyType
          |}
          |
          |private extension MyClass {

@@ -56,26 +56,38 @@ trait ClassVisitor {
       val implOpt = findClassImplementation(ctx)
 
       List(
+        // ivars in interface
+        ctx.instanceVariables().map(visit),
+
+        // ivars in class extension
         for {
           extCat <- extCatOpt
           insVar <- extCat.instanceVariables()
         } yield toPrivate(visit(insVar)),
 
+        // properties in class extension
         for {
           extCat <- extCatOpt
           intf <- extCat.interfaceDeclarationList()
           props = intf.propertyDeclaration()
         } yield toPrivate(visitList(props, "\n")),
 
-        ctx.instanceVariables().map(visit),
+        // properties in implementation
+        for {
+          impl <- implOpt
+          insVar <- impl.instanceVariables()
+        } yield toPrivate(visit(insVar)),
+
+        // declarations in interface
         ctx.interfaceDeclarationList().map(visit),
 
+       // declarations in implementation
         for {
           impl <- implOpt
           implDefList <- impl.implementationDefinitionList()
         } yield visit(implDefList)
 
-      ).flatten.mkString("\n")
+      ).flatten.mkString("\n\n")
     }
 
     s"""$head {
