@@ -20,26 +20,29 @@ import org.apache.commons.io.FilenameUtils._
 import org.objc2swift.converter.ObjC2SwiftConverter
 import org.objc2swift.converter.{ObjCBaseListener, ObjCParser}
 
+import scala.io.Source
+
 
 object Main {
   def main(args: Array[String]) {
     val options = Map("-t" -> args.contains("-t"))
 
     val fileNames = args.filter(!_.startsWith("-")).toList
-    if (fileNames.isEmpty) {
-      println("error: no input file specified.")
-      sys.exit(1)
+
+    val inputStream = if(fileNames.nonEmpty) {
+      val files = findFiles(fileNames)
+      if (files.isEmpty) {
+        println(s"error: no file found: '${fileNames.mkString(", ")}'")
+        sys.exit(1)
+      }
+
+      val streams = files.map(new FileInputStream(_))
+      new SequenceInputStream(streams.toIterator)
+    } else {
+      System.in
     }
 
-    val files = findFiles(fileNames)
-    if (files.isEmpty) {
-      println(s"error: no file found for: '${fileNames.mkString(", ")}'")
-      sys.exit(1)
-    }
-
-    val streams = files.map(new FileInputStream(_))
-    val seqStream = new SequenceInputStream(streams.toIterator)
-    val parser = ObjC2SwiftConverter.generateParser(seqStream)
+    val parser = ObjC2SwiftConverter.generateParser(inputStream)
 
     val result = if(options("-t"))
       getParseTree(parser)
@@ -48,7 +51,7 @@ object Main {
       converter.getResult()
     }
 
-    printResult(files, result)
+    printResult(result)
   }
 
   /**
@@ -102,12 +105,15 @@ object Main {
     lines.result().mkString("\n")
   }
 
-  def printResult(files: List[File], result: String) {
-    println(s"""|/* Hello Swift, Goodbye Obj-C.
-                | * converted by 'objc2swift' https://github.com/yahoojapan/objc2swift
-                | * original source: ${files.mkString(", ")}
-                | */
-                |
-                |$result""".stripMargin)
+  def printResult(result: String) {
+    println(s"$DocumentComment\n\n$result")
   }
+
+  private val DocumentComment =
+    """|/*
+       | * "Hello Swift, Goodbye Obj-C."
+       | * Converted by 'objc2swift'
+       | *
+       | * https://github.com/yahoojapan/objc2swift
+       | */""".stripMargin
 }
