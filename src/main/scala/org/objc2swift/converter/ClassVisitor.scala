@@ -46,11 +46,7 @@ trait ClassVisitor {
    * @return
    */
   override def visitClassInterface(ctx: ClassInterfaceContext): String = {
-    val head = s"class ${visit(ctx.className())}" + List(
-      ctx.superclassName().map(c => s": ${visit(c)}"),
-      ctx.protocolReferenceList().map(c => s", ${visit(c)}")
-    ).flatten.mkString
-
+    val head = classDeclarationHead(ctx.className(), ctx.superclassName(), ctx.protocolReferenceList())
     val body = {
       val extCatOpt = findClassExtensionCategoryInterface(ctx)
       val implOpt = findClassImplementation(ctx)
@@ -164,16 +160,13 @@ trait ClassVisitor {
    * @return
    */
   override def visitCategoryInterface(ctx: CategoryInterfaceContext): String = {
-    val isClassExtension = ctx.categoryName().isEmpty
-    val head = List(
-      if(isClassExtension) Some("private ") else None,
-      ctx.className().map( c => s"extension ${visit(c)}" ),
-      ctx.protocolReferenceList().map( c => s": ${visit(c)}" )
-    ).flatten.mkString
-
-    if(isClassExtension)
-      s"$head {\n}"
-    else {
+    val head = classDeclarationHead(ctx.className(), None, ctx.protocolReferenceList(), isExtension = true)
+    if(ctx.categoryName().isEmpty) {
+      if(ctx.protocolReferenceList().nonEmpty) {
+        s"private $head {\n}"
+      } else
+        ""
+    } else {
       val body = List(
         ctx.interfaceDeclarationList().map(visit),
         findCategoryImplementation(ctx).map(visit)
@@ -183,6 +176,14 @@ trait ClassVisitor {
          |${indent(body)}
          |}""".stripMargin
     }
+  }
+
+  private def classDeclarationHead(className: Option[ClassNameContext], superclassName: Option[SuperclassNameContext], protocolReferenceList: Option[ProtocolReferenceListContext], isExtension: Boolean = false): String = {
+    (if(!isExtension) "class " else "extension ") + List(
+      className.map(visit),
+      superclassName.map(c => s": ${visit(c)}"),
+      protocolReferenceList.map{ (if(superclassName.isEmpty) ": " else ", ") + visit(_) }
+    ).flatten.mkString
   }
 
   /**

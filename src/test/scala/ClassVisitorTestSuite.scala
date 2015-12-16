@@ -41,7 +41,7 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  test("empty class with superclass") {
+  test("class with superclass") {
     val source =
       s"""
          |@interface MyClass : SuperClass
@@ -60,10 +60,10 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  test("empty class with superclass and one protocol") {
+  test("class with protocols") {
     val source =
       s"""
-         |@interface MyClass : SuperClass<A>
+         |@interface MyClass<A, B>
          |@end
          |
          |@implementation MyClass
@@ -72,14 +72,14 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
 
     val expected =
       s"""
-         |class MyClass: SuperClass, A {
+         |class MyClass: A, B {
          |}
        """.stripMargin
 
     assertConvertSuccess(source, expected)
   }
 
-  test("empty class with superclass and muptiple protocols") {
+  test("class with superclass and protocols") {
     val source =
       s"""
          |@interface MyClass : SuperClass<A, B, C>
@@ -117,7 +117,7 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  test("empty category with protocols") {
+  test("category with protocols") {
     val source =
       s"""
          |@interface MyClass(MyCategory)<A, B, C>
@@ -136,7 +136,7 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  test("empty class with unnamed category") {
+  test("empty class extension") {
     val source =
       s"""
          |@interface MyClass
@@ -153,15 +153,37 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
       s"""
          |class MyClass {
          |}
+       """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+  test("class extension with protocols") {
+    val source =
+      s"""
+         |@interface MyClass
+         |@end
          |
-         |private extension MyClass {
+         |@interface MyClass()<A, B, C>
+         |@end
+         |
+         |@implementation MyClass
+         |@end
+       """.stripMargin
+
+    val expected =
+      s"""
+         |class MyClass {
+         |}
+         |
+         |private extension MyClass: A, B, C {
          |}
        """.stripMargin
 
     assertConvertSuccess(source, expected)
   }
 
-  test("unnamed category with properties") {
+  test("class extension with properties") {
     val source =
       s"""
          |@interface MyClass
@@ -181,20 +203,15 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
     val expected =
       s"""
          |class MyClass {
-         |
          |  private var a: MyType
          |  private weak var b: MyType?
-         |
-         |}
-         |
-         |private extension MyClass {
          |}
        """.stripMargin
 
     assertConvertSuccess(source, expected)
   }
 
-  test("unnamed category with IBOutlet properties") {
+  test("class extension with IBOutlet properties") {
     val source =
       s"""
          |@interface MyClass
@@ -216,9 +233,6 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
          |class MyClass {
          |  @IBOutlet private var a: MyType!
          |  @IBOutlet private weak var b: MyType!
-         |}
-         |
-         |private extension MyClass {
          |}
        """.stripMargin
 
@@ -273,7 +287,7 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  test("ivars in unnamed category") {
+  test("ivars in class extension") {
     val source =
       s"""
          |@interface MyClass
@@ -295,9 +309,6 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
          |class MyClass {
          |  private var a: MyType
          |  private var b: MyType
-         |}
-         |
-         |private extension MyClass {
          |}
        """.stripMargin
 
