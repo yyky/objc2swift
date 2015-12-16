@@ -141,7 +141,7 @@ trait MessageVisitor {
             msgSel <- ctx.messageSelector()
             kwArg <- msgSel.keywordArgument().headOption
             expr <- kwArg.expression()
-            exps = expr.assignmentExpression() // MEMO this is mostly NOT list of assignment-exprs.
+            exps = expr.assignmentExpression() // MEMO the element of the list is mostly NOT an assignment.
           } yield exps) map { stringFormat(MessageVisitor.this, _) }
         case _ =>
           None

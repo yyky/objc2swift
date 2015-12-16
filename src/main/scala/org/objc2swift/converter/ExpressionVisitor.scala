@@ -29,7 +29,7 @@ trait ExpressionVisitor {
    */
   override def visitExpression(ctx: ExpressionContext) =
     visitChildrenAs(ctx, "") {
-      case Token(COLON) => ", "
+      case Token(COMMA) => ", "
       case c => visit(c)
     }
 

@@ -24,6 +24,10 @@ class MessageVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess("[self sayHello:x orGoodbye:y]", "self.sayHello(x, orGoodbye: y)")
   }
 
+  test("message-send with variadic args") {
+    assertConvertSuccess("[self sayHello:x orGoodbye:y, z1, z2]", "self.sayHello(x, orGoodbye: y, z1, z2)")
+  }
+
   test("nested message-send") {
     assertConvertSuccess("[[a goodGuy] sayHello:x orGoodbye:y]", "a.goodGuy().sayHello(x, orGoodbye: y)")
   }
