@@ -60,6 +60,7 @@ trait ClassVisitor {
         case c => visit(c).replaceAll("(^@IBOutlet |^)", "$1private ")
       },
 
+      ctx.instanceVariables().map(visit),
       ctx.interfaceDeclarationList().map(visit),
 
       for {
@@ -187,6 +188,18 @@ trait ClassVisitor {
    */
   override def visitCategoryName(ctx: CategoryNameContext) = ctx.getText
 
+
+  /**
+   * instance_variables
+   *   : '{' struct_declaration* '}'
+   *   |   '{' visibility_specification struct_declaration+ '}'
+   *   |   '{' struct_declaration+ instance_variables '}'
+   *   |   '{' visibility_specification struct_declaration+ instance_variables '}'
+   *   ;
+   */
+  override def visitInstanceVariables(ctx: InstanceVariablesContext): String = {
+     visitList(ctx.structDeclaration(), "\n")
+  }
 
   /**
    * finds the corresponding class implementation with the same class name.

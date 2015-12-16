@@ -246,6 +246,39 @@ trait DeclarationVisitor {
     } yield s"${visit(id)}: ${processTypeSpecifierList(typeSpecs)}"
   } getOrElse defaultResult()
 
+  /**
+   * struct_declaration:
+   *   specifier_qualifier_list struct_declarator_list ';' ;
+   *
+   * specifier_qualifier_list:
+   *   (arc_behaviour_specifier | type_specifier | type_qualifier)+ ;
+   *
+   * struct_declarator_list:
+   *   struct_declarator (',' struct_declarator)* ;
+   *
+   * struct_declarator:
+   *   declarator | declarator? ':' constant;
+   *
+   * @param ctx
+   * @return
+   */
+  override def visitStructDeclaration(ctx: StructDeclarationContext): String =
+    {
+      for {
+        specQualList <- ctx.specifierQualifierList()
+      } yield for {
+        sDeclL <- ctx.structDeclaratorList().toList
+        sDecl <- sDeclL.structDeclarator()
+        decl <- sDecl.declarator()
+      } yield varDeclaration(decl, specQualList.typeQualifier(), specQualList.typeSpecifier())
+
+    }.map(_.mkString("\n")) getOrElse defaultResult()
+
+  override def visitStructDeclaratorList(ctx: StructDeclaratorListContext): String =
+    ""
+
+  override def visitStructDeclarator(ctx: StructDeclaratorContext): String =
+    ""
 
   private def processAsFunctionCall(ctx: DeclarationContext): Option[String] = {
     for {
@@ -299,7 +332,10 @@ trait DeclarationVisitor {
       initDeclList <- ctx.initDeclaratorList()
     } yield initDeclList.initDeclarator().map { // foreach init-declarator
       visitChildrenAs(_) {
-        case c: DeclaratorContext  => varDeclaration(ctx, declSpec, declSpec.typeSpecifier(), c)
+        case decl: DeclaratorContext  => List(
+          visit(declSpec),
+          varDeclaration(decl, declSpec.typeQualifier(), declSpec.typeSpecifier())
+        ).filter(_.nonEmpty).mkString(" ")
         case Token(ASSIGN) => "="
         case c: InitializerContext => visit(c)
       }
@@ -312,19 +348,12 @@ trait DeclarationVisitor {
       declSpec <- ctx.declarationSpecifiers()
       lastTypeSpec <- declSpec.typeSpecifier().lastOption
       varName <- lastTypeSpec.className() // MEMO this is strange
-    } yield varDeclaration(ctx, declSpec, declSpec.typeSpecifier().init, varName)
-  }
-
-
-  private def varDeclaration(ctx: DeclarationContext, declSpec: DeclarationSpecifiersContext,
-                             typeSpecs: List[TypeSpecifierContext], varName: RuleContext): String = {
-    List(
+    } yield List(
       visit(declSpec),
-      letOrVar(ctx),
-      visit(varName) + ":",
-      processTypeSpecifierList(typeSpecs)
+      varDeclaration(varName, declSpec.typeQualifier(), declSpec.typeSpecifier().init)
     ).filter(_.nonEmpty).mkString(" ")
   }
+
 
   private def processTypeSpecifierList(ctxs: List[TypeSpecifierContext]): String = {
     ctxs.foldRight("") { (ctx, folded) =>
@@ -339,14 +368,22 @@ trait DeclarationVisitor {
     }
   }
 
-  private def letOrVar(ctx: DeclarationContext): String =
-    if(ctx.declarationSpecifiers().exists(isConstantDeclaration)) "let" else "var"
+  private def varDeclaration(varName: RuleContext, typeQuals: List[TypeQualifierContext], typeSpecs: List[TypeSpecifierContext]): String = {
+    List(
+      letOrVar(typeQuals),
+      visit(varName) + ":",
+      processTypeSpecifierList(typeSpecs)
+    ).filter(_.nonEmpty).mkString(" ")
+  }
 
-  private def isConstantDeclaration(ctx: DeclarationSpecifiersContext): Boolean =
-    ctx.typeQualifier().exists {
+  private def letOrVar(typeQuals: List[TypeQualifierContext]): String =
+    typeQuals.exists {
       _.children.exists {
         case Token(CONST) => true
         case _ => false
       }
+    } match {
+      case true  => "let"
+      case false => "var"
     }
 }

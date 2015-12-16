@@ -226,4 +226,30 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
 
     assertConvertSuccess(source, expected)
   }
+
+  test("ivars in @interface") {
+    val source =
+      s"""
+         |@interface MyClass {
+         |  MyType a;
+         |  MyType b;
+         |}
+         |@end
+         |
+         |@implementation MyClass
+         |@end
+       """.stripMargin
+
+    val expected =
+      s"""
+         |class MyClass {
+         |  var a: MyType
+         |  var b: MyType
+         |}
+       """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+
 }
