@@ -37,6 +37,7 @@ trait DeclarationVisitor {
   override def visitDeclaration(ctx: DeclarationContext): String = {
     processAsFunctionCall(ctx) orElse
       processAsEnum(ctx) orElse
+      processAsTypedef(ctx) orElse
       processAsBlockDeclaration(ctx) orElse
       processAsVarDeclaration(ctx) orElse
       processAsSingleVarDeclaration(ctx) getOrElse
@@ -393,6 +394,30 @@ trait DeclarationVisitor {
   }
 
 
+  private def isTypedefDeclaration(ctx: DeclarationContext): Boolean =
+    {
+      for {
+        declSpec <- ctx.declarationSpecifiers().toList
+        stgSpecs <- declSpec.storageClassSpecifier()
+        spec <- stgSpecs.children.toList.headOption
+      } yield spec
+    } exists {
+      case Token(TYPEDEF) => true
+      case _ => false
+    }
+
+  private def processAsTypedef(ctx: DeclarationContext): Option[String] = {
+    if(isTypedefDeclaration(ctx)) {
+      val result = processAsBlockDeclaration(ctx) orElse
+        processAsVarDeclaration(ctx) orElse
+        processAsSingleVarDeclaration(ctx) getOrElse
+        defaultResult()
+      Some(result.replaceFirst("(var|let) (.*?): (.*)", "typealias $2 = $3"))
+    } else
+      None
+  }
+
+
   // TODO add grammer pattern and move this part to BlockVisitor
   private def processAsBlockDeclaration(ctx: DeclarationContext): Option[String] = {
     for {
@@ -458,11 +483,9 @@ trait DeclarationVisitor {
   }
 
   private def varDeclaration(varName: RuleContext, typeQuals: List[TypeQualifierContext], typeSpecs: List[TypeSpecifierContext]): String = {
-    List(
-      letOrVar(typeQuals),
-      visit(varName) + ":",
-      processTypeSpecifierList(typeSpecs)
-    ).filter(_.nonEmpty).mkString(" ")
+    val typeStr = processTypeSpecifierList(typeSpecs)
+    val typeAnn = if (typeStr.nonEmpty) s": $typeStr" else ""
+    s"${letOrVar(typeQuals)} ${visit(varName)}$typeAnn"
   }
 
   private def letOrVar(typeQuals: List[TypeQualifierContext]): String =

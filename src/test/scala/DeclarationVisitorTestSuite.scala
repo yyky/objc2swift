@@ -133,8 +133,14 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  ignore("typedef declaration") { // not supported yet
-  val source = "typedef NewType = OldType;"
+  test("typedef declaration") { // not supported yet
+    val source = "typedef OldType NewType;"
+    val expected = "typealias NewType = OldType"
+    assertConvertSuccess(source, expected)
+  }
+
+  test("typedef declaration with pointer") { // not supported yet
+    val source = "typedef OldType *NewType;"
     val expected = "typealias NewType = OldType"
     assertConvertSuccess(source, expected)
   }

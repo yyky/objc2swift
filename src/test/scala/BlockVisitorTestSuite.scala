@@ -163,7 +163,7 @@ class BlockDeclarationTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  ignore("typedef block") { // not supported yet
+  test("typedef block") { // not supported yet
     val source = "typedef RetType (^BlockType)(MyTypeA, MyTypeB);"
     val expected = "typealias BlockType = (MyTypeA, MyTypeB) -> RetType"
     assertConvertSuccess(source, expected)
