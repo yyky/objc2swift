@@ -51,24 +51,32 @@ trait ClassVisitor {
       ctx.protocolReferenceList().map(c => s", ${visit(c)}")
     ).flatten.mkString
 
-    val body = List(
-      for {
-        extCat <- findClassExtensionCategoryInterface(ctx)
-        intf <- extCat.interfaceDeclarationList()
-        props = intf.propertyDeclaration()
-      } yield visitListAs(props, "\n") {
-        case c => visit(c).replaceAll("(^@IBOutlet |^)", "$1private ")
-      },
+    val body = {
+      val extCatOpt = findClassExtensionCategoryInterface(ctx)
+      val implOpt = findClassImplementation(ctx)
 
-      ctx.instanceVariables().map(visit),
-      ctx.interfaceDeclarationList().map(visit),
+      List(
+        for {
+          extCat <- extCatOpt
+          insVar <- extCat.instanceVariables()
+        } yield toPrivate(visit(insVar)),
 
-      for {
-        classImpl <- findClassImplementation(ctx)
-        implDefList <- classImpl.implementationDefinitionList()
-      } yield visit(implDefList)
+        for {
+          extCat <- extCatOpt
+          intf <- extCat.interfaceDeclarationList()
+          props = intf.propertyDeclaration()
+        } yield toPrivate(visitList(props, "\n")),
 
-    ).flatten.mkString("\n")
+        ctx.instanceVariables().map(visit),
+        ctx.interfaceDeclarationList().map(visit),
+
+        for {
+          impl <- implOpt
+          implDefList <- impl.implementationDefinitionList()
+        } yield visit(implDefList)
+
+      ).flatten.mkString("\n")
+    }
 
     s"""$head {
        |${indent(body)}
@@ -273,4 +281,8 @@ trait ClassVisitor {
         case c: CategoryInterfaceContext => visit(c.className())
         case c: CategoryImplementationContext => visit(c.className())
       }
+
+  private def toPrivate(result: String): String =
+    result.replaceAll("(?m)(^@IBOutlet |^)", "$1private ")
+
 }

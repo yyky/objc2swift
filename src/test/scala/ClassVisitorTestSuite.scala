@@ -214,10 +214,8 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
     val expected =
       s"""
          |class MyClass {
-         |
          |  @IBOutlet private var a: MyType!
          |  @IBOutlet private weak var b: MyType!
-         |
          |}
          |
          |private extension MyClass {
@@ -245,6 +243,37 @@ class ClassVisitorTestSuite extends ObjC2SwiftTestSuite {
          |class MyClass {
          |  var a: MyType
          |  var b: MyType
+         |}
+       """.stripMargin
+
+    assertConvertSuccess(source, expected)
+  }
+
+  test("ivars in unnamed category") {
+    val source =
+      s"""
+         |@interface MyClass
+         |@end
+         |
+         |@interface MyClass() {
+         |  MyType a;
+         |  MyType b;
+         |}
+         |
+         |@end
+         |
+         |@implementation MyClass
+         |@end
+       """.stripMargin
+
+    val expected =
+      s"""
+         |class MyClass {
+         |  private var a: MyType!
+         |  private var b: MyType!
+         |}
+         |
+         |private extension MyClass {
          |}
        """.stripMargin
 
