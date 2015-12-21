@@ -6,9 +6,47 @@ import org.objc2swift.converter.ObjC2SwiftConverter
 
 class Application extends Controller {
 
-  private val defaultInput =
-    """
-      |@interface MyClass
+  val MaxSourceLength = 30000
+
+  def index = Action { implicit request =>
+    val input = DefaultInput
+    val result = convertSource(input)
+    Ok(views.html.index("objc2swift-web", input, result))
+  }
+
+  def convert = Action { implicit request =>
+    if (isValidAccess) {
+      val result = {
+        for {
+          form <- request.body.asFormUrlEncoded
+          input <- form.get("source").flatMap(_.headOption)
+        } yield {
+          if(input.size <= MaxSourceLength)
+            convertSource(input)
+          else
+            TooLong
+        }
+      } getOrElse "invalid access."
+
+      Ok(result).as(HTML)
+    } else {
+      Forbidden
+    }
+  }
+
+  private def isValidAccess(implicit request: Request[AnyContent]): Boolean = {
+    request.headers.get("referer").map(_.contains(request.host)).exists(identity)
+  }
+
+
+  private def convertSource(source: String): String = {
+    val parser = ObjC2SwiftConverter.generateParser(source)
+    val converter = new ObjC2SwiftConverter(parser)
+    converter.getResult()
+  }
+
+  private val DefaultInput =
+    """@interface MyClass
       |
       |- (void)sayHello;
       |
@@ -20,21 +58,13 @@ class Application extends Controller {
       |    NSLog(@"Hello Swift, Goodbye Obj-C!");
       |}
       |
-      |@end
+      |@end""".stripMargin
+
+  private val TooLong =
+    """Input code is too long :(
+      |Please run this app in your environment.
       |
+      |https://github.com/yahoojapan/objc2swift
     """.stripMargin
 
-  def index = Action { implicit request =>
-    val form = request.body.asFormUrlEncoded
-    val raw = form.flatMap(_.get("raw")).map(_(0) == "1").getOrElse(false)
-    val input = form.flatMap(_.get("source")).map(_(0)).getOrElse(defaultInput)
-    val parser = ObjC2SwiftConverter.generateParser(input)
-    val converter = new ObjC2SwiftConverter(parser)
-    val result = converter.getResult
-
-    if(!raw)
-      Ok(views.html.index("objc2swift-web", input, result))
-    else
-      Ok(result).as(HTML)
-  }
 }
