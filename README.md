@@ -1,56 +1,50 @@
 # objc2swift
 
-*objc2swift* is an experimental project aiming to create an **Objective-C -> Swift** converter (or at least something that would help a human being convert codes by hand). 
+![demo.gif](doc/demo.gif)
 
-The program is written in Scala, and is based on [ANTLR](http://www.antlr.org) the magnificent parser generator.
+Try the online version at [objc2swift.yahoo-labs.jp](http://objc2swift.yahoo-labs.jp) 
 
-## Quick Start
+## Project Goal
 
-Build the project, run the jar with Obj-C source files in the sample dir.
+We created _objc2swift_ for our own good, to reduce the redundant task when rewriting Obj-C code to Swift. 
 
-```
-$ gradle build
-$ java -jar build/libs/objc2swift-1.0.jar sample/sample.*
-```
+Generally, rewriting process consists of two phases: first simply replacing the syntax from Obj-C to Swift, then adopting new features that are introduced to Swift.
 
-With the input Obj-C code:
+_objc2swift_ is aimed at reducing the **first half** of the process, so that we can focus more on the creative / intellectual work. 
 
-```
-@interface MyClass
+Please do not expect complete conversion. 
 
-- (void)doSomething;
+## Features
 
-@end
-```
+* Merges `@interface` and `@implementation` and create a single Swift `class`.
+* Converts properties, including those that have it's own getter/setter in the implementation.
+* Converts message-send to method-call.
+* Converts init-process such as `[[MyThing alloc] initWithThing:...]` into `MyThing(thing: ...)`.
+* Converts corresponding types and functions: `NSInteger` -> `Int`, `NSLog` -> `print`
+* ...and more!
 
-```
-@implementation MyClass
+# Quick Start
 
-- (void)doSomething
-{
-    NSLog(@"hello");
-}
+## CLI
 
-@end
-```
+Build jar:
 
-you'll get the converted Swift code:
-
-```
-class MyClass {
-    func doSomething() {
-        NSLog("hello")
-    }
-}
+```sh
+$ git clone https://github.com/yahoojapan/objc2swift.git
+$ cd objc2swift
+$ gradle jar
 ```
 
-Great!
+Create an alias, and pass the Obj-C source files you want to convert.
 
-## Web-UI
+```sh
+$ alias objc2swift='java -jar /path/to/objc2swift/build/libs/objc2swift-1.0.jar'
+$ objc2swift src/test/resources/sample.*
+```
 
-![ss1.png](doc/ss1.png)
+## WEB-UI
 
-You can also run the Web-UI on your localhost.
+Install [typesafe-activator](http://www.typesafe.com), and run.
 
 ```
 $ brew install typesafe-activator
@@ -58,57 +52,11 @@ $ cd web/
 $ activator run
 ```
 
-## Features
-* `@interface Hoge ... @end` -> `class Hoge { ... }`
-* ... more to come!
+Access `localhost:9000`, and there you are!
 
 # Developer's Guide
 
-## 1. Project Setup
-
-Import Project from gradle build file.
-
-![ss2.png](doc/ss2.png)
-
-Unmark build/ as 'Excluded', mark build/generated-src/main/java as 'Sources', and other directories under build/ as 'Excluded'.
-
-![ss4.png](doc/ss4.png)
-
-Create new Run Configuration as below:
-
-![ss3.png](doc/ss3.png)
-
-Run!
-
-## 2. Project Structure
-
-coming soon...
-
-## 3. Printing the Parse Tree
-
-With the `-t` option, the parse tree of the input source will be printed. You can use this to find the name and the containing text for each node.
-
-```
-$ java -jar build/libs/objc2swift-1.0.jar sample/sample.h -t
-```
-
-input:
-
-```
-@interface A : NSObject
-
-@end
-```
-
-output:
-
-```
-1. translation_unit: '@interface' - '@end'
-2.   external_declaration: '@interface' - '@end'
-3.     class_interface: '@interface' - '@end'
-4.       class_name: 'A'
-4.       superclass_name: 'NSObject'
-```
+_objc2swift_ is made with [ANTLR](http://www.antlr.org). More detail coming soon.
 
 # LICENSE
 This software is released under the MIT License, see [LICENSE.txt](LICENSE.txt).
