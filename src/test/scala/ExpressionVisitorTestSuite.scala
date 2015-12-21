@@ -108,16 +108,28 @@ class ExpressionVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess("f(x, y, z)", "f(x, y, z)")
   }
 
-  test("NSLog to print") {
+  test("NSLog") {
     assertConvertSuccess("NSLog(@\"hello\")", "print(\"hello\")")
   }
 
-  test("NSLog with format to print") {
+  test("NSLog with format") {
     assertConvertSuccess("NSLog(@\"hello %@, %@\", name1, name2)", "print(\"hello \\(name1), \\(name2)\")")
   }
 
-  test("NSLog with param-format to print") {
+  test("NSLog with format, string args") {
+    assertConvertSuccess("NSLog(@\"hello, %@\", @\"sano\")", "print(\"hello, \\(\"sano\")\")")
+  }
+
+  test("NSLog with param-format") {
     assertConvertSuccess("NSLog(f, name1, name2)", "print(String(format: f, name1, name2))")
+  }
+
+  test("NSLog with precise format") {
+    assertConvertSuccess("NSLog(@\"%3i\", value)", "print(String(format: \"%3i\", value))")
+  }
+
+  test("NSLog with precise format, string args") {
+    assertConvertSuccess("NSLog(@\"%3s\", @\"hogehoge\")", "print(String(format: \"%3s\", \"hogehoge\"))")
   }
 
   test("decimal literal") {
