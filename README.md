@@ -32,7 +32,7 @@ Build jar:
 ```sh
 $ git clone https://github.com/yahoojapan/objc2swift.git
 $ cd objc2swift
-$ gradle jar
+$ ./gradlew jar
 ```
 
 Create an alias, and pass the Obj-C source files you want to convert.

@@ -48,3 +48,7 @@ tasks.withType(ScalaCompile) {
 //    scalaCompileOptions.deprecation = false
     scalaCompileOptions.forkOptions.jvmArgs = ['-Xss20M']
 }
+
+task wrapper(type: Wrapper) {
+   gradleVersion = '2.10'
+}
