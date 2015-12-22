@@ -76,6 +76,10 @@ class ExpressionVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess("NO", "false")
   }
 
+  test("primary: _cmd") {
+    assertConvertSuccess("_cmd", "__FUNCTION__")
+  }
+
   test("primary: self") {
     assertConvertSuccess("self", "self")
   }
