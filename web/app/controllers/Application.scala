@@ -9,9 +9,10 @@ class Application extends Controller {
   val MaxSourceLength = 30000
 
   def index = Action { implicit request =>
+    val version = ObjC2SwiftConverter.Version
     val input = DefaultInput
     val result = convertSource(input)
-    Ok(views.html.index("objc2swift-web", input, result))
+    Ok(views.html.index(version, input, result))
   }
 
   def convert = Action { implicit request =>

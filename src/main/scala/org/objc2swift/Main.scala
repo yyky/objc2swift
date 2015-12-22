@@ -25,7 +25,10 @@ import scala.io.Source
 
 object Main {
   def main(args: Array[String]) {
-    val options = Map("-t" -> args.contains("-t"))
+    if (args.contains("-v")) {
+      println(s"objc2swift ${ObjC2SwiftConverter.Version}")
+      sys.exit(1)
+    }
 
     val fileNames = args.filter(!_.startsWith("-")).toList
 
@@ -44,7 +47,7 @@ object Main {
 
     val parser = ObjC2SwiftConverter.generateParser(inputStream)
 
-    val result = if(options("-t"))
+    val result = if(args.contains("-t"))
       getParseTree(parser)
     else {
       val converter = new ObjC2SwiftConverter(parser)
