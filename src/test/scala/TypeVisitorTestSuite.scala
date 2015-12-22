@@ -47,12 +47,24 @@ class TypeVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess("double", "Double")
   }
 
+  test("type: BOOL") {
+    assertConvertSuccess("BOOL", "Bool")
+  }
+
+  test("type: SEL") {
+    assertConvertSuccess("SEL", "Selector")
+  }
+
   test("type: NSInteger") {
     assertConvertSuccess("NSInteger", "Int")
   }
 
   test("type: NSUInteger") {
     assertConvertSuccess("NSUInteger", "UInt")
+  }
+
+  test("type: NSString") {
+    assertConvertSuccess("NSString", "String")
   }
 
   test("type: NSArray") {
@@ -63,12 +75,12 @@ class TypeVisitorTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess("NSDictionary", "[AnyObject: AnyObject]")
   }
 
-  test("type: SEL") {
-    assertConvertSuccess("SEL", "Selector")
+  test("type: NSMutableArray") {
+    assertConvertSuccess("NSMutableArray", "[AnyObject]")
   }
 
-  test("type: BOOL") {
-    assertConvertSuccess("BOOL", "Bool")
+  test("type: NSMutableDictionary") {
+    assertConvertSuccess("NSMutableDictionary", "[AnyObject: AnyObject]")
   }
 
   test("type: object") {
