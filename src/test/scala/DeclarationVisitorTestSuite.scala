@@ -11,6 +11,7 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
   override def converter(parser: ObjCParser): ObjC2SwiftBaseConverter =
     new ObjC2SwiftBaseConverter
       with DeclarationVisitor
+      with ExpressionVisitor
       with TerminalNodeVisitor
     {
       override def getResult() = visit(parser.declaration())
@@ -35,7 +36,7 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
 
   test("var decl with initializer") {
     val source = "MyType x = 1;"
-    val expected = "var x: MyType = 1" // TODO emit type when initialized
+    val expected = "var x = 1"
     assertConvertSuccess(source, expected)
   }
 
@@ -43,25 +44,31 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
     val source = "MyType x = 1, y = 2;"
     val expected =
       s"""
-         |var x: MyType = 1
-         |var y: MyType = 2
+         |var x = 1
+         |var y = 2
        """.stripMargin
     assertConvertSuccess(source, expected)
   }
 
   test("object-type var decl without init") {
-    val source = "NSObject *x;"
-    val expected = "var x: NSObject"
+    val source = "MyObject *x;"
+    val expected = "var x: MyObject"
     assertConvertSuccess(source, expected)
   }
 
   test("multiple object-type var decl without init") {
-    val source = "NSObject *x, *y;"
+    val source = "MyObject *x, *y;"
     val expected =
       s"""
-         |var x: NSObject
-         |var y: NSObject
+         |var x: MyObject
+         |var y: MyObject
        """.stripMargin
+    assertConvertSuccess(source, expected)
+  }
+
+  test("object-type var decl with init") {
+    val source = "MyObject *x = y;"
+    val expected = "var x = y"
     assertConvertSuccess(source, expected)
   }
 
@@ -83,7 +90,7 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
 
   test("const var decl with init") {
     val source = "const MyType x = 1;"
-    val expected = "let x: MyType = 1"
+    val expected = "let x = 1"
     assertConvertSuccess(source, expected)
   }
 
@@ -91,8 +98,8 @@ class DeclarationVisitorTestSuite extends ObjC2SwiftTestSuite {
     val source = "const MyType x = 1, y = 2;"
     val expected =
       s"""
-         |let x: MyType = 1
-         |let y: MyType = 2
+         |let x = 1
+         |let y = 2
        """.stripMargin
     assertConvertSuccess(source, expected)
   }
@@ -186,7 +193,7 @@ class FunctionDefinitionTestSuite extends ObjC2SwiftTestSuite {
     assertConvertSuccess(source, expected)
   }
 
-  test("void function with varidic params") {
+  test("void function with variadic params") {
     val source = "f(MyTypeA a, MyTypeB b, ...){ }"
     val expected = "func f(a: MyTypeA, _ b: MyTypeB...) {\n}"
     assertConvertSuccess(source, expected)

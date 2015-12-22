@@ -444,15 +444,21 @@ trait DeclarationVisitor {
     for {
       declSpec <- ctx.declarationSpecifiers()
       initDeclList <- ctx.initDeclaratorList()
-    } yield initDeclList.initDeclarator().map { // foreach init-declarator
-      visitChildrenAs(_) {
-        case decl: DeclaratorContext  => List(
-          visit(declSpec),
-          varDeclaration(decl, declSpec.typeQualifier(), declSpec.typeSpecifier())
-        ).filter(_.nonEmpty).mkString(" ")
-        case Token(ASSIGN) => "="
-        case c: InitializerContext => visit(c)
-      }
+    } yield initDeclList.initDeclarator().map(_.children.toList).map { // foreach init-declarator
+      case List(decl: DeclaratorContext) => List(
+        visit(declSpec),
+        varDeclaration(decl, declSpec.typeQualifier(), declSpec.typeSpecifier())
+      ).filter(_.nonEmpty).mkString(" ")
+
+      case List(decl: DeclaratorContext, Token(ASSIGN), init: InitializerContext) => List(
+        visit(declSpec),
+        varDeclaration(decl, declSpec.typeQualifier(), declSpec.typeSpecifier(), inferType = true),
+        "=",
+        visit(init)
+      ).filter(_.nonEmpty).mkString(" ")
+
+      case _ => defaultResult()
+
     }.mkString("\n")
   }
 
@@ -482,9 +488,13 @@ trait DeclarationVisitor {
     }
   }
 
-  private def varDeclaration(varName: RuleContext, typeQuals: List[TypeQualifierContext], typeSpecs: List[TypeSpecifierContext]): String = {
-    val typeStr = processTypeSpecifierList(typeSpecs)
-    val typeAnn = if (typeStr.nonEmpty) s": $typeStr" else ""
+  private def varDeclaration(varName: RuleContext, typeQuals: List[TypeQualifierContext], typeSpecs: List[TypeSpecifierContext], inferType: Boolean = false): String = {
+    val typeAnn = if(!inferType) {
+      val typeStr = processTypeSpecifierList(typeSpecs)
+      if (typeStr.nonEmpty) s": $typeStr" else ""
+    } else
+      ""
+
     s"${letOrVar(typeQuals)} ${visit(varName)}$typeAnn"
   }
 
