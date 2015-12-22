@@ -156,7 +156,8 @@ trait ExpressionVisitor {
       case List(c) => c match {
         case TokenString(IDENTIFIER, t) => t match {
           case "YES" => "true"
-          case "NO" => "false"
+          case "NO"  => "false"
+          case "_cmd" => "__FUNCTION__"
           case _ => t
         }
 
