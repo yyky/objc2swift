@@ -46,6 +46,8 @@ class ObjC2SwiftConverter(parser: ObjCParser) extends ObjC2SwiftBaseConverter
 }
 
 object ObjC2SwiftConverter {
+  val Version = "1.0"
+
   def generateParser(input: InputStream) = {
     val lexer = new ObjCLexer(new ANTLRInputStream(input))
     val tokens = new CommonTokenStream(lexer)
