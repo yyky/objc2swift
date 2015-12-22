@@ -97,24 +97,30 @@ trait DeclarationVisitor {
    */
   override def visitTypeSpecifier(ctx: TypeSpecifierContext): String =
     visitChildrenAs(ctx) {
-      case Token(VOID)           => "Void"
-      case Token(ID)             => "AnyObject"
-      case Token(CHAR)           => "Int8"
-      case Token(SHORT)          => "Int16"
-      case Token(INT)            => "Int32"
-      case Token(LONG)           => "Int64"
-      case Token(FLOAT)          => "Float"
-      case Token(DOUBLE)         => "Double"
-      case TokenString(_, s)     => s
-      case ClassName("NSInteger")     => "Int"
-      case ClassName("NSUInteger")    => "UInt"
-      case ClassName("NSArray")       => "[AnyObject]"
-      case ClassName("NSDictionary")  => "[AnyObject: AnyObject]"
-      case ClassName("SEL")           => "Selector"
-      case ClassName("BOOL")          => "Bool"
-      case ClassName(s)               => s
-      case c: PointerContext          => visit(c)
-      case c                          => c.getText
+      case TokenString(t, s) => t match {
+        case VOID   => "Void"
+        case ID     => "AnyObject"
+        case CHAR   => "Int8"
+        case SHORT  => "Int16"
+        case INT    => "Int32"
+        case LONG   => "Int64"
+        case FLOAT  => "Float"
+        case DOUBLE => "Double"
+        case _      => s
+      }
+      case ClassName(c) => c match {
+        case "SEL"          => "Selector"
+        case "BOOL"         => "Bool"
+        case "NSInteger"    => "Int"
+        case "NSUInteger"   => "UInt"
+        case "NSString"     => "String"
+        case "NSArray"      => "[AnyObject]"
+        case "NSDictionary" => "[AnyObject: AnyObject]"
+        case "NSMutableArray"      => "[AnyObject]"
+        case "NSMutableDictionary" => "[AnyObject: AnyObject]"
+        case s              => s
+      }
+      case c => visit(c)
     }
 
 
