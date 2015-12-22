@@ -63,17 +63,13 @@ class StatementVisitorTestSuite extends ObjC2SwiftTestSuite {
         |{
         |  int a;
         |  int b = 2;
-        |  sayHello();
-        |  sayGoodbye();
         |}
       """.stripMargin
 
     val expected =
       """
         |var a: Int32
-        |var b: Int32 = 2
-        |sayHello()
-        |sayGoodbye()
+        |var b = 2
       """.stripMargin
 
     assertConvertSuccess(source, expected)
