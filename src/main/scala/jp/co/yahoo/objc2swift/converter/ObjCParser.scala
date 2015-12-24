@@ -1,5 +1,6 @@
 // Generated from ObjC.g4 by ANTLR 4.5
-package org.objc2swift.converter
+package jp.co.yahoo.objc2swift.converter
+
 import org.antlr.v4.runtime.atn._
 import org.antlr.v4.runtime.dfa.DFA
 import org.antlr.v4.runtime._

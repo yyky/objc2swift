@@ -1,6 +1,7 @@
 import java.io.{PrintWriter, SequenceInputStream, FileInputStream}
 
-import org.objc2swift.converter.{ObjC2SwiftBaseConverter, ObjCParser, ObjC2SwiftConverter}
+import jp.co.yahoo.objc2swift.converter.ObjC2SwiftBaseConverter
+import jp.co.yahoo.objc2swift.converter.{ObjCParser, ObjC2SwiftConverter}
 import org.scalatest.FunSuite
 
 /**

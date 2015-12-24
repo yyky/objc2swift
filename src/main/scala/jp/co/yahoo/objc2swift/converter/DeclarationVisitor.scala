@@ -8,17 +8,17 @@
  * file that was distributed with this source code.
  */
 
-package org.objc2swift.converter
+package jp.co.yahoo.objc2swift.converter
 
 import org.antlr.v4.runtime.RuleContext
-import org.objc2swift.converter.ObjCParser._
+import jp.co.yahoo.objc2swift.converter.ObjCParser._
 
 import scala.collection.JavaConversions._
 
 trait DeclarationVisitor {
   this: ObjC2SwiftBaseConverter =>
 
-  import org.objc2swift.converter.util._
+  import jp.co.yahoo.objc2swift.converter.util._
 
   /**
    * MEMO: strangely, this rule matches:

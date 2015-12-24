@@ -1,6 +1,6 @@
-package org.objc2swift.converter
+package jp.co.yahoo.objc2swift.converter
 
-import org.objc2swift.converter.ObjCParser.{ExternalDeclarationContext, TranslationUnitContext}
+import jp.co.yahoo.objc2swift.converter.ObjCParser.{ExternalDeclarationContext, TranslationUnitContext}
 
 import scala.collection.JavaConversions._
 

@@ -1,5 +1,6 @@
 // Generated from ObjC.g4 by ANTLR 4.5
-package org.objc2swift.converter
+package jp.co.yahoo.objc2swift.converter
+
 import org.antlr.v4.runtime.tree.ParseTreeVisitor
 
 /**

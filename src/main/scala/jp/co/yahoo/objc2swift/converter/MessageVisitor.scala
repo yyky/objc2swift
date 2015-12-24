@@ -8,10 +8,10 @@
  * file that was distributed with this source code.
  */
 
-package org.objc2swift.converter
+package jp.co.yahoo.objc2swift.converter
 
-import org.objc2swift.converter.ObjCParser._
-import org.objc2swift.converter.util.stringFormat
+import jp.co.yahoo.objc2swift.converter.ObjCParser._
+import jp.co.yahoo.objc2swift.converter.util.stringFormat
 
 import scala.collection.JavaConversions._
 

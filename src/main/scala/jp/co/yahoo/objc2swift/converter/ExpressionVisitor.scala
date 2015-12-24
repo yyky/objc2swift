@@ -8,10 +8,10 @@
  * file that was distributed with this source code.
  */
 
-package org.objc2swift.converter
+package jp.co.yahoo.objc2swift.converter
 
 import org.antlr.v4.runtime._
-import org.objc2swift.converter.ObjCParser._
+import jp.co.yahoo.objc2swift.converter.ObjCParser._
 import scala.collection.JavaConversions._
 
 /**
@@ -374,7 +374,7 @@ trait ExpressionVisitor {
     }
 
   private def processFunctionCall(ctx: PrimaryExpressionContext, args: List[_ <: RuleContext]): String = {
-    import org.objc2swift.converter.util.stringFormat
+    import jp.co.yahoo.objc2swift.converter.util.stringFormat
 
     visit(ctx) match {
       case "NSLog" =>

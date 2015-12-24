@@ -9,7 +9,7 @@
  */
 
 import java.io.{InputStreamReader, SequenceInputStream, FileInputStream, PrintWriter}
-import org.objc2swift.converter.{ObjCParser, ObjC2SwiftConverter}
+import jp.co.yahoo.objc2swift.converter.{ObjCParser, ObjC2SwiftConverter}
 import org.scalatest.Ignore
 import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith

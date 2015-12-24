@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-package org.objc2swift.converter
+package jp.co.yahoo.objc2swift.converter
 
-import org.antlr.v4.runtime.tree.{TerminalNode, RuleNode, ParseTreeProperty, ParseTree}
+import org.antlr.v4.runtime.tree.{ParseTree, ParseTreeProperty, RuleNode, TerminalNode}
 
 abstract class ObjC2SwiftBaseConverter extends ObjCBaseVisitor[String] {
   def getResult(): String

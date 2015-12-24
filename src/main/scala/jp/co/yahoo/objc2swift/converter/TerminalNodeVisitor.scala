@@ -1,8 +1,7 @@
-package org.objc2swift.converter
+package jp.co.yahoo.objc2swift.converter
 
+import jp.co.yahoo.objc2swift.converter.ObjCParser._
 import org.antlr.v4.runtime.tree.TerminalNode
-import org.objc2swift.converter.ObjCParser._
-import scala.collection.JavaConversions._
 
 /**
  * Created by takesano on 15/11/13.

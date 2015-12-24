@@ -2,7 +2,7 @@ package controllers
 
 import play.api.mvc._
 
-import org.objc2swift.converter.ObjC2SwiftConverter
+import jp.co.yahoo.objc2swift.converter.ObjC2SwiftConverter
 
 class Application extends Controller {
 

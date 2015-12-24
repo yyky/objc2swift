@@ -3,7 +3,7 @@ apply plugin: 'scala'
 apply plugin: 'antlr'
 
 version = '1.0'
-def packageName = 'org.objc2swift'
+def packageName = 'jp.co.yahoo.objc2swift'
 
 repositories {
     mavenCentral()

@@ -8,11 +8,9 @@
  * file that was distributed with this source code.
  */
 
-package org.objc2swift.converter
+package jp.co.yahoo.objc2swift.converter
 
 import org.antlr.v4.runtime.RuleContext
-import org.antlr.v4.runtime.tree.TerminalNode
-import org.objc2swift.converter.ObjCParser._
 
 package object util {
   def stringFormat(v: ObjC2SwiftBaseConverter, exps: List[_ <: RuleContext]): String = exps match {

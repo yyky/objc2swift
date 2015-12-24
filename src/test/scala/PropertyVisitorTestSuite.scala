@@ -1,6 +1,7 @@
+import jp.co.yahoo.objc2swift.converter.{ObjC2SwiftBaseConverter, TerminalNodeVisitor}
 import org.junit.runner.RunWith
-import org.objc2swift.converter.ObjCParser.CompoundStatementContext
-import org.objc2swift.converter._
+import jp.co.yahoo.objc2swift.converter.ObjCParser.CompoundStatementContext
+import jp.co.yahoo.objc2swift.converter._
 import org.scalatest.Ignore
 import org.scalatest.junit.JUnitRunner
 

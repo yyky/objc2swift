@@ -8,19 +8,17 @@
  * file that was distributed with this source code.
  */
 
-package org.objc2swift
+package jp.co.yahoo.objc2swift
 
 import java.io._
 import java.nio.file._
 
-import scala.collection.JavaConversions._
 import org.antlr.v4.runtime._
 import org.antlr.v4.runtime.tree.ParseTreeWalker
 import org.apache.commons.io.FilenameUtils._
-import org.objc2swift.converter.ObjC2SwiftConverter
-import org.objc2swift.converter.{ObjCBaseListener, ObjCParser}
+import jp.co.yahoo.objc2swift.converter.{ObjC2SwiftConverter, ObjCBaseListener, ObjCParser}
 
-import scala.io.Source
+import scala.collection.JavaConversions._
 
 
 object Main {
